@@ -10,12 +10,22 @@
 angular.module('recipeshopperApp')
   .directive("lineThrough", function() {
   	return function (scope, element, attrs) {
+ 		var isBought = attrs["lineThrough"];
+ 		var watcherFn = function (watchscope) {
+ 			return watchscope.$eval(isBought);
+ 		}
+ 		scope.$watch(watcherFn, function(newValue, oldValue) {
+ 			if(newValue) {
+		 		element.find("span").addClass("rs-line-through");
+		 	} else {
+		 		element.find("span").removeClass("rs-line-through");
+		 	}
+ 		});
+ 		
 		// var index = scope.$eval(attrs["lineThrough"]);
 		// console.log("index: " + index); 
- 		var isBought = scope.$eval(attrs["lineThrough"]);
-		if(isBought) {
-			element.find("span").addClass("rs-line-through");
-		}
+ 		// (function () {	// IIFE not needed i this case
+ 		// }());
   	}
   })
   .controller('MainCtrl', ['$scope', '$http', '$document', function ($scope, $http, $document) {
@@ -28,32 +38,11 @@ angular.module('recipeshopperApp')
 		$http.get('data/groceries.json').success(function(data){ 
 		  $scope.groceries = data;
 		  groceriesData = data;
-		  updateLineThroughs();
 		});
 	}
 
+	// initial setting for sort order 
 	$scope.itemOrder = 'aisle';
-
-	$scope.toggleLineThrough = function () {
-		console.log("toggleLineThrough");
-	}
-
-	var updateLineThroughs = function () {
-		var elementItems = $document.find(".rs-well");
-		// var elementItems = $document.find("h3");
-		console.log("elementItems.length: " + elementItems.length ); //+ elementItems[0].class
-		for(var i=0; i < elementItems.length; i++ ) {
-			console.log("i: " + i);
-			if($scope.groceries[i].isbought) {
-				console.log("i in if: " + i);
-				elementItems.eq(i).addClass("rs-line-through");
-			} else {
-				elementItems.eq(i).removeClass("rs-line-through");
-			}
-		}
-	}
-
-
 
   }]);
 

@@ -1,7 +1,7 @@
 [
     {
       "recipe" : "Porkkanaloota",
-      "product" : "Maito",
+      "product" : "Milk",
       "aisle" : "Dairy",
       "amount" : 5,
       "unit" : "dl",
@@ -9,7 +9,7 @@
     },
     {
       "recipe" : "Porkkanaloota",
-      "product" : "Munat",
+      "product" : "Eggs",
       "aisle" : "Dairy",
       "amount" : 2,
       "unit" : "pcs",
@@ -17,7 +17,7 @@
     },
     {
       "recipe" : "Porkkanaloota",
-      "product" : "Riisi",
+      "product" : "Rice",
       "aisle" : "Grains",
       "amount" : 1,
       "unit" : "dl",
@@ -25,7 +25,7 @@
     },
     {
       "recipe" : "Porkkanaloota",
-      "product" : "Muskotti",
+      "product" : "Nutmeg",
       "aisle" : "Spices",
       "amount" : 1,
       "unit" : "tsp",
@@ -33,7 +33,7 @@
     },
     {
       "recipe" : "Porkkanaloota",
-      "product" : "Sokeri",
+      "product" : "Sugar",
       "aisle" : "Spices",
       "amount" : 1,
       "unit" : "tsp",
@@ -41,7 +41,7 @@
     },
     {
       "recipe" : "Porkkanaloota",
-      "product" : "Porkkanat",
+      "product" : "Carrots",
       "aisle" : "Veggies",
       "amount" : 5,
       "unit" : "pcs",
@@ -49,7 +49,7 @@
     },
     {
       "recipe" : "lanttuloota",
-      "product" : "Munat",
+      "product" : "Eggs",
       "aisle" : "Dairy",
       "amount" : 1,
       "unit" : "pcs",
