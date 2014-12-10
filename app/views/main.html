@@ -1,6 +1,6 @@
 <style type="text/css">
   .rs-checkbox {
-    padding: 10px;
+    padding: 8px;
   }
   .rs-well {
     padding:5px;
@@ -21,8 +21,6 @@
 
 <section>
   <div class="search">
-    <!-- <h1>Players</h1> -->
-    <p>
       <span> <!-- style="float: left;" -->
           <label class="formgroup">by:
             <select ng-model="itemOrder">
@@ -32,7 +30,8 @@
           </label>
 
           <!-- <label>search: </label> -->
-          <input ng-model="query" placeholder="Search for groceries" autofocus class="pull-right">
+          <span class="rs-checkbox"><input type="checkbox" ng-model="showAllDef" ></span>
+          <input ng-model="query" placeholder="Search for groceries" autofocus class="pull-right" width="150">
 
 <!--        <p>
         <label class="formgroup">
@@ -46,13 +45,11 @@
         </p> -->
       </span>
       <!-- <a ng-href="#/playerdetails/0}}"><button>Add<br>Player</button></a> -->
-    </p>
-      
   </div>
 
   <!-- <h2>Dairy</h2> -->
   <div>
-    <div line-through="item.isbought" class="well rs-well" ng-repeat="item in groceries | filter: query | orderBy: itemOrder: name">
+    <div line-through="item.isbought" class="well rs-well" ng-repeat="item in groceries | filter: showAll | filter: query | orderBy: itemOrder: name">
       <span class="rs-checkbox pull-left"><input type="checkbox" ng-model="item.isbought" ngChange="toggleLineThrough"></span>
       <h3 class="rs-h3">
         <span><strong>{{item.product}}</strong></span>

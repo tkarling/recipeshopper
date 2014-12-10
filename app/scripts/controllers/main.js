@@ -15,13 +15,14 @@ angular.module('recipeshopperApp')
  			return watchscope.$eval(isBought);
  		}
  		scope.$watch(watcherFn, function(newValue, oldValue) {
+			console.log("lineThrough: newValue: " + newValue);
  			if(newValue) {
 		 		element.find("span").addClass("rs-line-through");
 		 	} else {
 		 		element.find("span").removeClass("rs-line-through");
 		 	}
  		});
- 		
+
 		// var index = scope.$eval(attrs["lineThrough"]);
 		// console.log("index: " + index); 
  		// (function () {	// IIFE not needed i this case
@@ -41,8 +42,15 @@ angular.module('recipeshopperApp')
 		});
 	}
 
-	// initial setting for sort order 
+	// init  
 	$scope.itemOrder = 'aisle';
+	$scope.showAllDef = false;
+
+	$scope.$watch('showAllDef', function(newValue) {
+		console.log("newValue: " + newValue);
+		$scope.showAll = newValue ? ! newValue : undefined;
+		// undefined -show all, true - show unbought only
+	});
 
   }]);
 
