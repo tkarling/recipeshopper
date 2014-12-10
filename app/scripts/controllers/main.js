@@ -8,6 +8,16 @@
  * Controller of the recipeshopperApp
  */
 angular.module('recipeshopperApp')
+  .directive("lineThrough", function() {
+  	return function (scope, element, attrs) {
+		// var index = scope.$eval(attrs["lineThrough"]);
+		// console.log("index: " + index); 
+ 		var isBought = scope.$eval(attrs["lineThrough"]);
+		if(isBought) {
+			element.find("span").addClass("rs-line-through");
+		}
+  	}
+  })
   .controller('MainCtrl', ['$scope', '$http', '$document', function ($scope, $http, $document) {
     currentTab=1;
 

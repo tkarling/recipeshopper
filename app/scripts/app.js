@@ -31,12 +31,12 @@ angular
         redirectTo: '/main'
       });
   })
-  .controller('TabCtrl', function ($scope) {
-    this.setTab = function(tab){
+  .controller('TabController', function ($scope) {
+    $scope.setTab = function(tab){
       currentTab = tab;
     };
 
-    this.isSet = function(tab){
+    $scope.isSet = function(tab){
       return (currentTab === tab);
     };
 
