@@ -1,0 +1,58 @@
+[
+    {
+      "recipe" : "Porkkanaloota",
+      "product" : "Maito",
+      "aisle" : "Dairy",
+      "amount" : 5,
+      "unit" : "dl",
+      "isbought" : true
+    },
+    {
+      "recipe" : "Porkkanaloota",
+      "product" : "Munat",
+      "aisle" : "Dairy",
+      "amount" : 2,
+      "unit" : "pcs",
+      "isbought" : false
+    },
+    {
+      "recipe" : "Porkkanaloota",
+      "product" : "Riisi",
+      "aisle" : "Grains",
+      "amount" : 1,
+      "unit" : "dl",
+      "isbought" : false
+    },
+    {
+      "recipe" : "Porkkanaloota",
+      "product" : "Muskotti",
+      "aisle" : "Spices",
+      "amount" : 1,
+      "unit" : "tsp",
+      "isbought" : false
+    },
+    {
+      "recipe" : "Porkkanaloota",
+      "product" : "Sokeri",
+      "aisle" : "Spices",
+      "amount" : 1,
+      "unit" : "tsp",
+      "isbought" : false
+    },
+    {
+      "recipe" : "Porkkanaloota",
+      "product" : "Porkkanat",
+      "aisle" : "Veggies",
+      "amount" : 5,
+      "unit" : "pcs",
+      "isbought" : false
+    },
+    {
+      "recipe" : "lanttuloota",
+      "product" : "Munat",
+      "aisle" : "Dairy",
+      "amount" : 1,
+      "unit" : "pcs",
+      "isbought" : false
+    }
+  ]

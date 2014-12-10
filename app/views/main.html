@@ -1,0 +1,60 @@
+<style type="text/css">
+  .rs-checkbox {
+    padding: 10px;
+  }
+  .rs-well {
+    padding:5px;
+    margin: 5px;
+  }
+  .rs-h3 {
+    margin: 2px;
+  }
+
+  .rs-line-through {
+    text-decoration:line-through;
+  }
+</style>
+
+<section>
+  <div class="search">
+    <!-- <h1>Players</h1> -->
+    <p>
+      <span> <!-- style="float: left;" -->
+          <label class="formgroup">by:
+            <select ng-model="itemOrder">
+              <option value="aisle">Aisle</option>
+              <option value="recipe">Recipe</option>
+            </select>
+          </label>
+
+          <!-- <label>search: </label> -->
+          <input ng-model="query" placeholder="Search for groceries" autofocus class="pull-right">
+
+<!--        <p>
+        <label class="formgroup">
+          <input type="radio" ng-model="direction" name="direction" checked>
+          ascending
+        </label>
+        <label>
+          <input type="radio" ng-model="direction" name="direction" value="reverse">
+          descending
+        </label>
+        </p> -->
+      </span>
+      <!-- <a ng-href="#/playerdetails/0}}"><button>Add<br>Player</button></a> -->
+    </p>
+      
+  </div>
+
+  <!-- <h2>Dairy</h2> -->
+  <div class="well rs-well" ng-repeat="item in groceries | filter: query | orderBy: itemOrder: name">
+    <span class="rs-checkbox pull-left"><input type="checkbox" ng-model="item.isbought" ngChange="toggleLineThrough"></span>
+    <h3 class="rs-h3">
+      <strong>{{item.product}}</strong>
+      <span class="pull-right">{{item.amount}} {{item.unit}}</span>
+    </h3>
+    <span class="lead">{{item.aisle}}; {{item.recipe | lowercase}}</span>
+  </div>
+</section>
+
+
