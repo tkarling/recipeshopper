@@ -17,6 +17,16 @@ describe('Controller: MainCtrl', function () {
   }));
 
   it('should attach a list of awesomeThings to the scope', function () {
-    expect(scope.awesomeThings.length).toBe(3);
+    console.log('moi');
+    expect(scope.groceries.length).toBe(0);
+  });
+
+  it('should update showAll when showAllDef is updated', function () {
+    expect(scope.showAllDef).toBe(false);
+    expect(scope.showAll).toBe(undefined);
+    scope.showAllDef = true;
+    // Guess need to learn async tesing before this will work
+    // expect(scope.showAllDef).toBe(true);
+    // expect(scope.showAll).toBe(false);
   });
 });
