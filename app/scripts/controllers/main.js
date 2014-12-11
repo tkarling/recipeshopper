@@ -29,16 +29,21 @@ angular.module('recipeshopperApp')
  		// }());
   	};
   })
-  .controller('MainCtrl', ['$scope', '$http', function ($scope, $http) {
+  .controller('MainCtrl', ['$scope', '$http', 'localStorageService', function ($scope, $http, localStorageService) {
     currentTab=1;
 
-    // read groceries data
-	$scope.groceries = groceriesData;
+	var groceriesInStore = localStorageService.get('groceries');
+	$scope.groceries = groceriesInStore || [];
+
+	$scope.$watch('groceries', function () {
+	  localStorageService.set('groceries', $scope.groceries);
+	}, true);
+
+	// read default set from jsonfile in case local storage is empty
 	if($scope.groceries.length === 0) {
 		$scope.groceries = [];
 		$http.get('data/groceries.json').success(function(data){ 
 		  $scope.groceries = data;
-		  groceriesData = data;
 		});
 	}
 
@@ -54,4 +59,3 @@ angular.module('recipeshopperApp')
 
   }]);
 
-var groceriesData = [];
