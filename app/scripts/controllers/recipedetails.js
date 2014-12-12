@@ -9,21 +9,23 @@
  */
 
 angular.module('recipeshopperApp')
-  .controller('RecipeDetailsController', function ($scope, fileReader) {
+  .controller('RecipeDetailsController', ['$scope', 'fileReader', function ($scope, fileReader) {
     currentTab=2;
+    // fileReader.moi();
 
     console.log('RecipeDetailsController' + fileReader);
     $scope.getFile = function () {
         $scope.progress = 0;
         console.log('getFile');
+        // fileReader.moi();
         fileReader.readAsDataUrl($scope.file, $scope)
           .then(function(result) {
               $scope.imageSrc = result;
           });
     };
 
-  })
-  .directive('ngFileSelect', function(){
+  }])
+  .directive('rsFileSelect', function(){
 	  return {
 	    link: function($scope, el) {
 	      console.log('ngFileSelect');	
