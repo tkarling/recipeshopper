@@ -1,12 +1,12 @@
  <div> <!-- ng-controller="UploadController " -->
 	<form>
-	    <!-- <input type="file" rs-file-select="onFileSelect($files)" > -->
-		<input type="file" rs-file-select="onFileSelect($files)" multiple>
+	    <!-- <input type="file" rs-file-select="onFileSelect($files)" image-srcs="imageSrcs"> -->
+		<input type="file" rs-file-select="onFileSelect($files)" image-srcs="imageSrcs" multiple>
 	</form>
 
 	<b>Preview: 1 pic</b><br />
-	<i ng-hide="imageSrc">No image chosen</i>
-	<img ng-src="{{imageSrc}}" width="300" height="200"/><br/>
+	<i ng-hide="imageSrcs">No image chosen</i>
+	<img ng-src="{{imageSrcs[0]}}" width="300" height="200"/><br/>
 
 	<b>Preview: many pics</b><br />
 	<i ng-hide="imageSrcs">No images chosen</i>
