@@ -5,9 +5,13 @@
  * @name recipeshopperApp.fileReader
  * @description
  * # fileReader
- * Factory in the recipeshopperApp.
+ * Factory in the fileReaderMod.
  */
- angular.module('recipeshopperApp')
+  angular
+  .module('fileReaderMod', [
+  ]);
+
+ angular.module('fileReaderMod')
    .factory('fileReader', function ($q) {
       // console.log('init fileReader');
       return {

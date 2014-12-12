@@ -3,7 +3,7 @@
 describe('Service: fileReader', function () {
 
   // load the service's module
-  beforeEach(module('recipeshopperApp'));
+  beforeEach(module('fileReaderMod'));
 
   // instantiate service
   var fileReader;
