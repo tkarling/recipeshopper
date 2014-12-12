@@ -45,7 +45,7 @@
       <div class="container fixed-header" ng-controller="TabController">
         <ul class="nav nav-pills pull-right">
           <li ng-class="{ active:isSet(1) }"><a ng-href="#/main" ng-click="setTab(1)">List</a></li>
-          <li ng-class="{ active:isSet(2) }"><a ng-href="#/about" ng-click="setTab(2)">Recipes</a></li>
+          <li ng-class="{ active:isSet(2) }"><a ng-href="#/recipedetails" ng-click="setTab(2)">Recipes</a></li>
         </ul>
         <h3 class="text-muted text-logo">Shopper</h3>
       </div>
@@ -95,6 +95,8 @@
         <script src="scripts/app.js"></script>
         <script src="scripts/controllers/main.js"></script>
         <script src="scripts/controllers/about.js"></script>
+        <script src="scripts/controllers/recipedetails.js"></script>
+        <script src="scripts/services/filereader.js"></script>
         <!-- endbuild -->
 </body>
 </html>

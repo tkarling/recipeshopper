@@ -32,11 +32,17 @@ angular.module('recipeshopperApp')
   .controller('MainCtrl', ['$scope', '$http', 'localStorageService', function ($scope, $http, localStorageService) {
     currentTab=1;
 
-	var groceriesInStore = localStorageService.get('groceries');
+	var groceriesInStore = [];
+	if(localStorageService) {
+		console.log('localStorageService exists');
+		groceriesInStore = localStorageService.get('groceries');
+	}
 	$scope.groceries = groceriesInStore || [];
 
 	$scope.$watch('groceries', function () {
-	  localStorageService.set('groceries', $scope.groceries);
+		if(localStorageService) {
+		  localStorageService.set('groceries', $scope.groceries);
+		}
 	}, true);
 
 	// read default set from jsonfile in case local storage is empty

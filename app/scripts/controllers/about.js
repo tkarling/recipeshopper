@@ -14,5 +14,5 @@ angular.module('recipeshopperApp')
       'AngularJS',
       'Karma'
     ];
-    currentTab=2;
+    // currentTab=2;
   });
