@@ -4,7 +4,14 @@
 		<input type="file" rs-file-select="onFileSelect($files)" multiple>
 	</form>
 
-	<b>Preview:</b><br />
+	<b>Preview: 1 pic</b><br />
 	<i ng-hide="imageSrc">No image chosen</i>
 	<img ng-src="{{imageSrc}}" width="300" height="200"/><br/>
+
+	<b>Preview: many pics</b><br />
+	<i ng-hide="imageSrcs">No images chosen</i>
+	<div ng-repeat="item in imageSrcs">
+		<img ng-src="{{item}}" width="300" height="200"/><br/>
+	</div>
 </div>
+

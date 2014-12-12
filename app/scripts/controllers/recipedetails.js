@@ -42,17 +42,18 @@ angular.module('recipeshopperApp')
 	              console.log('scope.imageSrc:' + scope.imageSrc);
 	          });
 	        
-	        var imageSrcs = [];  
+
+	        scope.imageSrcs = [];  
 	        for(var i=0; i < filesRead.length; i++) {
 		        fileReader.readAsDataUrl(filesRead[i], scope)
 		          .then(function(result) {
-		          	  var index = imageSrcs.length;
-		              imageSrcs[index] = result;
+		          	  var index = scope.imageSrcs.length;
+		              scope.imageSrcs[index] = result;
 		              // console.log('result: ' + result);
-		              console.log('imageSrcs['+ index + ']: ' + imageSrcs[index]);
+		              console.log('scope.imageSrcs['+ index + ']: ' + scope.imageSrcs[index]);
 		          });
 	        }
-	        
+
 	      };
 	      
 	      element.bind('change', function(e) {
