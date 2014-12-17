@@ -16,6 +16,7 @@ angular
     'ngRoute',
     'ngSanitize',
     'ngTouch',
+    'firebase',
     'LocalStorageModule', 
     'fileReaderMod'
   ])
@@ -27,6 +28,14 @@ angular
       .when('/main', {
         templateUrl: 'views/main.html',
         controller: 'MainCtrl'
+      })
+      .when('/login', {
+        templateUrl: 'views/login.html',
+        controller: 'LoginCtrl'
+      })
+      .when('/register', {
+        templateUrl: 'views/register.html',
+        controller: 'LoginCtrl'
       })
       .when('/recipedetails', {
         templateUrl: 'views/recipedetails.html',

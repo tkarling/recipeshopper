@@ -4,7 +4,8 @@
     <meta charset="utf-8">
     <title></title>
     <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <!-- <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"> -->
+    <meta name="viewport" content="width=device-width, user-scalable=no">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css(.) styles/vendor.css -->
     <!-- bower:css -->
@@ -47,7 +48,7 @@
           <li ng-class="{ active:isSet(1) }"><a ng-href="#/main" ng-click="setTab(1)">List</a></li>
           <li ng-class="{ active:isSet(2) }"><a ng-href="#/recipedetails" ng-click="setTab(2)">Recipes</a></li>
         </ul>
-        <h3 class="text-muted text-logo">Shopper</h3>
+        <h3 class="text-muted text-logo"><a ng-href="#/login">Shopper</a></h3>
       </div>
 
       <div class="rs-content" ng-view=""></div>
@@ -88,6 +89,8 @@
     <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
     <script src="bower_components/angular-touch/angular-touch.js"></script>
     <script src="bower_components/angular-local-storage/dist/angular-local-storage.js"></script>
+    <script src="bower_components/firebase/firebase.js"></script>
+    <script src="bower_components/angularfire/dist/angularfire.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -97,6 +100,7 @@
         <script src="scripts/controllers/about.js"></script>
         <script src="scripts/controllers/recipedetails.js"></script>
         <script src="scripts/services/filereader.js"></script>
+        <script src="scripts/controllers/login.js"></script>
         <!-- endbuild -->
 </body>
 </html>
