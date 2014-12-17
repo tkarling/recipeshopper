@@ -48,7 +48,7 @@ angular.module('recipeshopperApp')
 	// read default set from jsonfile in case local storage is empty
 	if($scope.groceries.length === 0) {
 		$scope.groceries = [];
-		$http.get('data/groceries.json').success(function(data){ 
+		$http.get('data/joululista.json').success(function(data){ 
 		  $scope.groceries = data;
 		});
 	}
