@@ -59,7 +59,26 @@ angular.module('recipeshopperApp')
 	var ref = new Firebase('https://recipeshopper.firebaseio.com/');
 	var groceriesFromFB = $firebase(ref);
 
-	$scope.groceries = groceriesFromFB.$asArray();
+	$scope.groceries = groceriesFromFB.$asObject();
+
+	$scope.addProduct = function () {
+		groceriesFromFB.$push({
+		  recipe : "New recipe",
+	      product : $scope.product,
+	      aisle : "aisle1",
+	      amount : 5,
+	      unit : "pcs",
+	      isbought : false,
+	      date: Firebase.ServerValue.TIMESTAMP
+		}).then(function () {
+			$scope.product = '';
+		});
+	} // addProduct
+
+	$scope.deleteProduct = function(key) {
+		console.log('deleteProduct: ' + key);
+		groceriesFromFB.$remove(key);
+	} // deleteProduct
 
 	// init  
 	$scope.itemOrder = 'aisle';
@@ -69,7 +88,7 @@ angular.module('recipeshopperApp')
 		console.log('newValue: ' + newValue);
 		$scope.showAll = newValue ? ! newValue : undefined;
 		// undefined -show all, true - show unbought only
-	});
+	}); //$watch
 
   }]);
 
