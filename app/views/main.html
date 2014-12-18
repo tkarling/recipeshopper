@@ -58,14 +58,14 @@
 
   <!-- <h2>Dairy</h2> -->
   <div>
-    <div line-through="item.isbought" class="well rs-well" ng-repeat="(key, item) in groceries"> <!-- | filter: showAll | filter: query | orderBy: itemOrder: name -->
+    <div line-through="item.isbought" class="well rs-well" ng-repeat="item in groceries | filter: showAll | filter: query | orderBy: itemOrder: name"> 
       <span class="rs-checkbox pull-left"><input type="checkbox" ng-model="item.isbought" ngChange="toggleLineThrough"></span>
       <h3 class="rs-h3">
-        <span><strong>{{item.product}}</strong></span> <!-- {{key}} -->
+        <span><strong>{{item.product}}</strong></span> 
         <span class="pull-right">{{item.amount}} {{item.unit}}</span>
       </h3>
       <span class="rs-aisle-name">{{item.aisle}}; </span><span>{{item.recipe | lowercase}}</span>
-      <span class="pull-right"><button class="btn btn-delete" ng-click="deleteProduct(key)"></button></span>
+      <span class="pull-right"><button class="btn btn-delete" ng-click="deleteProduct(item)"></button></span>
     </div>
   </div>
 </section>

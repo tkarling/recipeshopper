@@ -59,7 +59,7 @@ angular.module('recipeshopperApp')
 	var ref = new Firebase('https://recipeshopper.firebaseio.com/');
 	var groceriesFromFB = $firebase(ref);
 
-	$scope.groceries = groceriesFromFB.$asObject();
+	$scope.groceries = groceriesFromFB.$asArray();
 
 	$scope.addProduct = function () {
 		groceriesFromFB.$push({
@@ -75,9 +75,10 @@ angular.module('recipeshopperApp')
 		});
 	} // addProduct
 
-	$scope.deleteProduct = function(key) {
-		console.log('deleteProduct: ' + key);
-		groceriesFromFB.$remove(key);
+	$scope.deleteProduct = function(item) {
+		// console.log('deleteProduct: ');
+		// console.log(item);
+		groceriesFromFB.$remove(item.$id);
 	} // deleteProduct
 
 	// init  
