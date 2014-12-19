@@ -18,8 +18,10 @@ angular
     'ngTouch',
     'firebase',
     'LocalStorageModule', 
-    'fileReaderMod'
+    'fileReaderMod',
+    'loginMod'
   ])
+  .constant('FIREBASE_URL', 'https://recipeshopper.firebaseio.com')
   .config(['localStorageServiceProvider', function(localStorageServiceProvider){
     localStorageServiceProvider.setPrefix('ls');
   }])
