@@ -2,21 +2,25 @@
 
 describe('Controller: LoginCtrl', function () {
 
-  // load the controller's module
-  beforeEach(module('recipeshopperApp'));
+  // // load the controller's module
+  // beforeEach(module('recipeshopperApp'));
 
-  var LoginCtrl,
-    scope;
+  // var LoginCtrl,
+  //   scope;
 
-  // Initialize the controller and a mock scope
-  beforeEach(inject(function ($controller, $rootScope) {
-    scope = $rootScope.$new();
-    LoginCtrl = $controller('LoginCtrl', {
-      $scope: scope
-    });
-  }));
+  // // Initialize the controller and a mock scope
+  // beforeEach(inject(function ($controller, $rootScope) {
+  //   scope = $rootScope.$new();
+  //   firebase = location = authentication = {};
+  //   LoginCtrl = $controller('LoginCtrl', {
+  //     $scope: scope,
+  //     $firebase: firebase, 
+  //     $location: location, 
+  //     Authentication: authentication
+  //   });
+  // }));
 
-  it('should attach a list of awesomeThings to the scope', function () {
-    expect(scope.awesomeThings.length).toBe(3);
-  });
+  // it('scope.message should be undefined', function () {
+  //   expect(scope.message).toBe(undefined);
+  // });
 });

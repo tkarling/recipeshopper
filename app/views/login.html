@@ -4,7 +4,13 @@
     novalidate>
 
     <h1>Hi there!</h1>
-    <p>Log-in to access the awesomeness!</p>
+    <div ng-controller="StatusCtrl">
+      <div ng-show="userEmail">
+        <span class="user">Hi {{userEmail}}!</span>
+        <p>You are already logged in!</p>
+      </div>
+      <p ng-hide="userEmail">Log-in to access the awesomeness!</p>
+    </div>
 
     <p class="error formerror" ng-show="message">{{ message }}</p>
 

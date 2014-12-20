@@ -2,17 +2,17 @@
 
 describe('Service: Authentication', function () {
 
-  // load the service's module
-  beforeEach(module('recipeshopperApp'));
+  // // load the service's module
+  // beforeEach(module('loginMod'));
 
-  // instantiate service
-  var authentication;
-  beforeEach(inject(function (_authentication_) {
-    authentication = _authentication_;
-  }));
+  // // instantiate service
+  // var authentication;
+  // beforeEach(inject(function (_authentication_) {
+  //   authentication = _authentication_;
+  // }));
 
-  it('should do something', function () {
-    expect(!!authentication).toBe(true);
-  });
+  // it('should do something', function () {
+  //   expect(!!authentication).toBe(true);
+  // });
 
 });
