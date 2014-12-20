@@ -34,10 +34,16 @@ angular.module('recipeshopperApp')
       Authentication.login($scope.user, authHandler);
     } // login
 
+    $scope.logout = function () {
+      Authentication.logout();
+      // $location.path('/login'); // not really needed as on login page already
+    } // logout
 
   	$scope.register = function () {
   		console.log($scope.user.email);
   		$location.path('/main');
   	} // register
+
+    $scope.userEmail = Authentication.userEmail();
 
   }]);

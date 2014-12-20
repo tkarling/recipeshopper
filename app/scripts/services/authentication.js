@@ -15,6 +15,7 @@
 angular.module('loginMod')
   .factory('Authentication', function ($firebase, FIREBASE_URL, $location, $rootScope) {
 
+    var data = {};
     var ref = new Firebase(FIREBASE_URL);
     var authData = ref.getAuth();
     if (authData) {
@@ -25,16 +26,27 @@ angular.module('loginMod')
       console.log("User is logged out");
     }
 
-    // var authHandler = function (error, authData) {
-    //   if (error) {
-    //     // $scope.message = error.message;
-    //     // console.log("Login Failed!", $scope.message, error);
-    //     console.log("Login Failed!", error);
-    //   } else {
-    //     console.log("Authenticated successfully with payload:", authData);
-    //     $rootScope.$apply($location.path('/main'));
-    //   }
-    // }
+    var setUserEmail = function (userEmail) {
+        data.userEmail = userEmail;
+        console.log("User email set", data.userEmail, userEmail);
+      } // setErrorMessage
+
+    var authDataCallback = function(authData) {
+      if (authData) {
+        console.log("User " + authData.uid + " is logged in with " + authData.provider);
+        console.log("authData: ", authData);
+        // $scope.$apply(setUserEmail(authData.password.email));
+        if(authData.password) {
+          setUserEmail(authData.password.email);
+        } else {
+          setUserEmail(undefined);
+        }
+      } else {
+        console.log("User is logged out");
+      }
+    } //authDataCallback
+    
+    ref.onAuth(authDataCallback);
 
     // Public API here
     return {
@@ -48,7 +60,11 @@ angular.module('loginMod')
 
       logout: function() {
         ref.unauth();
-      } // logout
+      }, // logout
+
+      userEmail: function () {
+        return data.userEmail;
+      } // userEmail
       
     }; 
 

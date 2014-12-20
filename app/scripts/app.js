@@ -44,7 +44,7 @@ angular
         controller: 'RecipeDetailsController'
       })
       .otherwise({
-        redirectTo: '/main'
+        redirectTo: '/login'
       });
   })
   .controller('TabController', function ($scope) {
