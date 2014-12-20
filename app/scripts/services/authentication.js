@@ -16,6 +16,7 @@ angular.module('loginMod')
   .factory('Authentication', function ($firebase, FIREBASE_URL, $location, $rootScope) {
 
     var data = {};
+    data.userLoggedIn = false;
     var ref = new Firebase(FIREBASE_URL);
     var authData = ref.getAuth();
     if (authData) {
@@ -28,6 +29,8 @@ angular.module('loginMod')
 
     var setUserEmail = function (userEmail) {
         data.userEmail = userEmail;
+        data.userLoggedIn = (data.userEmail != undefined);
+        $rootScope.$broadcast('handleUserLoggedInChanged');
         console.log("User email set", data.userEmail, userEmail);
       } // setErrorMessage
 
@@ -43,9 +46,10 @@ angular.module('loginMod')
         }
       } else {
         console.log("User is logged out");
+        setUserEmail(undefined);
       }
     } //authDataCallback
-    
+
     ref.onAuth(authDataCallback);
 
     // Public API here
@@ -64,7 +68,11 @@ angular.module('loginMod')
 
       userEmail: function () {
         return data.userEmail;
-      } // userEmail
+      }, // userEmail
+
+      userLoggedIn: function () {
+        return data.userLoggedIn;
+      } // userLoggedIn
       
     }; 
 

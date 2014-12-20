@@ -14,6 +14,8 @@ angular.module('recipeshopperApp')
   	// 	console.log($scope.myform);
   	// });
     
+    currentTab=0;
+
     var setErrorMessage = function (errorMessage) {
       $scope.message = errorMessage;
       console.log("Login Failed!", $scope.message, errorMessage);
@@ -45,5 +47,6 @@ angular.module('recipeshopperApp')
   	} // register
 
     $scope.userEmail = Authentication.userEmail();
+    $scope.userLoggedIn = Authentication.userLoggedIn();
 
   }]);
