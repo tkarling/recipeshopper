@@ -35,7 +35,6 @@ angular.module('loginMod')
           // timeout needed to have time to create the controller receivig this
           $rootScope.$broadcast('handleUserLoggedInChanged');
         }, 100);
-        // $rootScope.$broadcast('handleUserLoggedInChanged');
         console.log("User email set", data.userEmail, userEmail);
       } // setErrorMessage
 
@@ -67,6 +66,14 @@ angular.module('loginMod')
           password: user.password
         }, authHandler);
       }, //login
+
+      register: function (user, authHandler) {
+        console.log(user.email);
+        ref.createUser({
+          email: user.email,
+          password: user.password
+        }, authHandler);
+      }, //register
 
       logout: function() {
         ref.unauth();

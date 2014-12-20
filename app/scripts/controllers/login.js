@@ -21,7 +21,7 @@ angular.module('recipeshopperApp')
       console.log("Login Failed!", $scope.message, errorMessage);
     } // setErrorMessage
 
-    var authHandler = function (error, authData) {
+    var loginAuthHandler = function (error, authData) {
       if (error) {
         $scope.$apply(setErrorMessage(error.message));
         console.log('logging out now');
@@ -30,10 +30,10 @@ angular.module('recipeshopperApp')
         console.log("Authenticated successfully with payload:", authData);
         $scope.$apply($location.path('/main'));
       }
-    } // authHandler
+    } // loginAuthHandler
 
     $scope.login = function () {
-      Authentication.login($scope.user, authHandler);
+      Authentication.login($scope.user, loginAuthHandler);
     } // login
 
     $scope.logout = function () {
@@ -41,9 +41,18 @@ angular.module('recipeshopperApp')
       // $location.path('/login'); // not really needed as on login page already
     } // logout
 
+    var registerAuthHandler = function (error, authData) {
+      if (error) {
+        $scope.$apply(setErrorMessage(error.message));
+        console.log('Registration failed.');
+      } else {
+        console.log("Registered successfully with payload:", authData);
+        $scope.login();
+      }
+    } // registerAuthHandler
+
   	$scope.register = function () {
-  		console.log($scope.user.email);
-  		$location.path('/main');
+      Authentication.register($scope.user, registerAuthHandler);
   	} // register
 
     $scope.userEmail = Authentication.userEmail();
