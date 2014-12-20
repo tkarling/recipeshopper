@@ -13,31 +13,37 @@
 ]);
 
 angular.module('loginMod')
-  .factory('Authentication', function ($firebase, FIREBASE_URL, $location, $rootScope) {
+  .factory('Authentication', ['$firebase', 'FIREBASE_URL', '$location', '$rootScope', '$timeout', 
+    function ($firebase, FIREBASE_URL, $location, $rootScope, $timeout) {
 
     var data = {};
     data.userLoggedIn = false;
     var ref = new Firebase(FIREBASE_URL);
-    var authData = ref.getAuth();
-    if (authData) {
-      console.log("User " + authData.uid + " is logged in with " + authData.provider);
-      // console.log("logging out now");
-      // ref.unauth();
-    } else {
-      console.log("User is logged out");
-    }
+    // var authData = ref.getAuth();
+    // if (authData) {
+    //   console.log("User " + authData.uid + " is logged in with " + authData.provider);
+    //   // console.log("logging out now");
+    //   // ref.unauth();
+    // } else {
+    //   console.log("User is logged out");
+    // }
 
     var setUserEmail = function (userEmail) {
         data.userEmail = userEmail;
         data.userLoggedIn = (data.userEmail != undefined);
-        $rootScope.$broadcast('handleUserLoggedInChanged');
+        $timeout(function () {
+          // timeout needed to have time to create the controller receivig this
+          $rootScope.$broadcast('handleUserLoggedInChanged');
+        }, 100);
+        // $rootScope.$broadcast('handleUserLoggedInChanged');
         console.log("User email set", data.userEmail, userEmail);
       } // setErrorMessage
 
     var authDataCallback = function(authData) {
+      console.log('authDataCallback called', authData);
       if (authData) {
         console.log("User " + authData.uid + " is logged in with " + authData.provider);
-        console.log("authData: ", authData);
+        // console.log("authData: ", authData);
         // $scope.$apply(setUserEmail(authData.password.email));
         if(authData.password) {
           setUserEmail(authData.password.email);
@@ -76,4 +82,4 @@ angular.module('loginMod')
       
     }; 
 
-  });
+  }]);

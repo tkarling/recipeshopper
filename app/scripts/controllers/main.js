@@ -15,7 +15,7 @@ angular.module('recipeshopperApp')
  			return watchscope.$eval(isBought);
  		};
  		scope.$watch(watcherFn, function(newValue) {
-			console.log('lineThrough: newValue: ' + newValue);
+			// console.log('lineThrough: newValue: ' + newValue);
  			if(newValue) {
 		 		element.find('span').addClass('rs-line-through');
 		 	} else {
@@ -86,7 +86,7 @@ angular.module('recipeshopperApp')
 	$scope.showAllDef = false;
 
 	$scope.$watch('showAllDef', function(newValue) {
-		console.log('newValue: ' + newValue);
+		// console.log('newValue: ' + newValue);
 		$scope.showAll = newValue ? ! newValue : undefined;
 		// undefined -show all, true - show unbought only
 	}); //$watch

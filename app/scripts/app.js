@@ -49,6 +49,7 @@ angular
   })
   .controller('TabController', ['$scope', '$timeout', '$rootScope', 'Authentication', 
     function ($scope, $timeout, $rootScope, Authentication) {
+    console.log('TabController created');  
     $scope.setTab = function(tab){
       currentTab = tab;
     };
@@ -57,20 +58,10 @@ angular
       return (currentTab === tab);
     };
 
-    // $scope.userLoggedIn = Authentication.userLoggedIn();
-    var setUserLoggedIn = function () {
+    $rootScope.$on('handleUserLoggedInChanged', function () {
         $scope.userLoggedIn = Authentication.userLoggedIn();
-        console.log('setUserLoggedIn: ', $scope.userLoggedIn);
-    }
-    // var callSetUserLoggedIn = function () {
-    //   $timeout(function() {
-    //     $scope.$apply(setUserLoggedIn());
-    //   });    
-    // }
-    // $scope.$watch(Authentication.userLoggedIn(), callSetUserLoggedIn());
-
-    // $scope.userLoggedIn = Authentication.userLoggedIn();
-    $rootScope.$on('handleUserLoggedInChanged', setUserLoggedIn());
+        console.log('I am received');
+    });
 
   }]);
 
