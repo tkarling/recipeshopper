@@ -10,7 +10,7 @@
 
 angular.module('recipeshopperApp')
   .controller('RecipeDetailsController', ['$scope', function ($scope) { //, localStorageService
-    currentTab=2;
+    currentTab=3;
 
  	// var imageSrcsInStore = [];
 	// if(localStorageService) {
