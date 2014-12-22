@@ -81,6 +81,11 @@ angular.module('recipeshopperApp')
 		groceriesFromFB.$remove(item.$id);
 	} // deleteProduct
 
+	$scope.updateIsBought = function(item) {
+		// console.log('Updating is bought for:', item);
+		groceriesFromFB.$update(item.$id, {isbought: item.isbought});
+	} // updateIsBought
+
 	// init  
 	$scope.itemOrder = 'aisle';
 	$scope.showAllDef = false;

@@ -59,7 +59,7 @@
   <!-- <h2>Dairy</h2> -->
   <div>
     <div line-through="item.isbought" class="well rs-well" ng-repeat="item in groceries | filter: showAll | filter: query | orderBy: itemOrder: name"> 
-      <span class="rs-checkbox pull-left"><input type="checkbox" ng-model="item.isbought" ngChange="toggleLineThrough"></span>
+      <span class="rs-checkbox pull-left"><input type="checkbox" ng-model="item.isbought" ng-change="updateIsBought(item)"></span> 
       <h3 class="rs-h3">
         <span><strong>{{item.product}}</strong></span> 
         <span class="pull-right">{{item.amount}} {{item.unit}}</span>
