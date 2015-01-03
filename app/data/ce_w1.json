@@ -1,0 +1,90 @@
+[{ "aisle" : "PROTEINS & DAIRY",
+"products" : 
+[
+"11 oz goat cheese",
+"½ qt milk (dairy or unsweetened rice, almond or soy milk)",
+"½ qt buttermilk", 
+"1 7-oz plus 1 17.6-oz container plain Greek yogurt (TRY: FAGE Total Classic)", 
+"1 16-oz container cottage cheese", 
+"½ dozen eggs", 
+"10 oz reduced-sodium deli-fresh sliced turkey breast", 
+"6 5-oz boneless, skinless chicken breasts", 
+"1 5-oz fillet wild Atlantic cod",
+"1 lb medium shrimp", 
+"1 4-oz boneless pork loin chop", 
+"1 lb lean ground beef"
+]},
+{ "aisle" : "VEGGIES & FRUITS" ,
+"products" : 
+[
+"2 avocados", 
+"2 bananas", 
+"2 grapefruits", 
+"4 kiwi", 
+"2 lemons", 
+"1 lime", 
+"1 pineapple", 
+"4 oranges", 
+"5 pears", 
+"1 pomegranate", 
+"1 large bunch fresh cilantro", 
+"1 bunch fresh rosemary", 
+"12 oz baby spinach", 
+"1 bunch bok choy", 
+"1 bunch fresh flat-leaf parsley", 
+"1 head broccoli", 
+"8 oz carrots", 
+"1 large garden cucumber", 
+"1 large head garlic", 
+"6 oz fresh okra or 1 large green bell pepper", 
+"1 red bell pepper", 
+"2 red onions", 
+"2 large leeks", 
+"1 large bulb fennel", 
+"2 jalapeño chile peppers", 
+"1 sweet potato", 
+"3 tomatoes"
+]},
+{ "aisle" : "NUTS, SEEDS & OILS" ,
+"products" : 
+[ 
+"1 jar natural unsalted nut butter", 
+"5 oz raw unsalted walnuts", 
+"1 bottle extra-virgin olive oil (TRY: O-Live & Co Extra Virgin Olive Oil)", 
+"1 bottle safflower oil"
+]},
+{ "aisle" : "WHOLE GRAINS" ,
+"products" : 
+[
+"1 box whole-grain cereal", 
+"1 container old-fashioned rolled oats", 
+"2 5.5-oz boxes whole-grain crackers (TRY: Mary’s Gone Crackers)", 
+"1 10-count pkg 8-inch whole-grain wraps", 
+"4 2-oz whole-grain rolls", 
+"1 loaf sprouted-grain bread (TRY: Food for Life Ezekiel 4:9 Sprouted Whole Grain Bread)", 
+"1 pkg quinoa", 
+"1 pkg farro (TRY: Bob’s Red Mill Organic Farro)"
+]},
+{ "aisle" : "EXTRAS" ,
+"products" : 
+[
+"1 container hummus", 
+"2 8-oz containers low-sodium chicken broth", 
+"2 15-oz BPA-free cans unsalted chickpeas", 
+"28 oz BPA-free canned, jarred or boxed unsalted diced tomatoes with juices", 
+"1 tube or BPA-free can unsalted tomato paste", 
+"1 3-oz pouch wild albacore tuna (TRY: Wild Planet Wild Albacore Tuna)", 
+"1 small jar Dijon mustard", 
+"1 bottle balsamic vinegar", 
+"1 jar raw honey", 
+"1 bottle ground cumin", 
+"1 bottle chile powder", 
+"1 bottle ground black pepper", 
+"1 bottle sea salt", 
+"1 container baking powder", 
+"1 box baking soda", 
+"1 container unsweetened cocoa powder", 
+"6 oz frozen blueberries (TRY: Earthbound Farms Organic Frozen Blueberries)"
+]
+}]
+

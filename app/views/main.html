@@ -6,7 +6,7 @@
     padding:5px;
     margin: 5px;
   }
-  .rs-h3 {
+  .rs-h4 {
     margin: 2px;
   }
 
@@ -60,10 +60,10 @@
   <div>
     <div line-through="item.isbought" class="well rs-well" ng-repeat="item in groceries | filter: showAll | filter: query | orderBy: itemOrder: name"> 
       <span class="rs-checkbox pull-left"><input type="checkbox" ng-model="item.isbought" ng-change="updateIsBought(item)"></span> 
-      <h3 class="rs-h3">
+      <h4 class="rs-h4">
         <span><strong>{{item.product}}</strong></span> 
         <span class="pull-right">{{item.amount}} {{item.unit}}</span>
-      </h3>
+      </h4>
       <span class="rs-aisle-name">{{item.aisle}}; </span><span>{{item.recipe | lowercase}}</span>
       <span class="pull-right"><button class="btn btn-delete" ng-click="deleteProduct(item)"></button></span>
     </div>

@@ -29,37 +29,40 @@ angular.module('recipeshopperApp')
  		// }());
   	};
   })
-  .controller('MainCtrl', ['$scope', '$http', '$firebase', 'localStorageService', function ($scope, $http, $firebase, localStorageService) {
+  .constant('FB_SHOPPINGLIST_URL', 'https://recipeshopper.firebaseio.com/shoppinglist/')
+  .controller('MainCtrl', ['$scope', '$log', '$http', '$firebase', 'FB_SHOPPINGLIST_URL', 'localStorageService', 
+  	function ($scope, $log, $http, $firebase, FB_SHOPPINGLIST_URL, localStorageService) {
     currentTab=1;
 
-    // LOCAL STORAGE RELATED IMPLEMENTATION
-	// var groceriesInStore = [];
-	// if(localStorageService) {
-	// 	console.log('localStorageService exists');
-	// 	groceriesInStore = localStorageService.get('groceries');
-	// }
-	// $scope.groceries = groceriesInStore || [];
-
-	// $scope.$watch('groceries', function () {
-	// 	if(localStorageService) {
-	// 	  localStorageService.set('groceries', $scope.groceries);
-	// 	}
-	// }, true);
-
-  	//INCLUDED JSON FILE RELATED IMPLEMENTATION
-	// // read default set from jsonfile in case local storage is empty
-	// if($scope.groceries.length === 0) {
-	// 	$scope.groceries = [];
-	// 	$http.get('data/joululista.json').success(function(data){ 
-	// 	  $scope.groceries = data;
-	// 	});
-	// }
-
 	//FIREBASE IMPLEMENTATION
-	var ref = new Firebase('https://recipeshopper.firebaseio.com/');
+	// var ref = new Firebase('https://recipeshopper.firebaseio.com/');
+	var ref = new Firebase(FB_SHOPPINGLIST_URL);
 	var groceriesFromFB = $firebase(ref);
 
 	$scope.groceries = groceriesFromFB.$asArray();
+	$scope.groceries.$loaded().then(
+		function () {
+			$log.debug('loaded');
+			if($scope.groceries.length == 0) {
+				$log.debug('addidng items to FB');
+				$http.get('data/ce_w1.json').success(function(data){ 
+					var items = data;  
+					$log.debug('items', items);
+					var item = {recipe : "CE Dec-14 w1", isbought : false};
+					for(var i = 0; i < items.length; i++) {
+						for(var j = 0; j < items[i].products.length; j++) {
+							item.product = items[i].products[j];
+			      			item.aisle = items[i].aisle;
+							// $log.debug(item);
+							groceriesFromFB.$push(item);
+						}
+					}
+				});
+			}
+			$log.debug('$scope.groceries', $scope.groceries);
+		}
+	);
+
 
 	$scope.addProduct = function () {
 		groceriesFromFB.$push({
@@ -95,6 +98,30 @@ angular.module('recipeshopperApp')
 		$scope.showAll = newValue ? ! newValue : undefined;
 		// undefined -show all, true - show unbought only
 	}); //$watch
+
+
+    // LOCAL STORAGE RELATED IMPLEMENTATION
+	// var groceriesInStore = [];
+	// if(localStorageService) {
+	// 	console.log('localStorageService exists');
+	// 	groceriesInStore = localStorageService.get('groceries');
+	// }
+	// $scope.groceries = groceriesInStore || [];
+
+	// $scope.$watch('groceries', function () {
+	// 	if(localStorageService) {
+	// 	  localStorageService.set('groceries', $scope.groceries);
+	// 	}
+	// }, true);
+
+  	//INCLUDED JSON FILE RELATED IMPLEMENTATION
+	// // read default set from jsonfile in case local storage is empty
+	// if($scope.groceries.length === 0) {
+	// 	$scope.groceries = [];
+	// 	$http.get('data/joululista.json').success(function(data){ 
+	// 	  $scope.groceries = data;
+	// 	});
+	// }
 
   }]);
 

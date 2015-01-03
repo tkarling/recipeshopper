@@ -8,27 +8,27 @@
  * Controller of the recipeshopperApp
  */
 angular.module('recipeshopperApp')
-  .directive('lineThrough', function() {
-  	return function (scope, element, attrs) {
- 		var isBought = attrs['lineThrough'];
- 		var watcherFn = function (watchscope) {
- 			return watchscope.$eval(isBought);
- 		};
- 		scope.$watch(watcherFn, function(newValue) {
-			// console.log('lineThrough: newValue: ' + newValue);
- 			if(newValue) {
-		 		element.find('span').addClass('rs-line-through');
-		 	} else {
-		 		element.find('span').removeClass('rs-line-through');
-		 	}
- 		});
+  // .directive('lineThrough', function() {
+  // 	return function (scope, element, attrs) {
+ 	// 	var isBought = attrs['lineThrough'];
+ 	// 	var watcherFn = function (watchscope) {
+ 	// 		return watchscope.$eval(isBought);
+ 	// 	};
+ 	// 	scope.$watch(watcherFn, function(newValue) {
+		// 	// console.log('lineThrough: newValue: ' + newValue);
+ 	// 		if(newValue) {
+		//  		element.find('span').addClass('rs-line-through');
+		//  	} else {
+		//  		element.find('span').removeClass('rs-line-through');
+		//  	}
+ 	// 	});
 
-		// var index = scope.$eval(attrs['lineThrough']);
-		// console.log('index: ' + index); 
- 		// (function () {	// IIFE not needed i this case
- 		// }());
-  	};
-  })
+		// // var index = scope.$eval(attrs['lineThrough']);
+		// // console.log('index: ' + index); 
+ 	// 	// (function () {	// IIFE not needed i this case
+ 	// 	// }());
+  // 	};
+  // })
   .controller('RecipelistCtrl', ['$scope', '$http', '$firebase', 'localStorageService', function ($scope, $http, $firebase, localStorageService) {
     currentTab=2;
 
