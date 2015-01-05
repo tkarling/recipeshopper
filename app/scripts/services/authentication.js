@@ -7,18 +7,28 @@
  * # Authentication
  * Factory in the recipeshopperApp.
  */
+//  angular
+// .module('loginMod', [
+//    'firebase', 
+// ]);
+
  angular
 .module('loginMod', [
-   'firebase', 
 ]);
 
+// angular.module('loginMod')
+//   .factory('Authentication', ['$log', '$firebase', 'FIREBASE_URL', '$location', '$rootScope', '$timeout', 
+//     function ($log, $firebase, FIREBASE_URL, $location, $rootScope, $timeout) {
 angular.module('loginMod')
-  .factory('Authentication', ['$firebase', 'FIREBASE_URL', '$location', '$rootScope', '$timeout', 
-    function ($firebase, FIREBASE_URL, $location, $rootScope, $timeout) {
+  .config(function($logProvider) {
+    $logProvider.debugEnabled(true);
+  })
+  .factory('Authentication', ['$log','myDependency', '$location', '$rootScope', '$timeout',  
+    function ($log, myDependency, $location, $rootScope, $timeout) {
 
-    var data = {};
-    data.userLoggedIn = false;
-    var ref = new Firebase(FIREBASE_URL);
+    // var data = {};
+    // data.userLoggedIn = false;
+    // var ref = new Firebase(FIREBASE_URL);
     // var authData = ref.getAuth();
     // if (authData) {
     //   console.log("User " + authData.uid + " is logged in with " + authData.provider);
@@ -28,64 +38,72 @@ angular.module('loginMod')
     //   console.log("User is logged out");
     // }
 
-    var setUserEmail = function (userEmail) {
-        data.userEmail = userEmail;
-        data.userLoggedIn = (data.userEmail != undefined);
-        $timeout(function () {
-          // timeout needed to have time to create the controller receivig this
-          $rootScope.$broadcast('handleUserLoggedInChanged');
-        }, 100);
-        console.log("User email set", data.userEmail, userEmail);
-      } // setErrorMessage
+    // var setUserEmail = function (userEmail) {
+    //     data.userEmail = userEmail;
+    //     data.userLoggedIn = (data.userEmail != undefined);
+    //     $timeout(function () {
+    //       // timeout needed to have time to create the controller receivig this
+    //       $rootScope.$broadcast('handleUserLoggedInChanged');
+    //     }, 100);
+    //     $log.debug("User email set", data.userEmail, userEmail);
+    //   } // setErrorMessage
 
-    var authDataCallback = function(authData) {
-      console.log('authDataCallback called', authData);
-      if (authData) {
-        console.log("User " + authData.uid + " is logged in with " + authData.provider);
-        // console.log("authData: ", authData);
-        // $scope.$apply(setUserEmail(authData.password.email));
-        if(authData.password) {
-          setUserEmail(authData.password.email);
-        } else {
-          setUserEmail(undefined);
-        }
-      } else {
-        console.log("User is logged out");
-        setUserEmail(undefined);
-      }
-    } //authDataCallback
+    // var authDataCallback = function(authData) {
+    //   console.log('authDataCallback called', authData);
+    //   if (authData) {
+    //     $log.debug("User " + authData.uid + " is logged in with " + authData.provider);
+    //     // console.log("authData: ", authData);
+    //     // $scope.$apply(setUserEmail(authData.password.email));
+    //     if(authData.password) {
+    //       setUserEmail(authData.password.email);
+    //     } else {
+    //       setUserEmail(undefined);
+    //     }
+    //   } else {
+    //     $log.debug$log.debug("User is logged out");
+    //     setUserEmail(undefined);
+    //   }
+    // } //authDataCallback
 
-    ref.onAuth(authDataCallback);
+    // ref.onAuth(authDataCallback);
 
     // Public API here
     return {
-      login: function (user, authHandler) {
-        console.log(user.email);
-        ref.authWithPassword({
-          email: user.email,
-          password: user.password
-        }, authHandler);
-      }, //login
+      // login: function (user, authHandler) {
+      //   $log.debug(user.email);
+      //   ref.authWithPassword({
+      //     email: user.email,
+      //     password: user.password
+      //   }, authHandler);
+      // }, //login
 
-      register: function (user, authHandler) {
-        console.log(user.email);
-        ref.createUser({
-          email: user.email,
-          password: user.password
-        }, authHandler);
-      }, //register
+      // register: function (user, authHandler) {
+      //   console.log(user.email);
+      //   ref.createUser({
+      //     email: user.email,
+      //     password: user.password
+      //   }, authHandler);
+      // }, //register
 
-      logout: function() {
-        ref.unauth();
-      }, // logout
+      // logout: function() {
+      //   ref.unauth();
+      // }, // logout
 
-      userEmail: function () {
-        return data.userEmail;
-      }, // userEmail
+      useDependency: function () {
+        $log.log('useDependency');
+        $log.debug('useDependency');
+        console.log('console.log: useDependency');
+        return myDependency.getSomething();
+      } // userEmail
 
-      userLoggedIn: function () {
-        return data.userLoggedIn;
-      } // userLoggedIn
+
+      // userEmail: function () {
+      //   return data.userEmail;
+      // }, // userEmail
+
+      // userLoggedIn: function () {
+      //   return data.userLoggedIn;
+      // } // userLoggedIn
       
     }; 
 

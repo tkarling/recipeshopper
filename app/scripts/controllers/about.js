@@ -7,7 +7,8 @@
  * # AboutCtrl
  * Controller of the recipeshopperApp
  */
-angular.module('recipeshopperApp')
+angular.module('aboutMod', []); 
+angular.module('aboutMod')
   .controller('AboutCtrl', function ($scope) {
     $scope.awesomeThings = [
       'HTML5 Boilerplate',

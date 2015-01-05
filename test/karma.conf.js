@@ -17,6 +17,9 @@ module.exports = function(config) {
     frameworks: ['jasmine'],
 
     // list of files / patterns to load in the browser
+    // Are following 2 NEEDED?
+    // <script src="bower_components/jquery/dist/jquery.js"></script>
+    // <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
     files: [
       'bower_components/angular/angular.js',
       'bower_components/angular-mocks/angular-mocks.js',
@@ -27,10 +30,21 @@ module.exports = function(config) {
       'bower_components/angular-sanitize/angular-sanitize.js',
       'bower_components/angular-touch/angular-touch.js',
       'bower_components/angular-local-storage/dist/angular-local-storage.js',
-      'app/scripts/**/*.js',
-      'test/mock/**/*.js',
-      'test/spec/**/*.js'
+      'bower_components/firebase/firebase.js',
+      'bower_components/angularfire/dist/angularfire.js',
+      'bower_components/mockfirebase/browser/mockfirebase.js',
+      'app/scripts/controllers/about.js',
+      'app/scripts/services/authentication.js',
+      'test/mock/mocks.firebase.js',
+      'test/mock/mock.utils.js',
+      'test/spec/controllers/about.js',
+      'test/spec/services/authentication.js'
     ],
+
+    // ORIGINAL
+    //   'app/scripts/**/*.js',
+    //   'test/mock/**/*.js',
+    //   'test/spec/**/*.js'
 
     // list of files / patterns to exclude
     exclude: [],
