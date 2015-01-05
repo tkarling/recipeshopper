@@ -9,11 +9,11 @@
  */
 
 angular
-.module('loginMod', [
+.module('authenticationMod', [
   'firebase',
 ]);
 
-angular.module('loginMod')
+angular.module('authenticationMod')
   .config(function($logProvider) {
     $logProvider.debugEnabled(true);
   })

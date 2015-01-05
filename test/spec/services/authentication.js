@@ -4,7 +4,7 @@ describe('Service: Authentication', function () {
 
   var mockDependency, mockUrl;
 
-  beforeEach(module('loginMod'));
+  beforeEach(module('authenticationMod'));
 
   beforeEach(function () {
 

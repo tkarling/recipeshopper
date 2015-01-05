@@ -1,15 +1,20 @@
-'use strict';
+// 'use strict';
 
 /**
  * @ngdoc function
- * @name recipeshopperApp.controller:LoginCtrl
+ * @name loginMod.controller:LoginCtrl
  * @description
  * # LoginCtrl
- * Controller of the recipeshopperApp
+ * Controller of the loginMod
  */
-angular.module('recipeshopperApp')
-  .controller('LoginCtrl', ['$scope', '$firebase', '$location', 'Authentication', 
-    function ($scope, $firebase, $location, Authentication) {
+ angular
+.module('loginMod', [
+  'authenticationMod',
+]);
+
+angular.module('loginMod')
+  .controller('LoginCtrl', ['$scope', '$log', '$location', 'Authentication', 
+    function ($scope, $log, $location, Authentication) {
   	// $scope.$on('$viewContentLoaded', function() {
   	// 	console.log($scope.myform);
   	// });
@@ -18,16 +23,16 @@ angular.module('recipeshopperApp')
 
     var setErrorMessage = function (errorMessage) {
       $scope.message = errorMessage;
-      console.log("Login Failed!", $scope.message, errorMessage);
+      $log.debug("Login Failed!", $scope.message, errorMessage);
     } // setErrorMessage
 
     var loginAuthHandler = function (error, authData) {
       if (error) {
         $scope.$apply(setErrorMessage(error.message));
-        console.log('logging out now');
+        $log.debug('logging out now');
         Authentication.logout();
       } else {
-        console.log("Authenticated successfully with payload:", authData);
+        $log.debug("Authenticated successfully with payload:", authData);
         $scope.$apply($location.path('/main'));
       }
     } // loginAuthHandler
@@ -44,9 +49,9 @@ angular.module('recipeshopperApp')
     var registerAuthHandler = function (error, authData) {
       if (error) {
         $scope.$apply(setErrorMessage(error.message));
-        console.log('Registration failed.');
+        $log.debug('Registration failed.');
       } else {
-        console.log("Registered successfully with payload:", authData);
+        $log.debug("Registered successfully with payload:", authData);
         $scope.login();
       }
     } // registerAuthHandler
