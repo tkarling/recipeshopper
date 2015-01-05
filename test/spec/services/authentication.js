@@ -2,7 +2,7 @@
 
 describe('Service: Authentication', function () {
 
-  var mockDependency;
+  var mockDependency, mockUrl;
 
   beforeEach(module('loginMod'));
 
@@ -14,11 +14,12 @@ describe('Service: Authentication', function () {
           }
       };
 
-      // mockLog = $log;
+      mockUrl = 'mockUrl';
+
 
       module(function ($provide) {
           $provide.value('myDependency', mockDependency);
-          // $provide.value('$log', mockLog);
+          $provide.value('FIREBASE_URL', mockUrl);
       });
 
   });

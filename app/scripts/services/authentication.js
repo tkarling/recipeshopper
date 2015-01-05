@@ -23,8 +23,8 @@ angular.module('loginMod')
   .config(function($logProvider) {
     $logProvider.debugEnabled(true);
   })
-  .factory('Authentication', ['$log','myDependency', '$location', '$rootScope', '$timeout',  
-    function ($log, myDependency, $location, $rootScope, $timeout) {
+  .factory('Authentication', ['$log','$location', '$rootScope', '$timeout', 'myDependency', 'FIREBASE_URL', 
+    function ($log, $location, $rootScope, $timeout, myDependency, FIREBASE_URL) {
 
     // var data = {};
     // data.userLoggedIn = false;
