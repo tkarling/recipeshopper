@@ -14,7 +14,7 @@ angular
 ]);
 
 angular.module('storedListMod')
-  .factory('BasicStoredListMgr', ['$log', '$firebase', function ($log, $firebase) {
+  .factory('BasicStoredListMgr', ['$log', '$q', '$firebase', function ($log, $q, $firebase) {
 
     var data = {};
     data.items = [];
@@ -35,8 +35,6 @@ angular.module('storedListMod')
 
 
     var BasicStoredListMgr = function(urlForList) {
-      // data.items = [];
-
       if(urlForList != data.urlForList) {
         // refs need to be set only, if they are not already set
         data.urlForList = urlForList;
@@ -45,10 +43,12 @@ angular.module('storedListMod')
     }
 
     BasicStoredListMgr.prototype.getItems = function () {
-        // if(data.items && (data.items.length > 0)) {
-        //   $log.debug('BasicStoredListMgr. getItems (existing): ', data.items);
-        //   return data.items;
-        // }
+        if(data.items && (data.items.length > 0)) {
+          var deferred = $q.defer();
+          $log.debug('BasicStoredListMgr. getItems (existing): ', data.items);
+          deferred.resolve(data.items);
+          return deferred.promise;
+        }
 
         if(data.ref) {
           var itemsAsArray = data.dataRef.$asArray();
