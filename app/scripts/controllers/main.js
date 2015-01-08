@@ -30,64 +30,71 @@ angular.module('recipeshopperApp')
   	};
   })
   .constant('FB_SHOPPINGLIST_URL', 'https://recipeshopper.firebaseio.com/shoppinglist/')
-  .controller('MainCtrl', ['$scope', '$log', '$http', '$firebase', 'FB_SHOPPINGLIST_URL', 'localStorageService', 
-  	function ($scope, $log, $http, $firebase, FB_SHOPPINGLIST_URL, localStorageService) {
+  // .controller('MainCtrl', ['$scope', '$log', '$http', '$firebase', 'FB_SHOPPINGLIST_URL', 'localStorageService', 
+  // 	function ($scope, $log, $http, $firebase, FB_SHOPPINGLIST_URL, localStorageService) {
+  .controller('MainCtrl', ['$scope', '$log', '$http', 'FB_SHOPPINGLIST_URL', 'BasicStoredListMgr',  
+  	function ($scope, $log, $http, FB_SHOPPINGLIST_URL, BasicStoredListMgr) {
     currentTab=1;
+
+    var storeMgr = new BasicStoredListMgr(FB_SHOPPINGLIST_URL);
+    storeMgr.getItems().then(function(data) {
+    	$scope.groceries = data;
+    });
 
 	//FIREBASE IMPLEMENTATION
 	// var ref = new Firebase('https://recipeshopper.firebaseio.com/');
-	var ref = new Firebase(FB_SHOPPINGLIST_URL);
-	var groceriesFromFB = $firebase(ref);
+	// var ref = new Firebase(FB_SHOPPINGLIST_URL);
+	// var groceriesFromFB = $firebase(ref);
 
-	$scope.groceries = groceriesFromFB.$asArray();
-	$scope.groceries.$loaded().then(
-		function () {
-			$log.debug('loaded');
-			if($scope.groceries.length == 0) {
-				$log.debug('addidng items to FB');
-				$http.get('data/ce_w1.json').success(function(data){ 
-					var items = data;  
-					$log.debug('items', items);
-					var item = {recipe : "CE Dec-14 w1", isbought : false};
-					for(var i = 0; i < items.length; i++) {
-						for(var j = 0; j < items[i].products.length; j++) {
-							item.product = items[i].products[j];
-			      			item.aisle = items[i].aisle;
-							// $log.debug(item);
-							groceriesFromFB.$push(item);
-						}
-					}
-				});
-			}
-			$log.debug('$scope.groceries', $scope.groceries);
-		}
-	);
+	// $scope.groceries = groceriesFromFB.$asArray();
+	// $scope.groceries.$loaded().then(
+	// 	function () {
+	// 		$log.debug('loaded');
+	// 		if($scope.groceries.length == 0) {
+	// 			$log.debug('addidng items to FB');
+	// 			$http.get('data/ce_w1.json').success(function(data){ 
+	// 				var items = data;  
+	// 				$log.debug('items', items);
+	// 				var item = {recipe : "CE Dec-14 w1", isbought : false};
+	// 				for(var i = 0; i < items.length; i++) {
+	// 					for(var j = 0; j < items[i].products.length; j++) {
+	// 						item.product = items[i].products[j];
+	// 		      			item.aisle = items[i].aisle;
+	// 						// $log.debug(item);
+	// 						groceriesFromFB.$push(item);
+	// 					}
+	// 				}
+	// 			});
+	// 		}
+	// 		$log.debug('$scope.groceries', $scope.groceries);
+	// 	}
+	// );
 
 
 	$scope.addProduct = function () {
-		groceriesFromFB.$push({
+		storeMgr.addItem({
 		  recipe : "New recipe",
 	      product : $scope.product,
 	      aisle : "aisle1",
 	      amount : 5,
 	      unit : "pcs",
-	      isbought : false,
-	      date: Firebase.ServerValue.TIMESTAMP
+	      isbought : false
+	      // date: Firebase.ServerValue.TIMESTAMP
 		}).then(function () {
 			$scope.product = '';
 		});
 	} // addProduct
 
 	$scope.deleteProduct = function(item) {
-		// console.log('deleteProduct: ');
-		// console.log(item);
-		groceriesFromFB.$remove(item.$id);
+		$log.debug('MainCtrl: deleteProduct: ', item);
+		storeMgr.deleteItem(item);
 	} // deleteProduct
 
 	$scope.updateIsBought = function(item) {
-		// console.log('Updating is bought for:', item);
-		groceriesFromFB.$update(item.$id, {isbought: item.isbought});
+		$log.debug('MainCtrl: updateIsBought: ', item);
+		storeMgr.saveItem(item);
 	} // updateIsBought
+
 
 	// init  
 	$scope.itemOrder = 'aisle';
@@ -98,6 +105,9 @@ angular.module('recipeshopperApp')
 		$scope.showAll = newValue ? ! newValue : undefined;
 		// undefined -show all, true - show unbought only
 	}); //$watch
+
+
+
 
 
     // LOCAL STORAGE RELATED IMPLEMENTATION

@@ -2,13 +2,13 @@
 
 describe('Service: Authentication', function () {
 
-  var mockDependency, mockUrl;
+  var mockFirebase, mockUrl;
 
   beforeEach(module('authenticationMod'));
 
   beforeEach(function () {
 
-      mockDependency = {
+      mockFirebase = {
           getSomething: function () {
               return 'mockReturnValue';
           }
@@ -18,7 +18,7 @@ describe('Service: Authentication', function () {
 
 
       module(function ($provide) {
-          $provide.value('$firebase', mockDependency);
+          $provide.value('$firebase', mockFirebase);
           $provide.value('FIREBASE_URL', mockUrl);
       });
 
@@ -42,7 +42,7 @@ describe('Service: Authentication', function () {
       expect($log.debug.logs.length).toEqual(1);
   }));
 
- it('hould write in debug log when loin is called', inject(function (Authentication, $log) {
+ it('should write in debug log when login is called', inject(function (Authentication, $log) {
       var user = {};
       user.email = 'moi@hei.com';
       Authentication.login(user, null);

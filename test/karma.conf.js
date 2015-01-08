@@ -36,11 +36,13 @@ module.exports = function(config) {
       'app/scripts/controllers/about.js',
       'app/scripts/controllers/login.js',
       'app/scripts/services/authentication.js',
+      'app/scripts/services/basicstoredlistmgr.js',
       'test/mock/mocks.firebase.js',
       'test/mock/mock.utils.js',
       'test/spec/controllers/about.js',
       'test/spec/controllers/login.js',
-      'test/spec/services/authentication.js'
+      'test/spec/services/authentication.js',
+      'test/spec/services/basicstoredlistmgr.js',
     ],
 
     // ORIGINAL

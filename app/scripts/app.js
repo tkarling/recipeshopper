@@ -18,6 +18,7 @@ angular
     'ngTouch',
     'firebase',
     'LocalStorageModule', 
+    'storedListMod', 
     'fileReaderMod',
     'loginMod'
   ])
