@@ -16,47 +16,61 @@ angular
 angular.module('storedListMod')
   .factory('BasicStoredListMgr', ['$log', '$q', '$firebase', function ($log, $q, $firebase) {
 
-    var data = {};
-    data.items = [];
+    // var data = {};
+    // data.items = [];
 
-    var setRefs = function (newUrl) {
+    var setRefs = function (data, newUrl) {
+      data.urlForList = newUrl;
+      // $log.debug('BasicStoredListMgr: setRefs: ', data);
       if(data.ref) {
         // this is needed for the change earlier url case. Not used if url is set in begining only
         data.ref = undefined;
         data.dataRef = undefined;
-        this.items = [];
+        data.items = [];
       }
       if(data.ref == undefined) {
         data.ref = new Firebase(newUrl);
         data.dataRef = $firebase(data.ref);
-        $log.debug('BasicStoredListMgr: setRefs: data.ref after', data.ref);
+        $log.debug('BasicStoredListMgr: setRefs: data.ref after READING FROM FB', data.ref);
       }
     } // setRefs
 
+    var BasicStoredListMgr = function() {
+      this.data = {};
+      this.data.items = [];
+      // if(urlForList != data.urlForList) {
+      //   // refs need to be set only, if they are not already set
+      //   // setRefs(urlForList);
+      // }
+    }
 
-    var BasicStoredListMgr = function(urlForList) {
-      if(urlForList != data.urlForList) {
+    // var BasicStoredListMgr = function() {
+    // }
+
+    BasicStoredListMgr.prototype.setUrl = function (urlForList) {
+      $log.debug('setUrl: this.data.urlForList', this.data.urlForList);
+      if(urlForList != this.data.urlForList) {
         // refs need to be set only, if they are not already set
-        data.urlForList = urlForList;
-        setRefs(data.urlForList);
+        setRefs(this.data, urlForList);
       }
     }
 
     BasicStoredListMgr.prototype.getItems = function () {
-        if(data.items && (data.items.length > 0)) {
+        if(this.data.items && (this.data.items.length > 0)) {
           var deferred = $q.defer();
-          $log.debug('BasicStoredListMgr. getItems (existing): ', data.items);
-          deferred.resolve(data.items);
+          $log.debug('BasicStoredListMgr. getItems (existing): ', this.data.items);
+          deferred.resolve(this.data.items);
           return deferred.promise;
         }
 
-        if(data.ref) {
-          var itemsAsArray = data.dataRef.$asArray();
+        if(this.data.ref) {
+          var itemsAsArray = this.data.dataRef.$asArray();
+          var self = this;
           return itemsAsArray.$loaded().then(
             function() {
-              data.items = itemsAsArray;
-              $log.debug('BasicStoredListMgr. getItems (after loaded): ', data.items);
-              return(data.items);
+              self.data.items = itemsAsArray;
+              $log.debug('BasicStoredListMgr. getItems (after loaded): ', self.data.items);
+              return(self.data.items);
             }
           );
         }
@@ -81,3 +95,18 @@ angular.module('storedListMod')
 
     return BasicStoredListMgr;
   }]);
+
+
+    //   this.setUrl = function (urlForList) {
+    //     if(urlForList != data.urlForList) {
+    //       // refs need to be set only, if they are not already set
+    //       setRefs(urlForList);
+    //     }
+    //   }
+    // var BasicStoredListMgr = function(urlForList) {
+    //   if(urlForList != data.urlForList) {
+    //     // refs need to be set only, if they are not already set
+    //     data.urlForList = urlForList;
+    //     $log.debug('BasicStoredListMgr: data: ', data);
+    //     setRefs(data.urlForList);
+    //   }

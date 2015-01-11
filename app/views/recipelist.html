@@ -1,5 +1,4 @@
-<p>Recipe List View</p>
-	<style type="text/css">
+<style type="text/css">
   .rs-checkbox {
     padding: 8px;
   }
@@ -27,46 +26,36 @@
     <span>
           <label class="formgroup">by:
             <select ng-model="itemOrder">
-              <option value="aisle">Aisle</option>
-              <option value="recipe">Recipe</option>
+              <option value="category">Caterory</option>
+              <!-- <option value="recipe">Recipe</option> -->
             </select>
           </label>
-          <span class="rs-checkbox"><input type="checkbox" ng-model="showAllDef" ></span>
+          <!-- <span class="rs-checkbox"><input type="checkbox" ng-model="showAllDef" ></span> -->
     </span>
     <span class="pull-right">
-          <input type="text" ng-model="query" placeholder="Search for groceries"> <!-- style="width:140px" -->
+          <input type="text" ng-model="query" placeholder="Search for recipes"> <!-- style="width:140px" -->
     </span>
-<!--        <p>
-        <label class="formgroup">
-          <input type="radio" ng-model="direction" name="direction" checked>
-          ascending
-        </label>
-        <label>
-          <input type="radio" ng-model="direction" name="direction" value="reverse">
-          descending
-        </label>
-        </p> -->
-      <!-- <a ng-href="#/playerdetails/0}}"><button>Add<br>Player</button></a> -->
   </div>
 
-  <form name="myform" ng-submit="addProduct()" novalidate>
+  <form name="myform" ng-submit="addRecipe()" novalidate>
     <div>
-      <input type="text" name="product" Placeholder="Product"
-        ng-model="product" ng-required="true">
+      <input type="text" name="recipename" Placeholder="Recipe Name"
+        ng-model="recipename" ng-required="true">
       <button type="submit" class="btn pull-right" ng-disabled="myform.$invalid">+</button>
     </div>
   </form>
 
   <!-- <h2>Dairy</h2> -->
   <div>
-    <div line-through="item.isbought" class="well rs-well" ng-repeat="item in groceries | filter: showAll | filter: query | orderBy: itemOrder: name"> 
-      <span class="rs-checkbox pull-left"><input type="checkbox" ng-model="item.isbought" ng-change="updateIsBought(item)"></span> 
+    <div line-through="item.onlist" class="well rs-well" ng-repeat="item in recipes | filter: showAll | filter: query | orderBy: itemOrder: recipename"> 
+      <span class="rs-checkbox pull-left"><input type="checkbox" ng-model="item.onlist" ng-change="updateRecipe(item)"></span> 
       <h3 class="rs-h3">
-        <span><strong>{{item.product}}</strong></span> 
-        <span class="pull-right">{{item.amount}} {{item.unit}}</span>
+        <span><strong>{{item.recipename}}</strong></span> 
+        <!-- <span class="pull-right">{{item.amount}} {{item.unit}}</span> -->
       </h3>
-      <span class="rs-aisle-name">{{item.aisle}}; </span><span>{{item.recipe | lowercase}}</span>
-      <span class="pull-right"><button class="btn btn-delete" ng-click="deleteProduct(item)"></button></span>
+      <span class="rs-aisle-name">{{item.category}}; </span>
+      <!-- <span>{{item.recipe | lowercase}}</span> -->
+      <span class="pull-right"><button class="btn btn-delete" ng-click="deleteRecipe(item)"></button></span>
     </div>
   </div>
 </section>

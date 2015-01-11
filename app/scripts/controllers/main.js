@@ -7,6 +7,17 @@
  * # MainCtrl
  * Controller of the recipeshopperApp
  */
+
+// angular.module('recipeshopperApp')
+//   .constant('FB_SHOPPINGLIST_URL', 'https://recipeshopper.firebaseio.com/shoppinglist/')
+//   .factory('GroceriesStoredList', ['BasicStoredListMgr', 'FB_SHOPPINGLIST_URL', 
+//   	function (BasicStoredListMgr, FB_SHOPPINGLIST_URL) {
+//   		var GroceriesStoredList = function () {}
+// 		GroceriesStoredList.prototype = new BasicStoredListMgr(FB_SHOPPINGLIST_URL);
+// 		return GroceriesStoredList;
+//   }])
+//   .service('GroceriesService', GroceriesStoredList);
+
 angular.module('recipeshopperApp')
   .directive('lineThrough', function() {
   	return function (scope, element, attrs) {
@@ -30,23 +41,20 @@ angular.module('recipeshopperApp')
   	};
   })
   .constant('FB_SHOPPINGLIST_URL', 'https://recipeshopper.firebaseio.com/shoppinglist/')
-  // .controller('MainCtrl', ['$scope', '$log', '$http', '$firebase', 'FB_SHOPPINGLIST_URL', 'localStorageService', 
-  // 	function ($scope, $log, $http, $firebase, FB_SHOPPINGLIST_URL, localStorageService) {
   .controller('MainCtrl', ['$scope', '$log', '$http', 'FB_SHOPPINGLIST_URL', 'BasicStoredListMgr',  
   	function ($scope, $log, $http, FB_SHOPPINGLIST_URL, BasicStoredListMgr) {
+  // .controller('MainCtrl', ['$scope', '$log', '$http', 'GroceriesService',  
+  // 	function ($scope, $log, $http, GroceriesService) {
     currentTab=1;
 
-    var storeMgr = new BasicStoredListMgr(FB_SHOPPINGLIST_URL);
+    // var storeMgr = new BasicStoredListMgr(FB_SHOPPINGLIST_URL);
+    var storeMgr = new BasicStoredListMgr();
+    storeMgr.setUrl(FB_SHOPPINGLIST_URL);
     storeMgr.getItems().then(function(data) {
     	$scope.groceries = data;
     });
 
-	//FIREBASE IMPLEMENTATION
-	// var ref = new Firebase('https://recipeshopper.firebaseio.com/');
-	// var ref = new Firebase(FB_SHOPPINGLIST_URL);
-	// var groceriesFromFB = $firebase(ref);
-
-	// $scope.groceries = groceriesFromFB.$asArray();
+    // A QUICK WAY TO FILL EMPTY DB, SHOULD BE PUT BEHIND 'THEN' ABOVE IF NEEDED BACK
 	// $scope.groceries.$loaded().then(
 	// 	function () {
 	// 		$log.debug('loaded');
@@ -105,7 +113,6 @@ angular.module('recipeshopperApp')
 		$scope.showAll = newValue ? ! newValue : undefined;
 		// undefined -show all, true - show unbought only
 	}); //$watch
-
 
 
 
