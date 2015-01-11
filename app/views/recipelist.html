@@ -47,7 +47,7 @@
 
   <!-- <h2>Dairy</h2> -->
   <div>
-    <div line-through="item.onlist" class="well rs-well" ng-repeat="item in recipes | filter: showAll | filter: query | orderBy: itemOrder: recipename"> 
+    <div line-through="item.onlist" class="well rs-well" ng-repeat="item in recipes | filter: showAll | filter: query | orderBy: [itemOrder, 'recipename']"> 
       <span class="rs-checkbox pull-left"><input type="checkbox" ng-model="item.onlist" ng-change="updateRecipe(item)"></span> 
       <h3 class="rs-h3">
         <span><strong>{{item.recipename}}</strong></span> 

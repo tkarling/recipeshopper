@@ -104,16 +104,16 @@ angular.module('storedListMod')
     } // BasicStoredListMgr.prototype.getItems
 
     BasicStoredListMgr.prototype.addItem = function (item) {
-      return data.items.$add(item);
+      return this.data.items.$add(item);
     }
 
     BasicStoredListMgr.prototype.deleteItem = function (item) {
-      return data.items.$remove(item);
+      return this.data.items.$remove(item);
       // return data.dataRef.$remove(item.$id);
     }
 
     BasicStoredListMgr.prototype.saveItem = function (item) {
-      return data.items.$save(item);
+      return this.data.items.$save(item);
     }
 
     // BasicStoredListMgr.prototype.updateItem = function (item, updateDesription) {
