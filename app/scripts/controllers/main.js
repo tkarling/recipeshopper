@@ -36,7 +36,10 @@ angular.module('recipeshopperApp')
     currentTab=1;
 
     var storeMgr = StoredListMgrFactory.createBasicStoredListMgr(FB_SHOPPINGLIST_URL);
-    storeMgr.getItems().then(function(data) {
+    // storeMgr.getItems().then(function(data) {
+    // 	$scope.groceries = data;
+    // });
+    storeMgr.getSelectedItems('aisle', 'EXTRAS').then(function(data) {
     	$scope.groceries = data;
     });
 
