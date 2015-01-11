@@ -34,18 +34,18 @@ angular.module('authenticationMod')
 
     var setUserEmail = function (userEmail) {
         data.userEmail = userEmail;
-        data.userLoggedIn = (data.userEmail != undefined);
+        data.userLoggedIn = (data.userEmail !== undefined);
         $timeout(function () {
           // timeout needed to have time to create the controller receivig this
           $rootScope.$broadcast('handleUserLoggedInChanged');
         }, 100);
-        $log.debug("User email set", data.userEmail, userEmail);
-      } // setErrorMessage
+        $log.debug('User email set', data.userEmail, userEmail);
+      }; // setErrorMessage
 
     var authDataCallback = function(authData) {
       $log.debug('authDataCallback called', authData);
       if (authData) {
-        $log.debug("User " + authData.uid + " is logged in with " + authData.provider);
+        $log.debug('User ' + authData.uid + ' is logged in with ' + authData.provider);
         // console.log("authData: ", authData);
         // $scope.$apply(setUserEmail(authData.password.email));
         if(authData.password) {
@@ -54,10 +54,10 @@ angular.module('authenticationMod')
           setUserEmail(undefined);
         }
       } else {
-        $log.debug("User is logged out");
+        $log.debug('User is logged out');
         setUserEmail(undefined);
       }
-    } //authDataCallback
+    }; //authDataCallback
 
     ref.onAuth(authDataCallback);
 
@@ -95,7 +95,7 @@ angular.module('authenticationMod')
       useDependency: function () {
         $log.log('useDependency');
         $log.debug('useDependency');
-        console.log('console.log: useDependency');
+        // console.log('console.log: useDependency');
         return $firebase.getSomething();
       } // userEmail
       

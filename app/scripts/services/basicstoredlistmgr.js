@@ -24,12 +24,12 @@ angular.module('storedListMod')
             }
           }
           return null;
-        }
+        }; // getExistingMgr
 
         return {
             createBasicStoredListMgr : function (fbUrl) {
                 var mgr = getExistingMgr(fbUrl);
-                if(mgr == null) {
+                if(mgr === null) {
                   var newMgrItem = {};
                   newMgrItem.fburl = fbUrl;
                   newMgrItem.mgr = new BasicStoredListMgr(newMgrItem.fburl);
@@ -56,12 +56,12 @@ angular.module('storedListMod')
         data.dataRef = undefined;
         data.items = [];
       }
-      if(data.ref == undefined) {
+      if(data.ref === undefined) {
         data.ref = new Firebase(newUrl);
         data.dataRef = $firebase(data.ref);
         // $log.debug('BasicStoredListMgr: setRefs: data.ref after READING FROM FB', data.ref);
       }
-    } // setRefs
+    }; // setRefs
 
     var BasicStoredListMgr = function(fbUrl) {
       this.data = {};
@@ -70,7 +70,7 @@ angular.module('storedListMod')
         // refs need to be set only, if they are not already set
       setRefs(this.data, fbUrl);
       // }
-    }
+    };
 
     BasicStoredListMgr.prototype.setUrl = function (urlForList) {
       // URL CHANGE NOT E2E IMPLEMENTED/ TESTED YET, this should be called from StoredListMgrFactory only 
@@ -80,7 +80,7 @@ angular.module('storedListMod')
         // refs need to be set only, if they are not already set
         setRefs(this.data, urlForList);
       }
-    }
+    }; // BasicStoredListMgr.prototype.setUrl
 
     BasicStoredListMgr.prototype.getItems = function () {
         if(this.data.items && (this.data.items.length > 0)) {
@@ -101,20 +101,20 @@ angular.module('storedListMod')
             }
           );
         }
-    } // BasicStoredListMgr.prototype.getItems
+    }; // BasicStoredListMgr.prototype.getItems
 
     BasicStoredListMgr.prototype.addItem = function (item) {
       return this.data.items.$add(item);
-    }
+    }; // BasicStoredListMgr.prototype.addItem
 
     BasicStoredListMgr.prototype.deleteItem = function (item) {
       return this.data.items.$remove(item);
       // return data.dataRef.$remove(item.$id);
-    }
+    }; // BasicStoredListMgr.prototype.deleteItem
 
     BasicStoredListMgr.prototype.saveItem = function (item) {
       return this.data.items.$save(item);
-    }
+    }; // BasicStoredListMgr.prototype.saveItem
 
     // BasicStoredListMgr.prototype.updateItem = function (item, updateDesription) {
     //   return data.dataRef.$update(item.$id, updateDesription);

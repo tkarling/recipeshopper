@@ -1,4 +1,4 @@
-// 'use strict';
+'use strict';
 
 /**
  * @ngdoc function
@@ -23,8 +23,8 @@ angular.module('loginMod')
 
     var setErrorMessage = function (errorMessage) {
       $scope.message = errorMessage;
-      $log.debug("Login Failed!", $scope.message, errorMessage);
-    } // setErrorMessage
+      $log.debug('Login Failed!', $scope.message, errorMessage);
+    }; // setErrorMessage
 
     var loginAuthHandler = function (error, authData) {
       if (error) {
@@ -32,33 +32,33 @@ angular.module('loginMod')
         $log.debug('logging out now');
         Authentication.logout();
       } else {
-        $log.debug("Authenticated successfully with payload:", authData);
+        $log.debug('Authenticated successfully with payload:', authData);
         $scope.$apply($location.path('/main'));
       }
-    } // loginAuthHandler
+    }; // loginAuthHandler
 
     $scope.login = function () {
       Authentication.login($scope.user, loginAuthHandler);
-    } // login
+    }; // login
 
     $scope.logout = function () {
       Authentication.logout();
       // $location.path('/login'); // not really needed as on login page already
-    } // logout
+    }; // logout
 
     var registerAuthHandler = function (error, authData) {
       if (error) {
         $scope.$apply(setErrorMessage(error.message));
         $log.debug('Registration failed.');
       } else {
-        $log.debug("Registered successfully with payload:", authData);
+        $log.debug('Registered successfully with payload:', authData);
         $scope.login();
       }
-    } // registerAuthHandler
+    }; // registerAuthHandler
 
   	$scope.register = function () {
       Authentication.register($scope.user, registerAuthHandler);
-  	} // register
+  	}; // register
 
     $scope.userEmail = Authentication.userEmail();
     $scope.userLoggedIn = Authentication.userLoggedIn();

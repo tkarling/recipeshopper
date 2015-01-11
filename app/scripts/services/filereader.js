@@ -45,11 +45,11 @@
             };
         },
    
-        getReader: function(deferred, scope) {
+        getReader: function(deferred) {
             var reader = new FileReader();
-            reader.onload = this.onLoad(reader, deferred, scope);
-            reader.onerror = this.onError(reader, deferred, scope);
-            reader.onprogress = this.onProgress(reader, scope);
+            reader.onload = this.onLoad(reader, deferred);
+            reader.onerror = this.onError(reader, deferred);
+            reader.onprogress = this.onProgress(reader);
             return reader;
         },
    
@@ -117,11 +117,11 @@
    })
 
 
-  .directive('rsFileSelect', function(fileReader, fileListReader, localStorageService, $rootScope){
+  .directive('rsFileSelect', function(fileReader, fileListReader){
       return {
         link: function(scope, element, attrs) {
             // console.log('ngFileSelect'); 
-            var imageSrcs = scope[attrs['imageSrcs']];
+            // var imageSrcs = scope[attrs['imageSrcs']];
 
             scope[attrs['imageSrcs']] = fileListReader.getImageSrcs();
 

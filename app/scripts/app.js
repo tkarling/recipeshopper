@@ -16,8 +16,6 @@ angular
     'ngRoute',
     'ngSanitize',
     'ngTouch',
-    'firebase',
-    'LocalStorageModule', 
     'storedListMod', 
     'fileReaderMod',
     'loginMod'

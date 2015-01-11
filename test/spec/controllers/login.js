@@ -5,11 +5,11 @@ describe('Controller: LoginCtrl', function () {
   // load the controller's module
   beforeEach(module('loginMod'));
 
-  var LoginCtrl,scope, mockLog, authenticationService;
+  var LoginCtrl,scope, mockLog, mockAuthentication;
   var q, deferred;
 
   beforeEach(function () {
-      authenticationService = {
+      mockAuthentication = {
         login: function (user, authHandler) {
               deferred = q.defer();
               return deferred.promise;
@@ -42,7 +42,7 @@ describe('Controller: LoginCtrl', function () {
         $scope: scope,
         $log: mockLog,
         $location: _$location_, 
-        Authentication: authenticationService
+        Authentication: mockAuthentication
       });
   }));
 
@@ -51,25 +51,25 @@ describe('Controller: LoginCtrl', function () {
   });
 
   it('should call Authentication.login, when login called', function () {
-      spyOn(authenticationService, 'login');
+      spyOn(mockAuthentication, 'login');
       scope.login();
 
       // deferred.resolve(status);
       // scope.$root.$digest();
 
-      expect(authenticationService.login).toHaveBeenCalled();
+      expect(mockAuthentication.login).toHaveBeenCalled();
   });
 
   it('should call Authentication.logout, when logout called', function () {
-      spyOn(authenticationService, 'logout');
+      spyOn(mockAuthentication, 'logout');
       scope.logout();
-      expect(authenticationService.logout).toHaveBeenCalled();
+      expect(mockAuthentication.logout).toHaveBeenCalled();
   });
 
   it('should call Authentication.register, when register called', function () {
-      spyOn(authenticationService, 'register');
+      spyOn(mockAuthentication, 'register');
       scope.register();
-      expect(authenticationService.register).toHaveBeenCalled();
+      expect(mockAuthentication.register).toHaveBeenCalled();
   });
 
 });

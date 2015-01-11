@@ -9,8 +9,8 @@
  */
 angular.module('recipeshopperApp')
   .constant('FB_RECIPES_URL', 'https://recipeshopper.firebaseio.com/recipes')
-  .controller('RecipelistCtrl', ['$scope', '$log', '$http', 'FB_RECIPES_URL', 'BasicStoredListMgr', 'StoredListMgrFactory',  
-  	function ($scope, $log, $http, FB_RECIPES_URL, BasicStoredListMgr, StoredListMgrFactory) {
+  .controller('RecipelistCtrl', ['$scope', '$log', '$http', 'FB_RECIPES_URL', 'StoredListMgrFactory',  
+  	function ($scope, $log, $http, FB_RECIPES_URL, StoredListMgrFactory) { //BasicStoredListMgr
     currentTab=2;
 
     var storeMgr = StoredListMgrFactory.createBasicStoredListMgr(FB_RECIPES_URL);
@@ -21,23 +21,23 @@ angular.module('recipeshopperApp')
 
 	$scope.addRecipe = function () {
 		storeMgr.addItem({
-		  category : "Christmas",
+		  category : 'Christmas',
 	      recipename : $scope.recipename,
 	      onlist : false
 		}).then(function () {
 			$scope.recipename = '';
 		});
-	} // addRecipe
+	}; // addRecipe
 
 	$scope.deleteRecipe = function(item) {
 		$log.debug('RecipelistCtrl: deleteRecipe: ', item);
 		storeMgr.deleteItem(item);
-	} // deleteRecipe
+	}; // deleteRecipe
 
 	$scope.updateRecipe = function(item) {
 		$log.debug('RecipelistCtrl: updateRecipe: ', item);
 		storeMgr.saveItem(item);
-	} // updateRecipe
+	}; // updateRecipe
 
 	// init  
 	$scope.itemOrder = 'category';

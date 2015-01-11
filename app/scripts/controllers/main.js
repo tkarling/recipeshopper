@@ -31,8 +31,8 @@ angular.module('recipeshopperApp')
   	};
   })
   .constant('FB_SHOPPINGLIST_URL', 'https://recipeshopper.firebaseio.com/shoppinglist/')
-  .controller('MainCtrl', ['$scope', '$log', '$http', 'FB_SHOPPINGLIST_URL', 'BasicStoredListMgr', 'StoredListMgrFactory',  
-  	function ($scope, $log, $http, FB_SHOPPINGLIST_URL, BasicStoredListMgr, StoredListMgrFactory) {
+  .controller('MainCtrl', ['$scope', '$log', '$http', 'FB_SHOPPINGLIST_URL', 'StoredListMgrFactory',  
+  	function ($scope, $log, $http, FB_SHOPPINGLIST_URL, StoredListMgrFactory) { //BasicStoredListMgr,
     currentTab=1;
 
     var storeMgr = StoredListMgrFactory.createBasicStoredListMgr(FB_SHOPPINGLIST_URL);
@@ -67,27 +67,27 @@ angular.module('recipeshopperApp')
 
 	$scope.addProduct = function () {
 		storeMgr.addItem({
-		  recipe : "New recipe",
+		  recipe : 'New recipe',
 	      product : $scope.product,
-	      aisle : "aisle1",
+	      aisle : 'aisle1',
 	      amount : 5,
-	      unit : "pcs",
+	      unit : 'pcs',
 	      isbought : false
 	      // date: Firebase.ServerValue.TIMESTAMP
 		}).then(function () {
 			$scope.product = '';
 		});
-	} // addProduct
+	}; // addProduct
 
 	$scope.deleteProduct = function(item) {
 		$log.debug('MainCtrl: deleteProduct: ', item);
 		storeMgr.deleteItem(item);
-	} // deleteProduct
+	}; // deleteProduct
 
-	$scope.updateIsBought = function(item) {
-		$log.debug('MainCtrl: updateIsBought: ', item);
+	$scope.saveProduct = function(item) {
+		$log.debug('MainCtrl: saveProduct: ', item);
 		storeMgr.saveItem(item);
-	} // updateIsBought
+	}; // saveProduct
 
 
 	// init  
