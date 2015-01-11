@@ -8,16 +8,6 @@
  * Controller of the recipeshopperApp
  */
 
-// angular.module('recipeshopperApp')
-//   .constant('FB_SHOPPINGLIST_URL', 'https://recipeshopper.firebaseio.com/shoppinglist/')
-//   .factory('GroceriesStoredList', ['BasicStoredListMgr', 'FB_SHOPPINGLIST_URL', 
-//   	function (BasicStoredListMgr, FB_SHOPPINGLIST_URL) {
-//   		var GroceriesStoredList = function () {}
-// 		GroceriesStoredList.prototype = new BasicStoredListMgr(FB_SHOPPINGLIST_URL);
-// 		return GroceriesStoredList;
-//   }])
-//   .service('GroceriesService', GroceriesStoredList);
-
 angular.module('recipeshopperApp')
   .directive('lineThrough', function() {
   	return function (scope, element, attrs) {
@@ -41,15 +31,11 @@ angular.module('recipeshopperApp')
   	};
   })
   .constant('FB_SHOPPINGLIST_URL', 'https://recipeshopper.firebaseio.com/shoppinglist/')
-  .controller('MainCtrl', ['$scope', '$log', '$http', 'FB_SHOPPINGLIST_URL', 'BasicStoredListMgr',  
-  	function ($scope, $log, $http, FB_SHOPPINGLIST_URL, BasicStoredListMgr) {
-  // .controller('MainCtrl', ['$scope', '$log', '$http', 'GroceriesService',  
-  // 	function ($scope, $log, $http, GroceriesService) {
+  .controller('MainCtrl', ['$scope', '$log', '$http', 'FB_SHOPPINGLIST_URL', 'BasicStoredListMgr', 'StoredListMgrFactory',  
+  	function ($scope, $log, $http, FB_SHOPPINGLIST_URL, BasicStoredListMgr, StoredListMgrFactory) {
     currentTab=1;
 
-    // var storeMgr = new BasicStoredListMgr(FB_SHOPPINGLIST_URL);
-    var storeMgr = new BasicStoredListMgr();
-    storeMgr.setUrl(FB_SHOPPINGLIST_URL);
+    var storeMgr = StoredListMgrFactory.createBasicStoredListMgr(FB_SHOPPINGLIST_URL);
     storeMgr.getItems().then(function(data) {
     	$scope.groceries = data;
     });
