@@ -5,20 +5,59 @@ describe('Controller: MainCtrl', function () {
   // load the controller's module
   beforeEach(module('recipeshopperApp'));
 
-  var MainCtrl,
-    scope;
+  var MainCtrl,scope, mockStoredListMgrFactory, mockBasicStoredListMgr, mockUrl;
+  var q, deferred;
+
+  beforeEach(function () {
+      mockUrl = 'mockUrl';
+
+      mockBasicStoredListMgr = {
+          getItems: function () {
+              deferred = q.defer();
+              return deferred.promise;
+          },
+          getSelectedItems: function (fieldName, fieldValue) {
+              deferred = q.defer();
+              return deferred.promise;
+          },
+          addItem: function (item) {
+              deferred = q.defer();
+              return deferred.promise;
+          },
+          deleteItem: function (item) {
+              deferred = q.defer();
+              return deferred.promise;
+          },
+          saveItem: function (item) {
+              deferred = q.defer();
+              return deferred.promise;
+          }
+      }; // mockBasicStoredListMgr
+
+      mockStoredListMgrFactory = {
+        createBasicStoredListMgr: function (fbUrl) {
+              return mockBasicStoredListMgr;
+        } //createBasicStoredListMgr
+
+      };
+  });
+
 
   // Initialize the controller and a mock scope
-  beforeEach(inject(function ($controller, $rootScope) {
+  beforeEach(inject(function ($controller, $rootScope, _$log_, _$q_) {
+    q= _$q_;
     scope = $rootScope.$new();
     MainCtrl = $controller('MainCtrl', {
-      $scope: scope
+      $scope: scope,
+      $log: _$log_, 
+      FB_SHOPPINGLIST_URL: mockUrl, 
+      StoredListMgrFactory: mockStoredListMgrFactory
     });
   }));
 
 
   it('should toggle showAll between false/undefined, when showAllDef (check) toggles between true/ false', function () {
-    expect(scope.showAllDef).toBe(false);
+    expect(scope.showAllDef).toBe(false); 
     expect(scope.showAll).toBe(undefined);
 
     scope.$digest();
@@ -35,4 +74,24 @@ describe('Controller: MainCtrl', function () {
     expect(scope.showAllDef).toBe(false);
     expect(scope.showAll).toBe(undefined);
   });
+
+  it('should set scope.product&aisle to empty string after adding product', function () {
+      expect(scope.product).toEqual(undefined);
+      expect(scope.aisle).toEqual(undefined);
+
+      scope.addProduct();
+      deferred.resolve('');
+      scope.$root.$digest();
+
+      expect(scope.product).toEqual('');
+      expect(scope.aisle).toEqual('');
+  });
+
+  it('should be able to call deleteProduct, saveProduct', function () {
+      // spyOn(mockStoredListMgrFactory, 'createBasicStoredListMgr');
+      var item = {};
+      scope.deleteProduct(item);
+      scope.saveProduct(item);
+  });
+
 });

@@ -77,3 +77,33 @@ body {
     border-bottom: 0;
   }
 }
+
+/* Following added by Tuija */
+.rs-checkbox {
+  padding: 8px;
+}
+
+.rs-text-input {
+  margin: 2px;
+}
+
+.rs-well {
+  padding:2px;
+  margin: 2px;
+}
+.rs-h4 {
+  margin: 2px;
+}
+
+.rs-line-through {
+  text-decoration:line-through;
+}
+
+.rs-high-lighted-text {
+  color: blue;
+}
+
+.col-xs-2, .col-xs-5, .col-xs-6, .col-xs-10, .col-xs-12 {
+  margin:0;
+  padding:2px;
+}

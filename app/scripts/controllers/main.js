@@ -31,9 +31,20 @@ angular.module('recipeshopperApp')
   	};
   })
   .constant('FB_SHOPPINGLIST_URL', 'https://recipeshopper.firebaseio.com/shoppinglist/')
-  .controller('MainCtrl', ['$scope', '$log', '$http', 'FB_SHOPPINGLIST_URL', 'StoredListMgrFactory',  
-  	function ($scope, $log, $http, FB_SHOPPINGLIST_URL, StoredListMgrFactory) { //BasicStoredListMgr,
+  .controller('MainCtrl', ['$scope', '$log', 'FB_SHOPPINGLIST_URL', 'StoredListMgrFactory',  
+  	function ($scope, $log, FB_SHOPPINGLIST_URL, StoredListMgrFactory) { //BasicStoredListMgr, $http, 
     currentTab=1;
+
+	// init  
+	$scope.itemOrder = 'aisle';
+	$scope.showAllDef = false;
+
+	$scope.$watch('showAllDef', function(newValue) {
+		// console.log('newValue: ' + newValue);
+		$scope.showAll = newValue ? ! newValue : undefined;
+		// undefined -show all, true - show unbought only
+	}); //$watch
+
 
     var storeMgr = StoredListMgrFactory.createBasicStoredListMgr(FB_SHOPPINGLIST_URL);
     // storeMgr.getItems().then(function(data) {
@@ -72,13 +83,14 @@ angular.module('recipeshopperApp')
 		storeMgr.addItem({
 		  recipe : 'New recipe',
 	      product : $scope.product,
-	      aisle : 'aisle1',
+	      aisle : $scope.aisle,
 	      amount : 5,
 	      unit : 'pcs',
 	      isbought : false
 	      // date: Firebase.ServerValue.TIMESTAMP
 		}).then(function () {
 			$scope.product = '';
+			$scope.aisle = '';
 		});
 	}; // addProduct
 
@@ -93,15 +105,6 @@ angular.module('recipeshopperApp')
 	}; // saveProduct
 
 
-	// init  
-	$scope.itemOrder = 'aisle';
-	$scope.showAllDef = false;
-
-	$scope.$watch('showAllDef', function(newValue) {
-		// console.log('newValue: ' + newValue);
-		$scope.showAll = newValue ? ! newValue : undefined;
-		// undefined -show all, true - show unbought only
-	}); //$watch
 
 
 

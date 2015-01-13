@@ -1,63 +1,40 @@
 <style type="text/css">
-  .rs-checkbox {
-    padding: 8px;
-  }
-  .rs-well {
-    padding:5px;
-    margin: 5px;
-  }
-  .rs-h3 {
-    margin: 2px;
-  }
-
-  .rs-line-through {
-    text-decoration:line-through;
-  }
-
-  .rs-aisle-name {
-    color: blue;
-  }
-
-  .btn-delete { background: red; }
 </style>
 
-<section>
-  <div class="search">
-    <span>
-          <label class="formgroup">by:
-            <select ng-model="itemOrder">
-              <option value="category">Caterory</option>
-              <!-- <option value="recipe">Recipe</option> -->
-            </select>
-          </label>
-          <!-- <span class="rs-checkbox"><input type="checkbox" ng-model="showAllDef" ></span> -->
-    </span>
-    <span class="pull-right">
-          <input type="text" ng-model="query" placeholder="Search for recipes"> <!-- style="width:140px" -->
-    </span>
-  </div>
-
-  <form name="myform" ng-submit="addRecipe()" novalidate>
-    <div>
-      <input type="text" name="recipename" Placeholder="Recipe Name"
-        ng-model="recipename" ng-required="true">
-      <button type="submit" class="btn pull-right" ng-disabled="myform.$invalid">+</button>
-    </div>
+<formgroup>
+  <form class="col-xs-12">  <!-- class="search -->
+      <div class="col-xs-6">
+            <label >by:
+              <select ng-model="itemOrder">
+                <option value="category">Caterory</option>
+                <option value="recipename">Recipe Name</option>
+              </select>
+            </label>
+            <!-- <span class="rs-checkbox"><input type="checkbox" ng-model="showAllDef" ></span> -->
+      </div>
+       <input type="text" class="col-xs-6" ng-model="query" placeholder="Search for recipes"> 
   </form>
 
-  <!-- <h2>Dairy</h2> -->
-  <div>
-    <div line-through="item.onlist" class="well rs-well" ng-repeat="item in recipes | filter: showAll | filter: query | orderBy: [itemOrder, 'recipename']"> 
-      <span class="rs-checkbox pull-left"><input type="checkbox" ng-model="item.onlist" ng-change="updateRecipe(item)"></span> 
-      <h3 class="rs-h3">
-        <span><strong>{{item.recipename}}</strong></span> 
-        <!-- <span class="pull-right">{{item.amount}} {{item.unit}}</span> -->
-      </h3>
-      <span class="rs-aisle-name">{{item.category}}; </span>
-      <!-- <span>{{item.recipe | lowercase}}</span> -->
-      <span class="pull-right"><button class="btn btn-delete" ng-click="deleteRecipe(item)"></button></span>
-    </div>
-  </div>
-</section>
+  <form class="col-xs-12" name="myform" ng-submit="addRecipe()" novalidate>
+          <label class="sr-only" for="recipename">Recipe Name</label>
+          <input type="text" class="col-xs-5" name="recipename" Placeholder="Recipe Name"
+            ng-model="recipename" ng-required="true">
+          <label class="sr-only" for="category">Category Name</label>
+          <input type="text" class="col-xs-5" name="category" Placeholder="Category Name"
+            ng-model="category" ng-required="true">
+        <button type="submit" class="btn btn-primary col-xs-2 pull-right" ng-disabled="myform.$invalid">+</button>
+  </form>
+</formgroup>
+
+<div line-through="item.onlist" class="well rs-well" ng-repeat="item in recipes | filter: showAll | filter: query | orderBy: [itemOrder, 'recipename']"> 
+<span class="rs-checkbox pull-left"><input type="checkbox" ng-model="item.onlist" ng-change="updateRecipe(item)"></span> 
+<h4 class="rs-h4">
+  <span><strong>{{item.recipename}}</strong></span> 
+  <!-- <span class="pull-right">{{item.amount}} {{item.unit}}</span> -->
+</h4>
+<span class="rs-high-lighted-text">{{item.category}}; </span>
+<!-- <span>{{item.recipe | lowercase}}</span> -->
+<span class="pull-right"><button class="btn btn-delete btn-danger" ng-click="deleteRecipe(item)"></button></span>
+</div>
 
 

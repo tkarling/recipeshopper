@@ -1,40 +1,22 @@
 <style type="text/css">
-  .rs-checkbox {
-    padding: 8px;
-  }
-  .rs-well {
-    padding:5px;
-    margin: 5px;
-  }
-  .rs-h4 {
-    margin: 2px;
-  }
-
-  .rs-line-through {
-    text-decoration:line-through;
-  }
-
-  .rs-aisle-name {
-    color: blue;
-  }
-
-  .btn-delete { background: red; }
 </style>
 
-<section>
-  <div class="search">
-    <span>
+<formgroup>
+  <form class="col-xs-12">  <!-- class="search -->
+      <div class="col-xs-6">
           <label class="formgroup">by:
             <select ng-model="itemOrder">
               <option value="aisle">Aisle</option>
               <option value="recipe">Recipe</option>
             </select>
           </label>
-          <span class="rs-checkbox"><input type="checkbox" ng-model="showAllDef" ></span>
-    </span>
-    <span class="pull-right">
-          <input type="text" ng-model="query" placeholder="Search for groceries"> <!-- style="width:140px" -->
-    </span>
+          <!-- <span class="rs-checkbox"> -->
+          <input type="checkbox" ng-model="showAllDef" >
+          <!-- </span> -->
+      </div>
+      <input type="text" class="col-xs-6" ng-model="query" placeholder="Search for groceries"> <!-- style="width:140px" -->
+  </form>
+
 <!--        <p>
         <label class="formgroup">
           <input type="radio" ng-model="direction" name="direction" checked>
@@ -46,28 +28,26 @@
         </label>
         </p> -->
       <!-- <a ng-href="#/playerdetails/0}}"><button>Add<br>Player</button></a> -->
-  </div>
 
-  <form name="myform" ng-submit="addProduct()" novalidate>
-    <div>
-      <input type="text" name="product" Placeholder="Product"
-        ng-model="product" ng-required="true">
-      <button type="submit" class="btn pull-right" ng-disabled="myform.$invalid">+</button>
-    </div>
+  <form class="col-xs-12" name="myform" ng-submit="addProduct()" novalidate>
+          <label class="sr-only" for="product">Product</label>
+          <input type="text" class="col-xs-5" name="product" Placeholder="Product"
+            ng-model="product" ng-required="true">
+          <label class="sr-only" for="aisle">Aisle</label>
+          <input type="text" class="col-xs-5" name="category" Placeholder="Aisle"
+            ng-model="aisle" ng-required="true">
+        <button type="submit" class="btn btn-primary col-xs-2 pull-right" ng-disabled="myform.$invalid">+</button>
   </form>
+</formgroup>
 
-  <!-- <h2>Dairy</h2> -->
-  <div>
-    <div line-through="item.isbought" class="well rs-well" ng-repeat="item in groceries | filter: showAll | filter: query | orderBy: [itemOrder, 'product']"> 
-      <span class="rs-checkbox pull-left"><input type="checkbox" ng-model="item.isbought" ng-change="saveProduct(item)"></span> 
-      <h4 class="rs-h4">
-        <span><strong>{{item.product}}</strong></span> 
-        <span class="pull-right">{{item.amount}} {{item.unit}}</span>
-      </h4>
-      <span class="rs-aisle-name">{{item.aisle}}; </span><span>{{item.recipe | lowercase}}</span>
-      <span class="pull-right"><button class="btn btn-delete" ng-click="deleteProduct(item)"></button></span>
-    </div>
-  </div>
-</section>
+<div line-through="item.isbought" class="well rs-well" ng-repeat="item in groceries | filter: showAll | filter: query | orderBy: [itemOrder, 'product']"> 
+    <span class="rs-checkbox pull-left"><input type="checkbox" ng-model="item.isbought" ng-change="saveProduct(item)"></span> 
+    <h4 class="rs-h4">
+      <span><strong>{{item.product}}</strong></span> 
+      <span class="pull-right">{{item.amount}} {{item.unit}}</span>
+    </h4>
+    <span class="rs-high-lighted-text">{{item.aisle}}; </span><span>{{item.recipe | lowercase}}</span>
+    <span class="pull-right"><button class="btn btn-delete btn-danger" ng-click="deleteProduct(item)"></button></span>
+</div>
 
 

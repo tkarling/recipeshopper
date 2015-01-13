@@ -21,11 +21,12 @@ angular.module('recipeshopperApp')
 
 	$scope.addRecipe = function () {
 		storeMgr.addItem({
-		  category : 'Christmas',
+		  category : $scope.category,
 	      recipename : $scope.recipename,
 	      onlist : false
 		}).then(function () {
 			$scope.recipename = '';
+			$scope.category = '';
 		});
 	}; // addRecipe
 
@@ -40,7 +41,7 @@ angular.module('recipeshopperApp')
 	}; // updateRecipe
 
 	// init  
-	$scope.itemOrder = 'category';
+	$scope.itemOrder = 'recipename';
 
 	// $scope.showAllDef = false;
 	// $scope.$watch('showAllDef', function(newValue) {
