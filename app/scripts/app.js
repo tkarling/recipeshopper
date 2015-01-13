@@ -44,7 +44,7 @@ angular
       })
       .when('/picdemo', {
         templateUrl: 'views/picdemo.html', 
-        controller: 'RecipeDetailsController' // change this to PicdemoCtrl later
+        controller: 'PicdemoCtrl' // change this to PicdemoCtrl later
       })
       .otherwise({
         redirectTo: '/login'
