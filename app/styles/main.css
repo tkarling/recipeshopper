@@ -107,3 +107,8 @@ body {
   margin:0;
   padding:2px;
 }
+
+.panel-footer-sm {
+  padding-top:1px;  
+  padding-bottom:1px;  
+}

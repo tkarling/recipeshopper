@@ -9,15 +9,15 @@
  */
 
 angular.module('recipeshopperApp')
-  .controller('RecipeDetailsController', ['$scope', '$routeParams', '$log', 'FB_RECIPES_URL', 'StoredListMgrFactory', 
-  	function ($scope, $routeParams, $log, FB_RECIPES_URL, StoredListMgrFactory) { 
+  .controller('RecipeDetailsController', ['$scope', '$routeParams', '$log', '$location', 'FB_RECIPES_URL', 'StoredListMgrFactory', 
+  	function ($scope, $routeParams, $log, $location, FB_RECIPES_URL, StoredListMgrFactory) { 
     currentTab=2;
 
 	var setNextAndPrevItem = function () {
 		if ($scope.whichItem > 0) {
 			$scope.prevItem = Number($scope.whichItem) - 1;
 		} else {
-			$scope.prevItem = $scope.recipes.length - 1;
+			$scope.prevItem = Math.max($scope.recipes.length - 1, 0);
 		}
 
 		if ($scope.whichItem < $scope.recipes.length -1) {
@@ -30,16 +30,34 @@ angular.module('recipeshopperApp')
 	  	// $log.debug('$scope.nextItem: ', $scope.nextItem);
 	}
 
+    $scope.gotoPrevItem = function(){
+    	$log.debug('RecipeDetailsController: $scope.gotoPrevItem()');
+    	$location.path('/recipedetails/' + $scope.prevItem);
+    };
+
+    $scope.gotoNextItem = function(){
+    	$log.debug('RecipeDetailsController: $scope.gotoNextItem()');
+    	$location.path('/recipedetails/' + $scope.nextItem);
+    };
+
   	$scope.whichItem = $routeParams.itemId;
 
     var recipesMgr = StoredListMgrFactory.getStoredListMgr(FB_RECIPES_URL);
 	$scope.recipes = [];
     recipesMgr.getItems().then(function(data) {
     	$scope.recipes = data;
-	    $scope.recipe = $scope.recipes[$scope.whichItem];
+	    $scope.recipe = ($scope.recipes.length > 0) ? $scope.recipes[$scope.whichItem]: null;
     	setNextAndPrevItem();
     });
 
+    var myTab = 2;
+    $scope.setTab = function(tab){
+      myTab = tab;
+    };
+
+    $scope.isSet = function(tab){
+      return (myTab === tab);
+    };
 
   	// Following not needed, if add happens from list view
 	// var addRecipe = function () {

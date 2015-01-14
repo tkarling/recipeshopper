@@ -1,12 +1,17 @@
-<p>This is recipe details view </p>
-<section>
-	<form name="RecipeForm" novalidate>
-	<p>{{recipe.recipename}}</p>
-
-		<p>
-			<a ng-disabled="!RecipeForm.$valid" href="#/recipedetails/{{prevItem}}" class="btn btn-left" ng-click="saveRecipe()">&lt; prev</a>
-			<a ng-disabled="!RecipeForm.$valid" href="#/recipelist" class="btn" ng-click="saveRecipe()">&laquo; Back to list &raquo;</a>
-			<a ng-disabled="!RecipeForm.$valid" href="#/recipedetails/{{nextItem}}" class="btn btn-right" ng-click="saveRecipe()">next &gt;</a>
-		</p>
-	</form>
-</section>
+<div class="panel panel-primary" ng-swipe-left="gotoPrevItem()" ng-swipe-right="gotoNextItem()">
+  <div class="panel-heading">
+    <h3 class="panel-title">{{recipe.recipename}}</h3>
+  </div>
+  <div class="panel-body">
+    <ul class="nav nav-tabs">
+	  <li role="presentation" ng-class="{ active:isSet(1) }" ng-click="setTab(1)"><a href="#/recipedetails/{{whichItem}}">H</a></li>
+	  <li role="presentation" ng-class="{ active:isSet(2) }" ng-click="setTab(2)"><a href="#/recipedetails/{{whichItem}}">Ingredients</a></li>
+	  <li role="presentation" ng-class="{ active:isSet(3) }" ng-click="setTab(3)"><a href="#/recipedetails/{{whichItem}}">Directions</a></li>
+	</ul>
+  </div>
+  <div class="panel-footer panel-footer-sm">
+  	<a href="#/recipedetails/{{prevItem}}" class="btn btn-left" ng-click="saveRecipe()">&lt; prev</a> <!-- ng-disabled="!RecipeForm.$valid" -->
+	<a href="#/recipelist" class="btn" ng-click="saveRecipe()">&laquo; Back to list &raquo;</a>
+	<a href="#/recipedetails/{{nextItem}}" class="btn btn-right" ng-click="saveRecipe()">next &gt;</a>
+  </div>
+</div>
