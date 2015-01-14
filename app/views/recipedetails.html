@@ -1,0 +1,12 @@
+<p>This is recipe details view </p>
+<section>
+	<form name="RecipeForm" novalidate>
+	<p>{{recipe.recipename}}</p>
+
+		<p>
+			<a ng-disabled="!RecipeForm.$valid" href="#/recipedetails/{{prevItem}}" class="btn btn-left" ng-click="saveRecipe()">&lt; prev</a>
+			<a ng-disabled="!RecipeForm.$valid" href="#/recipelist" class="btn" ng-click="saveRecipe()">&laquo; Back to list &raquo;</a>
+			<a ng-disabled="!RecipeForm.$valid" href="#/recipedetails/{{nextItem}}" class="btn btn-right" ng-click="saveRecipe()">next &gt;</a>
+		</p>
+	</form>
+</section>

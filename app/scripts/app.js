@@ -46,6 +46,11 @@ angular
         templateUrl: 'views/picdemo.html', 
         controller: 'PicdemoCtrl' // change this to PicdemoCtrl later
       })
+      .when('/recipedetails/:itemId', {
+        templateUrl: 'views/recipedetails.html',
+        controller: 'RecipeDetailsController'
+      })
+
       .otherwise({
         redirectTo: '/login'
       });

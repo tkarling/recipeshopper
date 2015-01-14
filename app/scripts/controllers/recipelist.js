@@ -13,14 +13,15 @@ angular.module('recipeshopperApp')
   	function ($scope, $log, $http, FB_RECIPES_URL, StoredListMgrFactory) { //BasicStoredListMgr
     currentTab=2;
 
-    var storeMgr = StoredListMgrFactory.createBasicStoredListMgr(FB_RECIPES_URL);
+    var recipesMgr = StoredListMgrFactory.createBasicStoredListMgr(FB_RECIPES_URL);
 
-    storeMgr.getItems().then(function(data) {
+	$scope.recipes = [];
+    recipesMgr.getItems().then(function(data) {
     	$scope.recipes = data;
     });
 
 	$scope.addRecipe = function () {
-		storeMgr.addItem({
+		recipesMgr.addItem({
 		  category : $scope.category,
 	      recipename : $scope.recipename,
 	      onlist : false
@@ -32,12 +33,12 @@ angular.module('recipeshopperApp')
 
 	$scope.deleteRecipe = function(item) {
 		$log.debug('RecipelistCtrl: deleteRecipe: ', item);
-		storeMgr.deleteItem(item);
+		recipesMgr.deleteItem(item);
 	}; // deleteRecipe
 
 	$scope.updateRecipe = function(item) {
 		$log.debug('RecipelistCtrl: updateRecipe: ', item);
-		storeMgr.saveItem(item);
+		recipesMgr.saveItem(item);
 	}; // updateRecipe
 
 	// init  
