@@ -36,7 +36,9 @@
           <label class="sr-only" for="aisle">Aisle</label>
           <input type="text" class="col-xs-5" name="category" Placeholder="Aisle"
             ng-model="aisle" ng-required="true">
-        <button type="submit" class="btn btn-primary col-xs-2 pull-right" ng-disabled="myform.$invalid">+</button>
+        <button type="submit" class="btn btn-primary col-xs-2 pull-right" ng-disabled="myform.$invalid">
+          <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+        </button>
   </form>
 </formgroup>
 
