@@ -32,7 +32,7 @@ angular.module('recipeshopperApp')
 
   	$scope.whichItem = $routeParams.itemId;
 
-    var recipesMgr = StoredListMgrFactory.createBasicStoredListMgr(FB_RECIPES_URL);
+    var recipesMgr = StoredListMgrFactory.getStoredListMgr(FB_RECIPES_URL);
 	$scope.recipes = [];
     recipesMgr.getItems().then(function(data) {
     	$scope.recipes = data;

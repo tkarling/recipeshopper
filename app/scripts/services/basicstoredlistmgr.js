@@ -27,7 +27,7 @@ angular.module('storedListMod')
         }; // getExistingMgr
 
         return {
-            createBasicStoredListMgr : function (fbUrl) {
+            getStoredListMgr : function (fbUrl) {
                 var mgr = getExistingMgr(fbUrl);
                 if(mgr === null) {
                   var newMgrItem = {};
@@ -84,7 +84,8 @@ angular.module('storedListMod')
 
     var getExistingItemsAsync = function(self) {
           var deferred = $q.defer();
-          $log.debug('BasicStoredListMgr. getExistingItemsAsync (existing): ', self.data.items);
+          $log.debug('BasicStoredListMgr. getExistingItemsAsync (existing)');
+          // $log.debug(self.data.items);
           deferred.resolve(self.data.items);
           return deferred.promise;
     }; // getExistingItemsAsync
@@ -99,26 +100,22 @@ angular.module('storedListMod')
         );
     }; //getItemsFromFBAsync
 
-    BasicStoredListMgr.prototype.getItems = function () {
+    BasicStoredListMgr.prototype.getItems = function (fieldName, fieldValue) {
         if(this.data.items && (this.data.items.length > 0)) {
           return getExistingItemsAsync(this);
         }
         if(this.data.ref) {
-          var itemsAsArray = this.data.dataRef.$asArray();
+          var itemsAsArray = [];
+          if(fieldName && fieldValue) {
+            // get selected items
+            itemsAsArray = $firebase(this.data.ref.orderByChild(fieldName).equalTo(fieldValue)).$asArray();
+          } else {
+            // get all items
+            itemsAsArray = this.data.dataRef.$asArray();
+          }
           return getItemsFromFBAsync(this, itemsAsArray);
         }
     }; // BasicStoredListMgr.prototype.getItems
-
-    
-    BasicStoredListMgr.prototype.getSelectedItems = function (fieldName, fieldValue) {
-        if(this.data.items && (this.data.items.length > 0)) {
-          return getExistingItemsAsync(this);
-        }
-        if(this.data.ref) {
-          var itemsAsArray = $firebase(this.data.ref.orderByChild(fieldName).equalTo(fieldValue)).$asArray();
-          return getItemsFromFBAsync(this, itemsAsArray);
-        }
-    }; // BasicStoredListMgr.prototype.getSelectedItems
 
     BasicStoredListMgr.prototype.addItem = function (item) {
       return this.data.items.$add(item);

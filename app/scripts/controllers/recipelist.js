@@ -13,7 +13,7 @@ angular.module('recipeshopperApp')
   	function ($scope, $log, $http, FB_RECIPES_URL, StoredListMgrFactory) { //BasicStoredListMgr
     currentTab=2;
 
-    var recipesMgr = StoredListMgrFactory.createBasicStoredListMgr(FB_RECIPES_URL);
+    var recipesMgr = StoredListMgrFactory.getStoredListMgr(FB_RECIPES_URL);
 
 	$scope.recipes = [];
     recipesMgr.getItems().then(function(data) {

@@ -46,11 +46,11 @@ angular.module('recipeshopperApp')
 	}); //$watch
 
 
-    var storeMgr = StoredListMgrFactory.createBasicStoredListMgr(FB_SHOPPINGLIST_URL);
+    var storeMgr = StoredListMgrFactory.getStoredListMgr(FB_SHOPPINGLIST_URL);
     // storeMgr.getItems().then(function(data) {
     // 	$scope.groceries = data;
     // });
-    storeMgr.getSelectedItems('aisle', 'EXTRAS').then(function(data) {
+    storeMgr.getItems('aisle', 'EXTRAS').then(function(data) {
     	$scope.groceries = data;
     });
 

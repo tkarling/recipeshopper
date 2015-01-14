@@ -12,11 +12,7 @@ describe('Controller: MainCtrl', function () {
       mockUrl = 'mockUrl';
 
       mockBasicStoredListMgr = {
-          getItems: function () {
-              deferred = q.defer();
-              return deferred.promise;
-          },
-          getSelectedItems: function (fieldName, fieldValue) {
+          getItems: function (fieldName, fieldValue) {
               deferred = q.defer();
               return deferred.promise;
           },
@@ -35,9 +31,9 @@ describe('Controller: MainCtrl', function () {
       }; // mockBasicStoredListMgr
 
       mockStoredListMgrFactory = {
-        createBasicStoredListMgr: function (fbUrl) {
+        getStoredListMgr: function (fbUrl) {
               return mockBasicStoredListMgr;
-        } //createBasicStoredListMgr
+        } //getStoredListMgr
 
       };
   });
@@ -88,7 +84,7 @@ describe('Controller: MainCtrl', function () {
   });
 
   it('should be able to call deleteProduct, saveProduct', function () {
-      // spyOn(mockStoredListMgrFactory, 'createBasicStoredListMgr');
+      // spyOn(mockStoredListMgrFactory, 'getStoredListMgr');
       var item = {};
       scope.deleteProduct(item);
       scope.saveProduct(item);
