@@ -48,16 +48,19 @@ angular.module('recipeshopperApp')
     	$scope.recipes = data;
 	    $scope.recipe = ($scope.recipes.length > 0) ? $scope.recipes[$scope.whichItem]: null;
     	setNextAndPrevItem();
+    	if($scope.recipe && $scope.recipe.instructions) {
+    		$log.debug('$scope.recipe.instructions: ', $scope.recipe.instructions);
+    	}
     });
 
-    var myTab = 2;
-    $scope.setTab = function(tab){
-      myTab = tab;
-    };
+    // var myTab = 2;
+    // $scope.setTab = function(tab){
+    //   myTab = tab;
+    // };
 
-    $scope.isSet = function(tab){
-      return (myTab === tab);
-    };
+    // $scope.isSet = function(tab){
+    //   return (myTab === tab);
+    // };
 
   	// Following not needed, if add happens from list view
 	// var addRecipe = function () {
