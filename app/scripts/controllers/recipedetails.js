@@ -91,6 +91,15 @@ angular.module('recipeshopperApp')
 		});
     };
 
+    $scope.deleteIngredient = function(item) {
+    	ingredientsMgr.deleteItem(item);
+    }; // deleteIngredient
+
+    // is not used at the moment
+    $scope.saveIngredient = function(item) {
+    	ingredientsMgr.saveIngredient(item);
+    }; // saveIngredient
+
 
     // var myTab = 2;
     // $scope.setTab = function(tab){

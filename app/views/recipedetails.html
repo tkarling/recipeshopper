@@ -6,16 +6,18 @@
 	  <tabset>
 	    <tab heading="H">Static content1</tab>
 	    <tab heading="Ingredients">
-	    	<button ng-click="readIngredients()">Read Inredients</button>
-		    <!-- div line-through="item.isbought" class="well rs-well" ng-repeat="item in groceries | filter: showAll | filter: query | orderBy: [itemOrder, 'product']"> 
-			    <span class="rs-checkbox pull-left"><input type="checkbox" ng-model="item.isbought" ng-change="saveProduct(item)"></span> 
+	    	<p><button ng-hide="ingredients.length > 0" ng-click="readIngredients()">Read Inredients</button></p>
+		    <div class="well rs-well" ng-repeat="item in ingredients"> 
 			    <h4 class="rs-h4">
 			      <span><strong>{{item.product}}</strong></span> 
 			      <span class="pull-right">{{item.amount}} {{item.unit}}</span>
 			    </h4>
-			    <span class="rs-high-lighted-text">{{item.aisle}}; </span><span>{{item.recipe | lowercase}}</span>
-			    <span class="pull-right"><button class="btn btn-delete btn-danger" ng-click="deleteProduct(item)"></button></span>
-			</div> -->
+			    <p>
+			    <!-- <span class="rs-high-lighted-text">{{item.aisle}}; </span> -->
+			    <!-- <span>{{item.recipe | lowercase}}</span> -->
+			    <span class="pull-right"><button class="btn btn-delete btn-danger" ng-click="deleteIngredient(item)"></button></span>
+			    </p>
+			</div>
 		</tab>
 	    <tab heading="Directions">
 	    	<p ng-bind-html="recipe.instructions"></p>
