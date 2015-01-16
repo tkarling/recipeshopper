@@ -9,8 +9,8 @@
  */
 
 angular.module('recipeshopperApp')
-  .controller('RecipeDetailsController', ['$scope', '$routeParams', '$log', '$location', 'FB_RECIPES_URL', 'StoredListMgrFactory', 
-  	function ($scope, $routeParams, $log, $location, FB_RECIPES_URL, StoredListMgrFactory) { 
+  .controller('RecipeDetailsController', ['$scope', '$routeParams', '$log', '$location', '$http', 'FB_RECIPES_URL', 'StoredListMgrFactory', 
+  	function ($scope, $routeParams, $log, $location, $http, FB_RECIPES_URL, StoredListMgrFactory) { 
     currentTab=2;
 
 	var setNextAndPrevItem = function () {
@@ -42,16 +42,55 @@ angular.module('recipeshopperApp')
 
   	$scope.whichItem = $routeParams.itemId;
 
+    var ingredientsMgr; 
+  	var setIngredientsMgrAndIngredients = function () {
+  		if($scope.recipe) {
+		    var ingredientsUrl = FB_RECIPES_URL + "/" + $scope.recipe.$id + "/ingredients/";
+		    $log.debug('RecipeDetailsController: ingredientsUrl: ', ingredientsUrl);
+		    ingredientsMgr = StoredListMgrFactory.getStoredListMgr(ingredientsUrl);
+		    ingredientsMgr.getItems().then(function(data) {
+		    	$scope.ingredients = data;
+	    		// $log.debug('setIngredientsMgrAndIngredients: $scope.ingredients: ', $scope.ingredients);
+		    });
+  		}
+  	}
+
     var recipesMgr = StoredListMgrFactory.getStoredListMgr(FB_RECIPES_URL);
 	$scope.recipes = [];
     recipesMgr.getItems().then(function(data) {
     	$scope.recipes = data;
 	    $scope.recipe = ($scope.recipes.length > 0) ? $scope.recipes[$scope.whichItem]: null;
+	    setIngredientsMgrAndIngredients();
     	setNextAndPrevItem();
-    	if($scope.recipe && $scope.recipe.instructions) {
-    		$log.debug('$scope.recipe.instructions: ', $scope.recipe.instructions);
-    	}
+    	// if($scope.recipe && $scope.recipe.instructions) {
+    	// 	$log.debug('$scope.recipe.instructions: ', $scope.recipe.instructions);
+    	// }
     });
+
+    $scope.readIngredients = function() {
+		$http.get('data/beanCarrotGingerSoup.json').success(function(data){ 
+			var items = data;  
+			$log.debug('RecipeDetailsController.readIngredients: items', items);
+			var item = {recipe : $scope.recipe.recipename, isbought : false};
+			for(var i = 0; i < items.length; i++) {
+				if(items[i].product) {
+					item.product = items[i].product;
+				}
+				if(items[i].aisle) {
+					item.aisle = items[i].aisle;
+				}
+				if(items[i].unit) {
+					item.unit = items[i].unit;
+				}
+				if(items[i].amount) {
+					item.amount = items[i].amount;
+				}
+				// $log.debug(item);
+				ingredientsMgr.addItem(item);
+			}
+		});
+    };
+
 
     // var myTab = 2;
     // $scope.setTab = function(tab){

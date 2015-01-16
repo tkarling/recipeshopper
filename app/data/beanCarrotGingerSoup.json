@@ -1,0 +1,23 @@
+[
+{"amount" : "1", "unit": "tbsp", "product" : "extra-virgin olive oil", "aisle" : "NUTS, SEEDS & OILS"},
+
+{"amount" : "1", "unit": "", "product" : "large yellow onion, chopped", "aisle" : "VEGGIES & FRUITS"},
+
+{"amount" : "1", "unit": "", "product" : "2-inch piece fresh ginger, peeled and minced", "aisle" : "VEGGIES & FRUITS"},
+
+{"amount" : "2", "unit": "cloves", "product" : "garlic, minced", "aisle" : "VEGGIES & FRUITS"},
+
+{"amount" : "4", "unit": "cups", "product" : "low-sodium vegetable broth", "aisle" : "EXTRAS"},
+
+{"amount" : "2", "unit": "15-oz BPA-free cans", "product" : "cannellini beans, drained and rinsed", "aisle" : "EXTRAS"},
+
+{"amount" : "½", "unit": "lb", "product" : "carrots, peeled and coarsely chopped", "aisle" : "VEGGIES & FRUITS"},
+
+{"amount" : "2", "unit": "", "product" : "bay leaves", "aisle" : "EXTRAS"},
+
+{"amount" : "½", "unit": "tsp", "product" : "fresh ground black pepper", "aisle" : "EXTRAS"},
+
+{"amount" : "2½", "unit": "oz", "product" : "roasted unsalted cashews, finely chopped", "aisle" : "EXTRAS"},
+
+{"amount" : "½", "unit": "cup", "product" : "chopped fresh chives", "aisle" : "VEGGIES & FRUITS"}
+]
