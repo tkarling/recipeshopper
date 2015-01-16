@@ -112,3 +112,64 @@ body {
   padding-top:1px;  
   padding-bottom:1px;  
 }
+
+
+
+/* Following from tabs demo */
+#recipedetails {
+  /*
+ * Animation styles
+ */ }
+  /*
+  #recipedetails #tab1-content {
+    background-color: #3F51B5; }
+  #recipedetails #tab2-content {
+    background-color: #673AB7; }
+  #recipedetails #tab3-content {
+    background-color: #00796B; }
+  #recipedetails .tabpanel-container {
+    display: block;
+    position: relative;
+    background: white;
+    border: 0px solid black;
+    height: 200px;
+    overflow: hidden; }
+  #recipedetails [role="tabpanel"] {
+    color: white;
+    width: 100%;
+    height: 100%;
+    -webkit-transition: all cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.5s;
+    transition: all cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.5s;
+    position: absolute; }
+  #recipedetails [role="tabpanel"].ng-leave.ng-leave-active, #recipedetails [role="tabpanel"].ng-enter {
+    top: -300px; }
+  #recipedetails [role="tabpanel"].ng-leave, #recipedetails [role="tabpanel"].ng-enter.ng-enter-active {
+    top: 0; }
+  #recipedetails [role="tabpanel"].ng-leave {
+    z-index: 100; }
+  #recipedetails .tabpanel-container [role="tabpanel"] {
+    padding: 20px; }
+  #recipedetails .after-tabs-area {
+    padding: 25px; }
+  #recipedetails .after-tabs-area > span {
+    margin-top: 25px;
+    padding-right: 15px;
+    vertical-align: middle;
+    line-height: 30px;
+    height: 35px; }
+  #recipedetails .after-tabs-area > md-checkbox {
+    margin-top: 26px;
+    margin-left: 0px; }
+  #recipedetails .md-header {
+    background-color: #1976D2 !important; }
+  #recipedetails md-tab {
+    color: #90caf9 !important; }
+  #recipedetails md-tab.active, #recipedetails md-tab:focus {
+    color: white !important; }
+  #recipedetails md-tab[disabled] {
+    opacity: 0.5; }
+  #recipedetails .md-header .md-ripple {
+    border-color: #FFFF8D !important; }
+  #recipedetails md-tabs-ink-bar {
+    background-color: #FFFF8D !important; }
+*/

@@ -17,6 +17,8 @@ angular
     'ngSanitize',
     'ngTouch',
     'ui.bootstrap',
+    'ngMaterial',
+    'ngAria',
     'storedListMod', 
     'fileReaderMod',
     'loginMod'

@@ -34,6 +34,9 @@ module.exports = function(config) {
       'bower_components/angularfire/dist/angularfire.js',
       'bower_components/mockfirebase/browser/mockfirebase.js',
       'bower_components/angular-ui-bootstrap-bower/ui-bootstrap-tpls.js',
+      'bower_components/angular-aria/angular-aria.js',
+      'bower_components/hammerjs/hammer.js',
+      'bower_components/angular-material/angular-material.js',
       'app/scripts/**/*.js',
       'test/mock/**/*.js',
       'test/spec/**/*.js'

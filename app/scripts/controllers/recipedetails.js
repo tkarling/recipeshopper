@@ -40,6 +40,19 @@ angular.module('recipeshopperApp')
     	$location.path('/recipedetails/' + $scope.nextItem);
     };
 
+	$scope.data = {
+      selectedIndex : 0
+    };
+    $scope.gotoNextTab = function() {
+		$log.debug('RecipeDetailsController: gotoNextTab');
+      	$scope.data.selectedTabIndex = Math.min($scope.data.selectedTabIndex + 1, 2) ;
+    };
+    $scope.gotoPreviousTab = function() {
+		$log.debug('RecipeDetailsController: gotoPreviousTab');
+      $scope.data.selectedTabIndex = Math.max($scope.data.selectedTabIndex - 1, 0);
+    };
+
+  	
   	$scope.whichItem = $routeParams.itemId;
 
     var ingredientsMgr; 
