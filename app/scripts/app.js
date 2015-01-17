@@ -58,15 +58,26 @@ angular
         redirectTo: '/login'
       });
   })
-  .controller('TabController', ['$scope', '$timeout', '$rootScope', 'Authentication', 
-    function ($scope, $timeout, $rootScope, Authentication) {
-    console.log('TabController created');  
-    $scope.setTab = function(tab){
-      currentTab = tab;
+  .controller('AppCtrl', function($scope, $timeout, $mdSidenav, $log) {
+    $scope.toggleLeft = function() {
+      $mdSidenav('left').toggle();
+      // .then(function(){
+      //     $log.debug("toggle left is done");
+      // });
+    };
+  })
+  .controller('LeftCtrl', function($scope, $rootScope, $timeout, $mdSidenav, $log, $location, Authentication) {
+    $scope.close = function() {
+      $mdSidenav('left').close();
+      // .then(function(){
+      //   $log.debug("close LEFT is done");
+      // });
     };
 
-    $scope.isSet = function(tab){
-      return (currentTab === tab);
+    $scope.gotoPage = function(pagelink){
+      $log.debug('LeftCtrl: pagelink: ', pagelink);
+      $location.path(pagelink);
+      $mdSidenav('left').close();
     };
 
     $rootScope.$on('handleUserLoggedInChanged', function () {
@@ -74,6 +85,6 @@ angular
         console.log('I am received');
     });
 
-  }]);
+  });
 
 var currentTab=2;

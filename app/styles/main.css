@@ -115,12 +115,34 @@ body {
 
 
 
+
+/** Following needed even after material design **/
+.rs-max-width {
+  max-width: 80%;
+}
+
+/** Following makes the tab slighy different color than the toolbar **/
+  #recipedetails .md-header {
+    background-color: #1976D2 !important; }
+  #recipedetails md-tab {
+    color: #90caf9 !important; }
+  #recipedetails md-tab.active, #recipedetails md-tab:focus {
+    color: white !important; }
+  #recipedetails md-tab[disabled] {
+    opacity: 0.5; }
+  #recipedetails .md-header .md-ripple {
+    border-color: #FFFF8D !important; }
+  #recipedetails md-tabs-ink-bar {
+    background-color: #FFFF8D !important; } 
+
+
+
 /* Following from tabs demo */
 #recipedetails {
   /*
  * Animation styles
  */ }
-  /*
+ /* 
   #recipedetails #tab1-content {
     background-color: #3F51B5; }
   #recipedetails #tab2-content {
@@ -141,6 +163,7 @@ body {
     -webkit-transition: all cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.5s;
     transition: all cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.5s;
     position: absolute; }
+
   #recipedetails [role="tabpanel"].ng-leave.ng-leave-active, #recipedetails [role="tabpanel"].ng-enter {
     top: -300px; }
   #recipedetails [role="tabpanel"].ng-leave, #recipedetails [role="tabpanel"].ng-enter.ng-enter-active {
@@ -160,16 +183,6 @@ body {
   #recipedetails .after-tabs-area > md-checkbox {
     margin-top: 26px;
     margin-left: 0px; }
-  #recipedetails .md-header {
-    background-color: #1976D2 !important; }
-  #recipedetails md-tab {
-    color: #90caf9 !important; }
-  #recipedetails md-tab.active, #recipedetails md-tab:focus {
-    color: white !important; }
-  #recipedetails md-tab[disabled] {
-    opacity: 0.5; }
-  #recipedetails .md-header .md-ripple {
-    border-color: #FFFF8D !important; }
-  #recipedetails md-tabs-ink-bar {
-    background-color: #FFFF8D !important; }
 */
+
+

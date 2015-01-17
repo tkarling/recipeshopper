@@ -11,7 +11,6 @@
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
-
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
@@ -43,28 +42,57 @@
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
-    <!-- Add your site or application content here -->
-    <div>
-      <div class="container fixed-header" ng-controller="TabController">
-        <ul class="nav nav-pills pull-right" ng-show="userLoggedIn">
-          <li ng-class="{ active:isSet(1) }"><a ng-href="#/main" ng-click="setTab(1)">
-            <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
-          </a></li>
-          <li ng-class="{ active:isSet(2) }"><a ng-href="#/recipelist" ng-click="setTab(2)">
-            <span class="glyphicon glyphicon-book" aria-hidden="true"></span>
-          </a></li>
-          <li ng-class="{ active:isSet(3) }"><a ng-href="#/picdemo" ng-click="setTab(3)">P</a></li>
-        </ul>
-        <h3 class="text-muted text-logo"><a ng-href="#/login">Shopper</a></h3>
-      </div>
+    <div ng-controller="AppCtrl" layout="column" layout-fill>
+      <md-content layout="row" flex>
 
-      <div class="rs-content" ng-view=""></div>
+            <md-sidenav class="md-sidenav-left md-whiteframe-z2 rs-max-width" md-component-id="left" md-is-locked-open="$media('gt-md')">
+              <md-toolbar> <!-- class="md-theme-indigo" -->
+                <h1 class="md-toolbar-tools">Recipe Shopper</h1>
+              </md-toolbar>
+              <md-content class="md-padding" ng-controller="LeftCtrl">
+                <md-list>
+                  <md-item-content>
+                      <md-button ng-click="gotoPage('/main')" class="md-primary" ng-disabled="!userLoggedIn">
+                        <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
+                        <span>Shopping List</span>
+                      </md-button>
+                  </md-item-content>
+                  <md-item-content>
+                      <md-button ng-click="gotoPage('/recipelist')" class="md-primary" ng-disabled="!userLoggedIn">
+                        <span class="glyphicon glyphicon-book" aria-hidden="true"></span>
+                        <span>Recipes</span>
+                      </md-button>
+                  </md-item-content>
+                  <md-divider inset></md-divider>
+                  <md-item-content>
+                      <md-button ng-click="gotoPage('/login')" class="md-primary">
+                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                        <span>Login</span>
+                      </md-button>
+                  </md-item-content>
+                  <md-item-content>
+                      <md-button ng-click="gotoPage('/picdemo')" class="md-primary">
+                        <!-- <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> -->
+                        <span>Pic Demo</span>
+                      </md-button>
+                  </md-item-content>
+                </md-list>
+              </md-content>
+            </md-sidenav>
 
-      <!-- <div class="footer">
-        <p><span class="glyphicon glyphicon-heart"></span> from the Yeoman team</p>
-      </div> -->
+            <md-content flex layout="column" > <!-- class="md-padding" -->
+                <md-toolbar md-scroll-shrink>
+                      <h3 class="md-toolbar-tools">
+                        <span><md-button ng-click="toggleLeft()" aria-label="Open Nav Bar" hide-gt-md>
+                          <span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span>
+                        </md-button></span>
+                        <span>Shopping List</span>
+                      </h3>
+                </md-toolbar>
+                <div ng-view=""></div>
+            </md-content>
+      </md-content>
     </div>
-
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
      <script>
