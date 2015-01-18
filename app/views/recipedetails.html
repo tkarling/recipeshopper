@@ -1,24 +1,18 @@
 <div id="recipedetails">
 	<md-tabs class="md-accent" md-selected="data.selectedIndex" md-stretch-tabs="never">
-      <md-tab id="tab1" aria-controls="tab1-content">
-        H
-      </md-tab>
-      <md-tab id="tab2" aria-controls="tab2-content">
+      <md-tab id="ingredients-tab" aria-controls="ingredients-tab-content">
         Ingredients
       </md-tab>
-      <md-tab id="tab3" aria-controls="tab3-content">
+      <md-tab id="instructions-tab" aria-controls="instructions-tab-content">
         Instructions
       </md-tab>
     </md-tabs>
     <ng-switch on="data.selectedIndex" class="tabpanel-container">
-        <div role="tabpanel" id="tab1-content" aria-labelledby="tab1" ng-switch-when="0" md-swipe-left="gotoNextTab()" md-swipe-right="gotoPreviousTab()">
-            View for Item #1<br/>
-            data.selectedIndex = 0
-        </div>
-        <div role="tabpanel" id="tab2-content" aria-labelledby="tab2" ng-switch-when="1" md-swipe-left="gotoNextTab()" md-swipe-right="gotoPreviousTab()">
+        <div role="tabpanel" id="ingredients-tab-content" aria-labelledby="ingredients-tab" ng-switch-when="0" md-swipe-left="gotoNextTab()" md-swipe-right="gotoPreviousTab()">
 			<md-content class="md-padding">        
 	    		<md-button class="md-primary md-raised" ng-hide="ingredients.length > 0" ng-click="readIngredients()">Read Inredients</md-button>
 	    	</md-content>
+	    	<md-content class="md-padding" style="height: 330px;">
 	    	<md-list>
 		    <md-item ng-repeat="item in ingredients">
 		    	<md-item-content> 
@@ -28,7 +22,7 @@
 					      <span><strong>{{item.product}}</strong></span> 
 					    </h3>
 				    </div>
-				    <div class="md-tile-right">
+				    <div class="md-tile-right md-padding">
 					    <md-button class="md-warn md-raised md-hue-2" ng-click="deleteIngredient(item)" aria-label="Delete">
 					        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
 						</md-button>
@@ -37,18 +31,18 @@
 			    <md-divider inset></md-divider>
 			</md-item>
 			</md-list>
-
+	    	<md-content>
         </div>
-        <div role="tabpanel" id="tab3-content" aria-labelledby="tab3" ng-switch-when="2" md-swipe-left="gotoNextTab()" md-swipe-right="gotoPreviousTab()">
-	    	<p ng-bind-html="recipe.instructions"></p>
+        <div role="tabpanel" id="instructions-tab-content" aria-labelledby="instructions-tab" ng-switch-when="1" md-swipe-left="gotoNextTab()" md-swipe-right="gotoPreviousTab()">
+	    	<md-content class="md-padding" style="height: 330px">
+		    	<p ng-bind-html="recipe.instructions"></p>
+	    	</md-content>
         </div>
     </ng-switch>
-    <div class="after-tabs-area" layout="row" layout-sm="column" layout-margin layout-align="left center">
-    	<div layout="row">
+    <div class="after-tabs-area" layout="row" layout-margin layout-align="center center">
 		  	<a href="#/recipedetails/{{prevItem}}" class="btn btn-left" ng-click="saveRecipe()">&lt; prev</a>
 			<a href="#/recipelist" class="btn" ng-click="saveRecipe()">&laquo; Back to list &raquo;</a>
 			<a href="#/recipedetails/{{nextItem}}" class="btn btn-right" ng-click="saveRecipe()">next &gt;</a>
 		    <!-- ng-disabled="!RecipeForm.$valid" -->
-		</div>
     </div> 
 </div>

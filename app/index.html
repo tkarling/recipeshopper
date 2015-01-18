@@ -4,8 +4,8 @@
     <meta charset="utf-8">
     <title></title>
     <meta name="description" content="">
-    <!-- <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"> -->
-    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <!-- <meta name="viewport" content="width=device-width, user-scalable=no"> -->
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css(.) styles/vendor.css -->
     <!-- bower:css -->
@@ -18,35 +18,14 @@
     <!-- endbuild -->
   </head>
   <body ng-app="recipeshopperApp">
-     <style type="text/css">
-      .fixed-header {
-        background-color: white;
-        height: 70px;
-        position: fixed;
-        top: 0; left: 0; right: 0;
-        padding: 10px 0px;
-        margin: 0px 20px;
-      }
-
-      .text-logo {
-        margin: 10px 0px;
-      }
-      .rs-content {
-        padding:0px;
-        margin: 0px 10px;
-        margin-top: 70px;
-      }
-
-    </style>
     <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
-    <div ng-controller="AppCtrl" layout="column" layout-fill>
-      <md-content layout="row" flex>
+      <div ng-controller="AppCtrl" layout="row" layout-fill>
 
             <md-sidenav class="md-sidenav-left md-whiteframe-z2 rs-max-width" md-component-id="left" md-is-locked-open="$media('gt-md')">
-              <md-toolbar> <!-- class="md-theme-indigo" -->
+              <md-toolbar> 
                 <h1 class="md-toolbar-tools">Recipe Shopper</h1>
               </md-toolbar>
               <md-content class="md-padding" ng-controller="LeftCtrl">
@@ -72,7 +51,6 @@
                   </md-item-content>
                   <md-item-content>
                       <md-button ng-click="gotoPage('/picdemo')" class="md-primary">
-                        <!-- <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> -->
                         <span>Pic Demo</span>
                       </md-button>
                   </md-item-content>
@@ -80,8 +58,8 @@
               </md-content>
             </md-sidenav>
 
-            <md-content flex layout="column" > <!-- class="md-padding" -->
-                <md-toolbar md-scroll-shrink>
+            <div flex layout="column" > <!-- class="md-padding" -->
+                <md-toolbar style="position:fixed">
                       <h3 class="md-toolbar-tools">
                         <span><md-button ng-click="toggleLeft()" aria-label="Open Nav Bar" hide-gt-md>
                           <span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span>
@@ -89,10 +67,11 @@
                         <span>Shopping List</span>
                       </h3>
                 </md-toolbar>
-                <div ng-view=""></div>
-            </md-content>
-      </md-content>
-    </div>
+                <md-content layout-fill style="margin-top:64px">
+                    <div ng-view=""></div>
+                </md-content>
+            </div>
+      </div>
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
      <script>
