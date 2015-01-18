@@ -33,7 +33,6 @@ angular.module('recipeshopperApp')
   .constant('FB_SHOPPINGLIST_URL', 'https://recipeshopper.firebaseio.com/shoppinglist/')
   .controller('MainCtrl', ['$scope', '$log', 'FB_SHOPPINGLIST_URL', 'StoredListMgrFactory',  
   	function ($scope, $log, FB_SHOPPINGLIST_URL, StoredListMgrFactory) { //BasicStoredListMgr, $http, 
-    currentTab=1;
 
 	// init  
 	$scope.itemOrder = 'aisle';

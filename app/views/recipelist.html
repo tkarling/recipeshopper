@@ -28,17 +28,30 @@
   </form>
 </formgroup>
 
-<div line-through="item.onlist" class="well rs-well" ng-repeat="item in recipes | filter: showAll | filter: query | orderBy: [itemOrder, 'recipename']"> 
-  <span class="rs-checkbox pull-left"><input type="checkbox" ng-model="item.onlist" ng-change="updateRecipe(item)"></span> 
-  <a ng-href="#/recipedetails/{{recipes.indexOf(item)}}">
-    <h4 class="rs-h4">
-      <span><strong>{{item.recipename}}</strong></span> 
-      <!-- <span class="pull-right">{{item.amount}} {{item.unit}}</span> -->
-    </h4>
-    <span class="rs-high-lighted-text">{{item.category}}; </span>
-    <!-- <span>{{item.recipe | lowercase}}</span> -->
-  </a>
-  <span class="pull-right"><button class="btn btn-delete btn-danger" ng-click="deleteRecipe(item)"></button></span>
-</div>
+<md-content class="md-padding">
+    <md-list>
+        <md-item ng-repeat="item in recipes | filter: showAll | filter: query | orderBy: ['-onlist', itemOrder, 'recipename']">
+          <md-item-content> 
+            <div class="md-tile-right">
+                <md-checkbox md-no-ink aria-label="Checkbox No Ink" ng-model="item.onlist" 
+                  class="md-primary" ng-change="updateRecipe(item)">
+                </md-checkbox>
+            </div>
+            <div class="md-tile-content" ng-click="gotoDetailsPage(item)">
+                <h3>
+                  <span><strong>{{item.recipename}}</strong></span> 
+                </h3>
+              <h4 class="md-accent-text">{{item.category}}</h4>
+            </div>
+            <div class="md-tile-right md-padding">
+                <md-button class="md-warn md-raised md-hue-2" ng-click="deleteRecipe(item)" aria-label="Delete">
+                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                </md-button>
+            </div>
+          </md-item-content>
+          <md-divider inset></md-divider>
+      </md-item>
+  </md-list>
+<md-content>
 
 

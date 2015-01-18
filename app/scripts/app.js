@@ -87,4 +87,3 @@ angular
 
   });
 
-var currentTab=2;

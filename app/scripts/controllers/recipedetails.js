@@ -11,7 +11,6 @@
 angular.module('recipeshopperApp')
   .controller('RecipeDetailsController', ['$scope', '$routeParams', '$log', '$location', '$http', 'FB_RECIPES_URL', 'StoredListMgrFactory', 
   	function ($scope, $routeParams, $log, $location, $http, FB_RECIPES_URL, StoredListMgrFactory) { 
-    currentTab=2;
 
 	var setNextAndPrevItem = function () {
 		if ($scope.whichItem > 0) {

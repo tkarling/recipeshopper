@@ -19,8 +19,6 @@ angular.module('loginMod')
   	// 	console.log($scope.myform);
   	// });
     
-    currentTab=0;
-
     var setErrorMessage = function (errorMessage) {
       $scope.message = errorMessage;
       $log.debug('Login Failed!', $scope.message, errorMessage);

@@ -11,6 +11,7 @@
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
+    <link rel="stylesheet" href="bower_components/angular-material/themes/green-theme.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
@@ -24,7 +25,7 @@
 
       <div ng-controller="AppCtrl" layout="row" layout-fill>
 
-            <md-sidenav class="md-sidenav-left md-whiteframe-z2 rs-max-width" md-component-id="left" md-is-locked-open="$media('gt-md')">
+            <md-sidenav md-theme="green" class="md-sidenav-left md-whiteframe-z2 rs-max-width" md-component-id="left" md-is-locked-open="$media('gt-md')">
               <md-toolbar> 
                 <h1 class="md-toolbar-tools">Recipe Shopper</h1>
               </md-toolbar>
@@ -59,7 +60,7 @@
             </md-sidenav>
 
             <div flex layout="column" > <!-- class="md-padding" -->
-                <md-toolbar style="position:fixed">
+                <md-toolbar md-theme="green" style="position:fixed">
                       <h3 class="md-toolbar-tools">
                         <span><md-button ng-click="toggleLeft()" aria-label="Open Nav Bar" hide-gt-md>
                           <span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span>
@@ -67,7 +68,7 @@
                         <span>Shopping List</span>
                       </h3>
                 </md-toolbar>
-                <md-content layout-fill style="margin-top:64px">
+                <md-content md-theme="green" layout-fill style="margin-top:64px">
                     <div ng-view=""></div>
                 </md-content>
             </div>

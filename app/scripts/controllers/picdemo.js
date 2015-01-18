@@ -9,5 +9,4 @@
  */
 angular.module('recipeshopperApp')
   .controller('PicdemoCtrl', function ($scope) {
-     currentTab=3;
   });

@@ -56,6 +56,17 @@
     background-color: #FFFF8D !important; } 
 
 
+/** remove following after material design version used supports them **/
+.md-accent-text {
+  color: #1976D2; /* shade of blue */
+}
+
+.md-accent {
+  color: white;
+  background-color: #1976D2; /* shade of blue */
+}
+
+
 /* Following from tabs demo */
 #recipedetails {
   /*
