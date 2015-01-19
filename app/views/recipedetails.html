@@ -12,7 +12,7 @@
 			<md-content class="md-padding">        
 	    		<md-button class="md-primary md-raised" ng-hide="ingredients.length > 0" ng-click="readIngredients()">Read Inredients</md-button>
 	    	</md-content>
-	    	<md-content class="md-padding" style="height: 330px;">
+	    	<md-content class="md-padding" style="height: 400px;">
 	    	<md-list>
 		    <md-item ng-repeat="item in ingredients">
 		    	<md-item-content> 
@@ -24,7 +24,8 @@
 				    </div>
 				    <div class="md-tile-right md-padding">
 					    <md-button class="md-warn md-raised md-hue-2" ng-click="deleteIngredient(item)" aria-label="Delete">
-					        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                        	<md-icon icon="../bower_components/material-design-icons/action/1x_web/ic_delete_white_24dp.png">
+                        	</md-icon>
 						</md-button>
 				    </div>
 			    </md-item-content>
@@ -34,7 +35,7 @@
 	    	<md-content>
         </div>
         <div role="tabpanel" id="instructions-tab-content" aria-labelledby="instructions-tab" ng-switch-when="1" md-swipe-left="gotoNextTab()" md-swipe-right="gotoPreviousTab()">
-	    	<md-content class="md-padding" style="height: 330px">
+	    	<md-content class="md-padding" style="height: 400px">
 		    	<p ng-bind-html="recipe.instructions"></p>
 	    	</md-content>
         </div>

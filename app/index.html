@@ -9,7 +9,7 @@
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css(.) styles/vendor.css -->
     <!-- bower:css -->
-    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+    <!-- <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" /> -->
     <link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
     <link rel="stylesheet" href="bower_components/angular-material/themes/green-theme.css" />
     <!-- endbower -->
@@ -32,26 +32,29 @@
               <md-content class="md-padding" ng-controller="LeftCtrl">
                 <md-list>
                   <md-item-content>
-                      <md-button ng-click="gotoPage('/main')" class="md-primary" ng-disabled="!userLoggedIn">
-                        <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
+                      <md-button ng-click="gotoPage('/main')" ng-disabled="!userLoggedIn">
+                        <md-icon icon="../bower_components/material-design-icons/action/1x_web/ic_shopping_cart_black_24dp.png">
+                        </md-icon>
                         <span>Shopping List</span>
                       </md-button>
                   </md-item-content>
                   <md-item-content>
-                      <md-button ng-click="gotoPage('/recipelist')" class="md-primary" ng-disabled="!userLoggedIn">
-                        <span class="glyphicon glyphicon-book" aria-hidden="true"></span>
+                      <md-button ng-click="gotoPage('/recipelist')" ng-disabled="!userLoggedIn">
+                        <md-icon icon="../bower_components/material-design-icons/action/1x_web/ic_book_black_24dp.png">
+                        </md-icon>
                         <span>Recipes</span>
                       </md-button>
                   </md-item-content>
                   <md-divider inset></md-divider>
                   <md-item-content>
-                      <md-button ng-click="gotoPage('/login')" class="md-primary">
-                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                      <md-button ng-click="gotoPage('/login')">
+                        <md-icon icon="../bower_components/material-design-icons/action/1x_web/ic_account_box_black_24dp.png">
+                        </md-icon>
                         <span>Login</span>
                       </md-button>
                   </md-item-content>
                   <md-item-content>
-                      <md-button ng-click="gotoPage('/picdemo')" class="md-primary">
+                      <md-button ng-click="gotoPage('/picdemo')">
                         <span>Pic Demo</span>
                       </md-button>
                   </md-item-content>
@@ -62,9 +65,10 @@
             <div flex layout="column" > <!-- class="md-padding" -->
                 <md-toolbar md-theme="green" style="position:fixed">
                       <h3 class="md-toolbar-tools">
-                        <span><md-button ng-click="toggleLeft()" aria-label="Open Nav Bar" hide-gt-md>
-                          <span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span>
-                        </md-button></span>
+                        <md-button ng-click="toggleLeft()" aria-label="Open Nav Bar" hide-gt-md>
+                            <md-icon icon="../bower_components/material-design-icons/navigation/1x_web/ic_menu_white_24dp.png">
+                            </md-icon>
+                        </md-button>
                         <span>Shopping List</span>
                       </h3>
                 </md-toolbar>
@@ -96,7 +100,6 @@
     <!-- bower:js -->
     <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="bower_components/angular/angular.js"></script>
-    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
     <script src="bower_components/angular-animate/angular-animate.js"></script>
     <script src="bower_components/angular-cookies/angular-cookies.js"></script>
     <script src="bower_components/angular-resource/angular-resource.js"></script>

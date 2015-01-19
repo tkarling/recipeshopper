@@ -13,7 +13,8 @@ angular.module('recipeshopperApp')
   	function ($scope, $log, $location, $http, FB_RECIPES_URL, StoredListMgrFactory) { //BasicStoredListMgr
 
     $scope.gotoDetailsPage = function(item) {
-      var pagelink='/recipedetails/'+ item.$id;	
+      // var pagelink='/recipedetails/'+ item.$id;	
+      var pagelink='/recipedetails/'+ $scope.recipes.indexOf(item);	
       $log.debug('RecipelistCtrl: pagelink: ', pagelink);
       $location.path(pagelink);
     };

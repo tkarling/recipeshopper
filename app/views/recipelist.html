@@ -1,39 +1,28 @@
-<style type="text/css">
-</style>
-
-<formgroup>
-  <form class="col-xs-12">  <!-- class="search -->
-      <div class="col-xs-6">
-            <label >by:
-              <select ng-model="itemOrder">
-                <option value="category">Caterory</option>
-                <option value="recipename">Recipe Name</option>
-              </select>
-            </label>
-            <!-- <span class="rs-checkbox"><input type="checkbox" ng-model="showAllDef" ></span> -->
-      </div>
-       <input type="text" class="col-xs-6" ng-model="query" placeholder="Search for recipes"> 
-  </form>
-
-  <form class="col-xs-12" name="myform" ng-submit="addRecipe()" novalidate>
-          <label class="sr-only" for="recipename">Recipe Name</label>
-          <input type="text" class="col-xs-5" name="recipename" Placeholder="Recipe Name"
-            ng-model="recipename" ng-required="true">
-          <label class="sr-only" for="category">Category Name</label>
-          <input type="text" class="col-xs-5" name="category" Placeholder="Category Name"
-            ng-model="category" ng-required="true">
-        <button type="submit" class="btn btn-primary col-xs-2 pull-right" ng-disabled="myform.$invalid">
-          <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-        </button>
-  </form>
-</formgroup>
-
+<md-content layout="row">
+      <md-text-float label="Search for Recipes" ng-model="query"></md-text-float>
+      <!-- <label >by:
+        <select ng-model="itemOrder">
+          <option value="category">Caterory</option>
+          <option value="recipename">Recipe Name</option>
+        </select>
+      </label> -->
+</md-content>
+<form class="col-xs-12" name="myform" ng-submit="addRecipe()" novalidate>
+  <md-input-container layout="row">
+      <md-text-float label="Recipe Name" ng-model="recipename" ng-required="true"></md-text-float>
+      <md-text-float label="Category Name" ng-model="category" ng-required="true"></md-text-float>
+      <md-button type="submit" ng-disabled="myform.$invalid" class="md-primary md-fab" aria-label="Add Recipe">
+          <md-icon 
+          icon="../bower_components/material-design-icons/action/1x_web/ic_note_add_grey600_24dp.png"></md-icon>
+      </md-button>
+  </md-input-container>
+</form>
 <md-content class="md-padding">
     <md-list>
         <md-item ng-repeat="item in recipes | filter: showAll | filter: query | orderBy: ['-onlist', itemOrder, 'recipename']">
           <md-item-content> 
             <div class="md-tile-right">
-                <md-checkbox md-no-ink aria-label="Checkbox No Ink" ng-model="item.onlist" 
+                <md-checkbox md-no-ink aria-label="Is on Shopping List" ng-model="item.onlist" 
                   class="md-primary" ng-change="updateRecipe(item)">
                 </md-checkbox>
             </div>
@@ -45,7 +34,8 @@
             </div>
             <div class="md-tile-right md-padding">
                 <md-button class="md-warn md-raised md-hue-2" ng-click="deleteRecipe(item)" aria-label="Delete">
-                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                  <md-icon icon="../bower_components/material-design-icons/action/1x_web/ic_delete_white_24dp.png">
+                  </md-icon>
                 </md-button>
             </div>
           </md-item-content>
