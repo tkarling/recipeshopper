@@ -57,9 +57,14 @@ angular.module('recipeshopperApp')
     var ingredientsMgr; 
   	var setIngredientsMgrAndIngredients = function () {
   		if($scope.recipe) {
-		    var ingredientsUrl = FB_RECIPES_URL + "/" + $scope.recipe.$id + "/ingredients/";
-		    $log.debug('RecipeDetailsController: ingredientsUrl: ', ingredientsUrl);
-		    ingredientsMgr = StoredListMgrFactory.getStoredListMgr(ingredientsUrl);
+		    // var ingredientsUrl = FB_RECIPES_URL + "/" + $scope.recipe.$id + "/ingredients/";
+		    // $log.debug('RecipeDetailsController: ingredientsUrl: ', ingredientsUrl);
+		    // ingredientsMgr = StoredListMgrFactory.getStoredListMgr(ingredientsUrl);
+
+		    var variableUrl = "/" + $scope.recipe.$id + "/ingredients/";
+		    $log.debug('RecipeDetailsController: variableUrl: ', variableUrl);
+		    ingredientsMgr = StoredListMgrFactory.getStoredListMgr(FB_RECIPES_URL, variableUrl);
+
 		    ingredientsMgr.getItems().then(function(data) {
 		    	$scope.ingredients = data;
 	    		// $log.debug('setIngredientsMgrAndIngredients: $scope.ingredients: ', $scope.ingredients);

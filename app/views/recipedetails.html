@@ -12,7 +12,7 @@
 			<md-content class="md-padding">        
 	    		<md-button class="md-primary md-raised" ng-hide="ingredients.length > 0" ng-click="readIngredients()">Read Inredients</md-button>
 	    	</md-content>
-	    	<md-content class="md-padding" style="height: 400px;">
+	    	<md-content ng-hide="ingredients.length == 0" class="md-padding" style="height: 400px;">
 	    	<md-list>
 		    <md-item ng-repeat="item in ingredients">
 		    	<md-item-content> 
@@ -41,9 +41,12 @@
         </div>
     </ng-switch>
     <div class="after-tabs-area" layout="row" layout-margin layout-align="center center">
-		  	<a href="#/recipedetails/{{prevItem}}" class="btn btn-left" ng-click="saveRecipe()">&lt; prev</a>
+		  	<!-- <a href="#/recipedetails/{{prevItem}}" ng-click="saveRecipe()">&lt; prev</a>
 			<a href="#/recipelist" class="btn" ng-click="saveRecipe()">&laquo; Back to list &raquo;</a>
-			<a href="#/recipedetails/{{nextItem}}" class="btn btn-right" ng-click="saveRecipe()">next &gt;</a>
+			<a href="#/recipedetails/{{nextItem}}" ng-click="saveRecipe()">next &gt;</a> -->
+		  	<a href="#/recipedetails/{{prevItem}}" >&lt; prev</a>
+			<a href="#/recipelist" class="btn" >&laquo; Back to list &raquo;</a>
+			<a href="#/recipedetails/{{nextItem}}" >next &gt;</a>
 		    <!-- ng-disabled="!RecipeForm.$valid" -->
     </div> 
 </div>
