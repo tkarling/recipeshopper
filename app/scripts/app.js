@@ -20,6 +20,7 @@ angular
     'ngMaterial',
     'ngAria',
     'storedListMod', 
+    'settingsMod', 
     'fileReaderMod',
     'loginMod'
   ])

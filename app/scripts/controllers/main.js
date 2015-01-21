@@ -31,8 +31,27 @@ angular.module('recipeshopperApp')
   	};
   })
   .constant('FB_SHOPPINGLIST_URL', 'https://recipeshopper.firebaseio.com/shoppinglist/')
-  .controller('MainCtrl', ['$scope', '$log', 'FB_SHOPPINGLIST_URL', 'StoredListMgrFactory',  
-  	function ($scope, $log, FB_SHOPPINGLIST_URL, StoredListMgrFactory) { //BasicStoredListMgr, $http, 
+  .controller('MainCtrl', ['$scope', '$log', 'FB_SHOPPINGLIST_URL', 'StoredListMgrFactory', 'settingsMgr', 
+  	function ($scope, $log, FB_SHOPPINGLIST_URL, StoredListMgrFactory, settingsMgr) { //BasicStoredListMgr, $http, 
+
+
+  	// testing settings BEGINS
+  	settingsMgr.getSettings().then(function(data) {
+		$log.debug('SETTINGSTEST: MainCtrl: settingsMgr.getSettings: ', data);
+  	});
+
+  	settingsMgr.getSetting('shoppingListSortOrder').then(function(data) {
+		$log.debug('SETTINGSTEST: MainCtrl: settingsMgr.getSetting: ', data);
+  	});
+
+  	settingsMgr.setSetting('shoppingListSortOrder', 'recipe').then(function(data) {
+		$log.debug('SETTINGSTEST: MainCtrl: settingsMgr.setSetting: ', data);
+  	});
+
+  	settingsMgr.getSetting('shoppingListSortOrder').then(function(data) {
+		$log.debug('SETTINGSTEST: MainCtrl: settingsMgr.getSetting AFTER set: ', data);
+  	});
+  	// testing settings ENDS
 
 	// init  
 	$scope.itemOrder = 'aisle';
