@@ -1,21 +1,55 @@
 <style type="text/css">
 </style>
 
-<formgroup>
-  <form class="col-xs-12">  <!-- class="search -->
-      <div class="col-xs-6">
-          <label class="formgroup">by:
+<md-content layout="row">
+      <md-text-float label="Search for products" ng-model="query"></md-text-float>
+      <!--<label class="formgroup">by:
             <select ng-model="itemOrder">
               <option value="aisle">Aisle</option>
               <option value="recipe">Recipe</option>
             </select>
-          </label>
-          <!-- <span class="rs-checkbox"> -->
-          <input type="checkbox" ng-model="showAllDef" >
-          <!-- </span> -->
-      </div>
-      <input type="text" class="col-xs-6" ng-model="query" placeholder="Search for groceries"> <!-- style="width:140px" -->
-  </form>
+          </label> -->
+          <md-checkbox md-no-ink aria-label="Do Not Show Bought" ng-model="showAllDef" 
+            class="md-primary">Do Not Show Bought</md-checkbox> <!-- ng-change="updateRecipe(item)" -->
+</md-content>
+<form name="myform" ng-submit="addProduct()" novalidate>
+  <md-input-container layout="row">
+      <md-text-float label="Product" ng-model="product" ng-required="true"></md-text-float>
+      <md-text-float label="Aisle" ng-model="aisle" ng-required="true"></md-text-float>
+      <md-button type="submit" ng-disabled="myform.$invalid" class="md-primary md-fab" aria-label="Add Product">
+          <md-icon 
+          icon="../bower_components/material-design-icons/action/1x_web/ic_note_add_grey600_24dp.png"></md-icon>
+      </md-button>
+  </md-input-container>
+</form>
+<md-content class="md-padding">
+    <md-list>
+        <md-item line-through="item.isbought" 
+          ng-repeat="item in groceries | filter: showAll | filter: query | orderBy: [itemOrder, 'product']"> 
+          <md-item-content> 
+            <div class="md-tile-right">
+                <md-checkbox md-no-ink aria-label="Is Bought" ng-model="item.isbought" 
+                  class="md-primary" ng-change="saveProduct(item)">
+                </md-checkbox>
+            </div>
+            <div class="md-tile-content" ng-click="gotoDetailsPage(item)">
+                <h3>
+                  <span><strong>{{item.product}}</strong>{{item.amount}} {{item.unit}}</span> 
+                </h3>
+              <h4><span class="md-accent-text">{{item.aisle}}; </span><span>{{item.recipe | lowercase}}</span></h4>
+            </div>
+            <div class="md-tile-right md-padding">
+                <md-button class="md-warn md-raised md-hue-2" ng-click="deleteProduct(item)" aria-label="Delete">
+                  <md-icon icon="../bower_components/material-design-icons/action/1x_web/ic_delete_white_24dp.png">
+                  </md-icon>
+                </md-button>
+            </div>
+          </md-item-content>
+          <md-divider inset></md-divider>
+      </md-item>
+  </md-list>
+<md-content>
+
 
 <!--        <p>
         <label class="formgroup">
@@ -28,28 +62,5 @@
         </label>
         </p> -->
       <!-- <a ng-href="#/playerdetails/0}}"><button>Add<br>Player</button></a> -->
-
-  <form class="col-xs-12" name="myform" ng-submit="addProduct()" novalidate>
-          <label class="sr-only" for="product">Product</label>
-          <input type="text" class="col-xs-5" name="product" Placeholder="Product"
-            ng-model="product" ng-required="true">
-          <label class="sr-only" for="aisle">Aisle</label>
-          <input type="text" class="col-xs-5" name="category" Placeholder="Aisle"
-            ng-model="aisle" ng-required="true">
-        <button type="submit" class="btn btn-primary col-xs-2 pull-right" ng-disabled="myform.$invalid">
-          <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-        </button>
-  </form>
-</formgroup>
-
-<div line-through="item.isbought" class="well rs-well" ng-repeat="item in groceries | filter: showAll | filter: query | orderBy: [itemOrder, 'product']"> 
-    <span class="rs-checkbox pull-left"><input type="checkbox" ng-model="item.isbought" ng-change="saveProduct(item)"></span> 
-    <h4 class="rs-h4">
-      <span><strong>{{item.product}}</strong></span> 
-      <span class="pull-right">{{item.amount}} {{item.unit}}</span>
-    </h4>
-    <span class="rs-high-lighted-text">{{item.aisle}}; </span><span>{{item.recipe | lowercase}}</span>
-    <span class="pull-right"><button class="btn btn-delete btn-danger" ng-click="deleteProduct(item)"></button></span>
-</div>
 
 

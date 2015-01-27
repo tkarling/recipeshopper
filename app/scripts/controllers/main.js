@@ -31,9 +31,8 @@ angular.module('recipeshopperApp')
   	};
   })
   .constant('FB_SHOPPINGLIST_URL', 'https://recipeshopper.firebaseio.com/shoppinglist/')
-  .controller('MainCtrl', ['$scope', '$log', 'FB_SHOPPINGLIST_URL', 'StoredListMgrFactory', 'settingsMgr', 
-  	function ($scope, $log, FB_SHOPPINGLIST_URL, StoredListMgrFactory, settingsMgr) { //BasicStoredListMgr, $http, 
-
+  .controller('MainCtrl', ['$scope', '$log', '$http', 'FB_SHOPPINGLIST_URL', 'StoredListMgrFactory', 'settingsMgr', 
+  	function ($scope, $log, $http, FB_SHOPPINGLIST_URL, StoredListMgrFactory, settingsMgr) {  
 
   	// testing settings BEGINS
   	settingsMgr.getSettings().then(function(data) {
@@ -65,37 +64,37 @@ angular.module('recipeshopperApp')
 
 
     var storeMgr = StoredListMgrFactory.getStoredListMgr(FB_SHOPPINGLIST_URL);
-    // storeMgr.getItems().then(function(data) {
-    // 	$scope.groceries = data;
-    // });
-    storeMgr.getItems('aisle', 'EXTRAS').then(function(data) {
+    storeMgr.getItems().then(function(data) {
     	$scope.groceries = data;
+    	if($scope.groceries.length == 0) {
+    		addDefaultItemsToList();
+    	}
     });
+    // storeMgr.getItems('aisle', 'EXTRAS').then(function(data) {
+    // 	$scope.groceries = data;
+    // 	if($scope.groceries.length == 0) {
+    // 		addDefaultItemsToList();
+    // 	}
+    // });
 
-    // A QUICK WAY TO FILL EMPTY DB, SHOULD BE PUT BEHIND 'THEN' ABOVE IF NEEDED BACK
-	// $scope.groceries.$loaded().then(
-	// 	function () {
-	// 		$log.debug('loaded');
-	// 		if($scope.groceries.length == 0) {
-	// 			$log.debug('addidng items to FB');
-	// 			$http.get('data/ce_w1.json').success(function(data){ 
-	// 				var items = data;  
-	// 				$log.debug('items', items);
-	// 				var item = {recipe : "CE Dec-14 w1", isbought : false};
-	// 				for(var i = 0; i < items.length; i++) {
-	// 					for(var j = 0; j < items[i].products.length; j++) {
-	// 						item.product = items[i].products[j];
-	// 		      			item.aisle = items[i].aisle;
-	// 						// $log.debug(item);
-	// 						groceriesFromFB.$push(item);
-	// 					}
-	// 				}
-	// 			});
-	// 		}
-	// 		$log.debug('$scope.groceries', $scope.groceries);
-	// 	}
-	// );
-
+    //A QUICK WAY TO FILL EMPTY DB
+	var addDefaultItemsToList =	function () {
+		$log.debug('MainCtrl: addDefaultItemsToList started');
+		$http.get('data/ce_w1.json').success(function(data){ 
+			var items = data;  
+			$log.debug('MainCtrl: addDefaultItemsToList: From Json: items', items);
+			var item = {recipe : "CE Dec-14 w1", isbought : false};
+			for(var i = 0; i < items.length; i++) {
+				for(var j = 0; j < items[i].products.length; j++) {
+					item.product = items[i].products[j];
+	      			item.aisle = items[i].aisle;
+					// $log.debug(item);
+					storeMgr.addItem(item);
+				}
+			}
+		});
+		$log.debug('MainCtrl: addDefaultItemsToList $scope.groceries', $scope.groceries);
+	};
 
 	$scope.addProduct = function () {
 		storeMgr.addItem({
