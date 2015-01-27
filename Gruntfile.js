@@ -23,7 +23,6 @@ module.exports = function (grunt) {
 
   // Define the configuration for all the tasks
   grunt.initConfig({
-
     // Project settings
     yeoman: appConfig,
 
@@ -58,7 +57,7 @@ module.exports = function (grunt) {
         files: [
           '<%= yeoman.app %>/{,*/}*.html',
           '.tmp/styles/{,*/}*.css',
-          '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
+          //'<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
         ]
       }
     },
@@ -315,7 +314,15 @@ module.exports = function (grunt) {
           cwd: '.tmp/images',
           dest: '<%= yeoman.dist %>/images',
           src: ['generated/*']
-        }, {
+        },       
+        {
+      //material design icons
+        expand: true,
+        cwd: 'bower_components/material-design-icons/action/',
+        src: ['1x_web/*24*.*'],
+        dest: '<%= yeoman.dist %>/bower_components/material-design-icons/action/'
+      },
+      {
           expand: true,
           cwd: 'bower_components/bootstrap/dist',
           src: 'fonts/*',
