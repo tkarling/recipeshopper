@@ -17,9 +17,9 @@ angular.module('settingsMod')
   .factory('settingsMgr', function ($log, $q, $firebase, FIREBASE_URL) {
     
     var defaultSettings = {
-      "shoppingListSortOrder" : "aisle",
-      "recipeSortOrder": "recipename"
-    }
+      'shoppingListSortOrder' : 'aisle',
+      'recipeSortOrder': 'recipename'
+    };
 
     // var setDefaultsIfNeeded = function() {
     //   $log.debug('settingsMgr: setDefaultsIfNeeded: data.settings before', data.settings);

@@ -1,7 +1,14 @@
 <style type="text/css">
+.rs-h4-size {
+  font-size: 14px;
+}
+
+.rs-no-scroll {
+  overflow: hidden;
+}
 </style>
 
-<md-content layout="row">
+<md-content layout="row" class="md-padding rs-no-scroll">
       <md-text-float label="Search for products" ng-model="query"></md-text-float>
       <!--<label class="formgroup">by:
             <select ng-model="itemOrder">
@@ -10,18 +17,20 @@
             </select>
           </label> -->
           <md-checkbox md-no-ink aria-label="Do Not Show Bought" ng-model="showAllDef" 
-            class="md-primary">Do Not Show Bought</md-checkbox> <!-- ng-change="updateRecipe(item)" -->
+            class="md-primary rs-h4-size">Do Not Show Bought</md-checkbox> <!-- ng-change="updateRecipe(item)" -->
 </md-content>
-<form name="myform" ng-submit="addProduct()" novalidate>
-  <md-input-container layout="row">
-      <md-text-float label="Product" ng-model="product" ng-required="true"></md-text-float>
-      <md-text-float label="Aisle" ng-model="aisle" ng-required="true"></md-text-float>
-      <md-button type="submit" ng-disabled="myform.$invalid" class="md-primary md-fab" aria-label="Add Product">
-          <md-icon 
-          icon="../bower_components/material-design-icons/action/1x_web/ic_note_add_grey600_24dp.png"></md-icon>
-      </md-button>
-  </md-input-container>
-</form>
+<md-content class="md-padding rs-no-scroll">
+  <form name="myform" ng-submit="addProduct()" novalidate>
+    <md-input-container layout="row" flex>
+        <md-text-float label="Product" ng-model="product" ng-required="true"></md-text-float>
+        <md-text-float label="Aisle" ng-model="aisle" ng-required="true"></md-text-float>
+        <md-button type="submit" ng-disabled="myform.$invalid" class="md-primary md-fab" aria-label="Add Product">
+            <md-icon 
+            icon="../bower_components/material-design-icons/action/1x_web/ic_note_add_grey600_24dp.png"></md-icon>
+        </md-button>
+    </md-input-container>
+  </form>
+</md-content>
 <md-content class="md-padding">
     <md-list>
         <md-item line-through="item.isbought" 
@@ -34,7 +43,7 @@
             </div>
             <div class="md-tile-content" ng-click="gotoDetailsPage(item)">
                 <h3>
-                  <span><strong>{{item.product}}</strong>{{item.amount}} {{item.unit}}</span> 
+                  <span><strong>{{item.amount}} {{item.unit}} {{item.product}}</strong></span> 
                 </h3>
               <h4><span class="md-accent-text">{{item.aisle}}; </span><span>{{item.recipe | lowercase}}</span></h4>
             </div>

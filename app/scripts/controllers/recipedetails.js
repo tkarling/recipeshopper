@@ -27,7 +27,7 @@ angular.module('recipeshopperApp')
 	  	// $log.debug('$scope.whichItem: ', $scope.whichItem);
 	  	// $log.debug('$scope.prevItem: ', $scope.prevItem);
 	  	// $log.debug('$scope.nextItem: ', $scope.nextItem);
-	}
+	};
 
     $scope.gotoPrevItem = function(){
     	$log.debug('RecipeDetailsController: $scope.gotoPrevItem()');
@@ -57,11 +57,11 @@ angular.module('recipeshopperApp')
     var ingredientsMgr; 
   	var setIngredientsMgrAndIngredients = function () {
   		if($scope.recipe) {
-		    // var ingredientsUrl = FB_RECIPES_URL + "/" + $scope.recipe.$id + "/ingredients/";
+		    // var ingredientsUrl = FB_RECIPES_URL + '/' + $scope.recipe.$id + '/ingredients/';
 		    // $log.debug('RecipeDetailsController: ingredientsUrl: ', ingredientsUrl);
 		    // ingredientsMgr = StoredListMgrFactory.getStoredListMgr(ingredientsUrl);
 
-		    var variableUrl = "/" + $scope.recipe.$id + "/ingredients/";
+		    var variableUrl = '/' + $scope.recipe.$id + '/ingredients/';
 		    $log.debug('RecipeDetailsController: variableUrl: ', variableUrl);
 		    ingredientsMgr = StoredListMgrFactory.getStoredListMgr(FB_RECIPES_URL, variableUrl);
 
@@ -70,7 +70,7 @@ angular.module('recipeshopperApp')
 	    		// $log.debug('setIngredientsMgrAndIngredients: $scope.ingredients: ', $scope.ingredients);
 		    });
   		}
-  	}
+  	};
 
     var recipesMgr = StoredListMgrFactory.getStoredListMgr(FB_RECIPES_URL);
 	$scope.recipes = [];

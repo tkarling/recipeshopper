@@ -70,7 +70,7 @@ angular.module('storedListMod')
       var fUrl = fbUrl + variableUrl;
       $log.debug('BasicStoredListMgr: fUrl', fUrl);
       return fUrl;
-    }
+    };
 
     var setRefs = function (data, fbUrl, variableUrl) {
       data.fbUrl = fbUrl;

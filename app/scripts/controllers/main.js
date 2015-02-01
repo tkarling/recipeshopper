@@ -83,7 +83,7 @@ angular.module('recipeshopperApp')
 		$http.get('data/ce_w1.json').success(function(data){ 
 			var items = data;  
 			$log.debug('MainCtrl: addDefaultItemsToList: From Json: items', items);
-			var item = {recipe : "CE Dec-14 w1", isbought : false};
+			var item = {recipe : 'CE Dec-14 w1', isbought : false};
 			for(var i = 0; i < items.length; i++) {
 				for(var j = 0; j < items[i].products.length; j++) {
 					item.product = items[i].products[j];
@@ -101,8 +101,8 @@ angular.module('recipeshopperApp')
 		  recipe : 'New recipe',
 	      product : $scope.product,
 	      aisle : $scope.aisle,
-	      amount : 5,
-	      unit : 'pcs',
+	      // amount : 5,
+	      // unit : 'pcs',
 	      isbought : false
 	      // date: Firebase.ServerValue.TIMESTAMP
 		}).then(function () {
