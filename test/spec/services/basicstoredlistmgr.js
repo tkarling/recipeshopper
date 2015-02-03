@@ -137,62 +137,156 @@ describe('Service: StoredListMgrFactory', function () {
 
 describe('Service: BasicStoredListMgr', function () {
 
-  var mockFirebase, mockUrl;
+    var mockUrl, mockFirebaseRef, mockFirebaseDataRef, spyTmockFirebase, spyLog;
+    var q, deferred,$rootScope;
 
   // load the service's module
   beforeEach(module('storedListMod'));
 
   beforeEach(function () {
 
-      mockFirebase = {
-
-          getSomething: function () {
-              return 'mockReturnValue';
-          }
+      spyLog = {
+        loki: function(text) { 
+          console.log(text);
+        }
       };
 
       mockUrl = 'mockUrl';
 
+      var tmockFirebase = function () {
+      };
+
+      tmockFirebase.prototype.$loaded = function() {
+        deferred = q.defer();
+        spyLog.loki('$loaded');
+        // mockFirebaseRef.items = [1,2,3];
+        return deferred.promise;
+      };
+
+      tmockFirebase.prototype.$add = function(item) {
+        deferred = q.defer();
+        spyLog.loki('$add');
+        return deferred.promise;
+      };
+
+      tmockFirebase.prototype.$remove = function(item) {
+        deferred = q.defer();
+        spyLog.loki('$remove');
+        return deferred.promise;
+      };
+
+      tmockFirebase.prototype.$save = function(item) {
+        deferred = q.defer();
+        spyLog.loki('$save');
+        return deferred.promise;
+      };
+
+      mockFirebaseDataRef = {
+        $asArray: function () {
+          spyLog.loki('$asArray');
+          spyTmockFirebase = new tmockFirebase;
+          return spyTmockFirebase;
+        }
+      };
+
+      mockFirebaseRef = function(item) {
+        spyLog.loki('mockFirebaseRef');
+        return mockFirebaseDataRef;
+      };
+
+  
+    module(function($provide) {
+    });
+
+
       module(function ($provide) {
-          $provide.value('$firebase', mockFirebase);
+          $provide.value('$firebase', mockFirebaseRef);
           $provide.value('FIREBASE_URL', mockUrl);
+          // $provide.factory('tmockFirebase', function($q) {
+          //     console.log('moi');
+          //     var $loaded = jasmine.createSpy('$loaded').andCallFake(function() {
+          //       var items = [];
+           
+          //       if (passPromise) {
+          //         return $q.when(items);
+          //       }
+          //       else {
+          //         return $q.reject('something went wrong');
+          //       }
+          //     });
+
+          //     // var factory = {
+          //     //   // console.log('created tmockFirebase');
+          //     // }; 
+ 
+          //     // factory.$loaded = function() {
+          //     //   console.log('$loaded');
+          //     // }
+ 
+          //     // return factory;
+  
+          //     return {
+          //       $loaded: function() {
+          //         return $loaded;
+          //       }
+          //     };
+          //   });
+
       });
 
   });
 
   // instantiate service
   var BasicStoredListMgr;
-  beforeEach(inject(function (_BasicStoredListMgr_) {
-    BasicStoredListMgr = _BasicStoredListMgr_;
+  beforeEach(inject(function (_$rootScope_, _BasicStoredListMgr_, _$q_) {
+    BasicStoredListMgr = new _BasicStoredListMgr_('MainUrl','VarUrl');
+    q = _$q_;
+    $rootScope  = _$rootScope_;
   }));
 
   it('should do something', function () {
     expect(!!BasicStoredListMgr).toBe(true);
   });
 
-  // it('should set url & refs when created', function () {
+  it('should call $loaded, when getting items for first time', function () {
+      spyOn(spyLog, "loki");
+      var myItems = [];
+      BasicStoredListMgr.getItems().then(function(data) {
+        myItems = data;
+      });
+      deferred.resolve([{$id:'moi'}]);
+      $rootScope.$digest();
+      // expect(myItems).toEqual([1,2,3]);
+      expect(spyLog.loki).toHaveBeenCalledWith("$loaded");
+  });
+
+  // it('should get items from local memory, if items are already fetched from store', function () {
   //   // TEST NOT IMPLEMENTED 
   //   expect(!!BasicStoredListMgr).toBe(true);
   // });
 
-  // it('should call fb methods to get items as an array, if there are NO existing items', function () {
-  //   // TEST NOT IMPLEMENTED 
-  //   expect(!!BasicStoredListMgr).toBe(true);
-  // });
+  it('should call $add, when adding item', function () {
+      spyOn(spyLog, "loki");
+      var item = 1;
+      BasicStoredListMgr.getItems();
+      BasicStoredListMgr.addItem(item);
+      expect(spyLog.loki).toHaveBeenCalledWith("$add");
+  });
 
-  // it('should NOT call fb methods to get items as an array, if there are existing items', function () {
-  //   // TEST NOT IMPLEMENTED 
-  //   expect(!!BasicStoredListMgr).toBe(true);
-  // });
+  it('should call $remove, when deleting item', function () {
+      spyOn(spyLog, "loki");
+      var item = 1;
+      BasicStoredListMgr.getItems();
+      BasicStoredListMgr.deleteItem(item);
+      expect(spyLog.loki).toHaveBeenCalledWith("$remove");
+  });
 
-  // it('should call fb method to add an item', function () {
-  //   // TEST NOT IMPLEMENTED 
-  //   expect(!!BasicStoredListMgr).toBe(true);
-  // });
-
-  // it('should call fb method to remove an item', function () {
-  //   // TEST NOT IMPLEMENTED 
-  //   expect(!!BasicStoredListMgr).toBe(true);
-  // });
+  it('should call $save, when saving item', function () {
+      spyOn(spyLog, "loki");
+      var item = 1;
+      BasicStoredListMgr.getItems();
+      BasicStoredListMgr.saveItem(item);
+      expect(spyLog.loki).toHaveBeenCalledWith("$save");
+  });
 
 });

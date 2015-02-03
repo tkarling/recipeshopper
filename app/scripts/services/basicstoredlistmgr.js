@@ -114,30 +114,29 @@ angular.module('storedListMod')
           return deferred.promise;
     }; // getExistingItemsAsync
 
-    var getItemsFromFBAsync = function(self, itemsAsArray) {
-        return itemsAsArray.$loaded().then(
-          function() {
-            self.data.items = itemsAsArray;
-            $log.debug('BasicStoredListMgr. getItems (after loaded from FB): ', self.data.items);
-            return(self.data.items);
-          }
-        );
-    }; //getItemsFromFBAsync
+    // var getItemsFromFBAsync = function(self) { 
+    //     return self.data.items.$loaded().then(
+    //       function() {
+    //         $log.debug('BasicStoredListMgr. getItems (after loaded from FB): ', self.data.items);
+    //         return(self.data.items);
+    //       }
+    //     );
+    // }; //getItemsFromFBAsync
 
     BasicStoredListMgr.prototype.getItems = function (fieldName, fieldValue) {
         if(this.data.items && (this.data.items.length > 0)) {
           return getExistingItemsAsync(this);
         }
         if(this.data.ref) {
-          var itemsAsArray = [];
           if(fieldName && fieldValue) {
             // get selected items
-            itemsAsArray = $firebase(this.data.ref.orderByChild(fieldName).equalTo(fieldValue)).$asArray();
+            this.data.items = $firebase(this.data.ref.orderByChild(fieldName).equalTo(fieldValue)).$asArray();
           } else {
             // get all items
-            itemsAsArray = this.data.dataRef.$asArray();
+            this.data.items = this.data.dataRef.$asArray();
           }
-          return getItemsFromFBAsync(this, itemsAsArray);
+          return this.data.items.$loaded();
+          // return getItemsFromFBAsync(this); 
         }
     }; // BasicStoredListMgr.prototype.getItems
 
