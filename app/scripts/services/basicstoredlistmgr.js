@@ -109,6 +109,7 @@ angular.module('storedListMod')
     var getExistingItemsAsync = function(self) {
           var deferred = $q.defer();
           $log.debug('BasicStoredListMgr. getExistingItemsAsync (existing)');
+          // console.log('getExistingItemsAsync: self.data.items', self.data.items);
           // $log.debug(self.data.items);
           deferred.resolve(self.data.items);
           return deferred.promise;
@@ -124,6 +125,7 @@ angular.module('storedListMod')
     // }; //getItemsFromFBAsync
 
     BasicStoredListMgr.prototype.getItems = function (fieldName, fieldValue) {
+        // console.log('BasicStoredListMgr.prototype.getItems: this.data.items', this.data.items);
         if(this.data.items && (this.data.items.length > 0)) {
           return getExistingItemsAsync(this);
         }
