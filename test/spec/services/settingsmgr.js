@@ -1,122 +1,155 @@
 'use strict';
 
-describe('Service: settingsMgr', function () {
+describe('Service: settingsMgr', function() {
 
   // load the service's module
-    beforeEach(module('settingsMod'));
-    beforeEach(module('settingsMod'));
+  beforeEach(module('settingsMod'));
 
-    var mockUrl, mockFirebaseRef, mockFirebaseDataRef, mockFirebase;
-    var q, deferred, mockLog;
+  var mockUrl, mockFirebaseRef, spymockFBObject; //mockFirebaseDataRef
+  var q, deferred, $rootScope, $log;
+  var $setSpy, $loadedSpy;
 
-    // var q;
-    // beforeEach(inject(function (_$q_) {
-    //   q= _$q_;
-    // }));
+  beforeEach(function() {
 
-    beforeEach(module(function($provide) {
-      $provide.factory('mockFirebaseFactory', function($q) {
-        // var $loaded = jasmine.createSpy('$loaded').andCallFake(function() {
-        //   var items = [];
-     
-        //   if (passPromise) {
-        //     return $q.when(items);
-        //   }
-        //   else {
-        //     return $q.reject('something went wrong');
-        //   }
-        // });
-        var $loaded = function() {
-          var items = [];
-     
-          if (passPromise) {
-            return $q.when(items);
-          }
-          else {
-            return $q.reject('something went wrong');
-          }
-        };
-     
-        return {
-          $loaded: $loaded
-        };
-      });
-    }));
+    mockUrl = 'mockUrl';
 
+    var mockFBObject = function() {};
 
-    beforeEach(function() {
-            mockUrl = 'mockUrl';
+    mockFBObject.prototype.$loaded = function() {
+      deferred = q.defer();
+      $loadedSpy();
+      return deferred.promise;
+    };
 
-            mockFirebaseDataRef = {
-              $asObject: function () {
-                console.log('$asObject');
-                return mockFirebase;
-              } 
-            };
+    // mockFBObject.prototype.$remove = function(item) {
+    //   deferred = q.defer();
+    //   $removeSpy();
+    //   return deferred.promise;
+    // };
 
-            mockFirebaseRef = function(item) {
-              console.log('mockFirebaseRef');
-              return mockFirebaseDataRef;
-            };
+    // mockFBObject.prototype.$save = function(item) {
+    //   deferred = q.defer();
+    //   $saveSpy();
+    //   return deferred.promise;
+    // };
 
-            // mockFirebase = {
-            //   $save: function () {
-            //      deferred = q.defer();
-            //      return deferred.promise;
-            //   },
-            //   $loaded: function () {
-            //      deferred = q.defer();
-            //      return deferred.promise;
-            //   } 
-            // };
+    // mockFirebaseDataRef = {
+    //   $asObject: function() {
+    //     // console.log('$asObject');
+    //     spymockFBObject = new mockFBObject();
+    //     return spymockFBObject;
+    //   },
 
-            mockLog = {
-              debug: function(p, p1, p2, p3, p4, p5) {
-                // console.log(p, p1, p2, p3, p4?p4:"", p5?p5:"");
-              }
-            };
+    //   $set: function(myKey, myData) {
+    //     deferred = q.defer();
+    //     $setSpy();
+    //     return deferred.promise;
+    //   }
+    // };
 
-            // q = $q;
-            // q = {
-            //   defer: function() {
-            //     return {};
-            //   }
-            // }
+    var mockFirebaseDataRef = function () {};
 
-            module(function ($provide) {
-                $provide.value('$firebase', mockFirebaseRef);
-                $provide.value('FIREBASE_URL', mockUrl);
-                $provide.value('$log', mockLog);
-            });
+    mockFirebaseDataRef.prototype.$asObject = function() {
+      // console.log('Settings:: $asObject');
+      spymockFBObject = new mockFBObject();
+      return spymockFBObject;
+    };
+
+    mockFirebaseDataRef.prototype.$set = function(myKey, myData) {
+      deferred = q.defer();
+      $setSpy();
+      return deferred.promise;
+    };
+
+    mockFirebaseRef = function(item) {
+      // console.log('Settings: mockFirebaseRef');
+      return new mockFirebaseDataRef();
+    };
+
+    module(function($provide) {
+      $provide.value('$firebase', mockFirebaseRef);
+      $provide.value('FIREBASE_URL', mockUrl);
     });
 
-    // instantiate service
-    var settingsMgr;
-    beforeEach(inject(function (_settingsMgr_, mockFirebaseFactory) { //_$q_, _$log_, 
-      // q = _$q_;
-      // mockLog = _$log_;
-      // module(function ($provide) {
-      //         $provide.value('$log', mockLog);
-      //         $provide.value('$firebase', mockFirebaseRef);
-      //         $provide.value('FIREBASE_URL', mockUrl);
-      //     });
-      // mockFirebase = mockFirebaseFactory;
-      // console.log('mockFirebase set');
-      settingsMgr = _settingsMgr_; //(mockLog, mockFirebaseRef, mockUrl)
-    }));
+  });
 
-    // it('should do something', function () {
-    //   expect(!!settingsMgr).toBe(true);
-    // });
+  // instantiate service
+  var settingsMgr;
+  beforeEach(inject(function(_$rootScope_, _settingsMgr_, _$q_, _$log_) {
+    settingsMgr = _settingsMgr_;
+    q = _$q_;
+    $log = _$log_;
+    $rootScope = _$rootScope_;
+  }));
 
-  // it('should set default settings', function () {
-  //   expect(settingsMgr.getSetting('shoppingListSortOrder')).toEqual('aisle');
-  //   expect(settingsMgr.getSetting('recipeSortOrder')).toEqual('recipename');
+  it('should do something', function() {
+    expect(!!settingsMgr).toBe(true);
+  });
+
+
+  it('should get default setting', function() {
+    var result;
+    settingsMgr.getSetting('shoppingListSortOrder').then(function(value) {
+      result = value;
+    });
+
+    $rootScope.$digest();
+    expect(result).toEqual('aisle');
+  });
+
+
+  it('should add user', function() {
+    $setSpy = jasmine.createSpy('$set spy');
+    var userUid = 1;
+    var user = {
+      firstname: 'Tuija', lastname: 'Karling'
+    };
+    var addedUserInfo;
+    settingsMgr.addUser(userUid, user);
+    // settingsMgr.$$$setDataSettings(userInfo);
+
+    $rootScope.$digest();
+    expect($setSpy).toHaveBeenCalled();
+    expect($log.log.logs.length).toEqual(1);
+    var logToCheck = $log.log.logs[0][0];
+    expect(logToCheck.firstname).toEqual('Tuija');
+    expect(logToCheck.lastname).toEqual('Karling');
+    expect(logToCheck.shoppingListSortOrder).toEqual('aisle');
+  });
+
+
+  // it('should add and set user', function() {
+  //   var userUid = 1;
+  //   var user = {
+  //     firstname: 'Tuija', lastname: 'Karling'
+  //   };
+  //   var addedUserInfo, currentUserUid;
+  //   settingsMgr.addUser(userUid, user).then(function(userInfo) {
+  //     addedUserInfo = userInfo;
+  //   });
+  //   settingsMgr.setCurrentUser(userUid).then(function(setUserUid) {
+  //     currentUserUid = setUserUid;
+  //   });
+
+  //   $rootScope.$digest();
+  //   expect(addedUserInfo.myUid).toEqual(currentUserUid);
   // });
 
-  // it('should set settings', function () {
-  //   settingsMgr.setSetting('shoppingListSortOrder', 'recipe');
-  //   expect(settingsMgr.getSetting('shoppingListSortOrder')).toEqual('recipe');
-  // });
+
+  it('should set setting', function () {
+    var result;
+    settingsMgr.getSetting('shoppingListSortOrder').then(function(value) {
+      result = value;
+    });
+    $rootScope.$digest();
+    expect(result).toEqual('aisle');
+
+    settingsMgr.setSetting('shoppingListSortOrder', 'recipe');
+    settingsMgr.getSetting('shoppingListSortOrder').then(function(value) {
+      result = value;
+    });
+    $rootScope.$digest();
+    expect(result).toEqual('recipe');
+  });
 
 });

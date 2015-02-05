@@ -9,12 +9,13 @@
  */
  angular
 .module('loginMod', [
-  'authenticationMod',
+  'authenticationMod', 'settingsMod',
 ]);
 
 angular.module('loginMod')
-  .controller('LoginCtrl', ['$scope', '$log', '$location', 'Authentication', 
-    function ($scope, $log, $location, Authentication) {
+  .controller('LoginCtrl', ['$scope', '$rootScope', '$log', '$location', 'Authentication', 'settingsMgr',
+    function ($scope, $rootScope, $log, $location, Authentication, settingsMgr) { // , settingsMgr
+    $log.debug('LoginCtrl: init controller');
   	// $scope.$on('$viewContentLoaded', function() {
   	// 	console.log($scope.myform);
   	// });
@@ -51,6 +52,9 @@ angular.module('loginMod')
       } else {
         $log.debug('Registered successfully with payload:', authData);
         $scope.login();
+        // settingsMgr.addUser(authData.uid, $scope.user).then(function(data) {
+        //   $scope.login();
+        // });
       }
     }; // registerAuthHandler
 
@@ -58,7 +62,15 @@ angular.module('loginMod')
       Authentication.register($scope.user, registerAuthHandler);
   	}; // register
 
-    $scope.userEmail = Authentication.userEmail();
-    $scope.userLoggedIn = Authentication.userLoggedIn();
+    $scope.user = {};
+    $scope.user.email = Authentication.userEmail();
+    $scope.user.userLoggedIn = Authentication.userLoggedIn();
+
+    $rootScope.$on('handleUserLoggedInChanged', function () {
+        $scope.user.email = Authentication.userEmail();
+        $scope.user.userLoggedIn = Authentication.userLoggedIn();
+        // $scope.$apply($scope.user.userLoggedIn = Authentication.userLoggedIn());
+        $log.debug('LoginCtrl: handleUserLoggedInChanged called', $scope.user.userLoggedIn);
+    });
 
   }]);

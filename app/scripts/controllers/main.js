@@ -34,6 +34,8 @@ angular.module('recipeshopperApp')
   .controller('MainCtrl', ['$scope', '$log', '$http', 'FB_SHOPPINGLIST_URL', 'StoredListMgrFactory', 'settingsMgr', 
   	function ($scope, $log, $http, FB_SHOPPINGLIST_URL, StoredListMgrFactory, settingsMgr) {  
 
+  	// settingsMgr.addUser(1, {firstname: 'Tuija', lastname: 'Karling'});
+
   	// testing settings BEGINS
   	settingsMgr.getSettings().then(function(data) {
 		$log.debug('SETTINGSTEST: MainCtrl: settingsMgr.getSettings: ', data);
@@ -70,6 +72,7 @@ angular.module('recipeshopperApp')
     		addDefaultItemsToList();
     	}
     });
+
     // storeMgr.getItems('aisle', 'EXTRAS').then(function(data) {
     // 	$scope.groceries = data;
     // 	if($scope.groceries.length == 0) {

@@ -83,7 +83,7 @@ angular
 
     $rootScope.$on('handleUserLoggedInChanged', function () {
         $scope.userLoggedIn = Authentication.userLoggedIn();
-        $log.debug('LeftCtrl: handleUserLoggedInChanged called');
+        $log.debug('LeftCtrl: handleUserLoggedInChanged called', $scope.userLoggedIn);
     });
 
   });

@@ -40,9 +40,10 @@ angular.module('settingsMod')
     data.settings = defaultSettings;
     // $log.debug('settingsMgr: data.settings set', data.settings);
 
-    // var fbUrl = FIREBASE_URL + '/settings/';
-    // data.ref = new Firebase(fbUrl);
-    // $log.debug('settingsMgr: url', fbUrl);
+    // var fbUrl = FIREBASE_URL + '/users/';
+    // data.usersRef = new Firebase(fbUrl);
+    // $log.debug('settingsMgr: data.usersRef', data.usersRef);
+
     // data.dataRef = $firebase(data.ref);
     // data.settings = data.dataRef.$asObject();
     // data.settings.$loaded().then(
@@ -65,18 +66,54 @@ angular.module('settingsMod')
           // $log.debug('settingsMgr. getExistingSettingAsync (existing)', data.settings[settingName]);
           deferred.resolve(data.settings[settingName]);
           return deferred.promise;
-    }; // getExistingSettingsAsync
+    }; // getExistingSettingAsync
 
    var setSettingAsync = function(settingName, value) {
           var deferred = $q.defer();
           data.settings[settingName]= value;
           deferred.resolve(data.settings[settingName]);
           return deferred.promise;
-    }; // getExistingSettingsAsync
+    }; // setSettingAsync
+
+   var addUserAsync = function(userUid, user) {
+      var fbUrl = FIREBASE_URL + '/users/';
+      data.ref = new Firebase(fbUrl);
+      data.usersRef = $firebase(data.ref);
+      $log.debug('settingsMgr: data.usersRef', data.usersRef);
+      var userInfo = {
+        myUid: userUid,
+        firstname: user.firstname,
+        lastname: user.lastname
+      };
+      for (var prop in defaultSettings) {
+        if(defaultSettings.hasOwnProperty(prop)){
+            $log.debug('settingsMgr: addUserAsync:', prop + " = " + defaultSettings[prop]);
+            userInfo[prop] = defaultSettings[prop];
+        }
+      };
+
+      // $log.log content is tested in UNIT TEST
+      $log.log(userInfo);   
+      return data.usersRef.$set(userUid, userInfo);
+
+      // var deferred = $q.defer();
+      // // $log.debug('settingsMgr. addUserAsync (user)', user);
+      // deferred.resolve(userInfo);
+      // return deferred.promise;
+    }; // addUserAsync
+
+   var setCurrentUserAsync = function(userUid) {
+          var deferred = $q.defer();
+          // $log.debug('settingsMgr. setCurrentUser (user)', user);
+          deferred.resolve(userUid);
+          return deferred.promise;
+    }; // setCurrentUser
 
     // Public API here
     return {
-      getSettings: getExistingSettingsAsync,
+      getSettings: function () {
+        return getExistingSettingsAsync();
+      }, // getSettings
 
       getSetting: function (settingName) {
         return getExistingSettingAsync(settingName);
@@ -84,6 +121,20 @@ angular.module('settingsMod')
 
       setSetting: function (settingName, value) {
         return setSettingAsync(settingName, value);
-      } // setSetting
+      }, // setSetting
+
+      addUser: function (userUid, user) {
+        return addUserAsync(userUid, user);
+      },
+
+      setCurrentUser: function (userUid) {
+        return setCurrentUserAsync(userUid);
+      },
+
+      // THIS IS FOR UNIT TESTING ONLY
+      $$$setDataSettings: function(userInfo) {
+        data.settings = userInfo;
+      }
     };
+
   });

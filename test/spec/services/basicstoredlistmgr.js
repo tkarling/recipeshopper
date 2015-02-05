@@ -137,20 +137,14 @@ describe('Service: StoredListMgrFactory', function () {
 
 describe('Service: BasicStoredListMgr', function () {
 
-    var mockUrl, mockFirebaseRef, mockFirebaseDataRef, spyTmockFirebase;
-    var q, deferred,$rootScope, passPromise; //, tmockFirebase;
-    var $loadedSpy, $addSpy, $removeSpy, $saveSpy;
-
   // load the service's module
   beforeEach(module('storedListMod'));
 
-  beforeEach(function () {
+  var mockUrl, mockFirebaseRef, mockFirebaseDataRef, spyTmockFirebase;
+  var q, deferred,$rootScope, passPromise; 
+  var $loadedSpy, $addSpy, $removeSpy, $saveSpy;
 
-      // spyLog = {
-      //   loki: function(text) { 
-      //     console.log(text);
-      //   }
-      // };
+  beforeEach(function () {
 
       mockUrl = 'mockUrl';
 
@@ -161,9 +155,9 @@ describe('Service: BasicStoredListMgr', function () {
 
       tmockFirebase.prototype.$loaded = function() {
         deferred = q.defer();
-        // spyLog.loki('$loaded');
         $loadedSpy();
         // spyTmockFirebase.$list = [1,2,3];
+        // spyTmockFirebase[0] = 1;
         // console.log('spyTmockFirebase', spyTmockFirebase);
         return deferred.promise;
       };
@@ -181,7 +175,6 @@ describe('Service: BasicStoredListMgr', function () {
 
       tmockFirebase.prototype.$add = function(item) {
         deferred = q.defer();
-        // spyLog.loki('$add');
         $addSpy();
         return deferred.promise;
       };
@@ -189,20 +182,18 @@ describe('Service: BasicStoredListMgr', function () {
       tmockFirebase.prototype.$remove = function(item) {
         deferred = q.defer();
         $removeSpy();
-        // spyLog.loki('$remove');
         return deferred.promise;
       };
 
       tmockFirebase.prototype.$save = function(item) {
         deferred = q.defer();
         $saveSpy();
-        // spyLog.loki('$save');
         return deferred.promise;
       };
 
       mockFirebaseDataRef = {
         $asArray: function () {
-          // console.log('$asArray');
+          // console.log('BasicStoredListMgr: $asArray');
           // spyTmockFirebase = new tmockFirebase({items: [1,2,3]});
           spyTmockFirebase = new tmockFirebase();
           return spyTmockFirebase;
@@ -210,13 +201,9 @@ describe('Service: BasicStoredListMgr', function () {
       };
 
       mockFirebaseRef = function(item) {
-        // console.log('mockFirebaseRef');
+        // console.log('BasicStoredListMgr: mockFirebaseRef');
         return mockFirebaseDataRef;
       };
-
-  
-    module(function($provide) {
-    });
 
 
       module(function ($provide) {

@@ -5,7 +5,7 @@ describe('Controller: LoginCtrl', function () {
   // load the controller's module
   beforeEach(module('loginMod'));
 
-  var LoginCtrl,scope, mockLog, mockAuthentication;
+  var LoginCtrl,scope, mockLog, mockAuthentication, mockSettingsMgr;
   var q, deferred;
 
   beforeEach(function () {
@@ -31,6 +31,10 @@ describe('Controller: LoginCtrl', function () {
           return true;
         } // userLoggedIn
       };
+
+      mockSettingsMgr = {
+
+      };
   });
 
   // Initialize the controller and a mock scope
@@ -42,7 +46,8 @@ describe('Controller: LoginCtrl', function () {
         $scope: scope,
         $log: mockLog,
         $location: _$location_, 
-        Authentication: mockAuthentication
+        Authentication: mockAuthentication,
+        settingsMgr: mockSettingsMgr
       });
   }));
 

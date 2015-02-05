@@ -4,14 +4,14 @@
     novalidate>
     <!-- ng-controller="StatusCtrl" -->
 
-    <div ng-show="userLoggedIn">
-        <h3 class="user">Hi {{userEmail}}!</h3>
+    <div ng-show="user.userLoggedIn">
+        <h3 class="user">Hi {{user.email}}!</h3>
         <p>You are logged in.</p>
         <a href="#" ng-click="logout()">logout</a>
 
     </div>
 
-    <div ng-hide="userLoggedIn">
+    <div ng-hide="user.userLoggedIn">
       <h1>Hi there!</h1>
       <p>Log-in to access the awesomeness!</p>
       <p class="error formerror" ng-show="message">{{ message }}</p>

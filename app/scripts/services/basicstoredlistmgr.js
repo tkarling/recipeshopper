@@ -51,6 +51,13 @@ angular.module('storedListMod')
                 return mgrItem.mgr;
             },
 
+            prepareForLogout: function() {
+              for (var i = 0; i < StoredListMgrs.length; i++) {
+                StoredListMgrs[i].mgr.prepareForLogout();
+              }
+              StoredListMgrs = [];
+            },
+
             // following for UNIT Testing
             getStoredListMgrs: function() {
               return StoredListMgrs;
@@ -72,16 +79,22 @@ angular.module('storedListMod')
       return fUrl;
     };
 
+    var clearRefs = function(data) {
+      $log.debug('BasicStoredListMgr: clearRefs CALLED');
+      data.ref = undefined;
+      data.dataRef = undefined;
+      if(data.items && data.items.length > 0) {
+        data.items.$destroy();
+      }
+      data.items = [];
+    };
+
     var setRefs = function (data, fbUrl, variableUrl) {
       data.fbUrl = fbUrl;
       data.variableUrl = variableUrl;
-      // $log.debug('BasicStoredListMgr: setRefs: ', data);
-      if(data.ref) {
-        // URL CHANGE NOT E2E IMPLEMENTED/ TESTED YET, this is needed for the change earlier url case. 
-        // Not used if url is set in begining only.
-        data.ref = undefined;
-        data.dataRef = undefined;
-        data.items = [];
+      $log.debug('BasicStoredListMgr: setRefs: ', data, fbUrl, variableUrl);
+      if (data.ref) {
+        clearRefs(data);
       }
       if(data.ref === undefined) {
         data.ref = new Firebase(fullUrl(fbUrl, variableUrl));
@@ -154,6 +167,10 @@ angular.module('storedListMod')
     BasicStoredListMgr.prototype.saveItem = function (item) {
       return this.data.items.$save(item);
     }; // BasicStoredListMgr.prototype.saveItem
+
+    BasicStoredListMgr.prototype.prepareForLogout = function() {
+      clearRefs(this.data);
+    }; // BasicStoredListMgr.prototype.prepareForLogout
 
     // BasicStoredListMgr.prototype.updateItem = function (item, updateDesription) {
     //   return data.dataRef.$update(item.$id, updateDesription);

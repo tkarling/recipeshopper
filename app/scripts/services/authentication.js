@@ -10,15 +10,15 @@
 
 angular
 .module('authenticationMod', [
-  'firebase',
+  'firebase', 'storedListMod',
 ]);
 
 angular.module('authenticationMod')
   .config(function($logProvider) {
     $logProvider.debugEnabled(true);
   })
-  .factory('Authentication', ['$log','$location', '$rootScope', '$timeout', '$firebase', 'FIREBASE_URL', 
-    function ($log, $location, $rootScope, $timeout, $firebase, FIREBASE_URL) {
+  .factory('Authentication', ['$log','$location', '$rootScope', '$timeout', '$firebase', 'FIREBASE_URL', 'StoredListMgrFactory',
+    function ($log, $location, $rootScope, $timeout, $firebase, FIREBASE_URL, StoredListMgrFactory) {
 
     var data = {};
     data.userLoggedIn = false;
@@ -80,6 +80,7 @@ angular.module('authenticationMod')
       }, //register
 
       logout: function() {
+        StoredListMgrFactory.prepareForLogout();
         ref.unauth();
       }, // logout
 
