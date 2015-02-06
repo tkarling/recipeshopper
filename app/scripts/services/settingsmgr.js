@@ -14,17 +14,18 @@ angular
 ]);
 
 angular.module('settingsMod')
-  .factory('settingsMgr', function ($log, $q, $firebase, FIREBASE_URL) {
-    
+  .factory('settingsMgr', function ($rootScope, $log, $q, $firebase, FIREBASE_URL) {
+    $log.debug('settingsMgr: init factory');
+
     var defaultSettings = {
       'shoppingListSortOrder' : 'aisle',
       'recipeSortOrder': 'recipename'
     };
 
     var data = {};
-    var initData =function () {
-      data.settings = defaultSettings;
+    var initData = function () {
       data.currentUserUid = '';
+      data.settings = defaultSettings;
     };
     initData();
 
@@ -72,11 +73,20 @@ angular.module('settingsMod')
     var clearCurrentUserAsync = function () {
       var deferred = $q.defer();
       $log.debug('settingsMgr. clearCurrentUserAsync');
-      data.settings.$destroy();
+      if(data && data.ref && data.settings) {
+        data.settings.$destroy();
+      }
       initData();
       deferred.resolve('');
       return deferred.promise;
     }; //clearCurrentUserAsync
+
+    var currentUserHasNotChanged = function () {
+      var deferred = $q.defer()
+      deferred.resolve(data.currentUserUid);
+      return deferred.promise;
+    }
+
 
     // Public API here
     return {
@@ -89,11 +99,20 @@ angular.module('settingsMod')
       },
 
       setCurrentUser: function (userUid) {
+        $log.debug('settingsMgr: setCurrentUser: data.currentUserUid, userUid', data.currentUserUid, userUid);
+        if(data.currentUserUid == userUid) {
+          return currentUserHasNotChanged();
+        }
         data.currentUserUid = userUid;
-        if(userUid) {
-          return setCurrentUserAsync(userUid);
-        } // else 
-        return clearCurrentUserAsync();
+        var resultPromise = userUid ? setCurrentUserAsync(userUid) : clearCurrentUserAsync();
+        resultPromise.then( function (data) {
+            $rootScope.$broadcast('handleCurrentUserSet');
+        });
+        return resultPromise;
+        // if(userUid) {
+        //   return setCurrentUserAsync(userUid);
+        // } // else 
+        // return clearCurrentUserAsync();
       },
 
       getCurrentUser: function () {

@@ -37,18 +37,14 @@ describe('Service: Authentication', function () {
       expect($log.log.logs.length).toEqual(1);
   }));
 
- it('should write in debug log', inject(function (Authentication, $log) {
-      Authentication.useDependency();
-      expect($log.debug.logs.length).toEqual(1);
-  }));
 
- it('should write in debug log when login is called', inject(function (Authentication, $log) {
-      var user = {};
-      user.email = 'moi@hei.com';
-      Authentication.login(user, null);
-      expect($log.debug.logs.length).toEqual(1);
-      // expect($log.debug.logs[0]).toEqual('moi@hei.com');
-  }));
+ // it('should write in debug log when login is called', inject(function (Authentication, $log) {
+ //      var user = {};
+ //      user.email = 'moi@hei.com';
+ //      Authentication.login(user, null);
+ //      expect($log.debug.logs.length).toEqual(1);
+ //      // expect($log.debug.logs[0]).toEqual('moi@hei.com');
+ //  }));
 
 });
 

@@ -34,48 +34,10 @@ angular.module('recipeshopperApp')
   .controller('MainCtrl', ['$scope', '$rootScope', '$log', '$http', 'FB_SHOPPINGLIST_URL', 'StoredListMgrFactory', 'settingsMgr', 
   	function ($scope, $rootScope, $log, $http, FB_SHOPPINGLIST_URL, StoredListMgrFactory, settingsMgr) {  
 
-  //   $rootScope.$on('handleUserLoggedInChanged', function () {
-  //       // $scope.userLoggedIn = Authentication.userLoggedIn();
-  //       // $log.debug('MainCtrl: handleUserLoggedInChanged called', $scope.userLoggedIn);
-  //       $scope.currentUser = settingsMgr.getCurrentUser();
-		// $log.debug('MainCtrl: currentUser', settingsMgr.getCurrentUser());
-		// $log.debug('MainCtrl: shoppingListSortOrder', settingsMgr.getSetting('shoppingListSortOrder'));
-  //   });
-
-	// $log.debug('MainCtrl: currentUser', settingsMgr.getCurrentUser());
-	// $log.debug('MainCtrl: shoppingListSortOrder', settingsMgr.getSetting('shoppingListSortOrder'));
-
-  // 	settingsMgr.setSetting('shoppingListSortOrder', 'recipe').then(function(data) {
-		// $log.debug('SETTINGSTEST: MainCtrl: settingsMgr.setSetting: ', data);
-  // 	});
-
-  	// testing settings ENDS
-
-	// init  
-	$scope.itemOrder = 'aisle';
-	$scope.showAllDef = false;
-
 	$scope.$watch('showAllDef', function(newValue) {
-		// console.log('newValue: ' + newValue);
 		$scope.showAll = newValue ? ! newValue : undefined;
 		// undefined -show all, true - show unbought only
 	}); //$watch
-
-
-    var storeMgr = StoredListMgrFactory.getStoredListMgr(FB_SHOPPINGLIST_URL);
-    storeMgr.getItems().then(function(data) {
-    	$scope.groceries = data;
-    	if($scope.groceries.length == 0) {
-    		addDefaultItemsToList();
-    	}
-    });
-
-    // storeMgr.getItems('aisle', 'EXTRAS').then(function(data) {
-    // 	$scope.groceries = data;
-    // 	if($scope.groceries.length == 0) {
-    // 		addDefaultItemsToList();
-    // 	}
-    // });
 
     //A QUICK WAY TO FILL EMPTY DB
 	var addDefaultItemsToList =	function () {
@@ -95,6 +57,43 @@ angular.module('recipeshopperApp')
 		});
 		$log.debug('MainCtrl: addDefaultItemsToList $scope.groceries', $scope.groceries);
 	};
+
+
+   	var getGroceries = function () {
+	    var storeMgr = StoredListMgrFactory.getStoredListMgr(FB_SHOPPINGLIST_URL);
+	    storeMgr.getItems().then(function(data) {
+	    	$scope.groceries = data;
+	    	if($scope.groceries.length == 0) {
+	    		addDefaultItemsToList();
+	    	}
+			// $log.debug('MainCtrl: getGroceries $scope.groceries', $scope.groceries);
+	    });
+
+	    // storeMgr.getItems('aisle', 'EXTRAS').then(function(data) {
+	    // 	$scope.groceries = data;
+	    // 	if($scope.groceries.length == 0) {
+	    // 		addDefaultItemsToList();
+	    // 	}
+	    // });
+   	}
+
+	$rootScope.$on('handleCurrentUserSet', function () {
+        $scope.currentUser = settingsMgr.getCurrentUser();
+		$log.debug('MainCtrl: handleCurrentUserSet $scope.currentUser', $scope.currentUser);
+    	if($scope.currentUser) {
+    		getGroceries();
+			$log.debug('MainCtrl: handleCurrentUserSet shoppingListSortOrder', settingsMgr.getSetting('shoppingListSortOrder'));
+    	} 
+    });
+
+	// init  
+	$scope.itemOrder = 'aisle';
+	$scope.showAllDef = false;
+   	$scope.groceries = [];
+   	$scope.currentUser = settingsMgr.getCurrentUser();
+   	if($scope.currentUser) {
+   		getGroceries();
+   	}
 
 	$scope.addProduct = function () {
 		storeMgr.addItem({
@@ -121,33 +120,6 @@ angular.module('recipeshopperApp')
 		storeMgr.saveItem(item);
 	}; // saveProduct
 
-
-
-
-
-
-    // LOCAL STORAGE RELATED IMPLEMENTATION
-	// var groceriesInStore = [];
-	// if(localStorageService) {
-	// 	console.log('localStorageService exists');
-	// 	groceriesInStore = localStorageService.get('groceries');
-	// }
-	// $scope.groceries = groceriesInStore || [];
-
-	// $scope.$watch('groceries', function () {
-	// 	if(localStorageService) {
-	// 	  localStorageService.set('groceries', $scope.groceries);
-	// 	}
-	// }, true);
-
-  	//INCLUDED JSON FILE RELATED IMPLEMENTATION
-	// // read default set from jsonfile in case local storage is empty
-	// if($scope.groceries.length === 0) {
-	// 	$scope.groceries = [];
-	// 	$http.get('data/joululista.json').success(function(data){ 
-	// 	  $scope.groceries = data;
-	// 	});
-	// }
 
   }]);
 

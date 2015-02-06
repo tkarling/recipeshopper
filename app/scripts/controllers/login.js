@@ -32,12 +32,15 @@ angular.module('loginMod')
         Authentication.logout();
       } else {
         $log.debug('Authenticated successfully with payload:', authData);
-        $scope.$apply($location.path('/main'));
+        settingsMgr.setCurrentUser(authData.uid).then(function () {
+            // $scope.$apply($location.path('/main'));
+            $location.path('/main');
+        });
       }
     }; // loginAuthHandler
 
     $scope.login = function () {
-      Authentication.login($scope.user, loginAuthHandler);
+      Authentication.login($scope.inputUser, loginAuthHandler);
     }; // login
 
     $scope.logout = function () {
@@ -48,7 +51,7 @@ angular.module('loginMod')
     var registerAuthHandler = function (error, authData) {
       if (error) {
         $scope.$apply(setErrorMessage(error.message));
-        $log.debug('Registration failed.');
+        $log.debug('Registration failed.', error);
       } else {
         $log.debug('Registered successfully with payload:', authData);
         // $scope.login();
@@ -63,14 +66,14 @@ angular.module('loginMod')
   	}; // register
 
     $scope.user = {};
-    $scope.user.email = Authentication.userEmail();
-    $scope.user.userLoggedIn = Authentication.userLoggedIn();
+    $scope.user.userLoggedIn = settingsMgr.getCurrentUser() != '';
+    $scope.user.firstname = settingsMgr.getSetting('firstname');
 
-    $rootScope.$on('handleUserLoggedInChanged', function () {
-        $scope.user.email = Authentication.userEmail();
-        $scope.user.userLoggedIn = Authentication.userLoggedIn();
+    $rootScope.$on('handleCurrentUserSet', function () {
+        $scope.user.userLoggedIn = settingsMgr.getCurrentUser() != '';
+        $scope.user.firstname = settingsMgr.getSetting('firstname');
         // $scope.$apply($scope.user.userLoggedIn = Authentication.userLoggedIn());
-        $log.debug('LoginCtrl: handleUserLoggedInChanged called', $scope.user.userLoggedIn);
+        $log.debug('LoginCtrl: handleCurrentUserSet called', $scope.user.userLoggedIn, $scope.user.firstname);
     });
 
   }]);

@@ -33,7 +33,12 @@ describe('Controller: LoginCtrl', function () {
       };
 
       mockSettingsMgr = {
-
+        getCurrentUser: function () {
+          return '';
+        },
+        getSetting: function (setting) {
+          return '';
+        }
       };
   });
 
@@ -44,6 +49,7 @@ describe('Controller: LoginCtrl', function () {
       scope = $rootScope.$new();
       LoginCtrl = $controller('LoginCtrl', {
         $scope: scope,
+        $rootScope: $rootScope,
         $log: mockLog,
         $location: _$location_, 
         Authentication: mockAuthentication,

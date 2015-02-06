@@ -5,10 +5,9 @@
     <!-- ng-controller="StatusCtrl" -->
 
     <div ng-show="user.userLoggedIn">
-        <h3 class="user">Hi {{user.email}}!</h3>
+        <h3 class="user">Hi {{user.firstname}}!</h3>
         <p>You are logged in.</p>
         <a href="#" ng-click="logout()">logout</a>
-
     </div>
 
     <div ng-hide="user.userLoggedIn">
@@ -17,13 +16,13 @@
       <p class="error formerror" ng-show="message">{{ message }}</p>
 
       <input type="email" name="email" placeholder="Email"
-        ng-model="user.email" ng-required="true">
+        ng-model="inputUser.email" ng-required="true">
       <p class="error validationerror"
         ng-show="myform.email.$invalid && myform.email.$touched">
         Must be a valid email</p>
       
       <input type="password" name="password" placeholder="Password"
-        ng-model="user.password" ng-required="true">
+        ng-model="inputUser.password" ng-required="true">
       <p class="error validationerror"
         ng-show="myform.password.$invalid && myform.password.$touched">
         password is required</p>
