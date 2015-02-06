@@ -7,11 +7,17 @@ describe('Service: settingsMgr', function() {
 
   var mockUrl, mockFirebaseRef, spymockFBObject; //mockFirebaseDataRef
   var q, deferred, $rootScope, $log;
-  var $setSpy, $loadedSpy;
+  var $asObjectSpy, $setSpy, $loadedSpy, $saveSpy, $destroySpy;
 
   beforeEach(function() {
 
     mockUrl = 'mockUrl';
+
+    // var mockFBObject = function () {
+    //   var $list = [];
+    //   return { moi: $list
+    //          };
+    // } ();
 
     var mockFBObject = function() {};
 
@@ -21,36 +27,23 @@ describe('Service: settingsMgr', function() {
       return deferred.promise;
     };
 
-    // mockFBObject.prototype.$remove = function(item) {
-    //   deferred = q.defer();
-    //   $removeSpy();
-    //   return deferred.promise;
-    // };
+    mockFBObject.prototype.$save = function() {
+      deferred = q.defer();
+      $saveSpy();
+      return deferred.promise;
+    };
 
-    // mockFBObject.prototype.$save = function(item) {
-    //   deferred = q.defer();
-    //   $saveSpy();
-    //   return deferred.promise;
-    // };
+    mockFBObject.prototype.$destroy = function() {
+      deferred = q.defer();
+      $destroySpy();
+      return deferred.promise;
+    };
 
-    // mockFirebaseDataRef = {
-    //   $asObject: function() {
-    //     // console.log('$asObject');
-    //     spymockFBObject = new mockFBObject();
-    //     return spymockFBObject;
-    //   },
-
-    //   $set: function(myKey, myData) {
-    //     deferred = q.defer();
-    //     $setSpy();
-    //     return deferred.promise;
-    //   }
-    // };
-
-    var mockFirebaseDataRef = function () {};
+    var mockFirebaseDataRef = function() {};
 
     mockFirebaseDataRef.prototype.$asObject = function() {
       // console.log('Settings:: $asObject');
+      $asObjectSpy();
       spymockFBObject = new mockFBObject();
       return spymockFBObject;
     };
@@ -87,69 +80,115 @@ describe('Service: settingsMgr', function() {
   });
 
 
-  it('should get default setting', function() {
-    var result;
-    settingsMgr.getSetting('shoppingListSortOrder').then(function(value) {
-      result = value;
-    });
+  describe('Service: settingsMgr: before current user is set', function() {
 
-    $rootScope.$digest();
-    expect(result).toEqual('aisle');
+      it('should get default setting, if current user is not set', function() {
+        var result = settingsMgr.getSetting('shoppingListSortOrder');
+        // $rootScope.$digest();
+        expect(result).toEqual('aisle');
+
+        // var result;
+        // settingsMgr.getSetting('shoppingListSortOrder').then(function(value) {
+        //   result = value;
+        // });
+
+        // $rootScope.$digest();
+        // expect(result).toEqual('aisle');
+      });
+
+      it('set should not call $save, if current user is not set', function () {
+        $saveSpy = jasmine.createSpy('$save spy');
+        settingsMgr.setSetting('shoppingListSortOrder', 'recipe');
+        $rootScope.$digest();
+        expect($saveSpy).not.toHaveBeenCalled();
+
+        var result = settingsMgr.getSetting('shoppingListSortOrder');
+        expect(result).toEqual('recipe');
+      });
+
+
+      it('should add user', function() {
+        $setSpy = jasmine.createSpy('$set spy');
+        var userUid = 'testUid';
+        var user = {
+          firstname: 'Tuija', lastname: 'Karling'
+        };
+        settingsMgr.addUser(userUid, user);
+        // settingsMgr.$$$setDataSettings(userInfo);
+
+        $rootScope.$digest();
+        expect($setSpy).toHaveBeenCalled();
+
+        expect($log.log.logs.length).toEqual(2);
+        var urlInLog = $log.log.logs[0][0];
+        expect(urlInLog).toEqual('mockUrl/users/');
+        
+        var userInfoInLog = $log.log.logs[1][0];
+        expect(userInfoInLog.firstname).toEqual('Tuija');
+        expect(userInfoInLog.lastname).toEqual('Karling');
+        expect(userInfoInLog.shoppingListSortOrder).toEqual('aisle');
+      });
+
+      it('should set and get user', function() {
+        // test setCurrentUser
+        $loadedSpy = jasmine.createSpy('$loaded spy');
+        $asObjectSpy = jasmine.createSpy('$asObjectSpy spy');
+        var userUid = 'testUid';
+        settingsMgr.setCurrentUser(userUid);
+        $rootScope.$digest();
+
+        expect($asObjectSpy).toHaveBeenCalled();
+        expect($loadedSpy).toHaveBeenCalled();
+        
+        expect($log.log.logs.length).toEqual(1);
+        var urlInLog = $log.log.logs[0][0];
+        expect(urlInLog).toEqual('mockUrl/users/testUid');
+
+        // test getCurrentUser
+        var resultUid = settingsMgr.getCurrentUser();
+        expect(resultUid).toEqual('testUid');
+      });
+
   });
 
+  describe('Service: settingsMgr: after current user is set', function() {
 
-  it('should add user', function() {
-    $setSpy = jasmine.createSpy('$set spy');
-    var userUid = 1;
-    var user = {
-      firstname: 'Tuija', lastname: 'Karling'
-    };
-    var addedUserInfo;
-    settingsMgr.addUser(userUid, user);
-    // settingsMgr.$$$setDataSettings(userInfo);
+      beforeEach (function() {
+          settingsMgr.setCurrentUser('testUid');
+          // note this writes one item to $log.log
+      });
 
-    $rootScope.$digest();
-    expect($setSpy).toHaveBeenCalled();
-    expect($log.log.logs.length).toEqual(1);
-    var logToCheck = $log.log.logs[0][0];
-    expect(logToCheck.firstname).toEqual('Tuija');
-    expect(logToCheck.lastname).toEqual('Karling');
-    expect(logToCheck.shoppingListSortOrder).toEqual('aisle');
-  });
+      it('should set and get setting', function () {
+        $saveSpy = jasmine.createSpy('$save spy');
+        settingsMgr.setSetting('shoppingListSortOrder', 'recipe');
+        $rootScope.$digest();
+        expect($saveSpy).toHaveBeenCalled();
+
+        var result = settingsMgr.getSetting('shoppingListSortOrder');
+        expect(result).toEqual('recipe');
+      });
 
 
-  // it('should add and set user', function() {
-  //   var userUid = 1;
-  //   var user = {
-  //     firstname: 'Tuija', lastname: 'Karling'
-  //   };
-  //   var addedUserInfo, currentUserUid;
-  //   settingsMgr.addUser(userUid, user).then(function(userInfo) {
-  //     addedUserInfo = userInfo;
-  //   });
-  //   settingsMgr.setCurrentUser(userUid).then(function(setUserUid) {
-  //     currentUserUid = setUserUid;
-  //   });
+      it("should set user to ''(to be called e.g. before logout)", function() {
+        $loadedSpy = jasmine.createSpy('$loaded spy');
+        $asObjectSpy = jasmine.createSpy('$asObjectSpy spy');
+        $destroySpy = jasmine.createSpy('$destroy spy');
+        var userUid = '';
+        settingsMgr.setCurrentUser(userUid);
+        $rootScope.$digest();
 
-  //   $rootScope.$digest();
-  //   expect(addedUserInfo.myUid).toEqual(currentUserUid);
-  // });
+        expect($asObjectSpy).not.toHaveBeenCalled();
+        expect($loadedSpy).not.toHaveBeenCalled();
+        expect($destroySpy).toHaveBeenCalled();
+        
+        // test all is reset
+        expect(settingsMgr.getCurrentUser()).toEqual('');
+        expect(settingsMgr.getSetting('firstname')).toEqual(undefined);
+        expect(settingsMgr.getSetting('lastname')).toEqual(undefined);
+        expect(settingsMgr.getSetting('shoppingListSortOrder')).toEqual('aisle');
+      });
 
 
-  it('should set setting', function () {
-    var result;
-    settingsMgr.getSetting('shoppingListSortOrder').then(function(value) {
-      result = value;
-    });
-    $rootScope.$digest();
-    expect(result).toEqual('aisle');
-
-    settingsMgr.setSetting('shoppingListSortOrder', 'recipe');
-    settingsMgr.getSetting('shoppingListSortOrder').then(function(value) {
-      result = value;
-    });
-    $rootScope.$digest();
-    expect(result).toEqual('recipe');
   });
 
 });

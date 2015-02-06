@@ -31,27 +31,24 @@ angular.module('recipeshopperApp')
   	};
   })
   .constant('FB_SHOPPINGLIST_URL', 'https://recipeshopper.firebaseio.com/shoppinglist/')
-  .controller('MainCtrl', ['$scope', '$log', '$http', 'FB_SHOPPINGLIST_URL', 'StoredListMgrFactory', 'settingsMgr', 
-  	function ($scope, $log, $http, FB_SHOPPINGLIST_URL, StoredListMgrFactory, settingsMgr) {  
+  .controller('MainCtrl', ['$scope', '$rootScope', '$log', '$http', 'FB_SHOPPINGLIST_URL', 'StoredListMgrFactory', 'settingsMgr', 
+  	function ($scope, $rootScope, $log, $http, FB_SHOPPINGLIST_URL, StoredListMgrFactory, settingsMgr) {  
 
-  	// settingsMgr.addUser(1, {firstname: 'Tuija', lastname: 'Karling'});
+  //   $rootScope.$on('handleUserLoggedInChanged', function () {
+  //       // $scope.userLoggedIn = Authentication.userLoggedIn();
+  //       // $log.debug('MainCtrl: handleUserLoggedInChanged called', $scope.userLoggedIn);
+  //       $scope.currentUser = settingsMgr.getCurrentUser();
+		// $log.debug('MainCtrl: currentUser', settingsMgr.getCurrentUser());
+		// $log.debug('MainCtrl: shoppingListSortOrder', settingsMgr.getSetting('shoppingListSortOrder'));
+  //   });
 
-  	// testing settings BEGINS
-  	settingsMgr.getSettings().then(function(data) {
-		$log.debug('SETTINGSTEST: MainCtrl: settingsMgr.getSettings: ', data);
-  	});
+	// $log.debug('MainCtrl: currentUser', settingsMgr.getCurrentUser());
+	// $log.debug('MainCtrl: shoppingListSortOrder', settingsMgr.getSetting('shoppingListSortOrder'));
 
-  	settingsMgr.getSetting('shoppingListSortOrder').then(function(data) {
-		$log.debug('SETTINGSTEST: MainCtrl: settingsMgr.getSetting: ', data);
-  	});
+  // 	settingsMgr.setSetting('shoppingListSortOrder', 'recipe').then(function(data) {
+		// $log.debug('SETTINGSTEST: MainCtrl: settingsMgr.setSetting: ', data);
+  // 	});
 
-  	settingsMgr.setSetting('shoppingListSortOrder', 'recipe').then(function(data) {
-		$log.debug('SETTINGSTEST: MainCtrl: settingsMgr.setSetting: ', data);
-  	});
-
-  	settingsMgr.getSetting('shoppingListSortOrder').then(function(data) {
-		$log.debug('SETTINGSTEST: MainCtrl: settingsMgr.getSetting AFTER set: ', data);
-  	});
   	// testing settings ENDS
 
 	// init  

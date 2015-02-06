@@ -51,10 +51,10 @@ angular.module('loginMod')
         $log.debug('Registration failed.');
       } else {
         $log.debug('Registered successfully with payload:', authData);
-        $scope.login();
-        // settingsMgr.addUser(authData.uid, $scope.user).then(function(data) {
-        //   $scope.login();
-        // });
+        // $scope.login();
+        settingsMgr.addUser(authData.uid, $scope.user).then(function(data) {
+          $scope.login();
+        });
       }
     }; // registerAuthHandler
 

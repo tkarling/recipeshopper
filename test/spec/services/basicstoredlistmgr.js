@@ -35,7 +35,7 @@ describe('Service: StoredListMgrFactory', function () {
     expect(!!StoredListMgrFactory).toBe(true);
   });
 
-  it('should first add StoredListMgr, when mgr does not exist yet', function () {
+  it('should add first StoredListMgr, when mgr does not exist yet', function () {
     var StoredListMgrs = StoredListMgrFactory.getStoredListMgrs();
     expect(StoredListMgrs.length).toBe(0);
 
@@ -47,7 +47,7 @@ describe('Service: StoredListMgrFactory', function () {
     expect(StoredListMgrs[0].variableUrl).toBe(undefined);  
   });
 
-  it('should add another StoredListMgr, when mgr does not exist yet', function () {
+  it('should add different StoredListMgr', function () {
     var StoredListMgrs = StoredListMgrFactory.getStoredListMgrs();
     expect(StoredListMgrs.length).toBe(0);
 
@@ -62,7 +62,7 @@ describe('Service: StoredListMgrFactory', function () {
     expect(StoredListMgrs[1].variableUrl).toBe('/345/ingredients/');  
   });
 
-  it('should not add StoredListMgr, when mgr exists already', function () {
+  it('should not add already existing StoredListMgr', function () {
     var StoredListMgrs = StoredListMgrFactory.getStoredListMgrs();
     expect(StoredListMgrs.length).toBe(0);
 
@@ -75,7 +75,7 @@ describe('Service: StoredListMgrFactory', function () {
     expect(StoredListMgrs[0].variableUrl).toBe(undefined);  
   });
 
-  it('should not add StoredListMgr, and keep its variable url, when mgr with same fixed url & variable url exits', function () {
+  it('should not add StoredListMgr, and keep its variable url, when same fixed & variable url', function () {
     var StoredListMgrs = StoredListMgrFactory.getStoredListMgrs();
     expect(StoredListMgrs.length).toBe(0);
 
@@ -88,7 +88,7 @@ describe('Service: StoredListMgrFactory', function () {
     expect(StoredListMgrs[0].variableUrl).toBe('/123/ingredients/');  
   });
 
-  it('should not add StoredListMgr, but change its variable url, when mgr with same fixed url, but different variable url exists', function () {
+  it('should not add StoredListMgr, but change its variable url, when same fixed & but different variable url', function () {
     var StoredListMgrs = StoredListMgrFactory.getStoredListMgrs();
     expect(StoredListMgrs.length).toBe(0);
 
@@ -101,7 +101,7 @@ describe('Service: StoredListMgrFactory', function () {
     expect(StoredListMgrs[0].variableUrl).toBe('/345/ingredients/');  
   });
 
-  it('should add StoredListMgr, if new mgr w existing fixed part has variable part but existing one has it undefined', function () {
+  it('should add StoredListMgr, if 1st v undefined, 2nd v not undefined', function () {
     var StoredListMgrs = StoredListMgrFactory.getStoredListMgrs();
     expect(StoredListMgrs.length).toBe(0);
 
@@ -116,7 +116,7 @@ describe('Service: StoredListMgrFactory', function () {
     expect(StoredListMgrs[1].variableUrl).toBe('/345/ingredients/');  
   });
 
-  it('should not add StoredListMgr, but change its variable url, when mgr with same fixed url, but different variable url exists', function () {
+  it('should update 2nd variable url, if 1st v undefined and 2nd & 3rd v not undefined', function () {
     var StoredListMgrs = StoredListMgrFactory.getStoredListMgrs();
     expect(StoredListMgrs.length).toBe(0);
 
@@ -130,6 +130,21 @@ describe('Service: StoredListMgrFactory', function () {
     expect(StoredListMgrs[0].variableUrl).toBe(undefined);  
     expect(StoredListMgrs[1].fburl).toBe('demourl');
     expect(StoredListMgrs[1].variableUrl).toBe('/345/ingredients/');  
+  });
+
+  it('should add StoredListMgr, if 1st v not undefined, 2nd v undefined', function () {
+    var StoredListMgrs = StoredListMgrFactory.getStoredListMgrs();
+    expect(StoredListMgrs.length).toBe(0);
+
+    var StoredListMgr = StoredListMgrFactory.getStoredListMgr('demourl', '/345/ingredients/');
+    var SecondStoredListMgr = StoredListMgrFactory.getStoredListMgr('demourl');
+
+    StoredListMgrs = StoredListMgrFactory.getStoredListMgrs();
+    expect(StoredListMgrs.length).toBe(2);
+    expect(StoredListMgrs[0].fburl).toBe('demourl');
+    expect(StoredListMgrs[0].variableUrl).toBe('/345/ingredients/');  
+    expect(StoredListMgrs[1].fburl).toBe('demourl');
+    expect(StoredListMgrs[1].variableUrl).toBe(undefined);  
   });
 
 });
@@ -148,17 +163,26 @@ describe('Service: BasicStoredListMgr', function () {
 
       mockUrl = 'mockUrl';
 
-      var tmockFirebase = function () {
+      var tmockFirebase = function() {
+      // var tmockFirebase = {
         // this.$list = [1,2,3];
         // return this.$list;
+        // return this;
       };
+
+      tmockFirebase.prototype = Array.prototype;
 
       tmockFirebase.prototype.$loaded = function() {
         deferred = q.defer();
         $loadedSpy();
-        // spyTmockFirebase.$list = [1,2,3];
-        // spyTmockFirebase[0] = 1;
-        // console.log('spyTmockFirebase', spyTmockFirebase);
+        // tmockFirebase.$list = [1,2,3];
+        // this[0] = 1;
+        // this[1] = 2;
+        // this[2] = 3;
+        // // this = [1,2,3]
+        // deferred.resolve(this);
+        // console.log('this', this);
+
         return deferred.promise;
       };
 
@@ -194,9 +218,8 @@ describe('Service: BasicStoredListMgr', function () {
       mockFirebaseDataRef = {
         $asArray: function () {
           // console.log('BasicStoredListMgr: $asArray');
-          // spyTmockFirebase = new tmockFirebase({items: [1,2,3]});
-          spyTmockFirebase = new tmockFirebase();
-          return spyTmockFirebase;
+          // return tmockFirebase;
+          return new tmockFirebase;
         }
       };
 
@@ -307,7 +330,7 @@ describe('Service: BasicStoredListMgr', function () {
   //     });
 
   //     $rootScope.$digest();
-
+  //     expect($loadedSpy).not.toHaveBeenCalled();
   //     expect(myItems).toEqual([1,2,3]);
   // });
 
