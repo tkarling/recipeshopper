@@ -13,12 +13,6 @@ describe('Service: settingsMgr', function() {
 
     mockUrl = 'mockUrl';
 
-    // var mockFBObject = function () {
-    //   var $list = [];
-    //   return { moi: $list
-    //          };
-    // } ();
-
     var mockFBObject = function() {};
 
     mockFBObject.prototype.$loaded = function() {
@@ -84,16 +78,7 @@ describe('Service: settingsMgr', function() {
 
       it('should get default setting, if current user is not set', function() {
         var result = settingsMgr.getSetting('shoppingListSortOrder');
-        // $rootScope.$digest();
         expect(result).toEqual('aisle');
-
-        // var result;
-        // settingsMgr.getSetting('shoppingListSortOrder').then(function(value) {
-        //   result = value;
-        // });
-
-        // $rootScope.$digest();
-        // expect(result).toEqual('aisle');
       });
 
       it('set should not call $save, if current user is not set', function () {
@@ -114,7 +99,6 @@ describe('Service: settingsMgr', function() {
           firstname: 'Tuija', lastname: 'Karling'
         };
         settingsMgr.addUser(userUid, user);
-        // settingsMgr.$$$setDataSettings(userInfo);
 
         $rootScope.$digest();
         expect($setSpy).toHaveBeenCalled();

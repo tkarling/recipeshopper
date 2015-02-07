@@ -17,44 +17,44 @@ angular.module('authenticationMod')
   .config(function($logProvider) {
     $logProvider.debugEnabled(true);
   })
-  .factory('Authentication', ['$log','$location', '$rootScope', '$timeout', '$firebase', 'FIREBASE_URL', 'settingsMgr', 'StoredListMgrFactory',
-    function ($log, $location, $rootScope, $timeout, $firebase, FIREBASE_URL, settingsMgr, StoredListMgrFactory) {
+  .factory('Authentication', ['$log','$rootScope', '$firebaseAuth', 'FIREBASE_URL', 'settingsMgr', 'StoredListMgrFactory',
+    function ($log, $rootScope, $firebaseAuth, FIREBASE_URL, settingsMgr, StoredListMgrFactory) {
     $log.debug('Authentication: init factory');
 
     var data = {};
     data.userLoggedIn = false;
-    var ref = new Firebase(FIREBASE_URL);
+    data.ref = new Firebase(FIREBASE_URL);
+    data.authObj = $firebaseAuth(data.ref);
 
     var authDataCallback = function(authData) {
-      $log.debug('authDataCallback called', authData);
+      $log.debug('Authentication: authDataCallback called', authData);
       data.userLoggedIn = authData && authData.uid && authData.uid != undefined;
       settingsMgr.setCurrentUser(authData ? authData.uid : '');
     }; //authDataCallback
 
-    ref.onAuth(authDataCallback);
+    data.ref.onAuth(authDataCallback);
 
     // Public API here
     return {
-      login: function (user, authHandler) {
-        $log.debug(user.email);
-        ref.authWithPassword({
+      login: function (user) {
+        $log.debug('Authentication: login', user.email);
+        return data.authObj.$authWithPassword({
           email: user.email,
           password: user.password
-        }, authHandler);
+        });
       }, //login
 
-      register: function (user, authHandler) {
-        $log.debug(user.email);
-        ref.createUser({
+      register: function (user) {
+        $log.debug('Authentication: register', user.email);
+        return data.authObj.$createUser({
           email: user.email,
           password: user.password
-        }, authHandler);
+        });
       }, //register
 
       logout: function() {
         StoredListMgrFactory.prepareForLogout();
-        // settingsMgr.setCurrentUser('');
-        ref.unauth();
+        return data.authObj.$unauth();
       }, // logout
 
       userLoggedIn: function () {

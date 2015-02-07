@@ -25,44 +25,33 @@ angular.module('loginMod')
       $log.debug('Login Failed!', $scope.message, errorMessage);
     }; // setErrorMessage
 
-    var loginAuthHandler = function (error, authData) {
-      if (error) {
-        $scope.$apply(setErrorMessage(error.message));
-        $log.debug('logging out now');
-        Authentication.logout();
-      } else {
-        $log.debug('Authenticated successfully with payload:', authData);
-        settingsMgr.setCurrentUser(authData.uid).then(function () {
-            // $scope.$apply($location.path('/main'));
-            $location.path('/main');
-        });
-      }
-    }; // loginAuthHandler
-
     $scope.login = function () {
-      Authentication.login($scope.inputUser, loginAuthHandler);
+      Authentication.login($scope.inputUser).then(function (authData) {
+          $log.debug('Authenticated successfully with payload:', authData);
+          settingsMgr.setCurrentUser(authData.uid).then(function () {
+              $location.path('/main');
+          });
+      }).catch(function(error) {
+          setErrorMessage(error.message);
+          $log.debug('logging out now');
+          Authentication.logout();
+      });
     }; // login
 
     $scope.logout = function () {
       Authentication.logout();
-      // $location.path('/login'); // not really needed as on login page already
     }; // logout
 
-    var registerAuthHandler = function (error, authData) {
-      if (error) {
-        $scope.$apply(setErrorMessage(error.message));
-        $log.debug('Registration failed.', error);
-      } else {
-        $log.debug('Registered successfully with payload:', authData);
-        // $scope.login();
-        settingsMgr.addUser(authData.uid, $scope.user).then(function(data) {
-          $scope.login();
-        });
-      }
-    }; // registerAuthHandler
-
   	$scope.register = function () {
-      Authentication.register($scope.user, registerAuthHandler);
+      Authentication.register($scope.inputUser).then(function (authData) {
+          $log.debug('Registered successfully with payload:', authData);
+          settingsMgr.addUser(authData.uid, $scope.inputUser).then(function(data) {
+              $scope.login();
+          });
+      }).catch(function(error) {
+          setErrorMessage(error.message);
+          $log.debug('Registration failed.', error);
+      });
   	}; // register
 
     $scope.user = {};
@@ -72,7 +61,6 @@ angular.module('loginMod')
     $rootScope.$on('handleCurrentUserSet', function () {
         $scope.user.userLoggedIn = settingsMgr.getCurrentUser() != '';
         $scope.user.firstname = settingsMgr.getSetting('firstname');
-        // $scope.$apply($scope.user.userLoggedIn = Authentication.userLoggedIn());
         $log.debug('LoginCtrl: handleCurrentUserSet called', $scope.user.userLoggedIn, $scope.user.firstname);
     });
 
