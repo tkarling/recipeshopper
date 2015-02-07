@@ -59,15 +59,7 @@ angular.module('authenticationMod')
 
       userLoggedIn: function () {
         return data.userLoggedIn;
-      }, // userLoggedIn
-
-      // This is practice for setting up unit testing
-      useDependency: function () {
-        $log.log('useDependency');
-        $log.debug('useDependency');
-        // console.log('console.log: useDependency');
-        return $firebase.getSomething();
-      } // userEmail
+      } // userLoggedIn
       
     }; 
 

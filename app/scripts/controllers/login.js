@@ -22,7 +22,7 @@ angular.module('loginMod')
     
     var setErrorMessage = function (errorMessage) {
       $scope.message = errorMessage;
-      $log.debug('Login Failed!', $scope.message, errorMessage);
+      $log.debug('LoginCtrl:setErrorMessage', $scope.message, errorMessage);
     }; // setErrorMessage
 
     $scope.login = function () {
@@ -30,10 +30,13 @@ angular.module('loginMod')
           $log.debug('Authenticated successfully with payload:', authData);
           settingsMgr.setCurrentUser(authData.uid).then(function () {
               $location.path('/main');
+          }).catch(function(error) {
+              setErrorMessage(error.message);
+              $log.error('ERROR: getting user info from store after logging in failed');
           });
       }).catch(function(error) {
           setErrorMessage(error.message);
-          $log.debug('logging out now');
+          $log.debug('LoginCtrl: login: logging out now');
           Authentication.logout();
       });
     }; // login
@@ -47,10 +50,12 @@ angular.module('loginMod')
           $log.debug('Registered successfully with payload:', authData);
           settingsMgr.addUser(authData.uid, $scope.inputUser).then(function(data) {
               $scope.login();
+          }).catch(function(error) {
+              setErrorMessage(error.message);
+              $log.error('ERROR: adding user to store after registering failed');
           });
       }).catch(function(error) {
           setErrorMessage(error.message);
-          $log.debug('Registration failed.', error);
       });
   	}; // register
 

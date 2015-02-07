@@ -11,33 +11,7 @@ describe('Service: Authentication', function () {
 
     var mockUrl = 'mockUrl';
 
-    // var mockFBAuthObject = function() {};
-
-    // mockFBAuthObject.prototype.$loaded = function() {
-    //   deferred = q.defer();
-    //   $loadedSpy();
-    //   return deferred.promise;
-    // };
-
-    // mockFBAuthObject.prototype.$save = function() {
-    //   deferred = q.defer();
-    //   $saveSpy();
-    //   return deferred.promise;
-    // };
-
-    // mockFBAuthObject.prototype.$destroy = function() {
-    //   deferred = q.defer();
-    //   $destroySpy();
-    //   return deferred.promise;
-    // };
-
     var mockFirebaseAuthRef = function() {};
-
-    // mockFirebaseAuthRef.prototype.$asObject = function() {
-    //   // console.log('Settings:: $asObject');
-    //   $asObjectSpy();
-    //   return new mockFBAuthObject();
-    // };
 
     mockFirebaseAuthRef.prototype.$authWithPassword = function(user) {
       deferred = q.defer();
@@ -58,7 +32,7 @@ describe('Service: Authentication', function () {
     };
 
     var mockFirebaseAuth = function(item) {
-      // console.log('Settings: mockFirebaseRef');
+      // console.log('Authentication: mockFirebaseAuth');
       return new mockFirebaseAuthRef();
     };
 
