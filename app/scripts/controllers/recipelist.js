@@ -9,9 +9,9 @@
  */
 angular.module('recipeshopperApp')
   .constant('FB_RECIPES_URL', 'https://recipeshopper.firebaseio.com/recipes')
-  .controller('RecipelistCtrl', ['$scope', '$rootScope', '$log', '$location', '$http', 
+  .controller('RecipelistCtrl', ['$scope', '$log', '$location', '$http', 
   	'FB_RECIPES_URL', 'StoredListMgrFactory', 'settingsMgr', 
-  	function ($scope, $rootScope, $log, $location, $http, FB_RECIPES_URL, StoredListMgrFactory, settingsMgr) {
+  	function ($scope, $log, $location, $http, FB_RECIPES_URL, StoredListMgrFactory, settingsMgr) {
 
   	var getRecipes = function () {
 	    var recipesMgr = StoredListMgrFactory.getStoredListMgr(FB_RECIPES_URL);
@@ -20,7 +20,7 @@ angular.module('recipeshopperApp')
 	    });
   	}
 
-	$rootScope.$on('handleCurrentUserSet', function () {
+	$scope.$on('handleCurrentUserSet', function () {
         $scope.currentUser = settingsMgr.getCurrentUser();
 		$log.debug('RecipelistCtrl: handleCurrentUserSet $scope.currentUser', $scope.currentUser);
     	if($scope.currentUser) {

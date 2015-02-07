@@ -31,8 +31,8 @@ angular.module('recipeshopperApp')
   	};
   })
   .constant('FB_SHOPPINGLIST_URL', 'https://recipeshopper.firebaseio.com/shoppinglist/')
-  .controller('MainCtrl', ['$scope', '$rootScope', '$log', '$http', 'FB_SHOPPINGLIST_URL', 'StoredListMgrFactory', 'settingsMgr', 
-  	function ($scope, $rootScope, $log, $http, FB_SHOPPINGLIST_URL, StoredListMgrFactory, settingsMgr) {  
+  .controller('MainCtrl', ['$scope', '$log', '$http', 'FB_SHOPPINGLIST_URL', 'StoredListMgrFactory', 'settingsMgr', 
+  	function ($scope, $log, $http, FB_SHOPPINGLIST_URL, StoredListMgrFactory, settingsMgr) {  
 
 	$scope.$watch('showAllDef', function(newValue) {
 		$scope.showAll = newValue ? ! newValue : undefined;
@@ -77,7 +77,7 @@ angular.module('recipeshopperApp')
 	    // });
    	}
 
-	$rootScope.$on('handleCurrentUserSet', function () {
+	$scope.$on('handleCurrentUserSet', function () {
         $scope.currentUser = settingsMgr.getCurrentUser();
 		$log.debug('MainCtrl: handleCurrentUserSet $scope.currentUser', $scope.currentUser);
     	if($scope.currentUser) {

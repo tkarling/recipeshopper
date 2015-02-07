@@ -13,8 +13,8 @@
 ]);
 
 angular.module('loginMod')
-  .controller('LoginCtrl', ['$scope', '$rootScope', '$log', '$location', 'Authentication', 'settingsMgr',
-    function ($scope, $rootScope, $log, $location, Authentication, settingsMgr) { // , settingsMgr
+  .controller('LoginCtrl', ['$scope', '$log', '$location', 'Authentication', 'settingsMgr',
+    function ($scope, $log, $location, Authentication, settingsMgr) { // , settingsMgr
     $log.debug('LoginCtrl: init controller');
   	// $scope.$on('$viewContentLoaded', function() {
   	// 	console.log($scope.myform);
@@ -63,7 +63,7 @@ angular.module('loginMod')
     $scope.user.userLoggedIn = settingsMgr.getCurrentUser() != '';
     $scope.user.firstname = settingsMgr.getSetting('firstname');
 
-    $rootScope.$on('handleCurrentUserSet', function () {
+    $scope.$on('handleCurrentUserSet', function () {
         $scope.user.userLoggedIn = settingsMgr.getCurrentUser() != '';
         $scope.user.firstname = settingsMgr.getSetting('firstname');
         $log.debug('LoginCtrl: handleCurrentUserSet called', $scope.user.userLoggedIn, $scope.user.firstname);
