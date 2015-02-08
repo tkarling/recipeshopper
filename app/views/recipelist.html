@@ -1,25 +1,37 @@
-<md-content layout="row">
-      <md-text-float label="Search for Recipes" ng-model="query"></md-text-float>
+<md-content class="md-padding">
+  <md-content layout="row">
+      <md-input-container flex>
+          <label>Search for Recipes</label>
+          <input ng-model="query">
+      </md-input-container>
       <!-- <label >by:
         <select ng-model="itemOrder">
           <option value="category">Caterory</option>
           <option value="recipename">Recipe Name</option>
         </select>
       </label> -->
-</md-content>
-<form name="myform" ng-submit="addRecipe()" novalidate>
-  <md-input-container layout="row">
-      <md-text-float label="Recipe Name" ng-model="recipename" ng-required="true"></md-text-float>
-      <md-text-float label="Category Name" ng-model="category" ng-required="true"></md-text-float>
+  </md-content>
+  <md-content>
+  <form name="myform" ng-submit="addRecipe()" novalidate>
+    <div layout>
+      <md-input-container flex>
+          <label>Recipe Name</label>
+          <input ng-model="recipename" ng-required="true">
+      </md-input-container>
+      <md-input-container flex>
+          <label>Category Name</label>
+          <input ng-model="category" ng-required="true">
+      </md-input-container>
       <md-button type="submit" ng-disabled="myform.$invalid" class="md-primary md-fab" aria-label="Add Recipe">
-          <md-icon 
-          icon="../bower_components/material-design-icons/action/1x_web/ic_note_add_grey600_24dp.png"></md-icon>
+              <md-icon 
+              icon="../bower_components/material-design-icons/action/1x_web/ic_note_add_grey600_24dp.png"></md-icon>
       </md-button>
-  </md-input-container>
-</form>
-<md-content class="md-padding">
+    </div>
+  </form>
+  </md-content>
+  <md-content>
     <md-list>
-        <md-item ng-repeat="item in recipes | filter: showAll | filter: query | orderBy: ['-onlist', itemOrder, 'recipename']">
+        <md-item ng-repeat="item in recipes | filter: query | orderBy: ['-onlist', itemOrder, 'recipename']">
           <md-item-content> 
             <div class="md-tile-right">
                 <md-checkbox md-no-ink aria-label="Is on Shopping List" ng-model="item.onlist" 
@@ -40,8 +52,9 @@
             </div>
           </md-item-content>
           <md-divider inset></md-divider>
-      </md-item>
-  </md-list>
-<md-content>
+        </md-item>
+    </md-list>
+  </md-content>
+</md-content>
 
 

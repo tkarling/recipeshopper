@@ -14,7 +14,7 @@ angular.module('recipeshopperApp')
   	function ($scope, $log, $location, $http, FB_RECIPES_URL, StoredListMgrFactory, settingsMgr) {
 
   	var getRecipes = function () {
-	    var recipesMgr = StoredListMgrFactory.getStoredListMgr(FB_RECIPES_URL);
+	    recipesMgr = StoredListMgrFactory.getStoredListMgr(FB_RECIPES_URL);
 	    recipesMgr.getItems().then(function(data) {
 	    	$scope.recipes = data;
 	    });
@@ -28,6 +28,7 @@ angular.module('recipeshopperApp')
     	} 
     });
 
+	var recipesMgr;
 	$scope.recipes = [];
    	$scope.currentUser = settingsMgr.getCurrentUser();
    	if($scope.currentUser) {

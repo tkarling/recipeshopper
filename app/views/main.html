@@ -8,56 +8,67 @@
 }
 </style>
 
-<md-content layout="row" class="md-padding rs-no-scroll">
-      <md-text-float label="Search for products" ng-model="query"></md-text-float>
-      <!--<label class="formgroup">by:
-            <select ng-model="itemOrder">
-              <option value="aisle">Aisle</option>
-              <option value="recipe">Recipe</option>
-            </select>
-          </label> -->
-          <md-checkbox md-no-ink aria-label="Do Not Show Bought" ng-model="showAllDef" 
-            class="md-primary rs-h4-size">Do Not Show Bought</md-checkbox> <!-- ng-change="updateRecipe(item)" -->
-</md-content>
-<md-content class="md-padding rs-no-scroll">
-  <form name="myform" ng-submit="addProduct()" novalidate>
-    <md-input-container layout="row" flex>
-        <md-text-float label="Product" ng-model="product" ng-required="true"></md-text-float>
-        <md-text-float label="Aisle" ng-model="aisle" ng-required="true"></md-text-float>
-        <md-button type="submit" ng-disabled="myform.$invalid" class="md-primary md-fab" aria-label="Add Product">
-            <md-icon 
-            icon="../bower_components/material-design-icons/action/1x_web/ic_note_add_grey600_24dp.png"></md-icon>
-        </md-button>
-    </md-input-container>
-  </form>
-</md-content>
 <md-content class="md-padding">
-    <md-list>
-        <md-item line-through="item.isbought" 
-          ng-repeat="item in groceries | filter: showAll | filter: query | orderBy: [itemOrder, 'product']"> 
-          <md-item-content> 
-            <div class="md-tile-right">
-                <md-checkbox md-no-ink aria-label="Is Bought" ng-model="item.isbought" 
-                  class="md-primary" ng-change="saveProduct(item)">
-                </md-checkbox>
-            </div>
-            <div class="md-tile-content" ng-click="gotoDetailsPage(item)">
-                <h3>
-                  <span><strong>{{item.amount}} {{item.unit}} {{item.product}}</strong></span> 
-                </h3>
-              <h4><span class="md-accent-text">{{item.aisle}}; </span><span>{{item.recipe | lowercase}}</span></h4>
-            </div>
-            <div class="md-tile-right md-padding">
-                <md-button class="md-warn md-raised md-hue-2" ng-click="deleteProduct(item)" aria-label="Delete">
-                  <md-icon icon="../bower_components/material-design-icons/action/1x_web/ic_delete_white_24dp.png">
-                  </md-icon>
-                </md-button>
-            </div>
-          </md-item-content>
-          <md-divider inset></md-divider>
-      </md-item>
-  </md-list>
-<md-content>
+  <md-content layout="row">
+        <md-input-container flex>
+            <label>Search for products</label>
+            <input ng-model="query">
+        </md-input-container>
+        <!--<label class="formgroup">by:
+              <select ng-model="itemOrder">
+                <option value="aisle">Aisle</option>
+                <option value="recipe">Recipe</option>
+              </select>
+            </label> -->
+        <md-checkbox md-no-ink aria-label="Do Not Show Bought" ng-model="showAllDef" 
+          class="md-primary"></md-checkbox> 
+  </md-content>
+  <md-content>
+    <form name="myform" ng-submit="addProduct()" novalidate>
+      <div layout>
+        <md-input-container flex>
+            <label>Product</label>
+            <input ng-model="product" ng-required="true">
+        </md-input-container>
+        <md-input-container flex>
+            <label>Aisle</label>
+            <input ng-model="aisle" ng-required="true">
+        </md-input-container>
+        <md-button type="submit" ng-disabled="myform.$invalid" class="md-primary md-fab" aria-label="Add Product">
+                <md-icon 
+                icon="../bower_components/material-design-icons/action/1x_web/ic_note_add_grey600_24dp.png"></md-icon>
+        </md-button>
+      </div>
+    </form>
+  </md-content>
+  <md-content>
+      <md-list>
+          <md-item line-through="item.isbought" 
+            ng-repeat="item in groceries | filter: showAll | filter: query | orderBy: [itemOrder, 'product']"> 
+            <md-item-content> 
+              <div class="md-tile-right">
+                  <md-checkbox md-no-ink aria-label="Is Bought" ng-model="item.isbought" 
+                    class="md-primary" ng-change="saveProduct(item)">
+                  </md-checkbox>
+              </div>
+              <div class="md-tile-content" ng-click="gotoDetailsPage(item)">
+                  <h3>
+                    <span><strong>{{item.amount}} {{item.unit}} {{item.product}}</strong></span> 
+                  </h3>
+                <h4><span class="md-accent-text">{{item.aisle}}; </span><span>{{item.recipe | lowercase}}</span></h4>
+              </div>
+              <div class="md-tile-right md-padding">
+                  <md-button class="md-warn md-raised md-hue-2" ng-click="deleteProduct(item)" aria-label="Delete">
+                    <md-icon icon="../bower_components/material-design-icons/action/1x_web/ic_delete_white_24dp.png">
+                    </md-icon>
+                  </md-button>
+              </div>
+            </md-item-content>
+            <md-divider inset></md-divider>
+        </md-item>
+    </md-list>
+  <md-content>
+</md-content>
 
 
 <!--        <p>
