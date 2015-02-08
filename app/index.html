@@ -21,11 +21,11 @@
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
-      <div ng-controller="AppCtrl" layout="row" layout-fill>
-
-            <md-sidenav md-theme="green" class="md-sidenav-left md-whiteframe-z2 rs-max-width" md-component-id="left"
-            md-is-locked-open="$media('gt-md')"> 
-              <md-toolbar> 
+    <div ng-controller="AppCtrl" layout="column" layout-fill>
+        <section layout="row" flex>
+            <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left"
+            md-is-locked-open="$media('gt-md')"> <!-- rs-max-width -->
+              <md-toolbar class="md-theme-green"> 
                 <h1 class="md-toolbar-tools">Recipe Shopper</h1>
               </md-toolbar>
               <md-content class="md-padding" ng-controller="LeftCtrl">
@@ -61,21 +61,24 @@
               </md-content>
             </md-sidenav>
 
-            <div flex layout="column" > <!-- class="md-padding" -->
-                <md-toolbar md-theme="green" style="position:fixed">
-                      <h3 class="md-toolbar-tools">
-                        <md-button ng-click="toggleLeft()" aria-label="Open Nav Bar" hide-gt-md>
-                            <md-icon icon="../bower_components/material-design-icons/navigation/1x_web/ic_menu_white_24dp.png">
-                            </md-icon>
-                        </md-button>
-                        <span>Shopping List</span>
-                      </h3>
-                </md-toolbar>
-                <md-content md-theme="green" layout-fill style="margin-top:64px">
-                    <div ng-view=""></div>
-                </md-content>
-            </div>
-      </div>
+            <md-content flex>  
+              <div flex layout="column" layout-fill layout-align="center center">
+                  <md-toolbar md-theme="green" style="position:fixed">
+                        <h3 class="md-toolbar-tools">
+                          <md-button ng-click="toggleLeft()" aria-label="Open Nav Bar" hide-gt-md>
+                              <md-icon icon="../bower_components/material-design-icons/navigation/1x_web/ic_menu_white_24dp.png">
+                              </md-icon>
+                          </md-button>
+                          <span>Shopping List</span>
+                        </h3>
+                  </md-toolbar>
+                  <md-content md-theme="green" layout-fill style="margin-top:64px">
+                      <div ng-view=""></div>
+                  </md-content>
+              </div>
+            </md-content>
+        </section>
+    </div>
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
      <script>
@@ -110,7 +113,6 @@
     <script src="bower_components/mockfirebase/browser/mockfirebase.js"></script>
     <script src="bower_components/angular-ui-bootstrap-bower/ui-bootstrap-tpls.js"></script>
     <script src="bower_components/angular-aria/angular-aria.js"></script>
-    <script src="bower_components/hammerjs/hammer.js"></script>
     <script src="bower_components/angular-material/angular-material.js"></script>
     <!-- endbower -->
     <!-- endbuild -->

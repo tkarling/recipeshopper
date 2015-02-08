@@ -24,6 +24,11 @@ angular
     'fileReaderMod',
     'loginMod'
   ])
+  .config(function($mdThemingProvider) {
+    //will use the colors from default theme for any color not defined.
+    $mdThemingProvider.theme('green')
+      .primaryColor('green');
+  })
   .constant('FIREBASE_URL', 'https://recipeshopper.firebaseio.com')
   .config(['localStorageServiceProvider', function(localStorageServiceProvider){
     localStorageServiceProvider.setPrefix('ls');

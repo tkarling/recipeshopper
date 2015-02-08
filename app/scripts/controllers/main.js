@@ -60,7 +60,7 @@ angular.module('recipeshopperApp')
 
 
    	var getGroceries = function () {
-	    var storeMgr = StoredListMgrFactory.getStoredListMgr(FB_SHOPPINGLIST_URL);
+	    storeMgr = StoredListMgrFactory.getStoredListMgr(FB_SHOPPINGLIST_URL);
 	    storeMgr.getItems().then(function(data) {
 	    	$scope.groceries = data;
 	    	if($scope.groceries.length == 0) {
@@ -87,6 +87,7 @@ angular.module('recipeshopperApp')
     });
 
 	// init  
+	var storeMgr;
 	$scope.itemOrder = 'aisle';
 	$scope.showAllDef = false;
    	$scope.groceries = [];
