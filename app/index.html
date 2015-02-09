@@ -46,6 +46,13 @@
                   </md-item-content>
                   <md-divider inset></md-divider>
                   <md-item-content>
+                      <md-button ng-click="gotoPage('/settings')" ng-disabled="!userLoggedIn">
+                        <md-icon icon="../bower_components/material-design-icons/action/1x_web/ic_settings_black_24dp.png">
+                        </md-icon>
+                        <span>Settings</span>
+                      </md-button>
+                  </md-item-content>
+                  <md-item-content>
                       <md-button ng-click="gotoPage('/login')">
                         <md-icon icon="../bower_components/material-design-icons/action/1x_web/ic_account_box_black_24dp.png">
                         </md-icon>
@@ -69,7 +76,12 @@
                               <md-icon icon="../bower_components/material-design-icons/navigation/1x_web/ic_menu_white_24dp.png">
                               </md-icon>
                           </md-button>
-                          <span>Shopping List</span>
+                          <span> Shopping List</span>
+                          <span flex></span>
+                          <md-button ng-click="gotoPage('/settings')" aria-label="Go to settings" ng-disabled="!userLoggedIn">
+                              <md-icon icon="../bower_components/material-design-icons/action/1x_web/ic_settings_white_24dp.png">
+                              </md-icon>
+                          </md-button>
                         </h3>
                   </md-toolbar>
                   <md-content md-theme="green" layout-fill style="margin-top:64px">
@@ -131,6 +143,7 @@
         <script src="scripts/services/basicstoredlistmgr.js"></script>
         <script src="scripts/controllers/picdemo.js"></script>
         <script src="scripts/services/settingsmgr.js"></script>
+        <script src="scripts/controllers/settings.js"></script>
         <!-- endbuild -->
 
        

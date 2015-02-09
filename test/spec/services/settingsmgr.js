@@ -76,19 +76,40 @@ describe('Service: settingsMgr', function() {
 
   describe('Service: settingsMgr: before current user is set', function() {
 
+      it('should get default settings, if current user is not set', function() {
+        var mySettings = settingsMgr.getSettings();
+        expect(mySettings.shoppingListSortOrder).toEqual('aisle');
+        expect(mySettings.recipeSortOrder).toEqual('recipename');
+      });
+
+      it('saveSettings should not call $save, if current user is not set', function () {
+        var mySettings = settingsMgr.getSettings();
+        expect(mySettings.shoppingListSortOrder).toEqual('aisle');
+        $saveSpy = jasmine.createSpy('$save spy');
+
+        mySettings.shoppingListSortOrder = 'recipe';
+        settingsMgr.saveSettings();
+        $rootScope.$digest();
+
+        expect($saveSpy).not.toHaveBeenCalled();
+        expect(mySettings.shoppingListSortOrder).toEqual('recipe');
+      });
+
+
       it('should get default setting, if current user is not set', function() {
         var result = settingsMgr.getSetting('shoppingListSortOrder');
         expect(result).toEqual('aisle');
       });
 
       it('set should not call $save, if current user is not set', function () {
+        expect(settingsMgr.getSetting('shoppingListSortOrder')).toEqual('aisle');
         $saveSpy = jasmine.createSpy('$save spy');
+
         settingsMgr.setSetting('shoppingListSortOrder', 'recipe');
         $rootScope.$digest();
-        expect($saveSpy).not.toHaveBeenCalled();
 
-        var result = settingsMgr.getSetting('shoppingListSortOrder');
-        expect(result).toEqual('recipe');
+        expect($saveSpy).not.toHaveBeenCalled();
+        expect(settingsMgr.getSetting('shoppingListSortOrder')).toEqual('recipe');
       });
 
 
@@ -139,17 +160,33 @@ describe('Service: settingsMgr', function() {
 
       beforeEach (function() {
           settingsMgr.setCurrentUser('testUid');
+          $rootScope.$digest();
           // note this writes one item to $log.log
       });
 
-      it('should set and get setting', function () {
+      it('should set and get setting w get & aet setting', function () {
+        // expect(settingsMgr.getSetting('shoppingListSortOrder')).toEqual('aisle');
         $saveSpy = jasmine.createSpy('$save spy');
+
         settingsMgr.setSetting('shoppingListSortOrder', 'recipe');
         $rootScope.$digest();
-        expect($saveSpy).toHaveBeenCalled();
 
-        var result = settingsMgr.getSetting('shoppingListSortOrder');
-        expect(result).toEqual('recipe');
+        expect($saveSpy).toHaveBeenCalled();
+        expect(settingsMgr.getSetting('shoppingListSortOrder')).toEqual('recipe');
+      });
+
+
+      it('should set and get settings w get & save settings', function () {
+        var mySettings = settingsMgr.getSettings();
+        // expect(mySettings.shoppingListSortOrder).toEqual('aisle');
+        $saveSpy = jasmine.createSpy('$save spy');
+
+        mySettings.shoppingListSortOrder = 'recipe';
+        settingsMgr.saveSettings();
+        $rootScope.$digest();
+
+        expect($saveSpy).toHaveBeenCalled();
+        expect(mySettings.shoppingListSortOrder).toEqual('recipe');
       });
 
 

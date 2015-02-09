@@ -1,0 +1,19 @@
+<md-content class="md-padding">
+	<section>
+		<label class="formgroup">Order groceries on Shopping List by:
+		  <select ng-model="mySettings.shoppingListSortOrder" ng-change="saveSettings()">
+		    <option value="aisle">Aisle</option>
+		    <option value="recipe">Recipe</option>
+		  </select>
+		</label> 
+	</section>
+	<br>
+	<section>
+		<label >Order recipies on Recipe List by:
+		<select ng-model="mySettings.recipeSortOrder" ng-change="saveSettings()">
+		  <option value="category">Category</option>
+		  <option value="recipename">Recipe Name</option>
+		</select>
+		</label>
+	</section>
+</md-content>

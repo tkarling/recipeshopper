@@ -48,6 +48,10 @@ angular
         templateUrl: 'views/register.html',
         controller: 'LoginCtrl'
       })
+      .when('/settings', {
+        templateUrl: 'views/settings.html',
+        controller: 'SettingsCtrl'
+      })
       .when('/recipelist', {
         templateUrl: 'views/recipelist.html',
         controller: 'RecipelistCtrl'
@@ -65,16 +69,30 @@ angular
         redirectTo: '/login'
       });
   })
-  .controller('AppCtrl', function($scope, $timeout, $mdSidenav, $log) {
+  .controller('AppCtrl', function($scope, $timeout, $mdSidenav, $log, $location, settingsMgr) {
     $scope.toggleLeft = function() {
       $mdSidenav('left').toggle();
       // .then(function(){
       //     $log.debug("toggle left is done");
       // });
     };
+
+    $scope.gotoPage = function(pagelink){
+      $log.debug('AppCtrl: pagelink: ', pagelink);
+      $location.path(pagelink);
+    };
+
+    $scope.userLoggedIn = settingsMgr.getCurrentUser() != '';
+      $log.debug('AppCtrl: $scope.userLoggedIn: ', $scope.userLoggedIn);
+
+    $scope.$on('handleCurrentUserSet', function () {
+        $scope.userLoggedIn = settingsMgr.getCurrentUser() != '';
+        $log.debug('AppCtrl: handleCurrentUserSet called', $scope.userLoggedIn);
+    });
+
   })
   .controller('LeftCtrl', function($scope, $rootScope, $timeout, $mdSidenav, $log, $location, settingsMgr, Authentication) {
-    // Authentication must be a dependency for this controllorre, so that it will be initiated independent on which age user refreshes app
+    // Authentication must be a dependency for this controller, so that it will be initiated independent on which age user refreshes app
     $log.debug('LeftCtrl: init controller');
 
     $scope.close = function() {
@@ -93,7 +111,7 @@ angular
     $scope.userLoggedIn = settingsMgr.getCurrentUser() != '';
     $log.debug('LeftCtrl: $scope.userLoggedIn: ', $scope.userLoggedIn);
 
-    $rootScope.$on('handleCurrentUserSet', function () {
+    $scope.$on('handleCurrentUserSet', function () {
         $scope.userLoggedIn = settingsMgr.getCurrentUser() != '';
         $log.debug('LeftCtrl: handleCurrentUserSet called', $scope.userLoggedIn);
     });

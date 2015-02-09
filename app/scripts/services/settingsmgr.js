@@ -29,13 +29,6 @@ angular.module('settingsMod')
     };
     initData();
 
-   var setSettingAsync = function(settingName, value) {
-          data.settings[settingName] = value;
-          if(data.currentUserUid) {
-            return data.settings.$save();
-          }
-    }; // setSettingAsync
-
    var addUserAsync = function(userUid, user) {
       var fbUrl = FIREBASE_URL + '/users/';
       var ref = new Firebase(fbUrl);
@@ -87,13 +80,26 @@ angular.module('settingsMod')
       return deferred.promise;
     }
 
+    var noCurrentUserErrorAsync = function () {
+      var deferred = $q.defer()
+      deferred.reject('Error: No current user');
+      return deferred.promise;
+    }
+
+   var saveSettingsAsync = function() {
+          if(data.currentUserUid) {
+            return data.settings.$save();
+          } // else
+          return noCurrentUserErrorAsync();
+    }; // setSettingAsync
+
+   var setSettingAsync = function(settingName, value) {
+          data.settings[settingName] = value;
+          saveSettingsAsync();
+    }; // setSettingAsync
 
     // Public API here
     return {
-      // getSettings: function () {
-      //   return getExistingSettingsAsync();
-      // }, // getSettings
-
       addUser: function (userUid, user) {
         return addUserAsync(userUid, user);
       },
@@ -105,7 +111,9 @@ angular.module('settingsMod')
         }
         data.currentUserUid = userUid;
         var resultPromise = userUid ? setCurrentUserAsync(userUid) : clearCurrentUserAsync();
-        resultPromise.then( function (data) {
+        resultPromise.then( function (result) {
+            // $log.debug('settingsMgr: setCurrentUser: result', result);
+            // $log.debug('settingsMgr: setCurrentUser: data.settings', data.settings);
             $rootScope.$broadcast('handleCurrentUserSet');
         });
         return resultPromise;
@@ -119,6 +127,14 @@ angular.module('settingsMod')
         return data.currentUserUid;
       },
 
+      getSettings: function () {
+        return data.settings;
+      }, // getSettings
+
+      saveSettings: function () {
+        return saveSettingsAsync();
+      }, // saveSettings
+
       getSetting: function (settingName) {
         // return getExistingSettingAsync(settingName);
         return data.settings[settingName];
@@ -128,10 +144,6 @@ angular.module('settingsMod')
         return setSettingAsync(settingName, value);
       } // setSetting
 
-      // THIS IS FOR UNIT TESTING ONLY
-      // $$$setDataSettings: function(userInfo) {
-      //   data.settings = userInfo;
-      // }
     };
 
   });
