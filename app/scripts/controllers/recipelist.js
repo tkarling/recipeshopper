@@ -20,20 +20,30 @@ angular.module('recipeshopperApp')
 	    });
   	}
 
-	$scope.$on('handleCurrentUserSet', function () {
+   	var getSettings = function() {
+   		$scope.mySettings = settingsMgr.getSettings();
+   	}
+
+   	var initFromStores = function () {
         $scope.currentUser = settingsMgr.getCurrentUser();
-		$log.debug('RecipelistCtrl: handleCurrentUserSet $scope.currentUser', $scope.currentUser);
+		$log.debug('RecipelistCtrl: initFromStores $scope.currentUser', $scope.currentUser);
     	if($scope.currentUser) {
     		getRecipes();
+    		getSettings();
     	} 
+   	};
+
+
+	$scope.$on('handleCurrentUserSet', function () {
+		$log.debug('RecipelistCtrl: handleCurrentUserSet call init from store');
+		initFromStores();
     });
 
 	var recipesMgr;
 	$scope.recipes = [];
-   	$scope.currentUser = settingsMgr.getCurrentUser();
-   	if($scope.currentUser) {
-		getRecipes();
-	}
+  	$scope.mySettings = {};
+	$log.debug('RecipelistCtrl: call init from store');
+	initFromStores();
 
     $scope.gotoDetailsPage = function(item) {
       // var pagelink='/recipedetails/'+ item.$id;	

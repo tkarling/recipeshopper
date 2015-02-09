@@ -20,7 +20,8 @@
                 <option value="recipe">Recipe</option>
               </select>
             </label> -->
-        <md-checkbox md-no-ink aria-label="Do Not Show Bought" ng-model="showAllDef" 
+        <md-checkbox md-no-ink aria-label="Do Not Show Bought" ng-model="mySettings.doNotShowBoughtItems" 
+          ng-change="updateShowAll()" 
           class="md-primary"></md-checkbox> 
   </md-content>
   <md-content>
@@ -44,7 +45,8 @@
   <md-content>
       <md-list>
           <md-item line-through="item.isbought" 
-            ng-repeat="item in groceries | filter: showAll | filter: query | orderBy: [itemOrder, 'product']"> 
+            ng-repeat="item in groceries | filter: showAll | filter: query | 
+                orderBy: [mySettings.shoppingListSortOrder, 'product']"> 
             <md-item-content> 
               <div class="md-tile-right">
                   <md-checkbox md-no-ink aria-label="Is Bought" ng-model="item.isbought" 

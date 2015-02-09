@@ -31,7 +31,8 @@
   </md-content>
   <md-content>
     <md-list>
-        <md-item ng-repeat="item in recipes | filter: query | orderBy: ['-onlist', itemOrder, 'recipename']">
+        <md-item ng-repeat="item in recipes | filter: query | 
+          orderBy: ['-onlist', mySettings.recipeSortOrder, 'recipename']">
           <md-item-content> 
             <div class="md-tile-right">
                 <md-checkbox md-no-ink aria-label="Is on Shopping List" ng-model="item.onlist" 

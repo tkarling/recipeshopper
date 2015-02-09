@@ -34,10 +34,12 @@ angular.module('recipeshopperApp')
   .controller('MainCtrl', ['$scope', '$log', '$http', 'FB_SHOPPINGLIST_URL', 'StoredListMgrFactory', 'settingsMgr', 
   	function ($scope, $log, $http, FB_SHOPPINGLIST_URL, StoredListMgrFactory, settingsMgr) {  
 
-	$scope.$watch('showAllDef', function(newValue) {
-		$scope.showAll = newValue ? ! newValue : undefined;
-		// undefined -show all, true - show unbought only
-	}); //$watch
+  	$scope.updateShowAll = function () {
+  		$scope.showAll = $scope.mySettings.doNotShowBoughtItems ? ! $scope.mySettings.doNotShowBoughtItems : undefined;
+  		settingsMgr.saveSettings();
+  		$log.debug('MainCtrl: updateShowAll: $scope.showAll', $scope.showAll);
+  		$log.debug('MainCtrl: updateShowAll:  $scope.mySettings.doNotShowBoughtItems', $scope.mySettings.doNotShowBoughtItems);
+  	}
 
     //A QUICK WAY TO FILL EMPTY DB
 	var addDefaultItemsToList =	function () {
@@ -77,24 +79,31 @@ angular.module('recipeshopperApp')
 	    // });
    	}
 
-	$scope.$on('handleCurrentUserSet', function () {
+   	var getSettings = function() {
+   		$scope.mySettings = settingsMgr.getSettings();
+  		$scope.showAll = $scope.mySettings.showBoughtItemsToo ? ! $scope.mySettings.showBoughtItemsToo : undefined;
+   	}
+
+   	var initFromStores = function () {
         $scope.currentUser = settingsMgr.getCurrentUser();
-		$log.debug('MainCtrl: handleCurrentUserSet $scope.currentUser', $scope.currentUser);
+		$log.debug('MainCtrl: initFromStores $scope.currentUser', $scope.currentUser);
     	if($scope.currentUser) {
     		getGroceries();
-			$log.debug('MainCtrl: handleCurrentUserSet shoppingListSortOrder', settingsMgr.getSetting('shoppingListSortOrder'));
+    		getSettings();
     	} 
+   	};
+
+	$scope.$on('handleCurrentUserSet', function () {
+		$log.debug('MainCtrl: handleCurrentUserSet call init from store');
+		initFromStores();
     });
 
 	// init  
 	var storeMgr;
-	$scope.itemOrder = 'aisle';
-	$scope.showAllDef = false;
    	$scope.groceries = [];
-   	$scope.currentUser = settingsMgr.getCurrentUser();
-   	if($scope.currentUser) {
-   		getGroceries();
-   	}
+   	$scope.mySettings = {};
+	$log.debug('MainCtrl: call init from store');
+	initFromStores();
 
 	$scope.addProduct = function () {
 		storeMgr.addItem({

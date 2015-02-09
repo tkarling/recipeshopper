@@ -52,22 +52,20 @@ describe('Controller: MainCtrl', function () {
   }));
 
 
-  it('should toggle showAll between false/undefined, when showAllDef (check) toggles between true/ false', function () {
-    expect(scope.showAllDef).toBe(false); 
+  it('should toggle showAll between false/undefined, when mySettings.doNotShowBoughtItems (check) toggles between true/ false', function () {
+    expect(scope.mySettings.doNotShowBoughtItems).toBe(undefined); 
     expect(scope.showAll).toBe(undefined);
 
-    scope.$digest();
-    scope.showAllDef = true;
-    scope.$digest();
+    scope.mySettings.doNotShowBoughtItems = true;
+    scope.updateShowAll();
 
-    expect(scope.showAllDef).toBe(true);
+    expect(scope.mySettings.doNotShowBoughtItems).toBe(true);
     expect(scope.showAll).toBe(false);
 
-    scope.$digest();
-    scope.showAllDef = false;
-    scope.$digest();
+    scope.mySettings.doNotShowBoughtItems = false;
+    scope.updateShowAll();
 
-    expect(scope.showAllDef).toBe(false);
+    expect(scope.mySettings.doNotShowBoughtItems).toBe(false);
     expect(scope.showAll).toBe(undefined);
   });
 

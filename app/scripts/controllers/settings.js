@@ -19,8 +19,6 @@ angular.module('recipeshopperApp')
   	var initSettings = function () {
   		$scope.mySettings = settingsMgr.getSettings();
 	  	$log.debug('SettingsCtrl: initSettings: $scope.mySettings', $scope.mySettings);
-	  	$log.debug('SettingsCtrl: initSettings: $scope.mySettings.shoppingListSortOrder', $scope.mySettings.shoppingListSortOrder);
-	  	$log.debug('SettingsCtrl: initSettings: $scope.mySettings.recipeSortOrder', $scope.mySettings.recipeSortOrder);
   	}
 
   	$scope.mySettings = {};
