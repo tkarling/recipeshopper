@@ -19,6 +19,7 @@ angular
     'ui.bootstrap',
     'ngMaterial',
     'ngAria',
+    'ngMessages',
     'storedListMod', 
     'settingsMod', 
     'fileReaderMod',

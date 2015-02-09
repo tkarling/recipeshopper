@@ -1,4 +1,59 @@
-<section class="register">
+<md-content class="md-padding">
+  <form name="myform" ng-submit="register()" novalidate>
+    <h4>Please register:</h4>
+    <p class="md-accent-text" ng-show="message">{{ message }}</p>
+
+    <section layout="row" layout-sm="column" layout-align="left center">
+      <md-input-container>
+        <label>First Name</label>
+        <input required name="firstname" ng-model="inputUser.firstname">
+        <div ng-messages="myform.firstname.$error">
+          <div ng-message="required">This is required.</div>
+        </div>
+      </md-input-container>
+
+      <md-input-container>
+        <label>Last Name</label>
+        <input required name="lastname" ng-model="inputUser.lastname">
+        <div ng-messages="myform.lastname.$error">
+          <div ng-message="required">This is required.</div>
+        </div>
+      </md-input-container>
+
+    </section>
+
+    <section layout="row" layout-sm="column" layout-align="left center">
+      <md-input-container>
+        <label>Email</label>
+        <input type="email" required name="email" ng-model="inputUser.email">
+        <div ng-messages="myform.email.$error">
+          <div ng-message="required">This is required.</div>
+          <div ng-message="email">Must be a valid email.</div>
+        </div>
+      </md-input-container>
+
+      <md-input-container>
+        <label>Password</label>
+        <input type="password" required name="password" ng-model="inputUser.password">
+        <div ng-messages="myform.password.$error">
+          <div ng-message="required">This is required.</div>
+        </div>
+      </md-input-container>
+    </section>
+
+    <section layout layout-align="left left">
+      <br><br>
+      <md-button type="submit" class="md-raised md-primary" ng-disabled="myform.$invalid">Register</md-button>
+    </section>
+
+    <section layout layout-align="left center">
+      <p>or <a href="#/login">login</a></p>
+    </section>
+  </form>
+</md-content>
+
+
+<!-- <section class="register">
   <form name="myform"
     ng-submit="register()"
     novalidate>
@@ -37,4 +92,4 @@
       ng-disabled="myform.$invalid">Register</button>
     <p>or <a href="#/login">login</a></p>
   </form>
-</section>
+</section> -->
