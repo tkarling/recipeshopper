@@ -18,11 +18,11 @@ angular.module('recipeshopperApp')
 	    recipesMgr.getItems().then(function(data) {
 	    	$scope.recipes = data;
 	    });
-  	}
+  	};
 
    	var getSettings = function() {
    		$scope.mySettings = settingsMgr.getSettings();
-   	}
+   	};
 
    	var initFromStores = function () {
         $scope.currentUser = settingsMgr.getCurrentUser();

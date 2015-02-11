@@ -14,12 +14,12 @@ angular.module('recipeshopperApp')
   	$scope.saveSettings = function () {
   		$log.debug('SettingsCtrl: saveSettings');
   		settingsMgr.saveSettings();
-  	}
+  	};
 
   	var initSettings = function () {
   		$scope.mySettings = settingsMgr.getSettings();
 	  	$log.debug('SettingsCtrl: initSettings: $scope.mySettings', $scope.mySettings);
-  	}
+  	};
 
   	$scope.mySettings = {};
 

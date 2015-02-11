@@ -17,12 +17,6 @@ angular.module('settingsMod')
   .factory('settingsMgr', function ($rootScope, $log, $q, $http, $firebase, FIREBASE_URL) {
     $log.debug('settingsMgr: init factory');
 
-    var testDefaultSettings = {
-      'shoppingListSortOrder' : 'aisle',
-      'recipeSortOrder': 'recipename'
-    };
-    // console.log('settingsMgr: testDefaultSettings', testDefaultSettings);
-
     var defaultSettings = {};
     var getDefaults = function() {
       $http.get('data/defaultsettings.json').success(function(result){ 
@@ -57,10 +51,10 @@ angular.module('settingsMod')
       };
       for (var prop in defaultSettings) {
         if(defaultSettings.hasOwnProperty(prop)){
-            $log.debug('settingsMgr: addUserAsync:', prop + " = " + defaultSettings[prop]);
+            $log.debug('settingsMgr: addUserAsync:', prop + ' = ' + defaultSettings[prop]);
             userInfo[prop] = defaultSettings[prop];
         }
-      };
+      }
 
       $log.debug('$log.logs to be unit tested:');
       $log.log(fbUrl);   
@@ -91,16 +85,16 @@ angular.module('settingsMod')
     }; //clearCurrentUserAsync
 
     var currentUserHasNotChanged = function () {
-      var deferred = $q.defer()
+      var deferred = $q.defer();
       deferred.resolve(data.currentUserUid);
       return deferred.promise;
-    }
+    };
 
     var noCurrentUserErrorAsync = function () {
-      var deferred = $q.defer()
+      var deferred = $q.defer();
       deferred.reject('Error: No current user');
       return deferred.promise;
-    }
+    };
 
    var saveSettingsAsync = function() {
           if(data.currentUserUid) {
@@ -134,10 +128,6 @@ angular.module('settingsMod')
             $rootScope.$broadcast('handleCurrentUserSet');
         });
         return resultPromise;
-        // if(userUid) {
-        //   return setCurrentUserAsync(userUid);
-        // } // else 
-        // return clearCurrentUserAsync();
       },
 
       getCurrentUser: function () {

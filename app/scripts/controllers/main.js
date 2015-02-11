@@ -36,14 +36,14 @@ angular.module('recipeshopperApp')
 
   	var setShowAll = function () {
   		$scope.showAll = $scope.mySettings.doNotShowBoughtItems ? ! $scope.mySettings.doNotShowBoughtItems : undefined;
-  	}
+  	};
 
   	$scope.updateShowAll = function () {
   		setShowAll();
   		settingsMgr.saveSettings();
   		$log.debug('MainCtrl: updateShowAll: $scope.showAll', $scope.showAll);
   		$log.debug('MainCtrl: updateShowAll:  $scope.mySettings.doNotShowBoughtItems', $scope.mySettings.doNotShowBoughtItems);
-  	}
+  	};
 
     //A QUICK WAY TO FILL EMPTY DB
 	var addDefaultItemsToList =	function () {
@@ -81,12 +81,12 @@ angular.module('recipeshopperApp')
 	    // 		addDefaultItemsToList();
 	    // 	}
 	    // });
-   	}
+   	};
 
    	var getSettings = function() {
    		$scope.mySettings = settingsMgr.getSettings();
   		setShowAll();
-   	}
+   	};
 
    	var initFromStores = function () {
         $scope.currentUser = settingsMgr.getCurrentUser();

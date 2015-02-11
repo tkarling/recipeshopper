@@ -49,13 +49,13 @@ angular.module('loginMod')
   	$scope.register = function () {
       Authentication.register($scope.inputUser).then(function (authData) {
           $log.debug('Registered successfully with payload:', authData);
-          $scope.login().then(function(data) {
-            settingsMgr.addUser(authData.uid, $scope.inputUser).then(function(data) {
+          $scope.login().then(function() {
+            settingsMgr.addUser(authData.uid, $scope.inputUser).then(function() {
             }).catch(function(error) {
                 setErrorMessage(error.message);
                 $log.error('ERROR: adding user to store after registering failed');
             });
-          })
+          });
       }).catch(function(error) {
           setErrorMessage(error.message);
       });
