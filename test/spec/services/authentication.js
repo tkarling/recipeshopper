@@ -44,10 +44,15 @@ describe('Service: Authentication', function () {
         }
       };
 
+    var mockSettingsMgr = {
+
+    }; 
+
     module(function ($provide) {
         $provide.value('$firebaseAuth', mockFirebaseAuth);
         $provide.value('FIREBASE_URL', mockUrl);
         $provide.value('StoredListMgrFactory', mockStoredListMgrFactory);
+        $provide.value('settingsMgr', mockSettingsMgr);
     });
 
   });

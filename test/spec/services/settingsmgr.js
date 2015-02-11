@@ -6,7 +6,7 @@ describe('Service: settingsMgr', function() {
   beforeEach(module('settingsMod'));
 
   var mockUrl, mockFirebaseRef, spymockFBObject; //mockFirebaseDataRef
-  var q, deferred, $rootScope, $log;
+  var q, deferred, $rootScope, $log, $http, backend;
   var $asObjectSpy, $setSpy, $loadedSpy, $saveSpy, $destroySpy;
 
   beforeEach(function() {
@@ -60,13 +60,24 @@ describe('Service: settingsMgr', function() {
 
   });
 
+  beforeEach(inject(function ($httpBackend) {
+    // console.log('backend.expect');
+    backend = $httpBackend;
+    backend.expect("GET", "data/defaultsettings.json").respond(
+      {'shoppingListSortOrder' : 'aisle',
+        'doNotShowBoughtItems' : false,
+       'recipeSortOrder': 'recipename'});
+  }));
+
   // instantiate service
   var settingsMgr;
-  beforeEach(inject(function(_$rootScope_, _settingsMgr_, _$q_, _$log_) {
+  beforeEach(inject(function(_$rootScope_, _settingsMgr_, _$q_, _$log_, _$http_) {
     settingsMgr = _settingsMgr_;
     q = _$q_;
     $log = _$log_;
     $rootScope = _$rootScope_;
+    $http = _$http_;
+    backend.flush();
   }));
 
   it('should do something', function() {
@@ -159,13 +170,22 @@ describe('Service: settingsMgr', function() {
   describe('Service: settingsMgr: after current user is set', function() {
 
       beforeEach (function() {
+          $loadedSpy = jasmine.createSpy('$loaded spy');
+          $asObjectSpy = jasmine.createSpy('$asObjectSpy spy');
+
           settingsMgr.setCurrentUser('testUid');
-          $rootScope.$digest();
           // note this writes one item to $log.log
+          $rootScope.$digest();
+
+          expect($asObjectSpy).toHaveBeenCalled();
+          expect($loadedSpy).toHaveBeenCalled();
+          expect(settingsMgr.getCurrentUser()).toEqual('testUid');
+          expect(settingsMgr.getSetting('firstname')).toEqual(undefined);
+          expect(settingsMgr.getSetting('lastname')).toEqual(undefined);
+          // expect(settingsMgr.getSetting('shoppingListSortOrder')).toEqual('aisle');
       });
 
       it('should set and get setting w get & aet setting', function () {
-        // expect(settingsMgr.getSetting('shoppingListSortOrder')).toEqual('aisle');
         $saveSpy = jasmine.createSpy('$save spy');
 
         settingsMgr.setSetting('shoppingListSortOrder', 'recipe');

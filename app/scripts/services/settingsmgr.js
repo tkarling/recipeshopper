@@ -14,20 +14,31 @@ angular
 ]);
 
 angular.module('settingsMod')
-  .factory('settingsMgr', function ($rootScope, $log, $q, $firebase, FIREBASE_URL) {
+  .factory('settingsMgr', function ($rootScope, $log, $q, $http, $firebase, FIREBASE_URL) {
     $log.debug('settingsMgr: init factory');
 
-    var defaultSettings = {
+    var testDefaultSettings = {
       'shoppingListSortOrder' : 'aisle',
       'recipeSortOrder': 'recipename'
+    };
+    // console.log('settingsMgr: testDefaultSettings', testDefaultSettings);
+
+    var defaultSettings = {};
+    var getDefaults = function() {
+      $http.get('data/defaultsettings.json').success(function(result){ 
+        defaultSettings = result;  
+        $log.debug('settingsMgr: getDefaults: defaultSettings', defaultSettings);
+        initData();
+      });
     };
 
     var data = {};
     var initData = function () {
       data.currentUserUid = '';
       data.settings = defaultSettings;
+      // console.log('settingsMgr: initData: data.settings', data.settings);
     };
-    initData();
+    getDefaults();
 
    var addUserAsync = function(userUid, user) {
       var fbUrl = FIREBASE_URL + '/users/';

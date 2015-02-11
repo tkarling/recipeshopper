@@ -9,9 +9,9 @@
  */
 angular.module('recipeshopperApp')
   .constant('FB_RECIPES_URL', 'https://recipeshopper.firebaseio.com/recipes')
-  .controller('RecipelistCtrl', ['$scope', '$log', '$location', '$http', 
+  .controller('RecipelistCtrl', ['$scope', '$log', '$location',  
   	'FB_RECIPES_URL', 'StoredListMgrFactory', 'settingsMgr', 
-  	function ($scope, $log, $location, $http, FB_RECIPES_URL, StoredListMgrFactory, settingsMgr) {
+  	function ($scope, $log, $location, FB_RECIPES_URL, StoredListMgrFactory, settingsMgr) {
 
   	var getRecipes = function () {
 	    recipesMgr = StoredListMgrFactory.getStoredListMgr(FB_RECIPES_URL);
