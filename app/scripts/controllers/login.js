@@ -26,7 +26,7 @@ angular.module('loginMod')
     }; // setErrorMessage
 
     $scope.login = function () {
-      Authentication.login($scope.inputUser).then(function (authData) {
+      return Authentication.login($scope.inputUser).then(function (authData) {
           $log.debug('Authenticated successfully with payload:', authData);
           settingsMgr.setCurrentUser(authData.uid).then(function () {
               $location.path('/main');
@@ -36,6 +36,7 @@ angular.module('loginMod')
           });
       }).catch(function(error) {
           setErrorMessage(error.message);
+          $log.error('ERROR: logging in after registering failed');
           $log.debug('LoginCtrl: login: logging out now');
           Authentication.logout();
       });
@@ -48,12 +49,13 @@ angular.module('loginMod')
   	$scope.register = function () {
       Authentication.register($scope.inputUser).then(function (authData) {
           $log.debug('Registered successfully with payload:', authData);
-          settingsMgr.addUser(authData.uid, $scope.inputUser).then(function(data) {
-              $scope.login();
-          }).catch(function(error) {
-              setErrorMessage(error.message);
-              $log.error('ERROR: adding user to store after registering failed');
-          });
+          $scope.login().then(function(data) {
+            settingsMgr.addUser(authData.uid, $scope.inputUser).then(function(data) {
+            }).catch(function(error) {
+                setErrorMessage(error.message);
+                $log.error('ERROR: adding user to store after registering failed');
+            });
+          })
       }).catch(function(error) {
           setErrorMessage(error.message);
       });

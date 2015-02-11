@@ -180,26 +180,30 @@ describe('Controller: LoginCtrl', function () {
       expect(scope.message).toEqual('error is this');
   });
 
-  it('should set error msg & write to error log, when adding usr to db after registering fails', function () {
+  it('should set error msg & write to error log, when logging in after registering fails', function () {
       registerSpy = jasmine.createSpy('register spy');
-      addUserSpy = jasmine.createSpy('addUser spy');
       loginSpy = jasmine.createSpy('login spy');
+      addUserSpy = jasmine.createSpy('addUser spy');
 
       scope.register({
           email: 'a@a.com',
           password: 'password'
         });
-      deferred.resolve({uid:'123'});
+      deferred.resolve({uid:'123'});  // registering succeeds
       $rootScope.$digest();
-      deferred.reject({message: 'error is this'});
+      deferred.reject({message: 'error is this'}); // login fails
+      $rootScope.$digest();
+      deferred.reject({message: 'error is that'}); // adding user fails
       $rootScope.$digest();
 
       expect(registerSpy).toHaveBeenCalled();
+      expect(loginSpy).toHaveBeenCalled();
       expect(addUserSpy).toHaveBeenCalled();
-      expect(loginSpy).not.toHaveBeenCalled();
-      expect(scope.message).toEqual('error is this');
-      expect($log.error.logs.length).toEqual(1);
+      expect(scope.message).toEqual('error is that');
+      expect($log.error.logs.length).toEqual(2);
       var errorInLog = $log.error.logs[0][0];
+      expect(errorInLog).toEqual('ERROR: logging in after registering failed');
+      errorInLog = $log.error.logs[1][0];
       expect(errorInLog).toEqual('ERROR: adding user to store after registering failed');
 
   });
