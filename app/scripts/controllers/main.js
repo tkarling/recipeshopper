@@ -34,8 +34,12 @@ angular.module('recipeshopperApp')
   .controller('MainCtrl', ['$scope', '$log', '$http', 'FB_SHOPPINGLIST_URL', 'StoredListMgrFactory', 'settingsMgr', 
   	function ($scope, $log, $http, FB_SHOPPINGLIST_URL, StoredListMgrFactory, settingsMgr) {  
 
-  	$scope.updateShowAll = function () {
+  	var setShowAll = function () {
   		$scope.showAll = $scope.mySettings.doNotShowBoughtItems ? ! $scope.mySettings.doNotShowBoughtItems : undefined;
+  	}
+
+  	$scope.updateShowAll = function () {
+  		setShowAll();
   		settingsMgr.saveSettings();
   		$log.debug('MainCtrl: updateShowAll: $scope.showAll', $scope.showAll);
   		$log.debug('MainCtrl: updateShowAll:  $scope.mySettings.doNotShowBoughtItems', $scope.mySettings.doNotShowBoughtItems);
@@ -81,7 +85,7 @@ angular.module('recipeshopperApp')
 
    	var getSettings = function() {
    		$scope.mySettings = settingsMgr.getSettings();
-  		$scope.showAll = $scope.mySettings.showBoughtItemsToo ? ! $scope.mySettings.showBoughtItemsToo : undefined;
+  		setShowAll();
    	}
 
    	var initFromStores = function () {

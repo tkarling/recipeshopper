@@ -27,8 +27,12 @@ angular.module('settingsMod')
     var getDefaults = function() {
       $http.get('data/defaultsettings.json').success(function(result){ 
         defaultSettings = result;  
+        // console.log('settingsMgr: getDefaults: data.settings BEFORE', data.settings);
+        if(Object.keys(data.settings).length == 0) {
+          data.settings = defaultSettings;
+          // console.log('settingsMgr: getDefaults: data.settings', data.settings);
+        }        
         $log.debug('settingsMgr: getDefaults: defaultSettings', defaultSettings);
-        initData();
       });
     };
 
@@ -38,6 +42,7 @@ angular.module('settingsMod')
       data.settings = defaultSettings;
       // console.log('settingsMgr: initData: data.settings', data.settings);
     };
+    initData();
     getDefaults();
 
    var addUserAsync = function(userUid, user) {
@@ -116,15 +121,16 @@ angular.module('settingsMod')
       },
 
       setCurrentUser: function (userUid) {
-        $log.debug('settingsMgr: setCurrentUser: data.currentUserUid, userUid', data.currentUserUid, userUid);
+        $log.debug('settingsMgr: setCurrentUser: data.currentUserUid, userUid BEFORE', data.currentUserUid, userUid);
         if(data.currentUserUid == userUid) {
           return currentUserHasNotChanged();
         }
         data.currentUserUid = userUid;
+        // $log.debug('settingsMgr: setCurrentUser: data.currentUserUid, userUid', data.currentUserUid, userUid);
         var resultPromise = userUid ? setCurrentUserAsync(userUid) : clearCurrentUserAsync();
         resultPromise.then( function (result) {
             // $log.debug('settingsMgr: setCurrentUser: result', result);
-            // $log.debug('settingsMgr: setCurrentUser: data.settings', data.settings);
+            $log.debug('settingsMgr: setCurrentUser: data.settings', data.settings);
             $rootScope.$broadcast('handleCurrentUserSet');
         });
         return resultPromise;
