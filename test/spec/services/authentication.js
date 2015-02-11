@@ -68,7 +68,6 @@ describe('Service: Authentication', function () {
 
   it('should do something', function() {
     expect(!!Authentication).toBe(true);
-    expect(Authentication.userLoggedIn()).toEqual(false);
   });
 
   it('should call $authWithPassword, when logging in', function () {

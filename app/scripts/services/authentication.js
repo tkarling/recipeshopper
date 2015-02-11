@@ -55,11 +55,7 @@ angular.module('authenticationMod')
       logout: function() {
         StoredListMgrFactory.prepareForLogout();
         return data.authObj.$unauth();
-      }, // logout
-
-      userLoggedIn: function () {
-        return data.userLoggedIn;
-      } // userLoggedIn
+      } // logout
       
     }; 
 
