@@ -38,7 +38,7 @@
                       </md-button>
                   </md-item-content>
                   <md-item-content>
-                      <md-button ng-click="gotoPage('/recipelist')" ng-disabled="!userLoggedIn">
+                      <md-button id="recipelistmenubutton" ng-click="gotoPage('/recipelist')" ng-disabled="!userLoggedIn">
                         <md-icon icon="../bower_components/material-design-icons/action/1x_web/ic_book_black_24dp.png">
                         </md-icon>
                         <span>Recipes</span>
@@ -72,7 +72,7 @@
               <div flex layout="column" layout-fill layout-align="center center">
                   <md-toolbar md-theme="green" style="position:fixed">
                         <h3 class="md-toolbar-tools">
-                          <md-button ng-click="toggleLeft()" aria-label="Open Nav Bar" hide-gt-md>
+                          <md-button id="menubutton" ng-click="toggleLeft()" aria-label="Open Nav Bar" hide-gt-md>
                               <md-icon icon="../bower_components/material-design-icons/navigation/1x_web/ic_menu_white_24dp.png">
                               </md-icon>
                           </md-button>
