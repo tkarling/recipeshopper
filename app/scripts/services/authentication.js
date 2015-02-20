@@ -22,13 +22,11 @@ angular.module('authenticationMod')
     $log.debug('Authentication: init factory');
 
     var data = {};
-    data.userLoggedIn = false;
     data.ref = new Firebase(FIREBASE_URL);
     data.authObj = $firebaseAuth(data.ref);
 
     var authDataCallback = function(authData) {
       $log.debug('Authentication: authDataCallback called', authData);
-      data.userLoggedIn = authData && authData.uid && authData.uid != undefined;
       settingsMgr.setCurrentUser(authData ? authData.uid : '');
     }; //authDataCallback
 

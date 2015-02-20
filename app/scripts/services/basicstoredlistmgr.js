@@ -69,9 +69,6 @@ angular.module('storedListMod')
 
   .factory('BasicStoredListMgr', ['$log', '$q', '$firebase', function ($log, $q, $firebase) {
 
-    // var data = {};
-    // data.items = [];
-
     var fullUrl = function(fbUrl, variableUrl) {
       variableUrl = (variableUrl == undefined)?'':variableUrl;
       var fUrl = fbUrl + variableUrl;

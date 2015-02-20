@@ -48,7 +48,7 @@ angular.module('loginMod')
 
   	$scope.register = function () {
       Authentication.register($scope.inputUser).then(function (authData) {
-          $log.debug('Registered successfully with payload:', authData);
+          $log.debug('LoginCtrl: Registered successfully with payload:', authData);
           $scope.login().then(function() {
             settingsMgr.addUser(authData.uid, $scope.inputUser).then(function() {
             }).catch(function(error) {
