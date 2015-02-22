@@ -1,4 +1,10 @@
-// spec.js
+'use strict';
+
+var ShoppingListPage = require('./shoppinglistpage.js');
+var shoppingListPage = new ShoppingListPage();
+
+var RecipeListPage = require('./recipelistpage.js');
+var recipeListPage = new RecipeListPage();
 
 describe('angularjs homepage', function() {
 	var flow = protractor.promise.controlFlow();
@@ -21,40 +27,6 @@ describe('angularjs homepage', function() {
 	    loginButton.click();
   	}
 
-	var addInput1, addInput2, addButton;
-	var thisList, listItemField1, listItemField2,deleteButtonId;
-  	function shouldAddAndDeleteItem (field1Content, field2Content, separator) {
-
-		function addItem(a, b) {
-		    addInput1.sendKeys(a);
-		    addInput2.sendKeys(b);
-		    addButton.click();
-	  	}
-
-		thisList.count().then(function(originalCount) {
-	  	 	console.log('NOTE originalCount: ', originalCount);
-
-	  	 	// add item
-	  		addItem(field1Content, field2Content);
-			expect(thisList.count()).toEqual(originalCount + 1);
-
-			thisList.filter(function(elem, index) {
-			  return elem.element(by.binding(listItemField1)).getText().then(function(text) {
-			    return text === field1Content;
-			  });
-			}).then(function(filteredElements) {
-				// check content of new item
-				newItem = filteredElements[0];
-				expect(newItem.element(by.binding(listItemField1)).getText()).toEqual(field1Content);
-				expect(newItem.element(by.binding(listItemField2)).getText()).toEqual(field2Content + separator);
-
-				// delete item
-				newItem.element(by.id(deleteButtonId)).click();
-				expect(thisList.count()).toEqual(originalCount);
-			});
-		});
-  	}
-
 	beforeEach(function() {
 		// sleep();
 		browser.get('http://localhost:9005/#/login');
@@ -67,42 +39,61 @@ describe('angularjs homepage', function() {
 
 	it('should add and delete a product on shopping list', function() {
 		login();
-
 	    expect(browser.getCurrentUrl()).toBe('http://localhost:9005/#/main');
 
-		addInput1 = element(by.model('product'));
-		addInput2 = element(by.model('aisle'));
-	    addButton = element(by.id('addproductbutton'));
-		thisList = element.all(by.repeater('item in groceries'));
-		listItemField1 = 'product';
-		listItemField2 = 'aisle';
-		deleteButtonId = 'deleteproductbutton'
+		shoppingListPage.myList.count().then(function(originalCount) {
+	  	 	console.log('NOTE originalCount: ', originalCount);
 
-		shouldAddAndDeleteItem('carrots', 'veggies', ';');
+	  	 	// add item
+	  		shoppingListPage.addItem('carrots', 'veggies');
+			expect(shoppingListPage.myList.count()).toEqual(originalCount + 1);
+
+			shoppingListPage.getListItemsWithContent('carrots').then(function(items) {
+				// check content of new item
+				if(items.length != 1) {
+					console.log('NOTE: items.length is: ', items.length);
+				}
+				var newItem = items[0];
+				expect(shoppingListPage.getField(newItem, 'product')).toEqual('carrots');
+				expect(shoppingListPage.getField(newItem, 'aisle')).toEqual('veggies' + ';');
+
+				// delete item
+				shoppingListPage.deleteItem(newItem);
+				expect(shoppingListPage.myList.count()).toEqual(originalCount);
+			});
+
+		});
 	});
 
-	it('should add and delete a recipe on recipe list', function() {
-		// not needed at the momen as the test opens browser with menu open
-	    // var menuButton = element(by.id('menubutton'));
-	    // menuButton.click();
-	    // expect(browser.getCurrentUrl()).toBe('http://localhost:9005/#/main');
 
+	it('should add and delete a recipe on recipe list', function() {
 	    var recipeListMenuButton = element(by.id('recipelistmenubutton'));
 	    recipeListMenuButton.click();
 	    expect(browser.getCurrentUrl()).toBe('http://localhost:9005/#/recipelist');
 
-	    addInput1 = element(by.model('recipename'));
-		addInput2 = element(by.model('category'));
-	    addButton = element(by.id('addrecipebutton'));
-		thisList = element.all(by.repeater('item in recipes'));
-		listItemField1 = 'recipename';
-		listItemField2 = 'category';
-		deleteButtonId = 'deleterecipebutton'
+		recipeListPage.myList.count().then(function(originalCount) {
+	  	 	console.log('NOTE originalCount: ', originalCount);
 
-		shouldAddAndDeleteItem('soup', 'thanksgiving', '');
+	  	 	// add item
+	  		recipeListPage.addItem('soup', 'thanksgiving');
+			expect(recipeListPage.myList.count()).toEqual(originalCount + 1);
 
+			recipeListPage.getListItemsWithContent('soup').then(function(items) {
+				// check content of new item
+				if(items.length != 1) {
+					console.log('NOTE: items.length is: ', items.length);
+				}
+				var newItem = items[0];
+				expect(recipeListPage.getField(newItem, 'recipe')).toEqual('soup');
+				expect(recipeListPage.getField(newItem, 'category')).toEqual('thanksgiving');
+
+				// delete item
+				recipeListPage.deleteItem(newItem);
+				expect(recipeListPage.myList.count()).toEqual(originalCount);
+			});
+
+		});
 	});
-
 
 });
 
