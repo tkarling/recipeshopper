@@ -32,14 +32,14 @@
                 <md-list>
                   <md-item-content>
                       <md-button ng-click="gotoPage('/main')" ng-disabled="!userLoggedIn">
-                        <md-icon icon="../bower_components/material-design-icons/action/1x_web/ic_shopping_cart_black_24dp.png">
+                        <md-icon md-svg-src="../bower_components/material-design-icons/action/svg/production/ic_shopping_cart_24px.svg">
                         </md-icon>
                         <span>Shopping List</span>
                       </md-button>
                   </md-item-content>
                   <md-item-content>
                       <md-button id="recipelistmenubutton" ng-click="gotoPage('/recipelist')" ng-disabled="!userLoggedIn">
-                        <md-icon icon="../bower_components/material-design-icons/action/1x_web/ic_book_black_24dp.png">
+                        <md-icon md-svg-src="../bower_components/material-design-icons/action/svg/production/ic_book_24px.svg">
                         </md-icon>
                         <span>Recipes</span>
                       </md-button>
@@ -47,14 +47,14 @@
                   <md-divider inset></md-divider>
                   <md-item-content>
                       <md-button ng-click="gotoPage('/settings')" ng-disabled="!userLoggedIn">
-                        <md-icon icon="../bower_components/material-design-icons/action/1x_web/ic_settings_black_24dp.png">
+                        <md-icon md-svg-src="../bower_components/material-design-icons/action/svg/production/ic_settings_24px.svg">
                         </md-icon>
                         <span>Settings</span>
                       </md-button>
                   </md-item-content>
                   <md-item-content>
                       <md-button ng-click="gotoPage('/login')">
-                        <md-icon icon="../bower_components/material-design-icons/action/1x_web/ic_account_box_black_24dp.png">
+                        <md-icon md-svg-src="../bower_components/material-design-icons/action/svg/production/ic_account_box_24px.svg">
                         </md-icon>
                         <span>Login</span>
                       </md-button>
@@ -73,13 +73,16 @@
                   <md-toolbar md-theme="green" style="position:fixed">
                         <h3 class="md-toolbar-tools">
                           <md-button id="menubutton" ng-click="toggleLeft()" aria-label="Open Nav Bar" hide-gt-md>
-                              <md-icon icon="../bower_components/material-design-icons/navigation/1x_web/ic_menu_white_24dp.png">
+                              <!-- <md-icon md-svg-src="../bower_components/material-design-icons/navigation/1x_web/ic_menu_white_24dp.png">
+                              </md-icon> -->
+                              <md-icon md-svg-src="../bower_components/material-design-icons/navigation/svg/production/ic_menu_24px.svg">
                               </md-icon>
+                            <!-- <md-icon md-svg-icon="social:cake"   style="color: #f00;width:60px;height:60px;" alt="Cake Icon"></md-icon> --> 
                           </md-button>
                           <span> Shopping List</span>
                           <span flex></span>
                           <md-button ng-click="gotoPage('/settings')" aria-label="Go to settings" ng-disabled="!userLoggedIn">
-                              <md-icon icon="../bower_components/material-design-icons/action/1x_web/ic_settings_white_24dp.png">
+                              <md-icon md-svg-src="../bower_components/material-design-icons/action/svg/production/ic_settings_24px.svg">
                               </md-icon>
                           </md-button>
                         </h3>
