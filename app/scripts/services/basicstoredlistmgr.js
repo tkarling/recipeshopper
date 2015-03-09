@@ -67,7 +67,8 @@ angular.module('storedListMod')
 
     })
 
-  .factory('BasicStoredListMgr', ['$log', '$q', '$firebase', function ($log, $q, $firebase) {
+  .factory('BasicStoredListMgr', ['$rootScope', '$log', '$q', '$firebase', 
+    function ($rootScope, $log, $q, $firebase) {
 
     var fullUrl = function(fbUrl, variableUrl) {
       variableUrl = (variableUrl == undefined)?'':variableUrl;
@@ -103,10 +104,7 @@ angular.module('storedListMod')
     var BasicStoredListMgr = function(fbUrl, variableUrl) {
       this.data = {};
       this.data.items = [];
-      // if(fbUrl != data.fbUrl) {
-      // refs need to be set only, if they are not already set
       setRefs(this.data, fbUrl, variableUrl);
-      // }
     };
 
     BasicStoredListMgr.prototype.setUrl = function (fbUrl, variableUrl) {
@@ -125,18 +123,20 @@ angular.module('storedListMod')
           return deferred.promise;
     }; // getExistingItemsAsync
 
-    // var getItemsFromFBAsync = function(self) { 
-    //     return self.data.items.$loaded().then(
-    //       function() {
-    //         $log.debug('BasicStoredListMgr. getItems (after loaded from FB): ', self.data.items);
-    //         return(self.data.items);
-    //       }
-    //     );
-    // }; //getItemsFromFBAsync
+    var fieldNameAndFieldValueAreSame = function (self, fieldName, fieldValue) {
+       var bothAreSame = (self.data.fieldName == fieldName) && (self.data.fieldValue == fieldValue);
+       if(! bothAreSame) {
+        this.data.fieldName = fieldName;
+        this.data.fieldValue = fieldValue;
+       }
+       return bothAreSame;
+    } // fieldNameValueHasChanged
+
 
     BasicStoredListMgr.prototype.getItems = function (fieldName, fieldValue) {
-        // console.log('BasicStoredListMgr.prototype.getItems: this.data.items', this.data.items);
-        if(this.data.items && (this.data.items.length > 0)) {
+        var sameQuery = fieldNameAndFieldValueAreSame(this, fieldName, fieldValue);
+        $log.debug('BasicStoredListMgr: getItems init: sameQuery', sameQuery);
+        if(sameQuery && this.data.items && (this.data.items.length > 0)) {
           return getExistingItemsAsync(this);
         }
         if(this.data.ref) {
@@ -151,6 +151,40 @@ angular.module('storedListMod')
           // return getItemsFromFBAsync(this); 
         }
     }; // BasicStoredListMgr.prototype.getItems
+
+    var broadcastItemsLoaded = function(self) {
+      $log.debug('BasicStoredListMgr: getItemsSync broadcasting handleItemsloaded', self.data);
+      $rootScope.$broadcast('handleItemsloaded', {
+        fbUrl: self.data.fbUrl
+      });
+    };
+
+    BasicStoredListMgr.prototype.getItemsSync = function(tellWhenLoaded, fieldName, fieldValue) {
+      var sameQuery = fieldNameAndFieldValueAreSame(this, fieldName, fieldValue);
+      $log.debug('BasicStoredListMgr: getItemsSync init: tellWhenLoaded, sameQuery', tellWhenLoaded, sameQuery);
+      if (sameQuery && this.data.items && (this.data.items.length > 0)) {
+        if (tellWhenLoaded) {
+          broadcastItemsLoaded(this);
+        }
+        return this.data.items;
+      }
+      if (this.data.ref) {
+        if (fieldName && fieldValue) {
+          // get selected items
+          this.data.items = $firebase(this.data.ref.orderByChild(fieldName).equalTo(fieldValue)).$asArray();
+        } else {
+          // get all items
+          this.data.items = this.data.dataRef.$asArray();
+        }
+        var self = this;
+        if (tellWhenLoaded) {
+          this.data.items.$loaded().then(function() {
+            broadcastItemsLoaded(self);
+          });
+        }
+        return this.data.items;
+      }
+    }; // BasicStoredListMgr.prototype.getItemsSync
 
     BasicStoredListMgr.prototype.addItem = function (item) {
       return this.data.items.$add(item);
