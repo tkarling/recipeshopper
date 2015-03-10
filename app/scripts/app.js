@@ -82,6 +82,25 @@ angular
       $location.path(pagelink);
     };
 
+    var stringStartsWith = function(targetStr, str) {
+      return targetStr.slice(0, str.length) == str
+    }
+
+    $scope.getTitle = function () {
+      var currentUrl = $location.url();
+      var myTitle = 'Recipe Shopper';
+      if(currentUrl == '/main') {
+        myTitle = 'Shopping List';
+      } else if(currentUrl == '/recipelist') {
+        myTitle = 'Recipes';
+      } else if(currentUrl == '/settings') {
+        myTitle = 'Settings';
+      } else if(stringStartsWith(currentUrl, '/recipedetails')) {
+        myTitle = 'Recipe Name';
+      }
+      return myTitle;
+    }
+
     $scope.userLoggedIn = settingsMgr.getCurrentUser() != '';
       $log.debug('AppCtrl: $scope.userLoggedIn: ', $scope.userLoggedIn);
 

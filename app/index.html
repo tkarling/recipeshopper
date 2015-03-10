@@ -73,13 +73,10 @@
                   <md-toolbar md-theme="green" style="position:fixed">
                         <h3 class="md-toolbar-tools">
                           <md-button id="menubutton" ng-click="toggleLeft()" aria-label="Open Nav Bar" hide-gt-md>
-                              <!-- <md-icon md-svg-src="../bower_components/material-design-icons/navigation/1x_web/ic_menu_white_24dp.png">
-                              </md-icon> -->
                               <md-icon md-svg-src="../bower_components/material-design-icons/navigation/svg/production/ic_menu_24px.svg">
                               </md-icon>
-                            <!-- <md-icon md-svg-icon="social:cake"   style="color: #f00;width:60px;height:60px;" alt="Cake Icon"></md-icon> --> 
                           </md-button>
-                          <span> Shopping List</span>
+                          <span>{{getTitle()}}</span>
                           <span flex></span>
                           <md-button ng-click="gotoPage('/settings')" aria-label="Go to settings" ng-disabled="!userLoggedIn">
                               <md-icon md-svg-src="../bower_components/material-design-icons/action/svg/production/ic_settings_24px.svg">
