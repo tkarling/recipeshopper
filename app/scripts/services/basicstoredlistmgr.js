@@ -126,8 +126,8 @@ angular.module('storedListMod')
     var fieldNameAndFieldValueAreSame = function (self, fieldName, fieldValue) {
        var bothAreSame = (self.data.fieldName == fieldName) && (self.data.fieldValue == fieldValue);
        if(! bothAreSame) {
-        this.data.fieldName = fieldName;
-        this.data.fieldValue = fieldValue;
+        self.data.fieldName = fieldName;
+        self.data.fieldValue = fieldValue;
        }
        return bothAreSame;
     } // fieldNameValueHasChanged
@@ -135,7 +135,7 @@ angular.module('storedListMod')
 
     BasicStoredListMgr.prototype.getItems = function (fieldName, fieldValue) {
         var sameQuery = fieldNameAndFieldValueAreSame(this, fieldName, fieldValue);
-        $log.debug('BasicStoredListMgr: getItems init: sameQuery', sameQuery);
+        $log.debug('BasicStoredListMgr: getItems init: this.data.fbUrl, sameQuery', this.data.fbUrl, sameQuery);
         if(sameQuery && this.data.items && (this.data.items.length > 0)) {
           return getExistingItemsAsync(this);
         }
@@ -147,6 +147,7 @@ angular.module('storedListMod')
             // get all items
             this.data.items = this.data.dataRef.$asArray();
           }
+          $log.debug('BasicStoredListMgr. getItems (from FB)');
           return this.data.items.$loaded();
           // return getItemsFromFBAsync(this); 
         }

@@ -9,8 +9,8 @@
  */
 
 angular.module('recipeshopperApp')
-  .controller('RecipeDetailsController', ['$scope', '$routeParams', '$log', '$location', '$http', 'FB_RECIPES_URL', 'StoredListMgrFactory', 
-  	function ($scope, $routeParams, $log, $location, $http, FB_RECIPES_URL, StoredListMgrFactory) { 
+  .controller('RecipeDetailsController', ['$scope', '$routeParams', '$log', '$location', '$http', 'FB_RECIPES_URL', 'FB_SHOPPINGLIST_URL', 'StoredListMgrFactory', 
+  	function ($scope, $routeParams, $log, $location, $http, FB_RECIPES_URL, FB_SHOPPINGLIST_URL, StoredListMgrFactory) { 
 
 	var setNextAndPrevItem = function () {
 		if ($scope.whichItem > 0) {
@@ -57,15 +57,8 @@ angular.module('recipeshopperApp')
     var ingredientsMgr; 
   	var setIngredientsMgrAndIngredients = function () {
   		if($scope.recipe) {
-		    // var ingredientsUrl = FB_RECIPES_URL + '/' + $scope.recipe.$id + '/ingredients/';
-		    // $log.debug('RecipeDetailsController: ingredientsUrl: ', ingredientsUrl);
-		    // ingredientsMgr = StoredListMgrFactory.getStoredListMgr(ingredientsUrl);
-
-		    var variableUrl = '/' + $scope.recipe.$id + '/ingredients/';
-		    $log.debug('RecipeDetailsController: variableUrl: ', variableUrl);
-		    ingredientsMgr = StoredListMgrFactory.getStoredListMgr(FB_RECIPES_URL, variableUrl);
-
-		    ingredientsMgr.getItems().then(function(data) {
+		    ingredientsMgr = StoredListMgrFactory.getStoredListMgr(FB_SHOPPINGLIST_URL);
+		    ingredientsMgr.getItems('recipeId', $scope.recipe.$id).then(function(data) {
 		    	$scope.ingredients = data;
 	    		// $log.debug('setIngredientsMgrAndIngredients: $scope.ingredients: ', $scope.ingredients);
 		    });
@@ -88,7 +81,7 @@ angular.module('recipeshopperApp')
 		$http.get('data/beanCarrotGingerSoup.json').success(function(data){ 
 			var items = data;  
 			$log.debug('RecipeDetailsController.readIngredients: items', items);
-			var item = {recipe : $scope.recipe.recipename, isbought : false};
+			var item = {recipeId: $scope.recipe.$id, recipe: $scope.recipe.recipename, isonlist: true, isbought: false};
 			for(var i = 0; i < items.length; i++) {
 				if(items[i].product) {
 					item.product = items[i].product;

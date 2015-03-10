@@ -49,17 +49,20 @@ angular.module('recipeshopperApp')
 	var addDefaultItemsToList =	function () {
 		$log.debug('MainCtrl: addDefaultItemsToList started');
 		$http.get('data/ce_jan15_w1.json').success(function(data){ 
-			var items = data;  
-			$log.debug('MainCtrl: addDefaultItemsToList: From Json: items', items);
-			var item = {recipe : 'CE Jan-15 w1', isbought : false};
-			for(var i = 0; i < items.length; i++) {
-				for(var j = 0; j < items[i].products.length; j++) {
-					item.product = items[i].products[j];
-	      			item.aisle = items[i].aisle;
-					// $log.debug(item);
-					storeMgr.addItem(item);
+			if($scope.groceries.length == 0) { // add items only if teh list is still emtpty
+				var items = data;  
+				$log.debug('MainCtrl: addDefaultItemsToList: From Json: items', items);
+				var item = {recipeId: 'CE Jan-15 w1', recipe : 'CE Jan-15 w1', isonlist: true, isbought : false};
+				for(var i = 0; i < items.length; i++) {
+					for(var j = 0; j < items[i].products.length; j++) {
+						item.product = items[i].products[j];
+		      			item.aisle = items[i].aisle;
+						// $log.debug(item);
+						storeMgr.addItem(item);
+					}
 				}
 			}
+
 		});
 		$log.debug('MainCtrl: addDefaultItemsToList $scope.groceries', $scope.groceries);
 	};
@@ -67,20 +70,13 @@ angular.module('recipeshopperApp')
 
    	var getGroceries = function () {
 	    storeMgr = StoredListMgrFactory.getStoredListMgr(FB_SHOPPINGLIST_URL);
-	    storeMgr.getItems().then(function(data) {
+	    storeMgr.getItems('isonlist', true).then(function(data) {
 	    	$scope.groceries = data;
 	    	if($scope.groceries.length == 0) {
 	    		addDefaultItemsToList();
 	    	}
 			// $log.debug('MainCtrl: getGroceries $scope.groceries', $scope.groceries);
 	    });
-
-	    // storeMgr.getItems('aisle', 'EXTRAS').then(function(data) {
-	    // 	$scope.groceries = data;
-	    // 	if($scope.groceries.length == 0) {
-	    // 		addDefaultItemsToList();
-	    // 	}
-	    // });
    	};
 
    	var getSettings = function() {
@@ -111,12 +107,14 @@ angular.module('recipeshopperApp')
 
 	$scope.addProduct = function () {
 		storeMgr.addItem({
-		  recipe : 'New recipe',
+		  recipeId: 'FAVORITES',
+		  recipe : 'FAVORITES',
 	      product : $scope.product,
 	      aisle : $scope.aisle,
 	      // amount : 5,
 	      // unit : 'pcs',
-	      isbought : false
+	      isonlist : true,
+	      isbought : false 
 	      // date: Firebase.ServerValue.TIMESTAMP
 		}).then(function () {
 			$scope.product = '';
