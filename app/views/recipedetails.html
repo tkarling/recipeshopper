@@ -15,14 +15,14 @@
 	    	<md-content ng-hide="ingredients.length == 0" class="md-padding" style="height: 400px;">
 	    	<md-list>
 		    <md-item ng-repeat="item in ingredients">
-		    	<md-item-content> 
+		    	<md-item-content ng-swipe-left="showActions = true" ng-swipe-right="showActions = false"> 
 		    		<div class="md-tile-content">
 					    <h3>
 					      <span>{{item.amount}} {{item.unit}}</span>
 					      <span><strong>{{item.product}}</strong></span> 
 					    </h3>
 				    </div>
-				    <div class="md-tile-right md-padding">
+				    <div class="md-tile-right md-padding" ng-show="showActions">
 					    <md-button class="md-warn md-raised md-hue-2" ng-click="deleteIngredient(item)" aria-label="Delete">
                         	<md-icon md-svg-src="../bower_components/material-design-icons/action/svg/production/ic_delete_24px.svg">
                     		</md-icon>

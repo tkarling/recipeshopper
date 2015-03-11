@@ -14,15 +14,10 @@
             <label>Search for products</label>
             <input ng-model="query">
         </md-input-container>
-        <!--<label class="formgroup">by:
-              <select ng-model="itemOrder">
-                <option value="aisle">Aisle</option>
-                <option value="recipe">Recipe</option>
-              </select>
-            </label> -->
-        <md-checkbox md-no-ink aria-label="Do Not Show Bought" ng-model="mySettings.doNotShowBoughtItems" 
-          ng-change="updateShowAll()" 
-          class="md-primary"></md-checkbox> 
+        <md-checkbox md-no-ink aria-label="Do Not Show Bought" 
+          ng-model="mySettings.doNotShowBoughtItems" ng-change="updateShowAll()" 
+          class="md-primary">
+        </md-checkbox> 
   </md-content>
   <md-content>
     <form name="myform" ng-submit="addProduct()" novalidate>
@@ -47,8 +42,8 @@
           <md-item line-through="item.isbought" 
             ng-repeat="item in groceries | filter: showAll | filter: query | 
                 orderBy: [mySettings.shoppingListSortOrder, 'product']"> 
-            <md-item-content> 
-              <div class="md-tile-right">
+            <md-item-content ng-swipe-left="showActions = true" ng-swipe-right="showActions = false"> 
+              <div class="md-tile-left">
                   <md-checkbox md-no-ink aria-label="Is Bought" ng-model="item.isbought" 
                     class="md-primary" ng-change="saveProduct(item)">
                   </md-checkbox>
@@ -59,7 +54,7 @@
                   </h3>
                 <h4><span class="md-accent-text">{{item.aisle}}; </span><span>{{item.recipe | lowercase}}</span></h4>
               </div>
-              <div class="md-tile-right md-padding">
+              <div class="md-tile-right md-padding" ng-show="showActions">
                   <md-button id="deleteproductbutton" class="md-warn md-raised md-hue-2" 
                     ng-click="deleteProduct(item)" aria-label="Delete">
                     <md-icon md-svg-src="../bower_components/material-design-icons/action/svg/production/ic_delete_24px.svg">

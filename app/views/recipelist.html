@@ -4,12 +4,6 @@
           <label>Search for Recipes</label>
           <input ng-model="query">
       </md-input-container>
-      <!-- <label >by:
-        <select ng-model="itemOrder">
-          <option value="category">Caterory</option>
-          <option value="recipename">Recipe Name</option>
-        </select>
-      </label> -->
   </md-content>
   <md-content>
   <form name="myform" ng-submit="addRecipe()" novalidate>
@@ -33,8 +27,8 @@
     <md-list>
         <md-item ng-repeat="item in recipes | filter: query | 
           orderBy: ['-onlist', mySettings.recipeSortOrder, 'recipename']">
-          <md-item-content> 
-            <div class="md-tile-right">
+          <md-item-content ng-swipe-left="showActions = true" ng-swipe-right="showActions = false"> 
+            <div class="md-tile-left">
                 <md-checkbox md-no-ink aria-label="Is on Shopping List" ng-model="item.onlist" 
                   class="md-primary" ng-change="updateRecipe(item)">
                 </md-checkbox>
@@ -45,7 +39,7 @@
                 </h3>
               <h4 class="md-accent-text">{{item.category}}</h4>
             </div>
-            <div class="md-tile-right md-padding">
+            <div class="md-tile-right md-padding" ng-show="showActions">
                 <md-button id="deleterecipebutton" class="md-warn md-raised md-hue-2" 
                   ng-click="deleteRecipe(item)" aria-label="Delete">
                   <md-icon md-svg-src="../bower_components/material-design-icons/action/svg/production/ic_delete_24px.svg">
