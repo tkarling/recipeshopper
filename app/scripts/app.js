@@ -119,13 +119,18 @@ angular
       // .then(function(){
       //   $log.debug("close LEFT is done");
       // });
-    };
+    }; // $scope.close
 
     $scope.gotoPage = function(pagelink){
       $log.debug('LeftCtrl: pagelink: ', pagelink);
       $location.path(pagelink);
       $mdSidenav('left').close();
-    };
+    }; // $scope.gotoPage
+
+    $scope.logout = function() {
+      Authentication.logout();
+      $scope.gotoPage('/login');
+    }; // $scope.logout
 
     $scope.userLoggedIn = settingsMgr.getCurrentUser() != '';
     $log.debug('LeftCtrl: $scope.userLoggedIn: ', $scope.userLoggedIn);

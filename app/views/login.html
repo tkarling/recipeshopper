@@ -1,18 +1,5 @@
-<md-content class="md-padding" ng-show="user.userLoggedIn">
-    <section layout="column" layout-align="left left">
-        <strong class="user">Hi {{user.firstname}}!</strong>
-        <p>You are logged in.</p>
-    </section>
-
-    <section layout layout-align="left left">
-      <br><br>
-      <md-button class="md-raised md-primary" ng-click="logout()">Logout</md-button>
-    </section>
-</md-content>
-
-<md-content class="md-padding" ng-hide="user.userLoggedIn">
+<md-content class="md-padding"> 
   <form name="myform" ng-submit="login()" novalidate>
-  <!--   <div layout="column"> -->
     <h4>Hi there! Please log-in:</h4>
     <p class="md-accent-text" ng-show="message">{{ message }}</p>
 
@@ -43,6 +30,5 @@
     <section layout layout-align="left center">
       <p>or <a href="#/register">register</a></p>
     </section>
-    <!-- </div> -->
   </form>
 </md-content>
