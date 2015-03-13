@@ -1,5 +1,8 @@
 'use strict';
 
+var LoginAndUtils = require('./loginandutils.js');
+var utils = new LoginAndUtils();
+
 var ShoppingListPage = require('./shoppinglistpage.js');
 var shoppingListPage = new ShoppingListPage();
 
@@ -7,39 +10,22 @@ var RecipeListPage = require('./recipelistpage.js');
 var recipeListPage = new RecipeListPage();
 
 describe('angularjs homepage', function() {
-	var flow = protractor.promise.controlFlow();
 
-	function waitOne() {
-		return protractor.promise.delayed(1000);
-	}
-
-	function sleep() {
-		return flow.execute(waitOne);
-	}
-
-	var loginEmail = element(by.model('inputUser.email'));
-	var loginPassword = element(by.model('inputUser.password'));
-    var loginButton = element(by.id('loginbutton'));
-
-	function login() {
-	    loginEmail.sendKeys('testuser@test.com');
-	    loginPassword.sendKeys('testpwd');
-	    loginButton.click();
-	    sleep(); sleep(); sleep();
-  	}
-
-	beforeEach(function() {
-		// sleep();
+	beforeAll(function() {
 		browser.get('http://localhost:9005/#/login');
+		utils.login();
+	    utils.sleep(3); 
+	    // make sure items have time to load
+
 	});
 
-	// it('should have a title', function() {
-	// 	expect(browser.getTitle()).toEqual('Recipe Shopper');
-	// });
+	afterAll(function() {
+		console.log('logging out');
+		utils.logout();
+	});
 
 
 	it('should add and delete a product on shopping list', function() {
-		login();
 	    expect(browser.getCurrentUrl()).toBe('http://localhost:9005/#/main');
 
 		shoppingListPage.myList.count().then(function(originalCount) {
@@ -70,7 +56,7 @@ describe('angularjs homepage', function() {
 	it('should add and delete a recipe on recipe list', function() {
 	    var recipeListMenuButton = element(by.id('recipelistmenubutton'));
 	    recipeListMenuButton.click(); 
-	    sleep(); sleep();
+	    utils.sleep(2);
 	    expect(browser.getCurrentUrl()).toBe('http://localhost:9005/#/recipelist');
 
 		recipeListPage.myList.count().then(function(originalCount) {

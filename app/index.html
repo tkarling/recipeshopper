@@ -46,14 +46,14 @@
                   </md-item-content>
                   <md-divider inset></md-divider>
                   <md-item-content>
-                      <md-button ng-click="gotoPage('/settings')" ng-disabled="!userLoggedIn">
+                      <md-button id="settingsmenuitem" ng-click="gotoPage('/settings')" ng-disabled="!userLoggedIn">
                         <md-icon md-svg-src="../bower_components/material-design-icons/action/svg/production/ic_settings_24px.svg">
                         </md-icon>
                         <span>Settings</span>
                       </md-button>
                   </md-item-content>
                   <md-item-content>
-                      <md-button ng-click="logout()">
+                      <md-button id="logoutmenuitem" ng-click="logout()">
                         <md-icon md-svg-src="../bower_components/material-design-icons/action/svg/production/ic_account_box_24px.svg">
                         </md-icon>
                         <span>Logout</span>
