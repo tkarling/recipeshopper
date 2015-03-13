@@ -25,6 +25,7 @@ describe('angularjs homepage', function() {
 	    loginEmail.sendKeys('testuser@test.com');
 	    loginPassword.sendKeys('testpwd');
 	    loginButton.click();
+	    sleep(); sleep(); sleep();
   	}
 
 	beforeEach(function() {
@@ -68,23 +69,24 @@ describe('angularjs homepage', function() {
 
 	it('should add and delete a recipe on recipe list', function() {
 	    var recipeListMenuButton = element(by.id('recipelistmenubutton'));
-	    recipeListMenuButton.click();
+	    recipeListMenuButton.click(); 
+	    sleep(); sleep();
 	    expect(browser.getCurrentUrl()).toBe('http://localhost:9005/#/recipelist');
 
 		recipeListPage.myList.count().then(function(originalCount) {
 	  	 	console.log('NOTE originalCount: ', originalCount);
 
 	  	 	// add item
-	  		recipeListPage.addItem('soup', 'thanksgiving');
+	  		recipeListPage.addItem('prot test soup', 'thanksgiving');
 			expect(recipeListPage.myList.count()).toEqual(originalCount + 1);
 
-			recipeListPage.getListItemsWithContent('soup').then(function(items) {
+			recipeListPage.getListItemsWithContent('prot test soup').then(function(items) {
 				// check content of new item
 				if(items.length != 1) {
 					console.log('NOTE: items.length is: ', items.length);
 				}
 				var newItem = items[0];
-				expect(recipeListPage.getField(newItem, 'recipe')).toEqual('soup');
+				expect(recipeListPage.getField(newItem, 'recipe')).toEqual('prot test soup');
 				expect(recipeListPage.getField(newItem, 'category')).toEqual('thanksgiving');
 
 				// delete item

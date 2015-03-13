@@ -63,7 +63,7 @@ angular.module('recipeshopperApp')
 		});
 	}; // addRecipe
 
-	$scope.deleteRecipe = function(item) {
+	$scope.deleteItem = function(item) {
 		$log.debug('RecipelistCtrl: deleteRecipe: ', item);
 		recipesMgr.deleteItem(item);
 	}; // deleteRecipe

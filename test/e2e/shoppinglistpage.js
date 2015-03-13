@@ -30,7 +30,7 @@ var ShoppingListPage = function () {
     }
 
     this.deleteItem = function(item) {
-        item.element(by.id('deleteproductbutton')).click();
+        item.element(by.id('deleteitembutton')).click();
     }
 };
 

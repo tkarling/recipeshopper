@@ -122,7 +122,7 @@ angular.module('recipeshopperApp')
 		});
 	}; // addProduct
 
-	$scope.deleteProduct = function(item) {
+	$scope.deleteItem = function(item) {
 		$log.debug('MainCtrl: deleteProduct: ', item);
 		storeMgr.deleteItem(item);
 	}; // deleteProduct

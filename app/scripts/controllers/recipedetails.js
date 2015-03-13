@@ -101,7 +101,7 @@ angular.module('recipeshopperApp')
 		});
     };
 
-    $scope.deleteIngredient = function(item) {
+    $scope.deleteItem = function(item) {
     	ingredientsMgr.deleteItem(item);
     }; // deleteIngredient
 

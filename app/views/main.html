@@ -54,31 +54,12 @@
                   </h3>
                 <h4><span class="md-accent-text">{{item.aisle}}; </span><span>{{item.recipe | lowercase}}</span></h4>
               </div>
-              <div class="md-tile-right md-padding" ng-show="showActions">
-                  <md-button id="deleteproductbutton" class="md-warn md-raised md-hue-2" 
-                    ng-click="deleteProduct(item)" aria-label="Delete">
-                    <md-icon md-svg-src="../bower_components/material-design-icons/action/svg/production/ic_delete_24px.svg">
-                    </md-icon>
-                  </md-button>
-              </div>
+              <rs-tile-right-delete hide-sm show-gt-sm></rs-tile-right-delete>
+              <rs-tile-right-delete hide-gt-sm show-sm ng-show="showActions"></rs-tile-right-delete>
             </md-item-content>
             <md-divider inset></md-divider>
         </md-item>
     </md-list>
   <md-content>
 </md-content>
-
-
-<!--        <p>
-        <label class="formgroup">
-          <input type="radio" ng-model="direction" name="direction" checked>
-          ascending
-        </label>
-        <label>
-          <input type="radio" ng-model="direction" name="direction" value="reverse">
-          descending
-        </label>
-        </p> -->
-      <!-- <a ng-href="#/playerdetails/0}}"><button>Add<br>Player</button></a> -->
-
 

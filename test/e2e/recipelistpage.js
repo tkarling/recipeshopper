@@ -30,7 +30,7 @@ var RecipeListPage = function () {
     }
 
     this.deleteItem = function(item) {
-        item.element(by.id('deleterecipebutton')).click();
+        item.element(by.id('deleteitembutton')).click();
     }
 };
 
