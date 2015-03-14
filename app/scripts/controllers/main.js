@@ -111,14 +111,17 @@ angular.module('recipeshopperApp')
 		  recipe : 'FAVORITES',
 	      product : $scope.product,
 	      aisle : $scope.aisle,
-	      // amount : 5,
+	      amount : $scope.amount,
 	      // unit : 'pcs',
 	      isonlist : true,
 	      isbought : false 
 	      // date: Firebase.ServerValue.TIMESTAMP
 		}).then(function () {
+			$scope.amount = ''; 
 			$scope.product = '';
 			$scope.aisle = '';
+			// var myform = angular.element.find('form');
+			// myform.$setPristine();	
 		});
 	}; // addProduct
 

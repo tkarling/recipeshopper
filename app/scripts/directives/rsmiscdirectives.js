@@ -7,6 +7,27 @@
  * # rsTileRightDelete
  */
 angular.module('recipeshopperApp')
+  .directive('rsSearchBar', function () {
+    return {
+      template: '<md-content layout="row">' +
+                    '<md-input-container flex>' +
+                        '<label>{{placeholderText}}</label>' +
+                        '<input ng-model="query">' +
+                    '</md-input-container>' +
+                    '<md-checkbox ng-if="showCheckbox" md-no-ink aria-label="Do Not Show Bought"' +
+                      'ng-model="mySettings.doNotShowBoughtItems" ng-change="updateShowAll()"' +
+                      'class="md-primary">' +
+                    '</md-checkbox>' +
+                '</md-content>',
+      restrict: 'E',
+      replace: true,
+      link: function postLink(scope, element, attrs) {
+        scope.showCheckbox = attrs['showCheckbox'];
+        scope.placeholderText = attrs['placeholderText'] || 'Search';
+        // element.text('this is the rsTileRightDelete directive');
+      }
+    };
+  })
   .directive('rsTileRightDelete', function () {
     return {
       template: '<div class="md-tile-right md-padding">' + 
@@ -15,7 +36,7 @@ angular.module('recipeshopperApp')
                     '<md-icon md-svg-src="../bower_components/material-design-icons/action/svg/production/ic_delete_24px.svg">' +
                     '</md-icon>' +
                   '</md-button>' +
-              '</div>',
+                '</div>',
       restrict: 'E',
       replace: true,
       link: function postLink(scope, element, attrs) {

@@ -5,13 +5,15 @@ var ShoppingListPage = function () {
       browser.get('http://localhost:9005/#/main');
     };
 
-    this.addInput1 = element(by.model('product'));
-    this.addInput2 = element(by.model('aisle'));
+    this.addInput1 = element(by.model('amount'));
+    this.addInput2 = element(by.model('product'));
+    this.addInput3 = element(by.model('aisle'));
     this.addButton = element(by.id('addproductbutton'));
 
-    this.addItem = function(a, b) {
+    this.addItem = function(a, b, c) {
         this.addInput1.sendKeys(a);
         this.addInput2.sendKeys(b);
+        this.addInput3.sendKeys(c);
         this.addButton.click();
     }
 
@@ -19,8 +21,9 @@ var ShoppingListPage = function () {
 
     this.getListItemsWithContent = function(content) {
         return this.myList.filter(function(elem, index) {
-          return elem.element(by.binding('product')).getText().then(function(text) {
-            return text === content;
+          return elem.element(by.binding('aisle')).getText().then(function(text) {
+            // console.log('text: ', text);
+            return text == content;
           });
         });
     }

@@ -1,10 +1,5 @@
 <md-content class="md-padding">
-  <md-content layout="row">
-      <md-input-container flex>
-          <label>Search for Recipes</label>
-          <input ng-model="query">
-      </md-input-container>
-  </md-content>
+  <rs-search-bar show-checkbox="true" placeholder-text="Search for recipes"></rs-search-bar>
   <md-content>
   <form name="myform" ng-submit="addRecipe()" novalidate>
     <div layout>

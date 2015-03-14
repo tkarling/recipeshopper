@@ -1,32 +1,27 @@
 <style type="text/css">
-.rs-h4-size {
+/*.rs-h4-size {
   font-size: 14px;
 }
 
 .rs-no-scroll {
   overflow: hidden;
-}
+}*/
 </style>
 
 <md-content class="md-padding">
-  <md-content layout="row">
-        <md-input-container flex>
-            <label>Search for products</label>
-            <input ng-model="query">
-        </md-input-container>
-        <md-checkbox md-no-ink aria-label="Do Not Show Bought" 
-          ng-model="mySettings.doNotShowBoughtItems" ng-change="updateShowAll()" 
-          class="md-primary">
-        </md-checkbox> 
-  </md-content>
+  <rs-search-bar show-checkbox="true" placeholder-text="Search for products"></rs-search-bar>
   <md-content>
     <form name="myform" ng-submit="addProduct()" novalidate>
       <div layout>
+        <md-input-container flex="15">
+            <label>No.</label>
+            <input type="number" ng-model="amount" ng-required="true">
+        </md-input-container>
         <md-input-container flex>
             <label>Product</label>
             <input ng-model="product" ng-required="true">
         </md-input-container>
-        <md-input-container flex>
+        <md-input-container flex="30">
             <label>Aisle</label>
             <input ng-model="aisle" ng-required="true">
         </md-input-container>

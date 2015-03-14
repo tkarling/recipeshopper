@@ -14,9 +14,6 @@ describe('angularjs homepage', function() {
 	beforeAll(function() {
 		browser.get('http://localhost:9005/#/login');
 		utils.login();
-	    utils.sleep(3); 
-	    // make sure items have time to load
-
 	});
 
 	afterAll(function() {
@@ -32,16 +29,17 @@ describe('angularjs homepage', function() {
 	  	 	console.log('NOTE originalCount: ', originalCount);
 
 	  	 	// add item
-	  		shoppingListPage.addItem('carrots', 'veggies');
+	  		shoppingListPage.addItem('2', 'carrots', 'veggies');
+			utils.sleep(2);
 			expect(shoppingListPage.myList.count()).toEqual(originalCount + 1);
 
-			shoppingListPage.getListItemsWithContent('carrots').then(function(items) {
+			shoppingListPage.getListItemsWithContent('veggies' + ';').then(function(items) {
 				// check content of new item
 				if(items.length != 1) {
 					console.log('NOTE: items.length is: ', items.length);
 				}
 				var newItem = items[0];
-				expect(shoppingListPage.getField(newItem, 'product')).toEqual('carrots');
+				expect(shoppingListPage.getField(newItem, 'amount')).toEqual('2 carrots');
 				expect(shoppingListPage.getField(newItem, 'aisle')).toEqual('veggies' + ';');
 
 				// delete item
