@@ -30,7 +30,9 @@ angular.module('recipeshopperApp')
     	if($scope.currentUser) {
     		getRecipes();
     		getSettings();
-    	} 
+    	} else {
+    		$location.path('/login');
+    	}
    	};
 
 

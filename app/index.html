@@ -53,7 +53,7 @@
                       </md-button>
                   </md-item-content>
                   <md-item-content>
-                      <md-button id="logoutmenuitem" ng-click="logout()">
+                      <md-button id="logoutmenuitem" ng-click="logout()" ng-disabled="!userLoggedIn">
                         <md-icon md-svg-src="../bower_components/material-design-icons/action/svg/production/ic_account_box_24px.svg">
                         </md-icon>
                         <span>Logout</span>

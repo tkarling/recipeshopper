@@ -31,8 +31,8 @@ angular.module('recipeshopperApp')
   	};
   })
   .constant('FB_SHOPPINGLIST_URL', 'https://recipeshopper.firebaseio.com/shoppinglist/')
-  .controller('MainCtrl', ['$scope', '$log', '$http', 'FB_SHOPPINGLIST_URL', 'StoredListMgrFactory', 'settingsMgr', 
-  	function ($scope, $log, $http, FB_SHOPPINGLIST_URL, StoredListMgrFactory, settingsMgr) {  
+  .controller('MainCtrl', ['$scope', '$log', '$http', '$location', 'FB_SHOPPINGLIST_URL', 'StoredListMgrFactory', 'settingsMgr', 
+  	function ($scope, $log, $http, $location, FB_SHOPPINGLIST_URL, StoredListMgrFactory, settingsMgr) {  
 
   	var setShowAll = function () {
   		$scope.showAll = $scope.mySettings.doNotShowBoughtItems ? ! $scope.mySettings.doNotShowBoughtItems : undefined;
@@ -90,7 +90,9 @@ angular.module('recipeshopperApp')
     	if($scope.currentUser) {
     		getGroceries();
     		getSettings();
-    	} 
+    	} else {
+    		$location.path('/login');
+    	}
    	};
 
 	$scope.$on('handleCurrentUserSet', function () {
