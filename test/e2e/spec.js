@@ -3,6 +3,9 @@
 var LoginAndUtils = require('./loginandutils.js');
 var utils = new LoginAndUtils();
 
+var SideMenu = require('./sidemenupage.js');
+var sideMenuPage = new SideMenu();
+
 var ShoppingListPage = require('./shoppinglistpage.js');
 var shoppingListPage = new ShoppingListPage();
 
@@ -18,11 +21,13 @@ describe('angularjs homepage', function() {
 
 	afterAll(function() {
 		console.log('logging out');
-		utils.logout();
+		sideMenuPage.logout();
 	});
 
 
 	it('should add and delete a product on shopping list', function() {
+		sideMenuPage.gotoShoppingList();
+	    utils.sleep(2); // wait for the page to load
 	    expect(browser.getCurrentUrl()).toBe('http://localhost:9005/#/main');
 
 		shoppingListPage.myList.count().then(function(originalCount) {
@@ -52,8 +57,7 @@ describe('angularjs homepage', function() {
 
 
 	it('should add and delete a recipe on recipe list', function() {
-	    var recipeListMenuButton = element(by.id('recipelistmenubutton'));
-	    recipeListMenuButton.click(); 
+		sideMenuPage.gotoRecipes();
 	    utils.sleep(2);
 	    expect(browser.getCurrentUrl()).toBe('http://localhost:9005/#/recipelist');
 

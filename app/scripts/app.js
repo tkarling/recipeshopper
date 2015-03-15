@@ -101,12 +101,17 @@ angular
       return myTitle;
     }
 
-    $scope.userLoggedIn = settingsMgr.getCurrentUser() != '';
-      $log.debug('AppCtrl: $scope.userLoggedIn: ', $scope.userLoggedIn);
+    var userLoggedIn;
+    $scope.userLoggedIn = function () {
+      return userLoggedIn;
+    }
+
+    userLoggedIn = settingsMgr.getCurrentUser() != '';
+    $log.debug('AppCtrl: $scope.userLoggedIn: ', $scope.userLoggedIn());
 
     $scope.$on('handleCurrentUserSet', function () {
-        $scope.userLoggedIn = settingsMgr.getCurrentUser() != '';
-        $log.debug('AppCtrl: handleCurrentUserSet called', $scope.userLoggedIn);
+        userLoggedIn = settingsMgr.getCurrentUser() != '';
+        $log.debug('AppCtrl: handleCurrentUserSet called', $scope.userLoggedIn());
     });
 
   })
@@ -132,12 +137,17 @@ angular
       $scope.gotoPage('/login');
     }; // $scope.logout
 
-    $scope.userLoggedIn = settingsMgr.getCurrentUser() != '';
-    $log.debug('LeftCtrl: $scope.userLoggedIn: ', $scope.userLoggedIn);
+    var userLoggedIn;
+    $scope.userLoggedIn = function () {
+      return userLoggedIn;
+    }
+
+    userLoggedIn = settingsMgr.getCurrentUser() != '';
+    $log.debug('AppCtrl: $scope.userLoggedIn: ', $scope.userLoggedIn());
 
     $scope.$on('handleCurrentUserSet', function () {
-        $scope.userLoggedIn = settingsMgr.getCurrentUser() != '';
-        $log.debug('LeftCtrl: handleCurrentUserSet called', $scope.userLoggedIn);
+        userLoggedIn = settingsMgr.getCurrentUser() != '';
+        $log.debug('AppCtrl: handleCurrentUserSet called', $scope.userLoggedIn());
     });
 
   });

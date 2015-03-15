@@ -10,8 +10,6 @@ var LoginAndUtils = function () {
     var loginPasswordInput = element(by.model('inputUser.password'));
     var loginButton = element(by.id('loginbutton'));
     var navMenuButton = element(by.id('menubutton'));
-    var logoutMenuItem = element(by.id('logoutmenuitem'));
-    var settingsMenuItem = element(by.id('settingsmenuitem'));
 
     var waitOne = function () {
         return protractor.promise.delayed(sleepTimeout);
@@ -35,14 +33,6 @@ var LoginAndUtils = function () {
 
     this.toggleSideMenu = function () {
         navMenuButton.click();
-    }
-
-    this.logout = function () {
-        logoutMenuItem.click();
-    }
-
-    this.gotoSettings = function () {
-        settingsMenuItem.click();
     }
 
     // this.swipedown = function() {

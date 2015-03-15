@@ -43,4 +43,26 @@ angular.module('recipeshopperApp')
         // element.text('this is the rsTileRightDelete directive');
       }
     };
+  })
+  .directive('rsSideMenuItem', function () {
+    return {
+      template: '<md-item-content>' +
+                      '<md-button ng-disabled="! userLoggedInFn()" ng-click="clickActionFn()">' +
+                        '<md-icon md-svg-src="{{iconPath}}"></md-icon>' +
+                        '<span>{{menuItemText}}</span>' +
+                      '</md-button>' +
+                  '</md-item-content>',
+      scope: {
+        userLoggedInFn: '&',
+        clickActionFn: '&',
+        menuItemText: '@',
+        iconName: '@'
+      },
+      restrict: 'E',
+      replace: true,
+      link: function postLink(scope, element, attrs) {
+        scope.iconPath = '../bower_components/material-design-icons/action/svg/production/' + scope.iconName + '_24px.svg';
+      }
+    };
   });
+

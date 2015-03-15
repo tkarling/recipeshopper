@@ -30,35 +30,19 @@
               </md-toolbar>
               <md-content class="md-padding" ng-controller="LeftCtrl">
                 <md-list>
-                  <md-item-content>
-                      <md-button ng-click="gotoPage('/main')" ng-disabled="!userLoggedIn">
-                        <md-icon md-svg-src="../bower_components/material-design-icons/action/svg/production/ic_shopping_cart_24px.svg">
-                        </md-icon>
-                        <span>Shopping List</span>
-                      </md-button>
-                  </md-item-content>
-                  <md-item-content>
-                      <md-button id="recipelistmenubutton" ng-click="gotoPage('/recipelist')" ng-disabled="!userLoggedIn">
-                        <md-icon md-svg-src="../bower_components/material-design-icons/action/svg/production/ic_book_24px.svg">
-                        </md-icon>
-                        <span>Recipes</span>
-                      </md-button>
-                  </md-item-content>
+                  <rs-side-menu-item user-logged-in-fn="userLoggedIn()" 
+                    click-action-fn="gotoPage('/main')" menu-item-text="Shopping List" icon-name="ic_shopping_cart">
+                  </rs-side-menu-item>
+                  <rs-side-menu-item user-logged-in-fn="userLoggedIn()" 
+                    click-action-fn="gotoPage('/recipelist')" menu-item-text="Recipes" icon-name="ic_book">
+                  </rs-side-menu-item>
                   <md-divider inset></md-divider>
-                  <md-item-content>
-                      <md-button id="settingsmenuitem" ng-click="gotoPage('/settings')" ng-disabled="!userLoggedIn">
-                        <md-icon md-svg-src="../bower_components/material-design-icons/action/svg/production/ic_settings_24px.svg">
-                        </md-icon>
-                        <span>Settings</span>
-                      </md-button>
-                  </md-item-content>
-                  <md-item-content>
-                      <md-button id="logoutmenuitem" ng-click="logout()" ng-disabled="!userLoggedIn">
-                        <md-icon md-svg-src="../bower_components/material-design-icons/action/svg/production/ic_account_box_24px.svg">
-                        </md-icon>
-                        <span>Logout</span>
-                      </md-button>
-                  </md-item-content>
+                  <rs-side-menu-item user-logged-in-fn="userLoggedIn()" 
+                    click-action-fn="gotoPage('/settings')" menu-item-text="Settings" icon-name="ic_settings">
+                  </rs-side-menu-item>
+                  <rs-side-menu-item user-logged-in-fn="userLoggedIn()" 
+                    click-action-fn="logout()" menu-item-text="Logout" icon-name="ic_account_box">
+                  </rs-side-menu-item>
                   <md-item-content>
                       <md-button ng-click="gotoPage('/picdemo')">
                         <span>Pic Demo</span>
@@ -78,7 +62,7 @@
                           </md-button>
                           <span>{{getTitle()}}</span>
                           <span flex></span>
-                          <md-button ng-click="gotoPage('/settings')" aria-label="Go to settings" ng-disabled="!userLoggedIn">
+                          <md-button ng-click="gotoPage('/settings')" aria-label="Go to settings" ng-disabled="!userLoggedIn()">
                               <md-icon md-svg-src="../bower_components/material-design-icons/action/svg/production/ic_settings_24px.svg">
                               </md-icon>
                           </md-button>
