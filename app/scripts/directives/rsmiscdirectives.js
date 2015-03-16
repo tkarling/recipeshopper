@@ -7,6 +7,17 @@
  * # rsTileRightDelete
  */
 angular.module('recipeshopperApp')
+  .directive('rsAppTitleBar', function () {
+    return {
+      templateUrl: 'views/apptitlebar.html',
+      // template: '<p></p>',
+      restrict: 'E',
+      replace: true,
+      link: function postLink(scope, element, attrs) {
+        console.log('rsAppTitleBar called');
+      }
+    };
+  })
   .directive('rsSearchBar', function () {
     return {
       template: '<md-content layout="row">' +
@@ -24,7 +35,7 @@ angular.module('recipeshopperApp')
       link: function postLink(scope, element, attrs) {
         scope.showCheckbox = attrs['showCheckbox'];
         scope.placeholderText = attrs['placeholderText'] || 'Search';
-        // element.text('this is the rsTileRightDelete directive');
+          // console.log('rsSearchBar called');
       }
     };
   })
@@ -40,7 +51,7 @@ angular.module('recipeshopperApp')
       restrict: 'E',
       replace: true,
       link: function postLink(scope, element, attrs) {
-        // element.text('this is the rsTileRightDelete directive');
+        // console.log('rsTileRightDelete called');
       }
     };
   });

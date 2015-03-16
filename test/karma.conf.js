@@ -39,6 +39,7 @@ module.exports = function(config) {
       'bower_components/angular-material/angular-material.js',
       'bower_components/angular-messages/angular-messages.js',
       'app/scripts/**/*.js',
+      'app/views/*.html',
       'test/mock/**/*.js',
       'test/spec/**/*.js'
     ],
@@ -64,8 +65,17 @@ module.exports = function(config) {
     // Which plugins to enable
     plugins: [
       'karma-phantomjs-launcher',
-      'karma-jasmine'
+      'karma-jasmine',
+      'karma-ng-html2js-preprocessor'
     ],
+
+    preprocessors: { 
+      'app/views/*.html': ['ng-html2js'] 
+    }, 
+
+    ngHtml2JsPreprocessor: { 
+      stripPrefix: 'app/', 
+    },
 
     // Continuous Integration mode
     // if true, it capture browsers, run tests and exit

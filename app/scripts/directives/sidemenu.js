@@ -35,7 +35,7 @@ angular.module('recipeshopperApp')
       restrict: 'E',
       replace: true,
       link: function postLink(scope, element, attrs) {
-        console.log('rsSideMenu called');
+        // console.log('rsSideMenu called');
       }
     };
   });

@@ -2,6 +2,9 @@
 
 describe('Directive: sideMenu', function () {
 
+   // load the templates
+  beforeEach(module('views/sidemenu.html'));
+
   // load the directive's module
   beforeEach(module('recipeshopperApp'));
 
@@ -24,10 +27,11 @@ describe('Directive: sideMenu', function () {
     expect(element.children().length).toBe(1);
   }));
 
-  // cold not figure out how to test directive which uses templateUrl. The path may be messed up
+  // //could not figure out how to test directive which uses templateUrl. 
   // it('rs-side-menu should have 2 children', inject(function ($compile) {
   //   element = angular.element('<rs-side-menu></rs-side-menu>');
   //   element = $compile(element)(scope);
   //   expect(element.children().length).toBe(2);
   // }));
+  
 });

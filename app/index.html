@@ -26,20 +26,7 @@
             <rs-side-menu></rs-side-menu>
             <md-content flex>  
               <div flex layout="column" layout-fill layout-align="center center">
-                  <md-toolbar md-theme="green" style="position:fixed">
-                        <h3 class="md-toolbar-tools">
-                          <md-button id="menubutton" ng-click="toggleLeft()" aria-label="Open Nav Bar" hide-gt-md>
-                              <md-icon md-svg-src="../bower_components/material-design-icons/navigation/svg/production/ic_menu_24px.svg">
-                              </md-icon>
-                          </md-button>
-                          <span>{{getTitle()}}</span>
-                          <span flex></span>
-                          <md-button ng-click="gotoPage('/settings')" aria-label="Go to settings" ng-disabled="!userLoggedIn()">
-                              <md-icon md-svg-src="../bower_components/material-design-icons/action/svg/production/ic_settings_24px.svg">
-                              </md-icon>
-                          </md-button>
-                        </h3>
-                  </md-toolbar>
+                  <rs-app-title-bar></rs-app-title-bar>
                   <md-content md-theme="green" layout-fill style="margin-top:64px">
                       <div ng-view=""></div>
                   </md-content>
