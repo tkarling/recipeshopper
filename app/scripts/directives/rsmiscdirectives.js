@@ -61,7 +61,18 @@ angular.module('recipeshopperApp')
       restrict: 'E',
       replace: true,
       link: function postLink(scope, element, attrs) {
+        // console.log('rsSideMenuItem called');
         scope.iconPath = '../bower_components/material-design-icons/action/svg/production/' + scope.iconName + '_24px.svg';
+      }
+    };
+  })
+  .directive('rsSideMenu', function () {
+    return {
+      templateUrl: 'views/sidemenu.html',
+      restrict: 'E',
+      replace: true,
+      link: function postLink(scope, element, attrs) {
+        // console.log('rsSideMenu called');
       }
     };
   });

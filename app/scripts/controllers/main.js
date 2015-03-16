@@ -48,7 +48,7 @@ angular.module('recipeshopperApp')
     //A QUICK WAY TO FILL EMPTY DB
 	var addDefaultItemsToList =	function () {
 		$log.debug('MainCtrl: addDefaultItemsToList started');
-		$http.get('data/ce_jan15_w1.json').success(function(data){ 
+		$http.get('data/ce_mar15_w1.json').success(function(data){ 
 			if($scope.groceries.length == 0) { // add items only if teh list is still emtpty
 				var items = data;  
 				$log.debug('MainCtrl: addDefaultItemsToList: From Json: items', items);
