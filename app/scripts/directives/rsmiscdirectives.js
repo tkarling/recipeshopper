@@ -39,6 +39,25 @@ angular.module('recipeshopperApp')
       }
     };
   })
+  .directive('rsTileLeftCheck', function () {
+    return {
+      template: '<div class="md-tile-left">' + 
+                  '<md-checkbox md-no-ink aria-label="{{ariaLabel}}" ng-model="item.isbought"' +
+                    'class="md-primary" ng-change="saveItem(item)">' +
+                  '</md-checkbox>' +
+                '</div>',
+      // scope: {
+      //   saveItemFn: '&',
+      //   ariaLabel: '@',
+      //   myModel: '='
+      // },
+      restrict: 'E',
+      replace: true,
+      link: function postLink(scope, element, attrs) {
+        // console.log('rsTileLeftCheck called');
+      }
+    };
+  })
   .directive('rsTileRightDelete', function () {
     return {
       template: '<div class="md-tile-right md-padding">' + 

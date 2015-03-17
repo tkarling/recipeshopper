@@ -72,6 +72,7 @@ angular.module('recipeshopperApp')
 	    storeMgr = StoredListMgrFactory.getStoredListMgr(FB_SHOPPINGLIST_URL);
 	    storeMgr.getItems('isonlist', true).then(function(data) {
 	    	$scope.groceries = data;
+	    	$log.debug('MainCtrl: getGroceries $scope.mySettings', $scope.mySettings);
 	    	if($scope.groceries.length == 0) {
 	    		addDefaultItemsToList();
 	    	}
@@ -88,8 +89,8 @@ angular.module('recipeshopperApp')
         $scope.currentUser = settingsMgr.getCurrentUser();
 		$log.debug('MainCtrl: initFromStores $scope.currentUser', $scope.currentUser);
     	if($scope.currentUser) {
-    		getGroceries();
     		getSettings();
+    		getGroceries();
     	} else {
     		$location.path('/login');
     	}
@@ -128,14 +129,14 @@ angular.module('recipeshopperApp')
 	}; // addProduct
 
 	$scope.deleteItem = function(item) {
-		$log.debug('MainCtrl: deleteProduct: ', item);
+		// $log.debug('MainCtrl: deleteItem: ', item);
 		storeMgr.deleteItem(item);
-	}; // deleteProduct
+	}; // deleteItem
 
-	$scope.saveProduct = function(item) {
-		$log.debug('MainCtrl: saveProduct: ', item);
+	$scope.saveItem = function(item) {
+		$log.debug('MainCtrl: saveItem: ', item);
 		storeMgr.saveItem(item);
-	}; // saveProduct
+	}; // saveItem
 
 
   }]);

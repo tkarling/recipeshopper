@@ -15,12 +15,6 @@ describe('Directive: rsTileRightDelete', function () {
     scope = $rootScope.$new();
   }));
 
-  it('should make rs-tile-right-delete visible', inject(function ($compile) {
-    element = angular.element('<rs-tile-right-delete></rs-tile-right-delete>');
-    element = $compile(element)(scope);
-    expect(element.hasClass('md-tile-right')).toBe(true);
-  }));
-
   it('rs-search-bar should have 1 child', inject(function ($compile) {
     element = angular.element('<rs-search-bar></rs-search-bar>');
     element = $compile(element)(scope);
@@ -29,6 +23,18 @@ describe('Directive: rsTileRightDelete', function () {
 
   it('rs-search-bar should have 2 children', inject(function ($compile) {
     element = angular.element('<rs-search-bar show-checkbox="true"></rs-search-bar>');
+    element = $compile(element)(scope);
+    expect(element.children().length).toBe(1);
+  }));
+
+  it('rs-tile-left-check should have 1 child', inject(function ($compile) {
+    element = angular.element('<rs-tile-left-check></rs-tile-left-check>');
+    element = $compile(element)(scope);
+    expect(element.children().length).toBe(1);
+  }));
+
+  it('rs-tile-right-delete should have 1 child', inject(function ($compile) {
+    element = angular.element('<rs-tile-right-delete></rs-tile-right-delete>');
     element = $compile(element)(scope);
     expect(element.children().length).toBe(1);
   }));
