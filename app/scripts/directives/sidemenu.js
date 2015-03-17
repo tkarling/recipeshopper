@@ -7,7 +7,7 @@
  * # sideMenuDirectives
  */
 angular.module('recipeshopperApp')
-  .directive('rsSideMenuItem', function () {
+  .directive('mkSideMenuItem', function () {
     return {
       template: '<md-item-content>' +
                       '<md-button ng-disabled="! userLoggedInFn()" ng-click="clickActionFn()">' +
@@ -26,6 +26,26 @@ angular.module('recipeshopperApp')
       link: function postLink(scope, element, attrs) {
         // console.log('rsSideMenuItem called');
         scope.iconPath = '../bower_components/material-design-icons/action/svg/production/' + scope.iconName + '_24px.svg';
+      }
+    };
+  })
+  .directive('mkSideMenu', function () {
+    return {
+      template: '<div><md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left"' +
+                    'md-is-locked-open="$mdMedia(\'gt-md\')">' +
+                    '<md-toolbar md-theme="green">' +
+                      '<h1 class="md-toolbar-tools">{{menuTitle}}</h1>' +
+                    '</md-toolbar>' +
+                    '<md-content class="md-padding" ng-transclude>' +
+                    '</md-content>' +
+                '</md-sidenav></div>',
+      scope: {
+        menuTitle: '@'
+      },
+      restrict: 'E',
+      transclude: true,
+      link: function postLink(scope, element, attrs) {
+        // console.log('rsSideMenu called');
       }
     };
   })
