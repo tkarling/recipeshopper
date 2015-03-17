@@ -23,7 +23,8 @@ angular
     'storedListMod', 
     'settingsMod', 
     'fileReaderMod',
-    'loginMod'
+    'loginMod',
+    'mkDirectivesMod'
   ])
   .config(function($mdThemingProvider) {
     //will use the colors from default theme for any color not defined.

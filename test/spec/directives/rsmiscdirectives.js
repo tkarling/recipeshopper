@@ -4,6 +4,7 @@ describe('Directive: rsTileRightDelete', function () {
 
   // load the templates
   beforeEach(module('views/apptitlebar.html'));
+  beforeEach(module('views/sidemenu.html'));
 
   // load the directive's module
   beforeEach(module('recipeshopperApp'));
@@ -14,6 +15,21 @@ describe('Directive: rsTileRightDelete', function () {
   beforeEach(inject(function ($rootScope) {
     scope = $rootScope.$new();
   }));
+
+  // //could not figure out how to test directive which uses templateUrl. 
+  // it('rs-side-menu should have 1 children', inject(function ($compile) {
+  //   element = angular.element('<rs-side-menu></rs-side-menu>');
+  //   element = $compile(element)(scope);
+  //   expect(element.children().length).toBe(1);
+  // }));
+
+  // // could not figure out how to test directive which uses templateUrl. 
+  // it('rs-app-title-bar should have 1 child', inject(function ($compile) {
+  //   element = angular.element('<rs-app-title-bar></rs-app-title-bar>');
+  //   element = $compile(element)(scope);
+  //   console.log('element', element);
+  //   expect(element.children().length).toBe(1);
+  // })); 
 
   it('rs-search-bar should have 1 child', inject(function ($compile) {
     element = angular.element('<rs-search-bar></rs-search-bar>');
@@ -38,13 +54,5 @@ describe('Directive: rsTileRightDelete', function () {
     element = $compile(element)(scope);
     expect(element.children().length).toBe(1);
   }));
-
-  // // could not figure out how to test directive which uses templateUrl. 
-  // it('rs-app-title-bar should have 1 child', inject(function ($compile) {
-  //   element = angular.element('<rs-app-title-bar></rs-app-title-bar>');
-  //   element = $compile(element)(scope);
-  //   console.log('element', element);
-  //   expect(element.children().length).toBe(1);
-  // })); 
 
 });

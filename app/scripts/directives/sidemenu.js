@@ -2,11 +2,14 @@
 
 /**
  * @ngdoc directive
- * @name recipeshopperApp.directive:sideMenuDirectives
+ * @name mkDirectivesMod.directive:sideMenuDirectives
  * @description
  * # sideMenuDirectives
  */
-angular.module('recipeshopperApp')
+angular
+.module('mkDirectivesMod', []);
+
+angular.module('mkDirectivesMod')
   .directive('mkSideMenuItem', function () {
     return {
       template: '<md-item-content>' +
@@ -45,17 +48,7 @@ angular.module('recipeshopperApp')
       restrict: 'E',
       transclude: true,
       link: function postLink(scope, element, attrs) {
-        // console.log('rsSideMenu called');
-      }
-    };
-  })
-  .directive('rsSideMenu', function () {
-    return {
-      templateUrl: 'views/sidemenu.html',
-      restrict: 'E',
-      replace: true,
-      link: function postLink(scope, element, attrs) {
-        // console.log('rsSideMenu called');
+        // console.log('mkSideMenu called');
       }
     };
   });

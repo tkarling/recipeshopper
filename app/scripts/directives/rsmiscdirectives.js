@@ -7,6 +7,16 @@
  * # rsTileRightDelete
  */
 angular.module('recipeshopperApp')
+  .directive('rsSideMenu', function () {
+    return {
+      templateUrl: 'views/sidemenu.html',
+      restrict: 'E',
+      replace: true,
+      link: function postLink(scope, element, attrs) {
+        // console.log('rsSideMenu called');
+      }
+    };
+  })
   .directive('rsAppTitleBar', function () {
     return {
       templateUrl: 'views/apptitlebar.html',

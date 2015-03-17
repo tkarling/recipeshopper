@@ -2,11 +2,8 @@
 
 describe('Directive: sideMenu', function () {
 
-   // load the templates
-  beforeEach(module('views/sidemenu.html'));
-
   // load the directive's module
-  beforeEach(module('recipeshopperApp'));
+  beforeEach(module('mkDirectivesMod'));
 
   var element,
     scope;
@@ -33,11 +30,5 @@ describe('Directive: sideMenu', function () {
     expect(element.children().length).toBe(1);
   }));
 
-  // //could not figure out how to test directive which uses templateUrl. 
-  // it('rs-side-menu should have 1 children', inject(function ($compile) {
-  //   element = angular.element('<rs-side-menu></rs-side-menu>');
-  //   element = $compile(element)(scope);
-  //   expect(element.children().length).toBe(1);
-  // }));
-  
+ 
 });
