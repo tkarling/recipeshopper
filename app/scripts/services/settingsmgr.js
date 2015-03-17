@@ -14,7 +14,7 @@ angular
 ]);
 
 angular.module('settingsMod')
-  .factory('settingsMgr', function ($rootScope, $log, $q, $http, $firebase, FIREBASE_URL) {
+  .factory('settingsMgr', function ($rootScope, $log, $q, $http, $firebaseObject, FIREBASE_URL) {
     $log.debug('settingsMgr: init factory');
 
     var defaultSettings = {};
@@ -42,8 +42,6 @@ angular.module('settingsMod')
    var addUserAsync = function(userUid, user) {
       var fbUrl = FIREBASE_URL + '/users/';
       var ref = new Firebase(fbUrl);
-      var usersRef = $firebase(ref);
-      $log.debug('settingsMgr: usersRef', usersRef);
       var userInfo = {
         myUid: userUid,
         firstname: user.firstname,
@@ -59,17 +57,16 @@ angular.module('settingsMod')
       $log.debug('$log.logs to be unit tested:');
       $log.log(fbUrl);   
       $log.log(userInfo);   
-      return usersRef.$set(userUid, userInfo);
+      return ref.set(userUid, userInfo);
     }; // addUserAsync
 
    var setCurrentUserAsync = function(userUid) {
       var fbUrl = FIREBASE_URL + '/users/' + userUid;
       data.ref = new Firebase(fbUrl);
-      data.settingsRef = $firebase(data.ref);
 
       $log.debug('$log.logs to be unit tested:');
       $log.log(fbUrl);   
-      data.settings = data.settingsRef.$asObject();
+      data.settings = $firebaseObject(data.ref);
       return data.settings.$loaded();
     }; // setCurrentUserAsync
 

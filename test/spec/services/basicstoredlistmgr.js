@@ -215,22 +215,14 @@ describe('Service: BasicStoredListMgr', function () {
         return deferred.promise;
       };
 
-      mockFirebaseDataRef = {
-        $asArray: function () {
-          // console.log('BasicStoredListMgr: $asArray');
-          // return tmockFirebase;
-          return new tmockFirebase;
-        }
-      };
-
       mockFirebaseRef = function(item) {
         // console.log('BasicStoredListMgr: mockFirebaseRef');
-        return mockFirebaseDataRef;
+        return new tmockFirebase;
       };
 
 
       module(function ($provide) {
-          $provide.value('$firebase', mockFirebaseRef);
+          $provide.value('$firebaseArray', mockFirebaseRef);
           $provide.value('FIREBASE_URL', mockUrl);
           // $provide.factory('tmockFirebase', function($q) {
           //     console.log('moi');

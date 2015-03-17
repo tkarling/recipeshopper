@@ -67,8 +67,8 @@ angular.module('storedListMod')
 
     })
 
-  .factory('BasicStoredListMgr', ['$rootScope', '$log', '$q', '$firebase', 
-    function ($rootScope, $log, $q, $firebase) {
+  .factory('BasicStoredListMgr', ['$rootScope', '$log', '$q', '$firebaseArray', 
+    function ($rootScope, $log, $q, $firebaseArray) {
 
     var fullUrl = function(fbUrl, variableUrl) {
       variableUrl = (variableUrl == undefined)?'':variableUrl;
@@ -80,7 +80,6 @@ angular.module('storedListMod')
     var clearRefs = function(data) {
       $log.debug('BasicStoredListMgr: clearRefs CALLED');
       data.ref = undefined;
-      data.dataRef = undefined;
       if(data.items && data.items.length > 0) {
         data.items.$destroy();
       }
@@ -96,8 +95,6 @@ angular.module('storedListMod')
       }
       if(data.ref === undefined) {
         data.ref = new Firebase(fullUrl(fbUrl, variableUrl));
-        data.dataRef = $firebase(data.ref);
-        // $log.debug('BasicStoredListMgr: setRefs: data.ref after READING FROM FB', data.ref);
       }
     }; // setRefs
 
@@ -142,10 +139,10 @@ angular.module('storedListMod')
         if(this.data.ref) {
           if(fieldName && fieldValue) {
             // get selected items
-            this.data.items = $firebase(this.data.ref.orderByChild(fieldName).equalTo(fieldValue)).$asArray();
+            this.data.items = $firebaseArray(this.data.ref.orderByChild(fieldName).equalTo(fieldValue));
           } else {
             // get all items
-            this.data.items = this.data.dataRef.$asArray();
+            this.data.items = $firebaseArray(this.data.ref);
           }
           $log.debug('BasicStoredListMgr. getItems (from FB)');
           return this.data.items.$loaded();
@@ -172,10 +169,10 @@ angular.module('storedListMod')
       if (this.data.ref) {
         if (fieldName && fieldValue) {
           // get selected items
-          this.data.items = $firebase(this.data.ref.orderByChild(fieldName).equalTo(fieldValue)).$asArray();
+          this.data.items = $firebaseArray(this.data.ref.orderByChild(fieldName).equalTo(fieldValue));
         } else {
           // get all items
-          this.data.items = this.data.dataRef.$asArray();
+          this.data.items = $firebaseArray(this.data.ref);
         }
         var self = this;
         if (tellWhenLoaded) {
@@ -217,10 +214,6 @@ angular.module('storedListMod')
     BasicStoredListMgr.prototype.prepareForLogout = function() {
       clearRefs(this.data);
     }; // BasicStoredListMgr.prototype.prepareForLogout
-
-    // BasicStoredListMgr.prototype.updateItem = function (item, updateDesription) {
-    //   return data.dataRef.$update(item.$id, updateDesription);
-    // }
 
     return BasicStoredListMgr;
   }]);
