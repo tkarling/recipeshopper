@@ -70,10 +70,10 @@ angular.module('recipeshopperApp')
 		recipesMgr.deleteItem(item);
 	}; // deleteRecipe
 
-	$scope.updateRecipe = function(item) {
-		$log.debug('RecipelistCtrl: updateRecipe: ', item);
+	$scope.saveItem = function(item) {
+		$log.debug('RecipelistCtrl: saveItem: ', item);
 		recipesMgr.saveItem(item);
-	}; // updateRecipe
+	}; // saveItem
 
 	// init  
 	$scope.itemOrder = 'recipename';

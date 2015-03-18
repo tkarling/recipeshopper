@@ -38,13 +38,8 @@
             ng-repeat="item in groceries | filter: showAll | filter: query | 
                 orderBy: [mySettings.shoppingListSortOrder, 'product']"> 
             <md-item-content ng-swipe-left="showActions = true" ng-swipe-right="showActions = false"> 
-              <!-- <rs-tile-left-check>  --> <!-- my-model="item.isbought" save-item-fn="saveItem(item)" aria-label="Is Bought" --> 
-              <!-- </rs-tile-left-check> -->
-              <div class="md-tile-left">
-                  <md-checkbox md-no-ink aria-label="Is Bought" ng-model="item.isbought" 
-                    class="md-primary" ng-change="saveItem(item)">
-                  </md-checkbox>
-              </div>
+              <rs-tile-left-check ng-model="item.isbought" save-item-fn="saveItem(item)" aria-label="Is Bought">  
+              </rs-tile-left-check>
               <div class="md-tile-content" ng-click="gotoDetailsPage(item)">
                   <h3>
                     <span><strong>{{item.amount}} {{item.unit}} {{item.product}}</strong></span> 

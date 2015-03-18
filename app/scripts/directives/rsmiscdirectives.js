@@ -52,19 +52,30 @@ angular.module('recipeshopperApp')
   .directive('rsTileLeftCheck', function () {
     return {
       template: '<div class="md-tile-left">' + 
-                  '<md-checkbox md-no-ink aria-label="{{ariaLabel}}" ng-model="item.isbought"' +
-                    'class="md-primary" ng-change="saveItem(item)">' +
+                  '<md-checkbox md-no-ink aria-label="{{ariaLabel}}" ng-model="data.cbvalue" ng-change="saveCBValue()"' +
+                    'class="md-primary">' +
                   '</md-checkbox>' +
                 '</div>',
-      // scope: {
-      //   saveItemFn: '&',
-      //   ariaLabel: '@',
-      //   myModel: '='
-      // },
+      scope: {
+        saveItemFn: '&',
+        ariaLabel: '@'
+      },
       restrict: 'E',
       replace: true,
-      link: function postLink(scope, element, attrs) {
-        // console.log('rsTileLeftCheck called');
+      require:'ngModel',
+      link: function(scope, element, attrs, ngModel) {
+          // console.log('rsTileLeftCheck called');
+          scope.data = {};
+
+          ngModel.$render = function() {
+            // console.log('ngModel.$modelValue', ngModel.$modelValue);
+            scope.data.cbvalue = ngModel.$modelValue;
+          }
+
+          scope.saveCBValue = function() {
+            ngModel.$setViewValue(scope.data.cbvalue);
+            scope.saveItemFn();
+          }
       }
     };
   })
