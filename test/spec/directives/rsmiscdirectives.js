@@ -52,6 +52,14 @@ describe('Directive: rsTileRightDelete', function () {
     expect(element.children().length).toBe(1);
   }));
 
+  it('rs-tile-content should have 1 child', inject(function ($compile) {
+    var gotoDetailsPage = function (item) {};
+    element = angular.element('<rs-tile-content accented-text="acc Content" additional-text="add Content"' + 
+                'click-fn="gotoDetailsPage(\'link\')">1st row Content</rs-tile-content>');
+    element = $compile(element)(scope);
+    expect(element.children().length).toBe(2);
+  }));
+
   it('rs-tile-right-delete should have 1 child', inject(function ($compile) {
     var data = {};
     data.value = true;

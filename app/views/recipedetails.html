@@ -16,12 +16,8 @@
 	    	<md-list>
 		    <md-item ng-repeat="item in ingredients">
 		    	<md-item-content ng-swipe-left="showActions = true" ng-swipe-right="showActions = false"> 
-		    		<div class="md-tile-content">
-					    <h3>
-					      <span>{{item.amount}} {{item.unit}}</span>
-					      <span><strong>{{item.product}}</strong></span> 
-					    </h3>
-				    </div>
+ 		            <rs-tile-content click-fn="gotoDetailsPage(item)">{{item.amount}} {{item.unit}} {{item.product}}
+ 		            </rs-tile-content>
 	                <rs-tile-right-delete hide-gt-sm show-sm ng-show="showActions"></rs-tile-right-delete>
 		            <rs-tile-right-delete hide-sm show-gt-sm></rs-tile-right-delete>
 			    </md-item-content>

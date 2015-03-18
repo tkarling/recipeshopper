@@ -40,12 +40,8 @@
             <md-item-content ng-swipe-left="showActions = true" ng-swipe-right="showActions = false"> 
               <rs-tile-left-check ng-model="item.isbought" save-item-fn="saveItem(item)" aria-label="Is Bought">  
               </rs-tile-left-check>
-              <div class="md-tile-content" ng-click="gotoDetailsPage(item)">
-                  <h3>
-                    <span><strong>{{item.amount}} {{item.unit}} {{item.product}}</strong></span> 
-                  </h3>
-                <h4><span class="md-accent-text">{{item.aisle}}; </span><span>{{item.recipe | lowercase}}</span></h4>
-              </div>
+              <rs-tile-content accented-text="{{item.aisle}}" additional-text="{{item.recipe}}" 
+                click-fn="gotoDetailsPage(item)">{{item.amount}} {{item.unit}} {{item.product}}</rs-tile-content>
               <rs-tile-right-delete hide-sm show-gt-sm></rs-tile-right-delete>
               <rs-tile-right-delete hide-gt-sm show-sm ng-show="showActions"></rs-tile-right-delete>
             </md-item-content>

@@ -79,6 +79,26 @@ angular.module('recipeshopperApp')
       }
     };
   })
+  .directive('rsTileContent', function () {
+    return {
+      template: '<div class="md-tile-content" ng-click="clickFn()">' +
+                  '<h3><span><strong ng-transclude></strong></span></h3>' +
+                  '<h4><span class="md-accent-text">{{accentedText}}{{divider}}</span><span>{{additionalText | lowercase}}</span></h4>' +
+                '</div>',
+      scope: {
+        clickFn: '&',
+        accentedText: '@',
+        additionalText: '@'
+      },          
+      restrict: 'E',
+      replace: true,
+      transclude: true,
+      link: function postLink(scope, element, attrs) {
+        scope.divider = scope.additionalText ? '; ' : '';
+        // console.log('rsTileContent called');
+      }
+    };
+  })
   .directive('rsTileRightDelete', function () {
     return {
       template: '<div class="md-tile-right md-padding">' + 

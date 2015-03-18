@@ -24,17 +24,8 @@
           orderBy: ['-onlist', mySettings.recipeSortOrder, 'recipename']">
           <md-item-content ng-swipe-left="showActions = true" ng-swipe-right="showActions = false"> 
             <rs-tile-left-check ng-model="item.onlist" save-item-fn="saveItem(item)" aria-label="Is on Shopping List"></rs-tile-left-check>
-            <!-- <div class="md-tile-left">
-                <md-checkbox md-no-ink aria-label="Is on Shopping List" ng-model="item.onlist" 
-                  class="md-primary" ng-change="updateRecipe(item)">
-                </md-checkbox>
-            </div> -->
-            <div class="md-tile-content" ng-click="gotoDetailsPage(item)">
-                <h3>
-                  <span><strong>{{item.recipename}}</strong></span> 
-                </h3>
-              <h4 class="md-accent-text">{{item.category}}</h4>
-            </div>
+            <rs-tile-content accented-text="{{item.category}}"  
+              click-fn="gotoDetailsPage(item)">{{item.recipename}}</rs-tile-content>
             <rs-tile-right-delete hide-sm show-gt-sm></rs-tile-right-delete>
             <rs-tile-right-delete hide-gt-sm show-sm ng-show="showActions"></rs-tile-right-delete>
           </md-item-content>
