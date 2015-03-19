@@ -7,6 +7,23 @@
  * # rsTileRightDelete
  */
 angular.module('recipeshopperApp')
+  .directive('rsIcon', function () {
+    return {
+      template: '<md-icon md-svg-src="{{iconPath}}"></md-icon>',
+      scope: {
+        iconName: '@',
+        iconGroup: '@'
+      },   
+      restrict: 'E',
+      // replace: true,
+      link: function postLink(scope, element, attrs) {
+        // console.log('rsIcon called');
+        scope.iconGroup = scope.iconGroup || 'action';
+        scope.iconPath = '../bower_components/material-design-icons/' + scope.iconGroup + 
+          '/svg/production/' + scope.iconName + '_24px.svg';
+      }
+    };
+  })
   .directive('rsSideMenu', function () {
     return {
       templateUrl: 'views/sidemenu.html',
@@ -104,7 +121,7 @@ angular.module('recipeshopperApp')
       template: '<div class="md-tile-right md-padding">' + 
                   '<md-button id="deleteitembutton" class="md-warn md-raised md-hue-2"' +
                     'ng-click="deleteItem(item)" aria-label="Delete">' +
-                    '<md-icon md-svg-src="../bower_components/material-design-icons/action/svg/production/ic_delete_24px.svg">' +
+                    '<rs-icon icon-name="ic_delete"></rs-icon>' +
                     '</md-icon>' +
                   '</md-button>' +
                 '</div>',

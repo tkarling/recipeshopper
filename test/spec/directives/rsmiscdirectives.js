@@ -31,6 +31,12 @@ describe('Directive: rsTileRightDelete', function () {
   //   expect(element.children().length).toBe(1);
   // })); 
 
+  it('rs-icon should have 1 children', inject(function ($compile) {
+    element = angular.element('<rs-icon icon-name="ic_delete"></rs-icon>');
+    element = $compile(element)(scope);
+    expect(element.children().length).toBe(1);
+  }));
+
   it('rs-search-bar should have 1 child', inject(function ($compile) {
     element = angular.element('<rs-search-bar></rs-search-bar>');
     element = $compile(element)(scope);

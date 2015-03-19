@@ -34,18 +34,18 @@ describe('angularjs homepage', function() {
 	  	 	console.log('NOTE originalCount: ', originalCount);
 
 	  	 	// add item
-	  		shoppingListPage.addItem('2', 'carrots', 'veggies');
+	  		shoppingListPage.addItem('2', 'prot test carrots', 'prot test veggies');
 			utils.sleep(2);
 			expect(shoppingListPage.myList.count()).toEqual(originalCount + 1);
 
-			shoppingListPage.getListItemsWithContent('veggies' + ';').then(function(items) {
+			shoppingListPage.getListItemsWithAccentedText('prot test veggies' + ';').then(function(items) {
 				// check content of new item
 				if(items.length != 1) {
 					console.log('NOTE: items.length is: ', items.length);
 				}
 				var newItem = items[0];
-				expect(shoppingListPage.getField(newItem, 'amount')).toEqual('2 carrots');
-				expect(shoppingListPage.getField(newItem, 'aisle')).toEqual('veggies' + ';');
+				expect(shoppingListPage.getField(newItem, 'amount')).toEqual('2 prot test carrots');
+				expect(shoppingListPage.getField(newItem, 'accentedText')).toEqual('prot test veggies' + ';');
 
 				// delete item
 				shoppingListPage.deleteItem(newItem);
@@ -65,17 +65,17 @@ describe('angularjs homepage', function() {
 	  	 	console.log('NOTE originalCount: ', originalCount);
 
 	  	 	// add item
-	  		recipeListPage.addItem('prot test soup', 'thanksgiving');
+	  		recipeListPage.addItem('prot test soup', 'prot test thanksgiving');
 			expect(recipeListPage.myList.count()).toEqual(originalCount + 1);
 
-			recipeListPage.getListItemsWithContent('prot test soup').then(function(items) {
+			recipeListPage.getListItemsWithAccentedText('prot test thanksgiving').then(function(items) {
 				// check content of new item
 				if(items.length != 1) {
 					console.log('NOTE: items.length is: ', items.length);
 				}
 				var newItem = items[0];
 				expect(recipeListPage.getField(newItem, 'recipe')).toEqual('prot test soup');
-				expect(recipeListPage.getField(newItem, 'category')).toEqual('thanksgiving');
+				expect(recipeListPage.getField(newItem, 'accentedText')).toEqual('prot test thanksgiving');
 
 				// delete item
 				recipeListPage.deleteItem(newItem);
