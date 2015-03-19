@@ -9,27 +9,6 @@
  */
 
 angular.module('recipeshopperApp')
-  .directive('lineThrough', function() {
-  	return function (scope, element, attrs) {
- 		var isBought = attrs['lineThrough'];
- 		var watcherFn = function (watchscope) {
- 			return watchscope.$eval(isBought);
- 		};
- 		scope.$watch(watcherFn, function(newValue) {
-			// console.log('lineThrough: newValue: ' + newValue);
- 			if(newValue) {
-		 		element.find('span').addClass('rs-line-through');
-		 	} else {
-		 		element.find('span').removeClass('rs-line-through');
-		 	}
- 		});
-
-		// var index = scope.$eval(attrs['lineThrough']);
-		// console.log('index: ' + index); 
- 		// (function () {	// IIFE not needed i this case
- 		// }());
-  	};
-  })
   .constant('FB_SHOPPINGLIST_URL', 'https://recipeshopper.firebaseio.com/shoppinglist/')
   .controller('MainCtrl', ['$scope', '$log', '$http', '$location', 'FB_SHOPPINGLIST_URL', 'StoredListMgrFactory', 'settingsMgr', 
   	function ($scope, $log, $http, $location, FB_SHOPPINGLIST_URL, StoredListMgrFactory, settingsMgr) {  

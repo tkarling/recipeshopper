@@ -10,6 +10,22 @@ angular
 .module('mkDirectivesMod', []);
 
 angular.module('mkDirectivesMod')
+  .directive('lineThrough', function() {
+    return function (scope, element, attrs) {
+        var shouldLineThrough = attrs['lineThrough'];
+        var watcherFn = function (watchscope) {
+          return watchscope.$eval(shouldLineThrough);
+        };
+        scope.$watch(watcherFn, function(newValue) {
+          // console.log('lineThrough: newValue: ' + newValue);
+          if(newValue) {
+            element.find('span').addClass('rs-line-through');
+          } else {
+            element.find('span').removeClass('rs-line-through');
+          }
+        });
+    };
+  })
   .directive('mkSideMenuItem', function () {
     return {
       template: '<md-item-content>' +

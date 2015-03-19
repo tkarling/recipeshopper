@@ -12,6 +12,16 @@ describe('Directive: sideMenu', function () {
     scope = $rootScope.$new();
   }));
 
+  it('should init line-through', inject(function ($compile) {
+    var item = {};
+    item.value = true;
+    element = angular.element('<div line-through="item.value"><div><span>Moi</span></div></div>');
+    element = $compile(element)(scope);
+    expect(element.children().length).toBe(1);
+    // console.log('set line-through: ', element.children().eq(0));
+    // expect(element.find('span').eq(0).hasClass('rs-line-through')).toBe(true);
+  }));
+
   it('mk-side-menu-item should have 1 child', inject(function ($compile) {
     var userLoggedIn = function() {
       return true;
