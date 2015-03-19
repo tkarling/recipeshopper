@@ -108,23 +108,18 @@ angular.module('recipeshopperApp')
 	$log.debug('MainCtrl: call init from store');
 	initFromStores();
 
-	$scope.addProduct = function () {
-		storeMgr.addItem({
+	$scope.addProduct = function (myProduct, aisle, amount) {
+		$log.debug('MainCtrl: addProduct Attrs: ', myProduct, aisle, amount);
+		return storeMgr.addItem({
 		  recipeId: 'FAVORITES',
 		  recipe : 'FAVORITES',
-	      product : $scope.product,
-	      aisle : $scope.aisle,
-	      amount : $scope.amount,
+	      product : myProduct,
+	      aisle : aisle,
+	      amount : amount,
 	      // unit : 'pcs',
 	      isonlist : true,
 	      isbought : false 
 	      // date: Firebase.ServerValue.TIMESTAMP
-		}).then(function () {
-			$scope.amount = ''; 
-			$scope.product = '';
-			$scope.aisle = '';
-			// var myform = angular.element.find('form');
-			// myform.$setPristine();	
 		});
 	}; // addProduct
 

@@ -66,6 +66,52 @@ angular.module('recipeshopperApp')
       }
     };
   })
+  .directive('rsOneRowAddItemForm', function () {
+    return {
+      template: '<form name="myform" ng-submit="addItem(data.model1, data.model2, data.modelNo)" novalidate>' +
+                    '<div layout>' +
+                      '<md-input-container flex="15" ng-if="numberField">' +
+                          '<label>No.</label>' +
+                          '<input type="number" ng-model="data.modelNo" ng-required="true">' +
+                      '</md-input-container>' +
+                      '<md-input-container flex>' +
+                          '<label>{{field1}}</label>' +
+                          '<input ng-model="data.model1" ng-required="true">' +
+                      '</md-input-container>' +
+                      '<md-input-container flex="30">' +
+                          '<label>{{field2}}</label>' +
+                          '<input ng-model="data.model2" ng-required="true">' +
+                      '</md-input-container>' +
+                      '<md-button type="submit" id="additembutton" ng-disabled="myform.$invalid"' +
+                            'class="md-primary md-fab" aria-label="Add {{field1}}">' +
+                            '<rs-icon icon-name="ic_note_add"></rs-icon>' +
+                      '</md-button>' +
+                    '</div>' +
+                  '</form>',
+      scope: {
+        addItemFn: '&',
+        numberField: '@',
+        field1: '@',
+        field2: '@'
+      },            
+      restrict: 'E',
+      replace: true,
+      link: function postLink(scope, element, attrs) {
+          // console.log('rsOneRowAddForm called');
+          scope.data = {};
+          scope.addItem = function(model1, model2, modelNo) {
+            scope.addItemFn()(model1, model2, modelNo).then(function () {
+              scope.data.model1 = ''; 
+              scope.data.model2 = '';
+              scope.data.modelNo = '';
+              // var myFormController = element.find('form').eq(0).controller('form');
+              // console.log('rsOneRowAddForm myFormController', myFormController);
+              // myFormController.$setPristine(); 
+            });
+          } // scope.addItem
+      }
+    };
+  })
   .directive('rsTileLeftCheck', function () {
     return {
       template: '<div class="md-tile-left">' + 

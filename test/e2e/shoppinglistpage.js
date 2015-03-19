@@ -5,16 +5,16 @@ var ShoppingListPage = function () {
       browser.get('http://localhost:9005/#/main');
     };
 
-    this.addInput1 = element(by.model('amount'));
-    this.addInput2 = element(by.model('product'));
-    this.addInput3 = element(by.model('aisle'));
-    this.addButton = element(by.id('addproductbutton'));
+    this.addInput1 = element(by.model('data.modelNo'));
+    this.addInput2 = element(by.model('data.model1'));
+    this.addInput3 = element(by.model('data.model2'));
+    this.addItemButton = element(by.id('additembutton'));
 
     this.addItem = function(a, b, c) {
         this.addInput1.sendKeys(a);
         this.addInput2.sendKeys(b);
         this.addInput3.sendKeys(c);
-        this.addButton.click();
+        this.addItemButton.click();
     }
 
     this.myList = element.all(by.repeater('item in groceries'));

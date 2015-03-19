@@ -5,9 +5,9 @@ var RecipeListPage = function () {
       browser.get('http://localhost:9005/#/recipelist');
     };
 
-    this.addInput1 = element(by.model('recipename'));
-    this.addInput2 = element(by.model('category'));
-    this.addButton = element(by.id('addrecipebutton'));
+    this.addInput1 = element(by.model('data.model1'));
+    this.addInput2 = element(by.model('data.model2'));
+    this.addButton = element(by.id('additembutton'));
 
     this.addItem = function(a, b) {
         this.addInput1.sendKeys(a);

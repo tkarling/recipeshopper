@@ -11,26 +11,8 @@
 <md-content class="md-padding">
   <rs-search-bar show-checkbox="true" placeholder-text="Search for products"></rs-search-bar>
   <md-content>
-    <form name="myform" ng-submit="addProduct()" novalidate>
-      <div layout>
-        <md-input-container flex="15">
-            <label>No.</label>
-            <input type="number" ng-model="amount" ng-required="true">
-        </md-input-container>
-        <md-input-container flex>
-            <label>Product</label>
-            <input ng-model="product" ng-required="true">
-        </md-input-container>
-        <md-input-container flex="30">
-            <label>Aisle</label>
-            <input ng-model="aisle" ng-required="true">
-        </md-input-container>
-        <md-button type="submit" id="addproductbutton" ng-disabled="myform.$invalid" 
-              class="md-primary md-fab" aria-label="Add Product">
-              <rs-icon icon-name="ic_note_add"></rs-icon>
-        </md-button>
-      </div>
-    </form>
+    <rs-one-row-add-item-form add-item-fn="addProduct"  number-field="true" field1="Product" field2="Aisle">
+    </rs-one-row-add-item-form>
   </md-content>
   <md-content>
       <md-list>

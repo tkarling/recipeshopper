@@ -54,14 +54,11 @@ angular.module('recipeshopperApp')
       $location.path(pagelink);
     };
 
-	$scope.addRecipe = function () {
-		recipesMgr.addItem({
-		  category : $scope.category,
-	      recipename : $scope.recipename,
+	$scope.addRecipe = function (recipe, category) {
+		return recipesMgr.addItem({
+		  category : category,
+	      recipename : recipe,
 	      onlist : false
-		}).then(function () {
-			$scope.recipename = '';
-			$scope.category = '';
 		});
 	}; // addRecipe
 

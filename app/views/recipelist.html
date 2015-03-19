@@ -1,22 +1,7 @@
 <md-content class="md-padding">
   <rs-search-bar show-checkbox="true" placeholder-text="Search for recipes"></rs-search-bar>
   <md-content>
-  <form name="myform" ng-submit="addRecipe()" novalidate>
-    <div layout>
-      <md-input-container flex>
-          <label>Recipe Name</label>
-          <input ng-model="recipename" ng-required="true">
-      </md-input-container>
-      <md-input-container flex>
-          <label>Category Name</label>
-          <input ng-model="category" ng-required="true">
-      </md-input-container>
-      <md-button type="submit" id="addrecipebutton" ng-disabled="myform.$invalid" 
-          class="md-primary md-fab" aria-label="Add Recipe">
-          <rs-icon icon-name="ic_note_add"></rs-icon>
-      </md-button>
-    </div>
-  </form>
+    <rs-one-row-add-item-form add-item-fn="addRecipe" field1="Recipe" field2="Category">
   </md-content>
   <md-content>
     <md-list>
