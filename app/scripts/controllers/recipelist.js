@@ -8,7 +8,6 @@
  * Controller of the recipeshopperApp
  */
 angular.module('recipeshopperApp')
-  .constant('FB_RECIPES_URL', 'https://recipeshopper.firebaseio.com/recipes')
   .controller('RecipelistCtrl', ['$scope', '$log', '$location',  
   	'FB_RECIPES_URL', 'StoredListMgrFactory', 'settingsMgr', 
   	function ($scope, $log, $location, FB_RECIPES_URL, StoredListMgrFactory, settingsMgr) {

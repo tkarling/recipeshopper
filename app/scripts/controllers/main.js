@@ -9,7 +9,6 @@
  */
 
 angular.module('recipeshopperApp')
-  .constant('FB_SHOPPINGLIST_URL', 'https://recipeshopper.firebaseio.com/shoppinglist/')
   .controller('MainCtrl', ['$scope', '$log', '$http', '$location', 'FB_SHOPPINGLIST_URL', 'StoredListMgrFactory', 'settingsMgr', 
   	function ($scope, $log, $http, $location, FB_SHOPPINGLIST_URL, StoredListMgrFactory, settingsMgr) {  
 
@@ -51,7 +50,7 @@ angular.module('recipeshopperApp')
 	    storeMgr = StoredListMgrFactory.getStoredListMgr(FB_SHOPPINGLIST_URL);
 	    storeMgr.getItems('isonlist', true).then(function(data) {
 	    	$scope.groceries = data;
-	    	$log.debug('MainCtrl: getGroceries $scope.mySettings', $scope.mySettings);
+	    	// $log.debug('MainCtrl: getGroceries $scope.mySettings', $scope.mySettings);
 	    	if($scope.groceries.length == 0) {
 	    		addDefaultItemsToList();
 	    	}
@@ -66,7 +65,7 @@ angular.module('recipeshopperApp')
 
    	var initFromStores = function () {
         $scope.currentUser = settingsMgr.getCurrentUser();
-		$log.debug('MainCtrl: initFromStores $scope.currentUser', $scope.currentUser);
+		// $log.debug('MainCtrl: initFromStores $scope.currentUser', $scope.currentUser);
     	if($scope.currentUser) {
     		getSettings();
     		getGroceries();
@@ -84,11 +83,11 @@ angular.module('recipeshopperApp')
 	var storeMgr;
    	$scope.groceries = [];
    	$scope.mySettings = {};
-	$log.debug('MainCtrl: call init from store');
+	// $log.debug('MainCtrl: call init from store');
 	initFromStores();
 
 	$scope.addProduct = function (myProduct, aisle, amount) {
-		$log.debug('MainCtrl: addProduct Attrs: ', myProduct, aisle, amount);
+		// $log.debug('MainCtrl: addProduct Attrs: ', myProduct, aisle, amount);
 		return storeMgr.addItem({
 		  recipeId: 'FAVORITES',
 		  recipe : 'FAVORITES',
@@ -108,7 +107,7 @@ angular.module('recipeshopperApp')
 	}; // deleteItem
 
 	$scope.saveItem = function(item) {
-		$log.debug('MainCtrl: saveItem: ', item);
+		// $log.debug('MainCtrl: saveItem: ', item);
 		storeMgr.saveItem(item);
 	}; // saveItem
 
