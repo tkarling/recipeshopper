@@ -9,8 +9,12 @@
  */
 angular.module('recipeshopperApp')
   .controller('RecipelistCtrl', ['$scope', '$log', '$location',  
-  	'FB_RECIPES_URL', 'StoredListMgrFactory', 'settingsMgr', 
-  	function ($scope, $log, $location, FB_RECIPES_URL, StoredListMgrFactory, settingsMgr) {
+  	'FB_RECIPES_URL', 'FB_SHOPPINGLIST_URL', 'StoredListMgrFactory', 'settingsMgr', 
+  	function ($scope, $log, $location, FB_RECIPES_URL, FB_SHOPPINGLIST_URL, StoredListMgrFactory, settingsMgr) {
+
+   	var getSettings = function() {
+   		$scope.mySettings = settingsMgr.getSettings();
+   	};
 
   	var getRecipes = function () {
 	    recipesMgr = StoredListMgrFactory.getStoredListMgr(FB_RECIPES_URL);
@@ -19,16 +23,12 @@ angular.module('recipeshopperApp')
 	    });
   	};
 
-   	var getSettings = function() {
-   		$scope.mySettings = settingsMgr.getSettings();
-   	};
-
    	var initFromStores = function () {
         $scope.currentUser = settingsMgr.getCurrentUser();
 		$log.debug('RecipelistCtrl: initFromStores $scope.currentUser', $scope.currentUser);
     	if($scope.currentUser) {
-    		getRecipes();
     		getSettings();
+    		getRecipes();
     	} else {
     		$location.path('/login');
     	}
@@ -45,6 +45,7 @@ angular.module('recipeshopperApp')
   	$scope.mySettings = {};
 	$log.debug('RecipelistCtrl: call init from store');
 	initFromStores();
+	$scope.itemOrder = 'recipename';
 
     $scope.gotoDetailsPage = function(item) {
       // var pagelink='/recipedetails/'+ item.$id;	
@@ -66,18 +67,23 @@ angular.module('recipeshopperApp')
 		recipesMgr.deleteItem(item);
 	}; // deleteRecipe
 
-	$scope.saveItem = function(item) {
-		$log.debug('RecipelistCtrl: saveItem: ', item);
-		recipesMgr.saveItem(item);
+	$scope.saveItem = function(recipe) {
+		$log.debug('RecipelistCtrl: saveItem: ', 	recipe);
+		recipesMgr.saveItem(recipe);
+
+		// add or remove ingredients of the recipe from the shopping list based on onlist status
+  		$log.debug('RecipelistCtrl: saveItem: recipe', recipe, recipe.$id, recipe.onlist);
+  		var ingredientsMgr = StoredListMgrFactory.getStoredListMgr(FB_SHOPPINGLIST_URL);
+  		ingredientsMgr.getItems('recipeId', recipe.$id).then(function(ingredients) {
+  			if(ingredients) {
+	  			for(var i = 0; i < ingredients.length; i++) {
+	  				ingredients[i].isonlist = recipe.onlist;
+	  				ingredients[i].isbought = false; // reset isbought when added to list
+	  				ingredientsMgr.saveItem(ingredients[i]);
+	  			} 
+  			}
+	    });
+
 	}; // saveItem
-
-	// init  
-	$scope.itemOrder = 'recipename';
-
-	// $scope.showAllDef = false;
-	// $scope.$watch('showAllDef', function(newValue) {
-	// 	$scope.showAll = newValue ? ! newValue : undefined;
-	// 	// undefined -show all, true - show unbought only
-	// }); //$watch
 
   }]);
