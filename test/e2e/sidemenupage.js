@@ -3,6 +3,7 @@
 var SideMenu = function () {
     var shoppingListMenuItem = element(by.buttonText('SHOPPING LIST'));
     var recipesMenuItem = element(by.buttonText('RECIPES'));
+    var favoritesMenuItem = element(by.buttonText('FAVORITES'));
     var settingsMenuItem = element(by.buttonText('SETTINGS'));
     var logoutMenuItem = element(by.buttonText('LOGOUT'));
 
@@ -12,6 +13,10 @@ var SideMenu = function () {
 
     this.gotoRecipes = function () {
         recipesMenuItem.click();
+    }
+
+    this.gotoFavorites = function () {
+        favoritesMenuItem.click();
     }
 
     this.gotoSettings = function () {
