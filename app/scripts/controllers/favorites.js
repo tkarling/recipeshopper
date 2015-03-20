@@ -13,7 +13,7 @@ angular.module('recipeshopperApp')
 
    	var getGroceries = function () {
 	    storeMgr = StoredListMgrFactory.getStoredListMgr(FB_SHOPPINGLIST_URL);
-	    storeMgr.getItems('aisle', 'FAVORITES').then(function(data) {
+	    storeMgr.getItems('recipeId', 'FAVORITES').then(function(data) {
 	    	$scope.groceries = data;
 	    	// $log.debug('FavoritesCtrl: getGroceries $scope.mySettings', $scope.mySettings);
 	    	// if($scope.groceries.length == 0) {

@@ -59,6 +59,10 @@ angular
         templateUrl: 'views/recipelist.html',
         controller: 'RecipelistCtrl'
       })
+      .when('/favorites', {
+        templateUrl: 'views/favorites.html',
+        controller: 'FavoritesCtrl'
+      })
       .when('/picdemo', {
         templateUrl: 'views/picdemo.html', 
         controller: 'PicdemoCtrl' // change this to PicdemoCtrl later
@@ -96,6 +100,8 @@ angular
         myTitle = 'Shopping List';
       } else if(currentUrl == '/recipelist') {
         myTitle = 'Recipes';
+      } else if(currentUrl == '/favorites') {
+        myTitle = 'Favorites';
       } else if(currentUrl == '/settings') {
         myTitle = 'Settings';
       } else if(stringStartsWith(currentUrl, '/recipedetails')) {
