@@ -78,6 +78,8 @@ angular.module('recipeshopperApp')
     });
 
     $scope.readIngredients = function() {
+    	$scope.recipe.onlist = true;
+    	recipesMgr.saveItem($scope.recipe);
 		$http.get('data/beanCarrotGingerSoup.json').success(function(data){ 
 			var items = data;  
 			$log.debug('RecipeDetailsController.readIngredients: items', items);
@@ -106,8 +108,11 @@ angular.module('recipeshopperApp')
     }; // deleteIngredient
 
     // is not used at the moment
-    $scope.saveIngredient = function(item) {
-    	ingredientsMgr.saveIngredient(item);
+    $scope.saveIngredient = function(item, itemWasPutOnList) {
+		if(itemWasPutOnList) {
+			item.isbought = false;
+		}
+    	ingredientsMgr.saveItem(item);
     }; // saveIngredient
 
 

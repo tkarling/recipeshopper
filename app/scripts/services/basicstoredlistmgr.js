@@ -186,7 +186,7 @@ angular.module('storedListMod')
 
     BasicStoredListMgr.prototype.addItem = function (item) {
       var result = this.data.items.$add(item).then(function(data) {
-        $log.debug('BasicStoredListMgr.prototype.addItem OK: item', item);
+        // $log.debug('BasicStoredListMgr.prototype.addItem OK: item', item);
       }, function(reason) {
         $log.error('BasicStoredListMgr.prototype.addItem ErrorReason, item', reason, item);
       });
@@ -195,7 +195,7 @@ angular.module('storedListMod')
 
     BasicStoredListMgr.prototype.deleteItem = function (item) {
       var result = this.data.items.$remove(item).then(function(data) {
-        $log.debug('BasicStoredListMgr.prototype.deleteItem OK: item', item);
+        // $log.debug('BasicStoredListMgr.prototype.deleteItem OK: item', item);
       }, function(reason) {
         $log.error('BasicStoredListMgr.prototype.deleteItem ErrorReason, item', reason, item);
       });
@@ -204,7 +204,7 @@ angular.module('storedListMod')
 
     BasicStoredListMgr.prototype.saveItem = function (item) {
       var result = this.data.items.$save(item).then(function(data) {
-        $log.debug('BasicStoredListMgr.prototype.saveItem OK: item', item);
+        // $log.debug('BasicStoredListMgr.prototype.saveItem OK: item', item);
       }, function(reason) {
         $log.error('BasicStoredListMgr.prototype.saveItem ErrorReason, item', reason, item);
       });

@@ -24,26 +24,26 @@ angular.module('recipeshopperApp')
   	};
 
     //A QUICK WAY TO FILL EMPTY DB
-	var addDefaultItemsToList =	function () {
-		$log.debug('MainCtrl: addDefaultItemsToList started');
-		$http.get('data/ce_mar15_w1.json').success(function(data){ 
-			if($scope.groceries.length == 0) { // add items only if teh list is still emtpty
-				var items = data;  
-				$log.debug('MainCtrl: addDefaultItemsToList: From Json: items', items);
-				var item = {recipeId: 'CE Jan-15 w1', recipe : 'CE Jan-15 w1', isonlist: true, isbought : false};
-				for(var i = 0; i < items.length; i++) {
-					for(var j = 0; j < items[i].products.length; j++) {
-						item.product = items[i].products[j];
-		      			item.aisle = items[i].aisle;
-						// $log.debug(item);
-						storeMgr.addItem(item);
-					}
-				}
-			}
+	// var addDefaultItemsToList =	function () {
+	// 	$log.debug('MainCtrl: addDefaultItemsToList started');
+	// 	$http.get('data/ce_mar15_w1.json').success(function(data){ 
+	// 		if($scope.groceries.length == 0) { // add items only if teh list is still emtpty
+	// 			var items = data;  
+	// 			$log.debug('MainCtrl: addDefaultItemsToList: From Json: items', items);
+	// 			var item = {recipeId: 'CE Jan-15 w1', recipe : 'CE Jan-15 w1', isonlist: true, isbought : false};
+	// 			for(var i = 0; i < items.length; i++) {
+	// 				for(var j = 0; j < items[i].products.length; j++) {
+	// 					item.product = items[i].products[j];
+	// 	      			item.aisle = items[i].aisle;
+	// 					// $log.debug(item);
+	// 					storeMgr.addItem(item);
+	// 				}
+	// 			}
+	// 		}
 
-		});
-		$log.debug('MainCtrl: addDefaultItemsToList $scope.groceries', $scope.groceries);
-	};
+	// 	});
+	// 	$log.debug('MainCtrl: addDefaultItemsToList $scope.groceries', $scope.groceries);
+	// };
 
 
    	var getGroceries = function () {
@@ -51,9 +51,11 @@ angular.module('recipeshopperApp')
 	    storeMgr.getItems('isonlist', true).then(function(data) {
 	    	$scope.groceries = data;
 	    	// $log.debug('MainCtrl: getGroceries $scope.mySettings', $scope.mySettings);
-	    	if($scope.groceries.length == 0) {
-	    		addDefaultItemsToList();
-	    	}
+
+	    	// if($scope.groceries.length == 0) {
+	    	// 	addDefaultItemsToList();
+	    	// }
+
 			// $log.debug('MainCtrl: getGroceries $scope.groceries', $scope.groceries);
 	    });
    	};
