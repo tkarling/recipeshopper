@@ -50,123 +50,124 @@ describe('angularjs homepage', function() {
 		sideMenuPage.logout();
 	});
 
+	describe('Use existing Test Album1', function() {
+		it('should add a product on shopping list and delete it on favorites', function() {
+			// goto shopping list page
+			sideMenuPage.gotoShoppingList();
+		    utils.sleep(2); // 
+		    expect(browser.getCurrentUrl()).toBe('http://localhost:9005/#/main');
 
-	it('should add a product on shopping list and delete it on favorites', function() {
-		// goto shopping list page
-		sideMenuPage.gotoShoppingList();
-	    utils.sleep(2); // 
-	    expect(browser.getCurrentUrl()).toBe('http://localhost:9005/#/main');
+	  	 	// add item
+			expect(shoppingListPage.myList.count()).toEqual(originalSLItemCount);
+	  		shoppingListPage.addItem('2', 'prot test carrots', 'prot test veggies');
+			utils.sleep(2);
+			expect(shoppingListPage.myList.count()).toEqual(originalSLItemCount + 1);
 
-  	 	// add item
-		expect(shoppingListPage.myList.count()).toEqual(originalSLItemCount);
-  		shoppingListPage.addItem('2', 'prot test carrots', 'prot test veggies');
-		utils.sleep(2);
-		expect(shoppingListPage.myList.count()).toEqual(originalSLItemCount + 1);
-
-		// goto favorites page
-		sideMenuPage.gotoFavorites();
-	    utils.sleep(2); // 
-	    expect(browser.getCurrentUrl()).toBe('http://localhost:9005/#/favorites');
-
-		shoppingListPage.getListItemsWithAccentedText('prot test veggies' + ';').then(function(items) {
-			// check content of new item
-			if(items.length != 1) {
-				console.log('NOTE: items.length is: ', items.length);
-			}
-			var newItem = items[0];
-			expect(shoppingListPage.getField(newItem, 'amount')).toEqual('2 prot test carrots');
-			expect(shoppingListPage.getField(newItem, 'accentedText')).toEqual('prot test veggies' + ';');
-			expect(shoppingListPage.getCheckBoxClass(newItem)).toContain('md-checked');
-
-			// delete item
-			expect(shoppingListPage.myList.count()).toEqual(originalFavoritesCount + 1);
-			shoppingListPage.deleteItem(newItem);
-			expect(shoppingListPage.myList.count()).toEqual(originalFavoritesCount);
-		});
-
-	}); // it
-
-
-	it('should add a product on favorites, check that it is on shoppinglist too and delete it on favorites', function() {
-		// goto shopping list page
-		sideMenuPage.gotoFavorites();
-	    utils.sleep(2); // 
-	    expect(browser.getCurrentUrl()).toBe('http://localhost:9005/#/favorites');
-
-  	 	// add item
-		expect(shoppingListPage.myList.count()).toEqual(originalFavoritesCount);
-  		shoppingListPage.addItem('2', 'prot test carrots', 'prot test veggies');
-		utils.sleep(2);
-		expect(shoppingListPage.myList.count()).toEqual(originalFavoritesCount + 1);
-
-		// goto favorites page
-		sideMenuPage.gotoShoppingList();
-	    utils.sleep(2); // 
-	    expect(browser.getCurrentUrl()).toBe('http://localhost:9005/#/main');
-		expect(shoppingListPage.myList.count()).toEqual(originalSLItemCount + 1);
-
-		shoppingListPage.getListItemsWithAccentedText('prot test veggies' + ';').then(function(items) {
-			// check content of new item on shopping list
-			if(items.length != 1) {
-				console.log('NOTE: items.length is: ', items.length);
-			}
-			var newItemOnSL = items[0];
-			expect(shoppingListPage.getField(newItemOnSL, 'amount')).toEqual('2 prot test carrots');
-			expect(shoppingListPage.getField(newItemOnSL, 'accentedText')).toEqual('prot test veggies' + ';');
-			expect(shoppingListPage.getCheckBoxClass(newItemOnSL)).not.toContain('md-checked');
-
-			// go back to favorites page
+			// goto favorites page
 			sideMenuPage.gotoFavorites();
 		    utils.sleep(2); // 
 		    expect(browser.getCurrentUrl()).toBe('http://localhost:9005/#/favorites');
 
 			shoppingListPage.getListItemsWithAccentedText('prot test veggies' + ';').then(function(items) {
-				// check content of new item on favorites page
+				// check content of new item
 				if(items.length != 1) {
 					console.log('NOTE: items.length is: ', items.length);
 				}
-				var newItemOnFavorites = items[0];
-				expect(shoppingListPage.getField(newItemOnFavorites, 'amount')).toEqual('2 prot test carrots');
-				expect(shoppingListPage.getField(newItemOnFavorites, 'accentedText')).toEqual('prot test veggies' + ';');
-				expect(shoppingListPage.getCheckBoxClass(newItemOnFavorites)).toContain('md-checked');
+				var newItem = items[0];
+				expect(shoppingListPage.getField(newItem, 'amount')).toEqual('2 prot test carrots');
+				expect(shoppingListPage.getField(newItem, 'accentedText')).toEqual('prot test veggies' + ';');
+				expect(shoppingListPage.getCheckBoxClass(newItem)).toContain('md-checked');
 
 				// delete item
 				expect(shoppingListPage.myList.count()).toEqual(originalFavoritesCount + 1);
-				shoppingListPage.deleteItem(newItemOnFavorites);
+				shoppingListPage.deleteItem(newItem);
 				expect(shoppingListPage.myList.count()).toEqual(originalFavoritesCount);
 			});
 
-		});
-
-	}); // it
+		}); // it
 
 
-	it('should add and delete a recipe on recipe list', function() {
-		// goto recipes page
-		sideMenuPage.gotoRecipes();
-	    utils.sleep(2);
-	    expect(browser.getCurrentUrl()).toBe('http://localhost:9005/#/recipelist');
+		it('should add a product on favorites, check that it is on shoppinglist too and delete it on favorites', function() {
+			// goto shopping list page
+			sideMenuPage.gotoFavorites();
+		    utils.sleep(2); // 
+		    expect(browser.getCurrentUrl()).toBe('http://localhost:9005/#/favorites');
 
-  	 	// add item
-  		recipeListPage.addItem('prot test soup', 'prot test thanksgiving');
-		expect(recipeListPage.myList.count()).toEqual(originalRecipeCount + 1);
+	  	 	// add item
+			expect(shoppingListPage.myList.count()).toEqual(originalFavoritesCount);
+	  		shoppingListPage.addItem('2', 'prot test carrots', 'prot test veggies');
+			utils.sleep(2);
+			expect(shoppingListPage.myList.count()).toEqual(originalFavoritesCount + 1);
 
-		recipeListPage.getListItemsWithAccentedText('prot test thanksgiving').then(function(items) {
-			// check content of new item
-			if(items.length != 1) {
-				console.log('NOTE: items.length is: ', items.length);
-			}
-			var newItem = items[0];
-			expect(recipeListPage.getField(newItem, 'recipe')).toEqual('prot test soup');
-			expect(recipeListPage.getField(newItem, 'accentedText')).toEqual('prot test thanksgiving');
-			expect(shoppingListPage.getCheckBoxClass(newItem)).not.toContain('md-checked');
+			// goto favorites page
+			sideMenuPage.gotoShoppingList();
+		    utils.sleep(2); // 
+		    expect(browser.getCurrentUrl()).toBe('http://localhost:9005/#/main');
+			expect(shoppingListPage.myList.count()).toEqual(originalSLItemCount + 1);
 
-			// delete item
-			recipeListPage.deleteItem(newItem);
-			expect(recipeListPage.myList.count()).toEqual(originalRecipeCount);
-		});
+			shoppingListPage.getListItemsWithAccentedText('prot test veggies' + ';').then(function(items) {
+				// check content of new item on shopping list
+				if(items.length != 1) {
+					console.log('NOTE: items.length is: ', items.length);
+				}
+				var newItemOnSL = items[0];
+				expect(shoppingListPage.getField(newItemOnSL, 'amount')).toEqual('2 prot test carrots');
+				expect(shoppingListPage.getField(newItemOnSL, 'accentedText')).toEqual('prot test veggies' + ';');
+				expect(shoppingListPage.getCheckBoxClass(newItemOnSL)).not.toContain('md-checked');
 
-	}); // it
+				// go back to favorites page
+				sideMenuPage.gotoFavorites();
+			    utils.sleep(2); // 
+			    expect(browser.getCurrentUrl()).toBe('http://localhost:9005/#/favorites');
+
+				shoppingListPage.getListItemsWithAccentedText('prot test veggies' + ';').then(function(items) {
+					// check content of new item on favorites page
+					if(items.length != 1) {
+						console.log('NOTE: items.length is: ', items.length);
+					}
+					var newItemOnFavorites = items[0];
+					expect(shoppingListPage.getField(newItemOnFavorites, 'amount')).toEqual('2 prot test carrots');
+					expect(shoppingListPage.getField(newItemOnFavorites, 'accentedText')).toEqual('prot test veggies' + ';');
+					expect(shoppingListPage.getCheckBoxClass(newItemOnFavorites)).toContain('md-checked');
+
+					// delete item
+					expect(shoppingListPage.myList.count()).toEqual(originalFavoritesCount + 1);
+					shoppingListPage.deleteItem(newItemOnFavorites);
+					expect(shoppingListPage.myList.count()).toEqual(originalFavoritesCount);
+				});
+
+			});
+
+		}); // it
+
+
+		it('should add and delete a recipe on recipe list', function() {
+			// goto recipes page
+			sideMenuPage.gotoRecipes();
+		    utils.sleep(2);
+		    expect(browser.getCurrentUrl()).toBe('http://localhost:9005/#/recipelist');
+
+	  	 	// add item
+	  		recipeListPage.addItem('prot test soup', 'prot test thanksgiving');
+			expect(recipeListPage.myList.count()).toEqual(originalRecipeCount + 1);
+
+			recipeListPage.getListItemsWithAccentedText('prot test thanksgiving').then(function(items) {
+				// check content of new item
+				if(items.length != 1) {
+					console.log('NOTE: items.length is: ', items.length);
+				}
+				var newItem = items[0];
+				expect(recipeListPage.getField(newItem, 'recipe')).toEqual('prot test soup');
+				expect(recipeListPage.getField(newItem, 'accentedText')).toEqual('prot test thanksgiving');
+				expect(shoppingListPage.getCheckBoxClass(newItem)).not.toContain('md-checked');
+
+				// delete item
+				recipeListPage.deleteItem(newItem);
+				expect(recipeListPage.myList.count()).toEqual(originalRecipeCount);
+			});
+
+		}); // it
+	});
 
 });
 
