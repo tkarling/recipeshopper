@@ -37,11 +37,10 @@ angular.module('recipeshopperApp')
   .directive('rsAppTitleBar', function () {
     return {
       templateUrl: 'views/apptitlebar.html',
-      // template: '<p></p>',
       restrict: 'E',
       replace: true,
       link: function postLink(scope, element, attrs) {
-        console.log('rsAppTitleBar called');
+        // console.log('rsAppTitleBar called');
       }
     };
   })

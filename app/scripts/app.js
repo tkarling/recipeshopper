@@ -77,6 +77,8 @@ angular
       });
   })
   .controller('AppCtrl', function($scope, $timeout, $mdSidenav, $log, $location, settingsMgr) {
+    $log.debug("AppCtrl: init controller");
+
     $scope.toggleLeft = function() {
       $mdSidenav('left').toggle();
       // .then(function(){
@@ -152,11 +154,11 @@ angular
     }
 
     userLoggedIn = settingsMgr.getCurrentUser() != '';
-    $log.debug('AppCtrl: $scope.userLoggedIn: ', $scope.userLoggedIn());
+    $log.debug('LeftCtrl: $scope.userLoggedIn: ', $scope.userLoggedIn());
 
     $scope.$on('handleCurrentUserSet', function () {
         userLoggedIn = settingsMgr.getCurrentUser() != '';
-        $log.debug('AppCtrl: handleCurrentUserSet called', $scope.userLoggedIn());
+        $log.debug('LeftCtrl: handleCurrentUserSet called', $scope.userLoggedIn());
     });
 
   });
