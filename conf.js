@@ -4,7 +4,7 @@ env.baseUrl = 'http://localhost:9005/#';
 
 exports.config = {
   seleniumAddress: 'http://localhost:4444/wd/hub',
-  specs: ['test/e2e/spec.js'],
+  specs: ['test/e2e/spec*.js'],
   framework: 'jasmine2',
 }
 

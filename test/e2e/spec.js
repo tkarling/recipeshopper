@@ -76,6 +76,7 @@ describe('angularjs homepage', function() {
 			var newItem = items[0];
 			expect(shoppingListPage.getField(newItem, 'amount')).toEqual('2 prot test carrots');
 			expect(shoppingListPage.getField(newItem, 'accentedText')).toEqual('prot test veggies' + ';');
+			expect(shoppingListPage.getCheckBoxClass(newItem)).toContain('md-checked');
 
 			// delete item
 			expect(shoppingListPage.myList.count()).toEqual(originalFavoritesCount + 1);
@@ -112,6 +113,7 @@ describe('angularjs homepage', function() {
 			var newItemOnSL = items[0];
 			expect(shoppingListPage.getField(newItemOnSL, 'amount')).toEqual('2 prot test carrots');
 			expect(shoppingListPage.getField(newItemOnSL, 'accentedText')).toEqual('prot test veggies' + ';');
+			expect(shoppingListPage.getCheckBoxClass(newItemOnSL)).not.toContain('md-checked');
 
 			// go back to favorites page
 			sideMenuPage.gotoFavorites();
@@ -126,6 +128,7 @@ describe('angularjs homepage', function() {
 				var newItemOnFavorites = items[0];
 				expect(shoppingListPage.getField(newItemOnFavorites, 'amount')).toEqual('2 prot test carrots');
 				expect(shoppingListPage.getField(newItemOnFavorites, 'accentedText')).toEqual('prot test veggies' + ';');
+				expect(shoppingListPage.getCheckBoxClass(newItemOnFavorites)).toContain('md-checked');
 
 				// delete item
 				expect(shoppingListPage.myList.count()).toEqual(originalFavoritesCount + 1);
@@ -156,6 +159,7 @@ describe('angularjs homepage', function() {
 			var newItem = items[0];
 			expect(recipeListPage.getField(newItem, 'recipe')).toEqual('prot test soup');
 			expect(recipeListPage.getField(newItem, 'accentedText')).toEqual('prot test thanksgiving');
+			expect(shoppingListPage.getCheckBoxClass(newItem)).not.toContain('md-checked');
 
 			// delete item
 			recipeListPage.deleteItem(newItem);

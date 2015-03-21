@@ -29,6 +29,10 @@ var RecipeListPage = function () {
         return item.element(by.binding(field)).getText();
     }
 
+    this.getCheckBoxClass = function(item) {
+        return item.element(by.model('data.cbvalue')).getAttribute('class');
+    }
+
     this.deleteItem = function(item) {
         item.element(by.id('deleteitembutton')).click();
     }
