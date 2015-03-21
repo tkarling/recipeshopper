@@ -98,6 +98,7 @@ angular.module('recipeshopperApp')
       replace: true,
       link: function postLink(scope, element, attrs) {
           // console.log('rsOneRowAddForm called');
+          // console.log('rsOneRowAddForm scope.numberField', scope.numberField);
           scope.data = {};
           scope.addItem = function(model1, model2, modelNo) {
             scope.addItemFn()(model1, model2, modelNo).then(function () {
@@ -186,7 +187,7 @@ angular.module('recipeshopperApp')
       template: '<span><rs-tile-right-delete-sub delete-fn="deleteFn()" hide-sm show-gt-sm>' + 
                 '</rs-tile-right-delete-sub>' +
                 '<rs-tile-right-delete-sub delete-fn="deleteFn()" hide-gt-sm ' +
-                    'show-sm ng-show="{{showActions}}">' +
+                    'show-sm ng-show="showActions">' +
                 '</rs-tile-right-delete-sub></span>',
       scope: {
         deleteFn: '&',
@@ -196,6 +197,7 @@ angular.module('recipeshopperApp')
       replace: true,
       link: function postLink(scope, element, attrs) {
         // console.log('rsTileRightDelete called');
+        // console.log('rsTileRightDelete scope.showActions', scope.showActions);
       }
     };
   });

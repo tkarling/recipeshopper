@@ -11,7 +11,7 @@
             <rs-tile-left-check ng-model="item.onlist" save-item-fn="saveItem(item)" aria-label="Is on Shopping List"></rs-tile-left-check>
             <rs-tile-content accented-text="{{item.category}}"  
               click-fn="gotoDetailsPage(item)">{{item.recipename}}</rs-tile-content>
-            <rs-tile-right-delete delete-fn="deleteItem(item)" show-actions="showActions"></rs-tile-right-delete>
+            <rs-tile-right-delete delete-fn="deleteItem(item)" show-actions="{{showActions}}"></rs-tile-right-delete>
           </md-item-content>
           <md-divider inset></md-divider>
         </md-item>

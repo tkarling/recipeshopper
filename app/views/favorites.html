@@ -13,7 +13,7 @@
               </rs-tile-left-check>
               <rs-tile-content accented-text="{{item.aisle}}" additional-text="{{item.recipe}}" 
                 click-fn="gotoDetailsPage(item)">{{item.amount}} {{item.unit}} {{item.product}}</rs-tile-content>
-              <rs-tile-right-delete delete-fn="deleteItem(item)" show-actions="showActions"></rs-tile-right-delete>
+              <rs-tile-right-delete delete-fn="deleteItem(item)" show-actions="{{showActions}}"></rs-tile-right-delete>
             </md-item-content>
             <md-divider inset></md-divider>
         </md-item>
