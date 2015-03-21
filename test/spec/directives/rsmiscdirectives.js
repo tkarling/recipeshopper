@@ -73,13 +73,18 @@ describe('Directive: rsTileRightDelete', function () {
     expect(element.children().length).toBe(2);
   }));
 
-  it('rs-tile-right-delete should have 1 child', inject(function ($compile) {
-    var data = {};
-    data.value = true;
-    var saveItem = function () {};
-    element = angular.element('<rs-tile-right-delete></rs-tile-right-delete>');
+  it('rs-tile-right-delete-sub should have 1 child', inject(function ($compile) {
+    var deleteItem = function () {};
+    element = angular.element('<rs-tile-right-delete-sub delete-fn="deleteItem()"></rs-tile-right-delete-sub>');
     element = $compile(element)(scope);
     expect(element.children().length).toBe(1);
+  }));
+
+  it('rs-tile-right-delete should have 2 children', inject(function ($compile) {
+    var deleteItem = function () {};
+    element = angular.element('<rs-tile-right-delete delete-fn="deleteItem()" show-actions="true"></rs-tile-right-delete>');
+    element = $compile(element)(scope);
+    expect(element.children().length).toBe(2);
   }));
 
 });

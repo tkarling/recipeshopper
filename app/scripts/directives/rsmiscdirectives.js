@@ -162,15 +162,36 @@ angular.module('recipeshopperApp')
       }
     };
   })
-  .directive('rsTileRightDelete', function () {
+  .directive('rsTileRightDeleteSub', function () {
     return {
       template: '<div class="md-tile-right md-padding">' + 
                   '<md-button id="deleteitembutton" class="md-warn md-raised md-hue-2"' +
-                    'ng-click="deleteItem(item)" aria-label="Delete">' +
+                    'ng-click="deleteFn()" aria-label="Delete">' +
                     '<rs-icon icon-name="ic_delete"></rs-icon>' +
                     '</md-icon>' +
                   '</md-button>' +
                 '</div>',
+      scope: {
+        deleteFn: '&'
+      }, 
+      restrict: 'E',
+      replace: true,
+      link: function postLink(scope, element, attrs) {
+        // console.log('rsTileRightDelete called');
+      }
+    };
+  })
+  .directive('rsTileRightDelete', function () {
+    return {
+      template: '<span><rs-tile-right-delete-sub delete-fn="deleteFn()" hide-sm show-gt-sm>' + 
+                '</rs-tile-right-delete-sub>' +
+                '<rs-tile-right-delete-sub delete-fn="deleteFn()" hide-gt-sm ' +
+                    'show-sm ng-show="{{showActions}}">' +
+                '</rs-tile-right-delete-sub></span>',
+      scope: {
+        deleteFn: '&',
+        showActions: '@'
+      }, 
       restrict: 'E',
       replace: true,
       link: function postLink(scope, element, attrs) {

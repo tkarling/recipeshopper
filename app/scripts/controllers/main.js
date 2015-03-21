@@ -113,6 +113,12 @@ angular.module('recipeshopperApp')
 		storeMgr.saveItem(item);
 	}; // saveItem
 
+	$scope.removeItem = function(item) {
+		// $log.debug('MainCtrl: removeItem: ', item);
+		item.isonlist = false;
+		item.isbought = false;
+		storeMgr.saveItem(item);
+	}; // saveItem
 
   }]);
 

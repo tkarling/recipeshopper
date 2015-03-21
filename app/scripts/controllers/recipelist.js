@@ -62,9 +62,20 @@ angular.module('recipeshopperApp')
 		});
 	}; // addRecipe
 
-	$scope.deleteItem = function(item) {
-		$log.debug('RecipelistCtrl: deleteRecipe: ', item);
-		recipesMgr.deleteItem(item);
+	$scope.deleteItem = function(recipe) {
+		$log.debug('RecipelistCtrl: deleteRecipe: ', recipe);
+		recipesMgr.deleteItem(recipe);
+
+		// delete ingredients of the recipe 
+  		$log.debug('RecipelistCtrl: deleteItem: recipe', recipe, recipe.$id);
+  		var ingredientsMgr = StoredListMgrFactory.getStoredListMgr(FB_SHOPPINGLIST_URL);
+  		ingredientsMgr.getItems('recipeId', recipe.$id).then(function(ingredients) {
+  			if(ingredients) {
+	  			for(var i = 0; i < ingredients.length; i++) {
+	  				ingredientsMgr.deleteItem(ingredients[i]);
+	  			} 
+  			}
+	    });
 	}; // deleteRecipe
 
 	$scope.saveItem = function(recipe) {
