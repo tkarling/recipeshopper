@@ -9,18 +9,23 @@
  */
 
 angular.module('recipeshopperApp')
-  .controller('MainCtrl', ['$scope', '$log', '$http', '$location', 'FB_SHOPPINGLIST_URL', 'StoredListMgrFactory', 'settingsMgr', 
-  	function ($scope, $log, $http, $location, FB_SHOPPINGLIST_URL, StoredListMgrFactory, settingsMgr) {  
+  .controller('MainCtrl', ['$scope', '$log', '$http', '$location',  
+  			  'FB_SHOPPINGLIST_URL', 'StoredListMgrFactory', 'settingsMgr', 
+  	function ($scope, $log, $http, $location,
+  			  FB_SHOPPINGLIST_URL, StoredListMgrFactory, settingsMgr) {  
+	$log.debug('MainCtrl: init');
+	// console.log('MainCtrl: init');
 
   	var setShowAll = function () {
-  		$scope.showAll = $scope.mySettings.doNotShowBoughtItems ? ! $scope.mySettings.doNotShowBoughtItems : undefined;
+  		// console.log('setShowAll called');
+  		$scope.data.showAll = $scope.data.mySettings.doNotShowBoughtItems ? ! $scope.data.mySettings.doNotShowBoughtItems : undefined;
   	};
 
   	$scope.updateShowAll = function () {
   		setShowAll();
   		settingsMgr.saveSettings();
-  		$log.debug('MainCtrl: updateShowAll: $scope.showAll', $scope.showAll);
-  		$log.debug('MainCtrl: updateShowAll:  $scope.mySettings.doNotShowBoughtItems', $scope.mySettings.doNotShowBoughtItems);
+  		$log.debug('MainCtrl: updateShowAll: $scope.data.showAll', $scope.data.showAll);
+  		$log.debug('MainCtrl: updateShowAll:  $scope.data.mySettings.doNotShowBoughtItems', $scope.data.mySettings.doNotShowBoughtItems);
   	};
 
     //A QUICK WAY TO FILL EMPTY DB
@@ -45,52 +50,23 @@ angular.module('recipeshopperApp')
 	// 	$log.debug('MainCtrl: addDefaultItemsToList $scope.groceries', $scope.groceries);
 	// };
 
+	if(! $scope.data) {
+		$scope.data = {};
+	}	
+	$scope.data.fbUrl = FB_SHOPPINGLIST_URL;
+	$scope.data.fieldName = 'isonlist';
+	$scope.data.fieldValue = true;
 
-   	var getGroceries = function () {
-	    storeMgr = StoredListMgrFactory.getStoredListMgr(FB_SHOPPINGLIST_URL);
-	    storeMgr.getItems('isonlist', true).then(function(data) {
-	    	$scope.groceries = data;
-	    	// $log.debug('MainCtrl: getGroceries $scope.mySettings', $scope.mySettings);
-
-	    	// if($scope.groceries.length == 0) {
-	    	// 	addDefaultItemsToList();
-	    	// }
-
-			// $log.debug('MainCtrl: getGroceries $scope.groceries', $scope.groceries);
-	    });
-   	};
-
-   	var getSettings = function() {
-   		$scope.mySettings = settingsMgr.getSettings();
-  		setShowAll();
-   	};
-
-   	var initFromStores = function () {
-        $scope.currentUser = settingsMgr.getCurrentUser();
-		// $log.debug('MainCtrl: initFromStores $scope.currentUser', $scope.currentUser);
-    	if($scope.currentUser) {
-    		getSettings();
-    		getGroceries();
-    	} else {
-    		$location.path('/login');
-    	}
-   	};
-
+	// additional mainCtrl specific init
 	$scope.$on('handleCurrentUserSet', function () {
-		$log.debug('MainCtrl: handleCurrentUserSet call init from store');
-		initFromStores();
+		$log.debug('MainCtrl: handleCurrentUserSet');
+		setShowAll();
     });
-
-	// init  
-	var storeMgr;
-   	$scope.groceries = [];
-   	$scope.mySettings = {};
-	// $log.debug('MainCtrl: call init from store');
-	initFromStores();
+	// setShowAll();
 
 	$scope.addProduct = function (myProduct, aisle, amount) {
 		// $log.debug('MainCtrl: addProduct Attrs: ', myProduct, aisle, amount);
-		return storeMgr.addItem({
+		return $scope.data.storeMgr.addItem({
 		  recipeId: 'FAVORITES',
 		  recipe : 'FAVORITES',
 	      product : myProduct,
@@ -103,16 +79,11 @@ angular.module('recipeshopperApp')
 		});
 	}; // addProduct
 
-	$scope.saveItem = function(item) {
-		// $log.debug('MainCtrl: saveItem: ', item);
-		storeMgr.saveItem(item);
-	}; // saveItem
-
 	$scope.removeItem = function(item) {
 		// $log.debug('MainCtrl: removeItem: ', item);
 		item.isonlist = false;
 		item.isbought = false;
-		storeMgr.saveItem(item);
+		$scope.data.storeMgr.saveItem(item);
 	}; // saveItem
 
   }]);
