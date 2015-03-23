@@ -18,7 +18,9 @@ angular.module('recipeshopperApp')
 
   	var setShowAll = function () {
   		// console.log('setShowAll called');
-  		$scope.data.showAll = $scope.data.mySettings.doNotShowBoughtItems ? ! $scope.data.mySettings.doNotShowBoughtItems : undefined;
+  		if($scope.data.mySettings && ($scope.data.mySettings != {})) {
+	  		$scope.data.showAll = $scope.data.mySettings.doNotShowBoughtItems ? ! $scope.data.mySettings.doNotShowBoughtItems : undefined;
+  		}
   	};
 
   	$scope.updateShowAll = function () {
@@ -62,7 +64,7 @@ angular.module('recipeshopperApp')
 		$log.debug('MainCtrl: handleCurrentUserSet');
 		setShowAll();
     });
-	// setShowAll();
+	setShowAll();
 
 	$scope.addProduct = function (myProduct, aisle, amount) {
 		// $log.debug('MainCtrl: addProduct Attrs: ', myProduct, aisle, amount);

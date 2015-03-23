@@ -52,7 +52,7 @@ angular.module('recipeshopperApp')
                         '<input ng-model="query">' +
                     '</md-input-container>' +
                     '<md-checkbox ng-if="showCheckbox" md-no-ink aria-label="Do Not Show Bought"' +
-                      'ng-model="mySettings.doNotShowBoughtItems" ng-change="updateShowAll()"' +
+                      'ng-model="data.mySettings.doNotShowBoughtItems" ng-change="updateShowAll()"' +
                       'class="md-primary">' +
                     '</md-checkbox>' +
                 '</md-content>',

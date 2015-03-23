@@ -46,16 +46,22 @@ angular.module('recipeshopperApp')
     	}
    	};
 
-	$scope.saveItem = function(item) {
-		// $log.debug('BaselistCtrl: saveItem: ', item);
-		$scope.data.storeMgr.saveItem(item);
-	}; // saveItem
-
 	$scope.$on('handleCurrentUserSet', function () {
 		$log.debug('BaselistCtrl: handleCurrentUserSet call init from store');
 		initFromStores($scope.data.fbUrl, $scope.data.fieldName, $scope.data.fieldValue);
     });
 
 	initFromStores($scope.data.fbUrl, $scope.data.fieldName, $scope.data.fieldValue);
+
+	$scope.saveItem = function(item) {
+		// $log.debug('BaselistCtrl: saveItem: ', item);
+		$scope.data.storeMgr.saveItem(item);
+	}; // saveItem
+
+	$scope.deleteItem = function(item) {
+		// $log.debug('BaselistCtrl: deleteItem: ', item);
+		$scope.data.storeMgr.deleteItem(item);
+	}; // deleteItem
+
 
   }]);

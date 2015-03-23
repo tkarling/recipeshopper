@@ -1,4 +1,4 @@
-<md-content class="md-padding">
+<md-content class="md-padding" ng-controller="BaselistCtrl">
   <rs-search-bar placeholder-text="Search for products"></rs-search-bar>
   <md-content>
     <rs-one-row-add-item-form add-item-fn="addProduct"  number-field="true" field1="Product" field2="Aisle">
@@ -6,10 +6,10 @@
   </md-content>
   <md-content>
       <md-list>
-          <md-item ng-repeat="item in groceries | filter: query | 
+          <md-item ng-repeat="item in data.myItems | filter: query | 
                 orderBy: [mySettings.shoppingListSortOrder, 'product']"> 
             <md-item-content ng-swipe-left="showActions = true" ng-swipe-right="showActions = false"> 
-              <rs-tile-left-check ng-model="item.isonlist" save-item-fn="saveItem(item, item.isonlist)" aria-label="Is on List">  
+              <rs-tile-left-check ng-model="item.isonlist" save-item-fn="toggleItemOnShoppingList(item, item.isonlist)" aria-label="Is on List">  
               </rs-tile-left-check>
               <rs-tile-content accented-text="{{item.aisle}}" additional-text="{{item.recipe}}" 
                 click-fn="gotoDetailsPage(item)">{{item.amount}} {{item.unit}} {{item.product}}</rs-tile-content>

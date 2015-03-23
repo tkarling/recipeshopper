@@ -17,7 +17,7 @@ var ShoppingListPage = function () {
         this.addItemButton.click();
     }
 
-    this.myList = element.all(by.repeater('item in groceries'));
+    this.myList = element.all(by.repeater('item in data.myItems'));
 
     this.getListItemsWithAccentedText = function(content) {
         // console.log('getListItemsWithAccentedText called');

@@ -6,11 +6,10 @@ describe('Controller: MainCtrl', function () {
   beforeEach(module('recipeshopperApp'));
   var EFUNC = function () {};
 
-  var BaselistCtrl, MainCtrl, element;
+  var BaselistCtrl, MainCtrl;
   var scope, $rootScope;
   var mockStoredListMgrFactory, mockBasicStoredListMgr, mockSettingsMgr;
   var mockUrl, mockCurrentUser, mockMySettings, mockItemsFromStore;
-  var itemsFromStore;
   var q, deferred;
   var settingsMgrSpy = {getCurrentUser: EFUNC, getSettings: EFUNC, saveSettings: EFUNC};
   var basicStoredListMgrSpy = {getItemsSync: EFUNC, getItems: EFUNC, addItem: EFUNC, 
@@ -69,7 +68,7 @@ describe('Controller: MainCtrl', function () {
               return deferred.promise;
           }
       }; 
-  });
+  }); // beforeEach
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($controller, $compile, _$rootScope_, _$q_) {
@@ -88,11 +87,11 @@ describe('Controller: MainCtrl', function () {
       StoredListMgrFactory: mockStoredListMgrFactory,
       settingsMgr: mockSettingsMgr
     });
-  }));
+  })); // beforeEach
 
   it('a test should pass', function () {
       expect(true).toEqual(true);
-  });
+  }); // it
 
   describe('MainCtrl: Before current user is set', function() {
 
@@ -132,7 +131,7 @@ describe('Controller: MainCtrl', function () {
       $rootScope.$broadcast('handleCurrentUserSet');
       deferred.resolve(mockItemsFromStore);
       scope.$root.$digest();
-    });
+    }); // beforeEach
 
     it('should initialize items array, when items in DB', function () {
       // console.log('scope.data', scope.data);

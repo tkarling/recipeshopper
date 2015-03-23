@@ -11,48 +11,16 @@ angular.module('recipeshopperApp')
   .controller('FavoritesCtrl', ['$scope', '$log', '$http', '$location', 'FB_SHOPPINGLIST_URL', 'StoredListMgrFactory', 'settingsMgr', 
   	function ($scope, $log, $http, $location, FB_SHOPPINGLIST_URL, StoredListMgrFactory, settingsMgr) {
 
-   	var getGroceries = function () {
-	    storeMgr = StoredListMgrFactory.getStoredListMgr(FB_SHOPPINGLIST_URL);
-	    storeMgr.getItems('recipeId', 'FAVORITES').then(function(data) {
-	    	$scope.groceries = data;
-	    	// $log.debug('FavoritesCtrl: getGroceries $scope.mySettings', $scope.mySettings);
-	    	// if($scope.groceries.length == 0) {
-	    	// 	addDefaultItemsToList();
-	    	// }
-			// $log.debug('FavoritesCtrl: getGroceries $scope.groceries', $scope.groceries);
-	    });
-   	};
-
-   	var getSettings = function() {
-   		$scope.mySettings = settingsMgr.getSettings();
-   	};
-
-   	var initFromStores = function () {
-        $scope.currentUser = settingsMgr.getCurrentUser();
-		// $log.debug('FavoritesCtrl: initFromStores $scope.currentUser', $scope.currentUser);
-    	if($scope.currentUser) {
-    		getSettings();
-    		getGroceries();
-    	} else {
-    		$location.path('/login');
-    	}
-   	};
-
-	$scope.$on('handleCurrentUserSet', function () {
-		$log.debug('FavoritesCtrl: handleCurrentUserSet call init from store');
-		initFromStores();
-    });
-
-	// init  
-	var storeMgr;
-   	$scope.groceries = [];
-   	$scope.mySettings = {};
-	// $log.debug('FavoritesCtrl: call init from store');
-	initFromStores();
+	if(! $scope.data) {
+		$scope.data = {};
+	}	
+	$scope.data.fbUrl = FB_SHOPPINGLIST_URL;
+	$scope.data.fieldName = 'recipeId';
+	$scope.data.fieldValue = 'FAVORITES';
 
 	$scope.addProduct = function (myProduct, aisle, amount) {
 		// $log.debug('FavoritesCtrl: addProduct Attrs: ', myProduct, aisle, amount);
-		return storeMgr.addItem({
+		return $scope.data.storeMgr.addItem({
 		  recipeId: 'FAVORITES',
 		  recipe : 'FAVORITES',
 	      product : myProduct,
@@ -64,17 +32,12 @@ angular.module('recipeshopperApp')
 		});
 	}; // addProduct
 
-	$scope.deleteItem = function(item) {
-		// $log.debug('FavoritesCtrl: deleteItem: ', item);
-		storeMgr.deleteItem(item);
-	}; // deleteItem
-
-	$scope.saveItem = function(item, itemWasPutOnList) {
-		// $log.debug('FavoritesCtrl: saveItem: ', item);
-		if(itemWasPutOnList) {
+	$scope.toggleItemOnShoppingList = function(item) { // itemWasPutOnList
+		// $log.debug('FavoritesCtrl: toggleItemOnShoppingList: ', item);
+		if(item.isonlist) {
 			item.isbought = false;
 		}
-		storeMgr.saveItem(item);
+		$scope.data.storeMgr.saveItem(item);
 	}; // saveItem
 
 
