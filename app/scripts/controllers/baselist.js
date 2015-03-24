@@ -18,14 +18,11 @@ angular.module('recipeshopperApp')
 		$scope.data = {};
 	}
 	$scope.data.storeMgr = {};
-   	$scope.data.mySettings = {};
    	$scope.data.myItems = [];
-	$scope.data.setShowAll = function () {
-	};
+   	$scope.data.mySettings = {};
 
    	var getSettings = function() {
    		$scope.data.mySettings = settingsMgr.getSettings();
-  		$scope.data.setShowAll();
    	};
 
    	var getItems = function (fbUrl, fieldName, fieldValue) {

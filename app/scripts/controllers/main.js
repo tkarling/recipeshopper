@@ -30,6 +30,10 @@ angular.module('recipeshopperApp')
   		$log.debug('MainCtrl: updateShowAll:  $scope.data.mySettings.doNotShowBoughtItems', $scope.data.mySettings.doNotShowBoughtItems);
   	};
 
+    $scope.gotoDetailsPage = function(item) {
+    	$log.debug('MainCtrl: gotoDetailsPage');
+    };
+
     //A QUICK WAY TO FILL EMPTY DB
 	// var addDefaultItemsToList =	function () {
 	// 	$log.debug('MainCtrl: addDefaultItemsToList started');
@@ -86,7 +90,7 @@ angular.module('recipeshopperApp')
 		item.isonlist = false;
 		item.isbought = false;
 		$scope.data.storeMgr.saveItem(item);
-	}; // saveItem
+	}; // removeItem
 
   }]);
 

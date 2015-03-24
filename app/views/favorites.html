@@ -7,7 +7,7 @@
   <md-content>
       <md-list>
           <md-item ng-repeat="item in data.myItems | filter: query | 
-                orderBy: [mySettings.shoppingListSortOrder, 'product']"> 
+                orderBy: [data.mySettings.shoppingListSortOrder, 'product']"> 
             <md-item-content ng-swipe-left="showActions = true" ng-swipe-right="showActions = false"> 
               <rs-tile-left-check ng-model="item.isonlist" save-item-fn="toggleItemOnShoppingList(item, item.isonlist)" aria-label="Is on List">  
               </rs-tile-left-check>

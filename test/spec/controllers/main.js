@@ -15,7 +15,6 @@ describe('Controller: MainCtrl', function () {
   var basicStoredListMgrSpy = {getItemsSync: EFUNC, getItems: EFUNC, addItem: EFUNC, 
         deleteItem: EFUNC, saveItem: EFUNC};
 
-
   beforeEach(function () {
       mockUrl = 'mockUrl';
 
@@ -93,7 +92,7 @@ describe('Controller: MainCtrl', function () {
       expect(true).toEqual(true);
   }); // it
 
-  describe('MainCtrl: Before current user is set', function() {
+  describe('Before current user is set', function() {
 
     it('should init MainCtrl specific items to empty, if current user is not set', function() {
       // check impact

@@ -1,17 +1,18 @@
-<md-content class="md-padding">
+<md-content class="md-padding" ng-controller="BaselistCtrl">
   <rs-search-bar placeholder-text="Search for recipes"></rs-search-bar>
   <md-content>
     <rs-one-row-add-item-form add-item-fn="addRecipe" field1="Recipe" field2="Category">
+    </rs-one-row-add-item-form>
   </md-content>
   <md-content>
     <md-list>
-        <md-item ng-repeat="item in recipes | filter: query | 
-          orderBy: ['-onlist', mySettings.recipeSortOrder, 'recipename']">
+        <md-item ng-repeat="item in data.myItems | filter: query | 
+          orderBy: ['-onlist', data.mySettings.recipeSortOrder, 'recipename']">
           <md-item-content ng-swipe-left="showActions = true" ng-swipe-right="showActions = false"> 
-            <rs-tile-left-check ng-model="item.onlist" save-item-fn="saveItem(item)" aria-label="Is on Shopping List"></rs-tile-left-check>
+            <rs-tile-left-check ng-model="item.onlist" save-item-fn="saveRecipe(item)" aria-label="Is on Shopping List"></rs-tile-left-check>
             <rs-tile-content accented-text="{{item.category}}"  
               click-fn="gotoDetailsPage(item)">{{item.recipename}}</rs-tile-content>
-            <rs-tile-right-delete delete-fn="deleteItem(item)" show-actions="{{showActions}}"></rs-tile-right-delete>
+            <rs-tile-right-delete delete-fn="deleteRecipe(item)" show-actions="{{showActions}}"></rs-tile-right-delete>
           </md-item-content>
           <md-divider inset></md-divider>
         </md-item>

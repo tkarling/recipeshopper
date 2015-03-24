@@ -15,7 +15,7 @@ var RecipeListPage = function () {
         this.addButton.click();
     }
 
-    this.myList = element.all(by.repeater('item in recipes'));
+    this.myList = element.all(by.repeater('item in data.myItems'));
 
     this.getListItemsWithAccentedText = function(content) {
         return this.myList.filter(function(elem, index) {

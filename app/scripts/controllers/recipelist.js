@@ -11,60 +11,32 @@ angular.module('recipeshopperApp')
   .controller('RecipelistCtrl', ['$scope', '$log', '$location',  
   	'FB_RECIPES_URL', 'FB_SHOPPINGLIST_URL', 'StoredListMgrFactory', 'settingsMgr', 
   	function ($scope, $log, $location, FB_RECIPES_URL, FB_SHOPPINGLIST_URL, StoredListMgrFactory, settingsMgr) {
-
-   	var getSettings = function() {
-   		$scope.mySettings = settingsMgr.getSettings();
-   	};
-
-  	var getRecipes = function () {
-	    recipesMgr = StoredListMgrFactory.getStoredListMgr(FB_RECIPES_URL);
-	    recipesMgr.getItems().then(function(data) {
-	    	$scope.recipes = data;
-	    });
-  	};
-
-   	var initFromStores = function () {
-        $scope.currentUser = settingsMgr.getCurrentUser();
-		$log.debug('RecipelistCtrl: initFromStores $scope.currentUser', $scope.currentUser);
-    	if($scope.currentUser) {
-    		getSettings();
-    		getRecipes();
-    	} else {
-    		$location.path('/login');
-    	}
-   	};
-
-
-	$scope.$on('handleCurrentUserSet', function () {
-		$log.debug('RecipelistCtrl: handleCurrentUserSet call init from store');
-		initFromStores();
-    });
-
-	var recipesMgr;
-	$scope.recipes = [];
-  	$scope.mySettings = {};
-	$log.debug('RecipelistCtrl: call init from store');
-	initFromStores();
-	$scope.itemOrder = 'recipename';
+	$log.debug('RecipelistCtrl: init');
+	// console.log('RecipelistCtrl: init');
 
     $scope.gotoDetailsPage = function(item) {
-      // var pagelink='/recipedetails/'+ item.$id;	
-      var pagelink='/recipedetails/'+ $scope.recipes.indexOf(item);	
-      $log.debug('RecipelistCtrl: pagelink: ', pagelink);
-      $location.path(pagelink);
+    	$log.debug('RecipelistCtrl:gotoDetailsPage moi');
+    	var pagelink='/recipedetails/'+ $scope.data.myItems.indexOf(item);
+	    $log.debug('RecipelistCtrl: pagelink: ', pagelink);
+	    $location.path(pagelink);
     };
 
+	if(! $scope.data) {
+		$scope.data = {};
+	}	
+	$scope.data.fbUrl = FB_RECIPES_URL;
+
 	$scope.addRecipe = function (recipe, category) {
-		return recipesMgr.addItem({
+		return $scope.data.storeMgr.addItem({
 		  category : category,
 	      recipename : recipe,
 	      onlist : false
 		});
 	}; // addRecipe
 
-	$scope.deleteItem = function(recipe) {
+	$scope.deleteRecipe = function (recipe) {
 		$log.debug('RecipelistCtrl: deleteRecipe: ', recipe);
-		recipesMgr.deleteItem(recipe);
+		$scope.data.storeMgr.deleteItem(recipe);
 
 		// delete ingredients of the recipe 
   		$log.debug('RecipelistCtrl: deleteItem: recipe', recipe, recipe.$id);
@@ -78,9 +50,9 @@ angular.module('recipeshopperApp')
 	    });
 	}; // deleteRecipe
 
-	$scope.saveItem = function(recipe) {
+	$scope.saveRecipe = function (recipe) {
 		$log.debug('RecipelistCtrl: saveItem: ', 	recipe);
-		recipesMgr.saveItem(recipe);
+		$scope.data.storeMgr.saveItem(recipe);
 
 		// add or remove ingredients of the recipe from the shopping list based on onlist status
   		$log.debug('RecipelistCtrl: saveItem: recipe', recipe, recipe.$id, recipe.onlist);
@@ -95,6 +67,6 @@ angular.module('recipeshopperApp')
   			}
 	    });
 
-	}; // saveItem
+	}; // saveRecipe
 
   }]);
