@@ -74,15 +74,15 @@ describe('Controller: RecipelistCtrl', function () {
     q= _$q_;
     $rootScope = _$rootScope_;
     scope = $rootScope.$new();
-    RecipelistCtrl = $controller('RecipelistCtrl', {
+    BaselistCtrl = $controller('BaselistCtrl', {
       $scope: scope,
-      FB_RECIPES_URL: mockUrl, 
       StoredListMgrFactory: mockStoredListMgrFactory,
       settingsMgr: mockSettingsMgr
     });
 
-    BaselistCtrl = $controller('BaselistCtrl', {
+    RecipelistCtrl = $controller('RecipelistCtrl', {
       $scope: scope,
+      FB_RECIPES_URL: mockUrl, 
       StoredListMgrFactory: mockStoredListMgrFactory,
       settingsMgr: mockSettingsMgr
     });
@@ -119,7 +119,7 @@ describe('Before current user is set', function() {
 
   }); // describe
 
-  describe('MainCtrl: After current user is set', function() {
+  describe('After current user is set', function() {
 
     beforeEach(function () {
       mockCurrentUser = 'moi';

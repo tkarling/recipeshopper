@@ -41,7 +41,7 @@ angular
     $routeProvider
       .when('/main', {
         templateUrl: 'views/main.html',
-        controller: 'MainCtrl'
+        controller: 'BaselistCtrl'
       })
       .when('/login', {
         templateUrl: 'views/login.html',
@@ -57,11 +57,11 @@ angular
       })
       .when('/recipelist', {
         templateUrl: 'views/recipelist.html',
-        controller: 'RecipelistCtrl'
+        controller: 'BaselistCtrl'
       })
       .when('/favorites', {
         templateUrl: 'views/favorites.html',
-        controller: 'FavoritesCtrl'
+        controller: 'BaselistCtrl'
       })
       .when('/picdemo', {
         templateUrl: 'views/picdemo.html', 

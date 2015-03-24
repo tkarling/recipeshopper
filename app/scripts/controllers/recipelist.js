@@ -24,7 +24,7 @@ angular.module('recipeshopperApp')
 	if(! $scope.data) {
 		$scope.data = {};
 	}	
-	$scope.data.fbUrl = FB_RECIPES_URL;
+	$scope.setStoreId(FB_RECIPES_URL);
 
 	$scope.addRecipe = function (recipe, category) {
 		return $scope.data.storeMgr.addItem({
@@ -36,7 +36,7 @@ angular.module('recipeshopperApp')
 
 	$scope.deleteRecipe = function (recipe) {
 		$log.debug('RecipelistCtrl: deleteRecipe: ', recipe);
-		$scope.data.storeMgr.deleteItem(recipe);
+		$scope.deleteItem(recipe);
 
 		// delete ingredients of the recipe 
   		$log.debug('RecipelistCtrl: deleteItem: recipe', recipe, recipe.$id);
@@ -52,7 +52,7 @@ angular.module('recipeshopperApp')
 
 	$scope.saveRecipe = function (recipe) {
 		$log.debug('RecipelistCtrl: saveItem: ', 	recipe);
-		$scope.data.storeMgr.saveItem(recipe);
+		$scope.saveItem(recipe);
 
 		// add or remove ingredients of the recipe from the shopping list based on onlist status
   		$log.debug('RecipelistCtrl: saveItem: recipe', recipe, recipe.$id, recipe.onlist);

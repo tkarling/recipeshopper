@@ -74,15 +74,15 @@ describe('Controller: MainCtrl', function () {
     q= _$q_;
     $rootScope = _$rootScope_;
     scope = $rootScope.$new();
-    MainCtrl = $controller('MainCtrl', {
+    BaselistCtrl = $controller('BaselistCtrl', {
       $scope: scope,
-      FB_SHOPPINGLIST_URL: mockUrl, 
       StoredListMgrFactory: mockStoredListMgrFactory,
       settingsMgr: mockSettingsMgr
     });
 
-    BaselistCtrl = $controller('BaselistCtrl', {
+    MainCtrl = $controller('MainCtrl', {
       $scope: scope,
+      FB_SHOPPINGLIST_URL: mockUrl, 
       StoredListMgrFactory: mockStoredListMgrFactory,
       settingsMgr: mockSettingsMgr
     });

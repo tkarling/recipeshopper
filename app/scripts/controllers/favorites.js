@@ -13,10 +13,8 @@ angular.module('recipeshopperApp')
 
 	if(! $scope.data) {
 		$scope.data = {};
-	}	
-	$scope.data.fbUrl = FB_SHOPPINGLIST_URL;
-	$scope.data.fieldName = 'recipeId';
-	$scope.data.fieldValue = 'FAVORITES';
+	}
+	$scope.setStoreId(FB_SHOPPINGLIST_URL, 'recipeId', 'FAVORITES');
 
 	$scope.addProduct = function (myProduct, aisle, amount) {
 		// $log.debug('FavoritesCtrl: addProduct Attrs: ', myProduct, aisle, amount);
@@ -37,7 +35,7 @@ angular.module('recipeshopperApp')
 		if(item.isonlist) {
 			item.isbought = false;
 		}
-		$scope.data.storeMgr.saveItem(item);
+		$scope.saveItem(item);
 	}; // saveItem
 
 

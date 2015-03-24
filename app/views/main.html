@@ -1,18 +1,4 @@
-<!-- <md-content class="md-padding" ng-controller="BaselistCtrl">
-        <md-item ng-repeat="item in data.myItems">
-          <rs-tile-content accented-text="{{item.product}}"  
-              click-fn="gotoDetailsPage(item)">{{item.recipe}}</rs-tile-content>
-        </md-item>            
-</md-content> -->
-
-<!-- <md-content class="md-padding" ng-controller="BaselistCtrl">
-        <md-item ng-repeat="item in data.myItems">
-            <rs-tile-content accented-text="{{item.aisle}}" additional-text="{{item.recipe}}" 
-                click-fn="gotoDetailsPage(item)">{{item.amount}} {{item.unit}} {{item.product}}</rs-tile-content>   
-        </md-item>    
-</md-content>
- -->
-<md-content class="md-padding" ng-controller="BaselistCtrl">
+<md-content class="md-padding" ng-controller="MainCtrl"> 
   <rs-search-bar show-checkbox="true" placeholder-text="Search for products"></rs-search-bar>
   <md-content>
     <rs-one-row-add-item-form add-item-fn="addProduct"  number-field="true" field1="Product" field2="Aisle">

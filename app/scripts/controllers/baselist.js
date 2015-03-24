@@ -21,6 +21,13 @@ angular.module('recipeshopperApp')
    	$scope.data.myItems = [];
    	$scope.data.mySettings = {};
 
+   	$scope.setStoreId = function (fbUrl, fieldName, fieldValue) {
+	   	$scope.data.fbUrl = fbUrl;
+		$scope.data.fieldName = fieldName;
+		$scope.data.fieldValue = fieldValue;
+		initFromStores();
+   	}; // setStoreId
+
    	var getSettings = function() {
    		$scope.data.mySettings = settingsMgr.getSettings();
    	};
@@ -32,12 +39,15 @@ angular.module('recipeshopperApp')
 	    });
    	};
 
-   	var initFromStores = function (fbUrl, fieldName, fieldValue) {
+   	var initFromStores = function () { 
         var currentUser = settingsMgr.getCurrentUser();
 		$log.debug('BaselistCtrl: initFromStores currentUser', currentUser);
     	if(currentUser) {
     		getSettings();
-    		getItems(fbUrl, fieldName, fieldValue);
+    		if($scope.data.fbUrl) {
+	    		$log.debug('BaselistCtrl: initFromStores getting items from store', $scope.data.fbUrl);
+	    		getItems($scope.data.fbUrl, $scope.data.fieldName, $scope.data.fieldValue);
+    		}
     	} else {
     		$location.path('/login');
     	}
@@ -45,10 +55,9 @@ angular.module('recipeshopperApp')
 
 	$scope.$on('handleCurrentUserSet', function () {
 		$log.debug('BaselistCtrl: handleCurrentUserSet call init from store');
-		initFromStores($scope.data.fbUrl, $scope.data.fieldName, $scope.data.fieldValue);
+		initFromStores(); 
     });
-
-	initFromStores($scope.data.fbUrl, $scope.data.fieldName, $scope.data.fieldValue);
+	initFromStores();
 
 	$scope.saveItem = function(item) {
 		// $log.debug('BaselistCtrl: saveItem: ', item);

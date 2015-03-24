@@ -75,15 +75,15 @@ describe('Controller: FavoritesCtrl', function () {
     q= _$q_;
     $rootScope = _$rootScope_;
     scope = $rootScope.$new();
-    FavoritesCtrl = $controller('FavoritesCtrl', {
+    BaselistCtrl = $controller('BaselistCtrl', {
       $scope: scope,
-      FB_SHOPPINGLIST_URL: mockUrl, 
       StoredListMgrFactory: mockStoredListMgrFactory,
       settingsMgr: mockSettingsMgr
     });
 
-    BaselistCtrl = $controller('BaselistCtrl', {
+    FavoritesCtrl = $controller('FavoritesCtrl', {
       $scope: scope,
+      FB_SHOPPINGLIST_URL: mockUrl, 
       StoredListMgrFactory: mockStoredListMgrFactory,
       settingsMgr: mockSettingsMgr
     });

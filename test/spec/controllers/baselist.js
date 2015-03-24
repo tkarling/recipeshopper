@@ -88,7 +88,7 @@ beforeEach(function () {
       expect(true).toEqual(true);
   });
 
-  describe('BaselistCtrl: Before current user is set', function() {
+  describe('Before current user is set', function() {
 
     beforeEach(function () {
       settingsMgrSpy.getCurrentUser = jasmine.createSpy('settingsMgrSpy.getCurrentUser Spy');
@@ -112,6 +112,7 @@ beforeEach(function () {
       mockCurrentUser = 'moi';
       mockMySettings = {};
       mockItemsFromStore = [{product:'carrots'}, {product:'milk'}, {product:'bread'}];
+      scope.setStoreId('mockUrl', 'isonlist', true);
       $rootScope.$broadcast('handleCurrentUserSet');
       deferred.resolve(mockItemsFromStore);
       scope.$root.$digest();
@@ -130,12 +131,13 @@ beforeEach(function () {
 
   }); // describe
 
-  describe('MainCtrl: After current user is set', function() {
+  describe('After current user is set', function() {
 
     beforeEach(function () {
       mockCurrentUser = 'moi';
       mockMySettings = {};
       mockItemsFromStore = [{product:'carrots'}, {product:'milk'}, {product:'bread'}];
+      scope.setStoreId('mockUrl', 'isonlist', true);
       $rootScope.$broadcast('handleCurrentUserSet');
       deferred.resolve(mockItemsFromStore);
       scope.$root.$digest();

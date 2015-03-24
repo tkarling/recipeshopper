@@ -59,9 +59,7 @@ angular.module('recipeshopperApp')
 	if(! $scope.data) {
 		$scope.data = {};
 	}	
-	$scope.data.fbUrl = FB_SHOPPINGLIST_URL;
-	$scope.data.fieldName = 'isonlist';
-	$scope.data.fieldValue = true;
+	$scope.setStoreId(FB_SHOPPINGLIST_URL, 'isonlist', true);
 
 	// additional mainCtrl specific init
 	$scope.$on('handleCurrentUserSet', function () {
@@ -89,7 +87,7 @@ angular.module('recipeshopperApp')
 		// $log.debug('MainCtrl: removeItem: ', item);
 		item.isonlist = false;
 		item.isbought = false;
-		$scope.data.storeMgr.saveItem(item);
+		$scope.saveItem(item);
 	}; // removeItem
 
   }]);
