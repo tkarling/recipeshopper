@@ -77,7 +77,7 @@ angular
       });
   })
   .controller('AppCtrl', function($scope, $timeout, $mdSidenav, $log, $location, settingsMgr) {
-    $log.debug("AppCtrl: init controller");
+    // $log.debug("AppCtrl: init controller");
 
     $scope.toggleLeft = function() {
       $mdSidenav('left').toggle();
@@ -87,7 +87,7 @@ angular
     };
 
     $scope.gotoPage = function(pagelink){
-      $log.debug('AppCtrl: pagelink: ', pagelink);
+      // $log.debug('AppCtrl: pagelink: ', pagelink);
       $location.path(pagelink);
     };
 
@@ -128,7 +128,7 @@ angular
   })
   .controller('LeftCtrl', function($scope, $rootScope, $timeout, $mdSidenav, $log, $location, settingsMgr, Authentication) {
     // Authentication must be a dependency for this controller, so that it will be initiated independent on which age user refreshes app
-    $log.debug('LeftCtrl: init controller');
+    // $log.debug('LeftCtrl: init controller');
 
     $scope.close = function() {
       $mdSidenav('left').close();
@@ -138,7 +138,7 @@ angular
     }; // $scope.close
 
     $scope.gotoPage = function(pagelink){
-      $log.debug('LeftCtrl: pagelink: ', pagelink);
+      // $log.debug('LeftCtrl: pagelink: ', pagelink);
       $location.path(pagelink);
       $mdSidenav('left').close();
     }; // $scope.gotoPage

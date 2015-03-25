@@ -33,19 +33,19 @@ angular.module('recipeshopperApp')
    	};
 
    	var getItems = function (fbUrl, fieldName, fieldValue) {
-	    $scope.data.storeMgr = StoredListMgrFactory.getStoredListMgr(fbUrl);
-	    $scope.data.storeMgr.getItems(fieldName, fieldValue).then(function(receivedItems) {
+	    $scope.data.storeMgr = StoredListMgrFactory.getStoredListMgr(fbUrl, fieldName, fieldValue);
+	    $scope.data.storeMgr.getItems().then(function(receivedItems) {
 	    	$scope.data.myItems = receivedItems;
 	    });
    	};
 
    	var initFromStores = function () { 
         var currentUser = settingsMgr.getCurrentUser();
-		$log.debug('BaselistCtrl: initFromStores currentUser', currentUser);
+		// $log.debug('BaselistCtrl: initFromStores currentUser', currentUser);
     	if(currentUser) {
     		getSettings();
     		if($scope.data.fbUrl) {
-	    		$log.debug('BaselistCtrl: initFromStores getting items from store', $scope.data.fbUrl);
+	    		// $log.debug('BaselistCtrl: initFromStores getting items from store', $scope.data.fbUrl);
 	    		getItems($scope.data.fbUrl, $scope.data.fieldName, $scope.data.fieldValue);
     		}
     	} else {
@@ -57,7 +57,6 @@ angular.module('recipeshopperApp')
 		$log.debug('BaselistCtrl: handleCurrentUserSet call init from store');
 		initFromStores(); 
     });
-	initFromStores();
 
 	$scope.saveItem = function(item) {
 		// $log.debug('BaselistCtrl: saveItem: ', item);

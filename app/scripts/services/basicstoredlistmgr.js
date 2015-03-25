@@ -17,11 +17,11 @@ angular.module('storedListMod')
     .factory('StoredListMgrFactory', function ($log, BasicStoredListMgr) {
         var StoredListMgrs = [];
 
-        var getExistingMgrItem = function(fbUrl, variableUrl) {
+        var getExistingMgrItem = function(fbUrl, fieldNameOrVariableUrl, fieldValue) {
           for(var i=0; i < StoredListMgrs.length; i++) {
-            if((StoredListMgrs[i].fburl == fbUrl) &&
-              ((StoredListMgrs[i].variableUrl == variableUrl) || 
-                ((StoredListMgrs[i].variableUrl != undefined) && (variableUrl != undefined)))) {
+            if((StoredListMgrs[i].fbUrl == fbUrl) &&
+               (StoredListMgrs[i].fieldNameOrVariableUrl == fieldNameOrVariableUrl) && 
+               (StoredListMgrs[i].fieldValue == fieldValue)) {
               return StoredListMgrs[i];
             }
           }
@@ -29,25 +29,22 @@ angular.module('storedListMod')
         }; // getExistingMgr
 
         return {
-            getStoredListMgr : function (fbUrl, variableUrl) {
-                var mgrItem = getExistingMgrItem(fbUrl, variableUrl);
+            getStoredListMgr : function (fbUrl, fieldNameOrVariableUrl, fieldValue) {
+                var mgrItem = getExistingMgrItem(fbUrl, fieldNameOrVariableUrl, fieldValue);
                 if(mgrItem == null) {
                   // create new mgrItem, if one w same fixed url does not exits
                   var newMgrItem = {};
-                  newMgrItem.fburl = fbUrl;
-                  newMgrItem.variableUrl = variableUrl;
-                  // var fullUrl = newMgrItem.fburl + newMgrItem.variableUrl;
-                  // $log.debug('StoredListMgrFactory: fullUrl: ', fullUrl);
-                  newMgrItem.mgr = new BasicStoredListMgr(newMgrItem.fburl, newMgrItem.variableUrl);
+                  newMgrItem.fbUrl = fbUrl;
+                  newMgrItem.fieldNameOrVariableUrl = fieldNameOrVariableUrl;
+                  newMgrItem.fieldValue = fieldValue;
+                  $log.debug('StoredListMgrFactory: getStoredListMgr: newMgrItem', newMgrItem);
+                  newMgrItem.mgr = new BasicStoredListMgr(newMgrItem.fbUrl, newMgrItem.fieldNameOrVariableUrl, newMgrItem.fieldValue);
                   StoredListMgrs.push(newMgrItem);
                   mgrItem = newMgrItem;
-                } else if (mgrItem.variableUrl != variableUrl) {
-                  //update variable part of existing url
-                  mgrItem.variableUrl = variableUrl;
-                  mgrItem.mgr.setUrl(fbUrl, variableUrl);
-                }
-                // else return existing mgr w no updates
-                $log.debug('StoredListMgrFactory: StoredListMgrs.length: ', StoredListMgrs.length );
+                } 
+                // $log.debug('StoredListMgrFactory: : getStoredListMgr StoredListMgrs.length: ', StoredListMgrs.length );
+                // $log.debug('StoredListMgrFactory: getStoredListMgr: mgrItem', mgrItem);
+                // $log.debug('StoredListMgrFactory: getStoredListMgr: mgrItem.mgr', mgrItem.mgr);
                 return mgrItem.mgr;
             },
 
@@ -70,10 +67,12 @@ angular.module('storedListMod')
   .factory('BasicStoredListMgr', ['$rootScope', '$log', '$q', '$firebaseArray', 
     function ($rootScope, $log, $q, $firebaseArray) {
 
-    var fullUrl = function(fbUrl, variableUrl) {
-      variableUrl = (variableUrl == undefined)?'':variableUrl;
+    var fullUrl = function(fbUrl, variableUrl, fieldValue) {
+      // $log.debug('BasicStoredListMgr: fullUrl: fbUrl, variableUrl, fieldValue', fbUrl, variableUrl, fieldValue);
+      variableUrl = (fieldValue || (variableUrl == undefined))?'':variableUrl;
+      // $log.debug('BasicStoredListMgr: fullUrl: variableUrl', variableUrl);
       var fUrl = fbUrl + variableUrl;
-      $log.debug('BasicStoredListMgr: fUrl', fUrl);
+      $log.debug('BasicStoredListMgr: fullUrl: fUrl', fUrl);
       return fUrl;
     };
 
@@ -86,30 +85,26 @@ angular.module('storedListMod')
       data.items = [];
     };
 
-    var setRefs = function (data, fbUrl, variableUrl) {
+    var setRefs = function (data, fbUrl, fieldNameOrVariableUrl, fieldValue) {
+      // $log.debug('BasicStoredListMgr: setRefs: fbUrl, fieldNameOrVariableUrl, fieldValue', fbUrl, fieldNameOrVariableUrl, fieldValue);
       data.fbUrl = fbUrl;
-      data.variableUrl = variableUrl;
-      $log.debug('BasicStoredListMgr: setRefs: ', data, fbUrl, variableUrl);
+      data.fieldNameOrVariableUrl = fieldNameOrVariableUrl;
+      data.fieldValue = fieldValue;
+      $log.debug('BasicStoredListMgr: setRefs: ', data, fbUrl, fieldNameOrVariableUrl, fieldValue);
       if (data.ref) {
         clearRefs(data);
       }
       if(data.ref === undefined) {
-        data.ref = new Firebase(fullUrl(fbUrl, variableUrl));
+        data.ref = new Firebase(fullUrl(fbUrl, fieldNameOrVariableUrl, fieldValue));
       }
     }; // setRefs
 
-    var BasicStoredListMgr = function(fbUrl, variableUrl) {
+    var BasicStoredListMgr = function(fbUrl, fieldNameOrVariableUrl, fieldValue) {
+      $log.debug('BasicStoredListMgr: constructor: fbUrl, fieldNameOrVariableUrl, fieldValue', fbUrl, fieldNameOrVariableUrl, fieldValue);
       this.data = {};
       this.data.items = [];
-      setRefs(this.data, fbUrl, variableUrl);
+      setRefs(this.data, fbUrl, fieldNameOrVariableUrl, fieldValue);
     };
-
-    BasicStoredListMgr.prototype.setUrl = function (fbUrl, variableUrl) {
-      if((fbUrl != this.data.fbUrl) || (variableUrl != this.data.variableUrl)) {
-        // refs need to be set only, if they are not already set
-        setRefs(this.data, fbUrl, variableUrl);
-      }
-    }; // BasicStoredListMgr.prototype.setUrl
 
     var getExistingItemsAsync = function(self) {
           var deferred = $q.defer();
@@ -120,28 +115,38 @@ angular.module('storedListMod')
           return deferred.promise;
     }; // getExistingItemsAsync
 
-    var fieldNameAndFieldValueAreSame = function (self, fieldName, fieldValue) {
-       var bothAreSame = (self.data.fieldName == fieldName) && (self.data.fieldValue == fieldValue);
+    var fieldNameAndFieldValueAreSame = function (self, fieldNameOrVariableUrl, fieldValue) {
+       var bothAreSame = (fieldNameOrVariableUrl == undefined) ||
+        (self.data.fieldNameOrVariableUrl == fieldNameOrVariableUrl) && (self.data.fieldValue == fieldValue);
        if(! bothAreSame) {
-        self.data.fieldName = fieldName;
+        $log.debug('BasicStoredListMgr: fieldNameAndFieldValueAreSame: setting fieldNameOrVariableUrl, fieldValue', fieldNameOrVariableUrl, fieldValue);
+        self.data.fieldNameOrVariableUrl = fieldNameOrVariableUrl;
         self.data.fieldValue = fieldValue;
        }
        return bothAreSame;
     } // fieldNameValueHasChanged
 
 
-    BasicStoredListMgr.prototype.getItems = function (fieldName, fieldValue) {
-        var sameQuery = fieldNameAndFieldValueAreSame(this, fieldName, fieldValue);
-        $log.debug('BasicStoredListMgr: getItems init: this.data.fbUrl, sameQuery', this.data.fbUrl, sameQuery);
+    BasicStoredListMgr.prototype.getItems = function (fieldNameOrVariableUrl, fieldValue) {
+        var sameQuery = fieldNameAndFieldValueAreSame(this, fieldNameOrVariableUrl, fieldValue);
+        // $log.debug('BasicStoredListMgr: getItems init: this.data.fbUrl, sameQuery', this.data.fbUrl, sameQuery);
         if(sameQuery && this.data.items && (this.data.items.length > 0)) {
           return getExistingItemsAsync(this);
         }
+        // $log.debug('BasicStoredListMgr: getItems: this.data.fbUrl, fieldNameOrVariableUrl, fieldValue', this.data.fbUrl, fieldNameOrVariableUrl, fieldValue);
+        if(fieldNameOrVariableUrl) {
+          setRefs(this.data, this.data.fbUrl, fieldNameOrVariableUrl, fieldValue);
+        }
         if(this.data.ref) {
-          if(fieldName && fieldValue) {
+          // $log.debug('BasicStoredListMgr. getItems (from FB) this.data.ref', this.data.ref);
+          if(this.data.fieldNameOrVariableUrl && this.data.fieldValue) {
             // get selected items
-            this.data.items = $firebaseArray(this.data.ref.orderByChild(fieldName).equalTo(fieldValue));
+            // $log.debug('BasicStoredListMgr. getItems (from FB) w this.data.fbUrl, this.data.fieldNameOrVariableUrl, this.data.fieldValue', 
+            //     this.data.fbUrl, this.data.fieldNameOrVariableUrl, this.data.fieldValue);
+            this.data.items = $firebaseArray(this.data.ref.orderByChild(this.data.fieldNameOrVariableUrl).equalTo(this.data.fieldValue));
           } else {
             // get all items
+            // $log.debug('BasicStoredListMgr. getItems (from FB) w dataref');
             this.data.items = $firebaseArray(this.data.ref);
           }
           $log.debug('BasicStoredListMgr. getItems (from FB)');
@@ -157,19 +162,22 @@ angular.module('storedListMod')
       });
     };
 
-    BasicStoredListMgr.prototype.getItemsSync = function(tellWhenLoaded, fieldName, fieldValue) {
-      var sameQuery = fieldNameAndFieldValueAreSame(this, fieldName, fieldValue);
-      $log.debug('BasicStoredListMgr: getItemsSync init: tellWhenLoaded, sameQuery', tellWhenLoaded, sameQuery);
+    BasicStoredListMgr.prototype.getItemsSync = function(tellWhenLoaded, fieldNameOrVariableUrl, fieldValue) {
+      var sameQuery = fieldNameAndFieldValueAreSame(this, fieldNameOrVariableUrl, fieldValue);
+      // $log.debug('BasicStoredListMgr: getItemsSync init: tellWhenLoaded, sameQuery', tellWhenLoaded, sameQuery);
       if (sameQuery && this.data.items && (this.data.items.length > 0)) {
         if (tellWhenLoaded) {
           broadcastItemsLoaded(this);
         }
         return this.data.items;
       }
+      if(fieldNameOrVariableUrl) {
+        setRefs(this.data, this.data.fbUrl, fieldNameOrVariableUrl, fieldValue);
+      }
       if (this.data.ref) {
-        if (fieldName && fieldValue) {
+        if (this.data.fieldNameOrVariableUrl && this.data.fieldValue) {
           // get selected items
-          this.data.items = $firebaseArray(this.data.ref.orderByChild(fieldName).equalTo(fieldValue));
+          this.data.items = $firebaseArray(this.data.ref.orderByChild(this.data.fieldNameOrVariableUrl).equalTo(this.data.fieldValue));
         } else {
           // get all items
           this.data.items = $firebaseArray(this.data.ref);
@@ -214,6 +222,12 @@ angular.module('storedListMod')
     BasicStoredListMgr.prototype.prepareForLogout = function() {
       clearRefs(this.data);
     }; // BasicStoredListMgr.prototype.prepareForLogout
+
+
+    // following for UNIT Testing
+    BasicStoredListMgr.prototype.$$getData = function() {
+      return this.data;
+    };
 
     return BasicStoredListMgr;
   }]);

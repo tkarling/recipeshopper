@@ -7,24 +7,6 @@ describe('Service: StoredListMgrFactory', function () {
   // load the service's module
   beforeEach(module('storedListMod'));
 
-  // beforeEach(function () {
-
-  //     mockFirebase = {
-
-  //         getSomething: function () {
-  //             return 'mockReturnValue';
-  //         }
-  //     };
-
-  //     mockUrl = 'mockUrl';
-
-  //     module(function ($provide) {
-  //         $provide.value('$firebase', mockFirebase);
-  //         $provide.value('FIREBASE_URL', mockUrl);
-  //     });
-
-  // });
-
   // instantiate service
   var StoredListMgrFactory;
   beforeEach(inject(function (_StoredListMgrFactory_) {
@@ -43,108 +25,102 @@ describe('Service: StoredListMgrFactory', function () {
 
     StoredListMgrs = StoredListMgrFactory.getStoredListMgrs();
     expect(StoredListMgrs.length).toBe(1);
-    expect(StoredListMgrs[0].fburl).toBe('demourl');
-    expect(StoredListMgrs[0].variableUrl).toBe(undefined);  
+    expect(StoredListMgrs[0].fbUrl).toBe('demourl');
+    expect(StoredListMgrs[0].fieldNameOrVariableUrl).toBe(undefined);  
+    expect(StoredListMgrs[0].fieldValue).toBe(undefined);  
   });
 
-  it('should add different StoredListMgr', function () {
-    var StoredListMgrs = StoredListMgrFactory.getStoredListMgrs();
-    expect(StoredListMgrs.length).toBe(0);
-
-    var StoredListMgr = StoredListMgrFactory.getStoredListMgr('demourl', '/123/ingredients/');
-    var SecondStoredListMgr = StoredListMgrFactory.getStoredListMgr('demo2url', '/345/ingredients/');
-
-    StoredListMgrs = StoredListMgrFactory.getStoredListMgrs();
-    expect(StoredListMgrs.length).toBe(2);
-    expect(StoredListMgrs[0].fburl).toBe('demourl');
-    expect(StoredListMgrs[0].variableUrl).toBe('/123/ingredients/');  
-    expect(StoredListMgrs[1].fburl).toBe('demo2url');
-    expect(StoredListMgrs[1].variableUrl).toBe('/345/ingredients/');  
-  });
-
-  it('should not add already existing StoredListMgr', function () {
+  it('should NOT add 2nd StoredListMgr, w same base Url', function () {
     var StoredListMgrs = StoredListMgrFactory.getStoredListMgrs();
     expect(StoredListMgrs.length).toBe(0);
 
     var StoredListMgr = StoredListMgrFactory.getStoredListMgr('demourl');
-    var SecondStoredListMgr = StoredListMgrFactory.getStoredListMgr('demourl');
+    var StoredListMgr2 = StoredListMgrFactory.getStoredListMgr('demourl');
 
     StoredListMgrs = StoredListMgrFactory.getStoredListMgrs();
     expect(StoredListMgrs.length).toBe(1);
-    expect(StoredListMgrs[0].fburl).toBe('demourl');
-    expect(StoredListMgrs[0].variableUrl).toBe(undefined);  
+    expect(StoredListMgrs[0].fbUrl).toBe('demourl');
+    expect(StoredListMgrs[0].fieldNameOrVariableUrl).toBe(undefined);  
+    expect(StoredListMgrs[0].fieldValue).toBe(undefined);  
   });
 
-  it('should not add StoredListMgr, and keep its variable url, when same fixed & variable url', function () {
-    var StoredListMgrs = StoredListMgrFactory.getStoredListMgrs();
-    expect(StoredListMgrs.length).toBe(0);
-
-    var StoredListMgr = StoredListMgrFactory.getStoredListMgr('demourl', '/123/ingredients/');
-    var SecondStoredListMgr = StoredListMgrFactory.getStoredListMgr('demourl', '/123/ingredients/');
-
-    StoredListMgrs = StoredListMgrFactory.getStoredListMgrs();
-    expect(StoredListMgrs.length).toBe(1);
-    expect(StoredListMgrs[0].fburl).toBe('demourl');
-    expect(StoredListMgrs[0].variableUrl).toBe('/123/ingredients/');  
-  });
-
-  it('should not add StoredListMgr, but change its variable url, when same fixed & but different variable url', function () {
-    var StoredListMgrs = StoredListMgrFactory.getStoredListMgrs();
-    expect(StoredListMgrs.length).toBe(0);
-
-    var StoredListMgr = StoredListMgrFactory.getStoredListMgr('demourl', '/123/ingredients/');
-    var SecondStoredListMgr = StoredListMgrFactory.getStoredListMgr('demourl', '/345/ingredients/');
-
-    StoredListMgrs = StoredListMgrFactory.getStoredListMgrs();
-    expect(StoredListMgrs.length).toBe(1);
-    expect(StoredListMgrs[0].fburl).toBe('demourl');
-    expect(StoredListMgrs[0].variableUrl).toBe('/345/ingredients/');  
-  });
-
-  it('should add StoredListMgr, if 1st v undefined, 2nd v not undefined', function () {
+  it('should add 2nd StoredListMgr w different baseUrl', function () {
     var StoredListMgrs = StoredListMgrFactory.getStoredListMgrs();
     expect(StoredListMgrs.length).toBe(0);
 
     var StoredListMgr = StoredListMgrFactory.getStoredListMgr('demourl');
-    var SecondStoredListMgr = StoredListMgrFactory.getStoredListMgr('demourl', '/345/ingredients/');
+    var StoredListMgr2 = StoredListMgrFactory.getStoredListMgr('demo2url');
 
     StoredListMgrs = StoredListMgrFactory.getStoredListMgrs();
     expect(StoredListMgrs.length).toBe(2);
-    expect(StoredListMgrs[0].fburl).toBe('demourl');
-    expect(StoredListMgrs[0].variableUrl).toBe(undefined);  
-    expect(StoredListMgrs[1].fburl).toBe('demourl');
-    expect(StoredListMgrs[1].variableUrl).toBe('/345/ingredients/');  
+    expect(StoredListMgrs[0].fbUrl).toBe('demourl');
+    expect(StoredListMgrs[0].fieldNameOrVariableUrl).toBe(undefined);  
+    expect(StoredListMgrs[0].fieldValue).toBe(undefined);  
+    expect(StoredListMgrs[1].fbUrl).toBe('demo2url');
+    expect(StoredListMgrs[1].fieldNameOrVariableUrl).toBe(undefined);  
+    expect(StoredListMgrs[1].fieldValue).toBe(undefined);  
   });
 
-  it('should update 2nd variable url, if 1st v undefined and 2nd & 3rd v not undefined', function () {
+  it('should add 2nd StoredListMgr w different variable Url', function () {
     var StoredListMgrs = StoredListMgrFactory.getStoredListMgrs();
     expect(StoredListMgrs.length).toBe(0);
 
-    var StoredListMgr = StoredListMgrFactory.getStoredListMgr('demourl');
-    var SecondStoredListMgr = StoredListMgrFactory.getStoredListMgr('demourl', '/123/ingredients/');
-    var ThirdStoredListMgr = StoredListMgrFactory.getStoredListMgr('demourl', '/345/ingredients/');
+    var StoredListMgr = StoredListMgrFactory.getStoredListMgr('demourl', 'var1');
+    var StoredListMgr2 = StoredListMgrFactory.getStoredListMgr('demourl', 'var2');
 
     StoredListMgrs = StoredListMgrFactory.getStoredListMgrs();
     expect(StoredListMgrs.length).toBe(2);
-    expect(StoredListMgrs[0].fburl).toBe('demourl');
-    expect(StoredListMgrs[0].variableUrl).toBe(undefined);  
-    expect(StoredListMgrs[1].fburl).toBe('demourl');
-    expect(StoredListMgrs[1].variableUrl).toBe('/345/ingredients/');  
+    expect(StoredListMgrs[0].fbUrl).toBe('demourl');
+    expect(StoredListMgrs[0].fieldNameOrVariableUrl).toBe('var1');  
+    expect(StoredListMgrs[0].fieldValue).toBe(undefined);  
+    expect(StoredListMgrs[1].fbUrl).toBe('demourl');
+    expect(StoredListMgrs[1].fieldNameOrVariableUrl).toBe('var2');  
+    expect(StoredListMgrs[1].fieldValue).toBe(undefined);  
   });
 
-  it('should add StoredListMgr, if 1st v not undefined, 2nd v undefined', function () {
+  it('should NOT add 2nd StoredListMgr w same variable Url', function () {
     var StoredListMgrs = StoredListMgrFactory.getStoredListMgrs();
     expect(StoredListMgrs.length).toBe(0);
 
-    var StoredListMgr = StoredListMgrFactory.getStoredListMgr('demourl', '/345/ingredients/');
-    var SecondStoredListMgr = StoredListMgrFactory.getStoredListMgr('demourl');
+    var StoredListMgr = StoredListMgrFactory.getStoredListMgr('demourl', 'var1');
+    var StoredListMgr2 = StoredListMgrFactory.getStoredListMgr('demourl', 'var1');
+
+    StoredListMgrs = StoredListMgrFactory.getStoredListMgrs();
+    expect(StoredListMgrs.length).toBe(1);
+    expect(StoredListMgrs[0].fbUrl).toBe('demourl');
+    expect(StoredListMgrs[0].fieldNameOrVariableUrl).toBe('var1');  
+    expect(StoredListMgrs[0].fieldValue).toBe(undefined);  
+  });
+
+  it('should add 2nd StoredListMgr w different fieldname & field value', function () {
+    var StoredListMgrs = StoredListMgrFactory.getStoredListMgrs();
+    expect(StoredListMgrs.length).toBe(0);
+
+    var StoredListMgr = StoredListMgrFactory.getStoredListMgr('demourl', 'fname', 'fvalue');
+    var StoredListMgr2 = StoredListMgrFactory.getStoredListMgr('demourl', 'fname1', 'fvalue1');
 
     StoredListMgrs = StoredListMgrFactory.getStoredListMgrs();
     expect(StoredListMgrs.length).toBe(2);
-    expect(StoredListMgrs[0].fburl).toBe('demourl');
-    expect(StoredListMgrs[0].variableUrl).toBe('/345/ingredients/');  
-    expect(StoredListMgrs[1].fburl).toBe('demourl');
-    expect(StoredListMgrs[1].variableUrl).toBe(undefined);  
+    expect(StoredListMgrs[0].fbUrl).toBe('demourl');
+    expect(StoredListMgrs[0].fieldNameOrVariableUrl).toBe('fname');  
+    expect(StoredListMgrs[0].fieldValue).toBe('fvalue');  
+    expect(StoredListMgrs[1].fbUrl).toBe('demourl');
+    expect(StoredListMgrs[1].fieldNameOrVariableUrl).toBe('fname1');  
+    expect(StoredListMgrs[1].fieldValue).toBe('fvalue1');  
+  });
+
+  it('should NOT add 2nd StoredListMgr w same fieldname & field value', function () {
+    var StoredListMgrs = StoredListMgrFactory.getStoredListMgrs();
+    expect(StoredListMgrs.length).toBe(0);
+
+    var StoredListMgr = StoredListMgrFactory.getStoredListMgr('demourl', 'fname', 'fvalue');
+    var StoredListMgr2 = StoredListMgrFactory.getStoredListMgr('demourl', 'fname', 'fvalue');
+
+    StoredListMgrs = StoredListMgrFactory.getStoredListMgrs();
+    expect(StoredListMgrs.length).toBe(1);
+    expect(StoredListMgrs[0].fbUrl).toBe('demourl');
+    expect(StoredListMgrs[0].fieldNameOrVariableUrl).toBe('fname');  
+    expect(StoredListMgrs[0].fieldValue).toBe('fvalue');  
   });
 
 });
@@ -154,200 +130,339 @@ describe('Service: BasicStoredListMgr', function () {
 
   // load the service's module
   beforeEach(module('storedListMod'));
+  var EFUNC = function () {};
 
-  var mockUrl, mockFirebaseRef, mockFirebaseDataRef, spyTmockFirebase;
-  var q, deferred,$rootScope, passPromise; 
-  var $loadedSpy, $addSpy, $removeSpy, $saveSpy;
+  var mockUrl, mockFirebaseRef;
+  var q, deferred, $rootScope; 
+  var fbSpy = { $loaded: EFUNC, $add: EFUNC, $remove: EFUNC, $save: EFUNC };
 
   beforeEach(function () {
 
       mockUrl = 'mockUrl';
 
       var tmockFirebase = function() {
-      // var tmockFirebase = {
-        // this.$list = [1,2,3];
-        // return this.$list;
-        // return this;
       };
 
       tmockFirebase.prototype = Array.prototype;
 
       tmockFirebase.prototype.$loaded = function() {
         deferred = q.defer();
-        $loadedSpy();
-        // tmockFirebase.$list = [1,2,3];
-        // this[0] = 1;
-        // this[1] = 2;
-        // this[2] = 3;
-        // // this = [1,2,3]
-        // deferred.resolve(this);
-        // console.log('this', this);
-
+        fbSpy.$loaded();
         return deferred.promise;
       };
 
-      // tmockFirebase.prototype.$loaded = jasmine.createSpy('$loaded').andCallFake(function() {
-      //   var items = [];
-   
-      //   if (passPromise) {
-      //     return q.when(items);
-      //   }
-      //   else {
-      //     return q.reject('something went wrong');
-      //   }
-      // });
-
       tmockFirebase.prototype.$add = function(item) {
         deferred = q.defer();
-        $addSpy();
+        fbSpy.$add();
         return deferred.promise;
       };
 
       tmockFirebase.prototype.$remove = function(item) {
         deferred = q.defer();
-        $removeSpy();
+        fbSpy.$remove();
         return deferred.promise;
       };
 
       tmockFirebase.prototype.$save = function(item) {
         deferred = q.defer();
-        $saveSpy();
+        fbSpy.$save();
         return deferred.promise;
       };
 
       mockFirebaseRef = function(item) {
-        // console.log('BasicStoredListMgr: mockFirebaseRef');
+        // this.orderByChild = function(a) {
+        //   return a;
+        // };
+
+        // this.orderByChild = function(a) {
+        //   deferred = q.defer();
+        //   // fbSpy.$save();
+        //   return deferred.promise;
+        // };
+
         return new tmockFirebase;
       };
 
+      // mockFirebaseRef.orderByChild = function(a) {
+      //   // fbSpy.$save();
+      //   return a;
+      // };
+
+      // mockFirebaseRef.prototype.orderByChild = function(a) {
+      //   deferred = q.defer();
+      //   // fbSpy.$save();
+      //   return deferred.promise;
+      // };
 
       module(function ($provide) {
           $provide.value('$firebaseArray', mockFirebaseRef);
           $provide.value('FIREBASE_URL', mockUrl);
-          // $provide.factory('tmockFirebase', function($q) {
-          //     console.log('moi');
-          //     var $loaded = jasmine.createSpy('$loaded').andCallFake(function() {
-          //       var items = [];
-           
-          //       if (passPromise) {
-          //         return $q.when(items);
-          //       }
-          //       else {
-          //         return $q.reject('something went wrong');
-          //       }
-          //     });
-
-          //     // var factory = {
-          //     //   // console.log('created tmockFirebase');
-          //     // }; 
- 
-          //     // factory.$loaded = function() {
-          //     //   console.log('$loaded');
-          //     // }
- 
-          //     // return factory;
-  
-          //     return {
-          //       $loaded: function() {
-          //         return $loaded;
-          //       }
-          //     };
-          //   });
-
       });
 
   });
 
-  // instantiate service
-  var BasicStoredListMgr;
-  beforeEach(inject(function (_$rootScope_, _BasicStoredListMgr_, _$q_) {
-    BasicStoredListMgr = new _BasicStoredListMgr_('MainUrl','VarUrl');
+  beforeEach(inject(function (_$rootScope_, _$q_) {
     q = _$q_;
     $rootScope  = _$rootScope_;
   }));
 
-  it('should do something', function () {
-    expect(!!BasicStoredListMgr).toBe(true);
-  });
+  describe('mgr w no params and no variable part', function() {
+  // e.g. recipe list, album list
 
-  it('should call $loaded, when getting items for first time', function () {
-      // passPromise = true;
-   
-      // var items;
-     
-      // BasicStoredListMgr.getItems().then(function(data) {
-      //   items=data;
-      // });
-      // rootScope.$digest();
-     
-      // expect(tmockFirebase.$loaded).toHaveBeenCalled();
-      // expect(items).toEqual([]);
+    var BasicStoredListMgr;
+    beforeEach(inject(function (_BasicStoredListMgr_) {
+      BasicStoredListMgr = new _BasicStoredListMgr_('MainUrl');
+      var myData = BasicStoredListMgr.$$getData();
+      expect(myData.ref).not.toBeNull();
+      expect(myData.fbUrl).toEqual('MainUrl');
+      expect(myData.fieldNameOrVariableUrl).toEqual(undefined);
+      expect(myData.fieldValue).toEqual(undefined);
+    }));
 
-      $loadedSpy = jasmine.createSpy('$loaded spy');
+    it('should have data per spec after getItems', function () {
+      fbSpy.$loaded = jasmine.createSpy('$loaded spy');
 
-      var myItems = [];
       BasicStoredListMgr.getItems().then(function(data) {
-        myItems = data;
-        // console.log(myItems);
+        var myItems = data;
       });
 
-      deferred.resolve([1,2,3]);
-      $rootScope.$digest();
+      expect(fbSpy.$loaded).toHaveBeenCalled();
+      var myData = BasicStoredListMgr.$$getData();
+      expect(myData.ref).not.toBeNull();
+      expect(myData.fbUrl).toEqual('MainUrl');
+      expect(myData.fieldNameOrVariableUrl).toEqual(undefined);
+      expect(myData.fieldValue).toEqual(undefined);
+    }); // it
 
-      expect($loadedSpy).toHaveBeenCalled();
-      expect(myItems).toEqual([1,2,3]);
-  });
+    it('should have data per spec after getItemsSync', function () {
+      fbSpy.$loaded = jasmine.createSpy('$loaded spy');
 
-  // it('should get items from local memory, if items are already fetched from store', function () {
-  //   // DOES NOT WORK IN THIS FORMAT AS COULD NOT FIGURE OUT HOW TO SET this.data.items  
-  //     // spyOn(spyLog, "loki");
-  //     $loadedSpy = jasmine.createSpy('$loaded spy');
-  //     var myItems = [];
+      var myItems = BasicStoredListMgr.getItemsSync(true);
+
+      expect(fbSpy.$loaded).toHaveBeenCalled();
+      var myData = BasicStoredListMgr.$$getData();
+      expect(myData.ref).not.toBeNull();
+      expect(myData.fbUrl).toEqual('MainUrl');
+      expect(myData.fieldNameOrVariableUrl).toEqual(undefined);
+      expect(myData.fieldValue).toEqual(undefined);
+    }); // it
+
+  }); // describe
+
+  describe('mgr w no params and variable url', function() {
+  // e.g. current album pics
+
+    var BasicStoredListMgr;
+    beforeEach(inject(function (_BasicStoredListMgr_) {
+      BasicStoredListMgr = new _BasicStoredListMgr_('MainUrl');
+      var myData = BasicStoredListMgr.$$getData();
+      expect(myData.ref).not.toBeNull();
+      expect(myData.fbUrl).toEqual('MainUrl');
+      expect(myData.fieldNameOrVariableUrl).toEqual(undefined);
+      expect(myData.fieldValue).toEqual(undefined);
+    }));
+
+    it('should have data per spec after getItems', function () {
+      fbSpy.$loaded = jasmine.createSpy('$loaded spy');
+
+      BasicStoredListMgr.getItems('variablePart').then(function(data) {
+        var myItems = data;
+      });
+
+      expect(fbSpy.$loaded).toHaveBeenCalled();
+      var myData = BasicStoredListMgr.$$getData();
+      expect(myData.ref).not.toBeNull();
+      expect(myData.fbUrl).toEqual('MainUrl');
+      expect(myData.fieldNameOrVariableUrl).toEqual('variablePart');
+      expect(myData.fieldValue).toEqual(undefined);
+    }); // it
+
+    it('should have data per spec after getItemsSync', function () {
+      fbSpy.$loaded = jasmine.createSpy('$loaded spy');
+
+      var myItems = BasicStoredListMgr.getItemsSync(true, 'variablePart');
+
+      expect(fbSpy.$loaded).toHaveBeenCalled();
+      var myData = BasicStoredListMgr.$$getData();
+      expect(myData.ref).not.toBeNull();
+      expect(myData.fbUrl).toEqual('MainUrl');
+      expect(myData.fieldNameOrVariableUrl).toEqual('variablePart');
+      expect(myData.fieldValue).toEqual(undefined);
+    }); // it
+
+  }); // describe
+
+
+  // cannot use following as cannot figure ou how to mock orderByChild
+  // describe('mgr w field params and no variable part', function() {
+  // //e.g. shopping list, favorites
+
+  //   var BasicStoredListMgr;
+  //   beforeEach(inject(function (_BasicStoredListMgr_) {
+  //     BasicStoredListMgr = new _BasicStoredListMgr_('MainUrl', 'fieldType', 'fieldValue');
+  //     var myData = BasicStoredListMgr.$$getData();
+  //     expect(myData.ref).not.toBeNull();
+  //     expect(myData.fbUrl).toEqual('MainUrl');
+  //     expect(myData.fieldNameOrVariableUrl).toEqual('fieldType');
+  //     expect(myData.fieldValue).toEqual('fieldValue');
+  //   }));
+
+  //   it('should have data per spec after getItems', function () {
+  //     fbSpy.$loaded = jasmine.createSpy('$loaded spy');
+
   //     BasicStoredListMgr.getItems().then(function(data) {
-  //       myItems = data;
-  //       // console.log(myItems);
+  //       var myItems = data;
   //     });
 
-  //     deferred.resolve([1,2,3]);
-  //     $rootScope.$digest();
+  //     expect(fbSpy.$loaded).toHaveBeenCalled();
+  //     var myData = BasicStoredListMgr.$$getData();
+  //     expect(myData.ref).not.toBeNull();
+  //     expect(myData.fbUrl).toEqual('MainUrl');
+  //     expect(myData.fieldNameOrVariableUrl).toEqual('fieldType');
+  //     expect(myData.fieldValue).toEqual('fieldValue');
+  //   }); // it
 
-  //     expect($loadedSpy).toHaveBeenCalled();
-  //     // expect(spyLog.loki).toHaveBeenCalledWith("$loaded");
-  //     expect(myItems).toEqual([1,2,3]);
+  //   it('should have data per spec after getItemsSync', function () {
+  //     fbSpy.$loaded = jasmine.createSpy('$loaded spy');
 
-  //     myItems = [];
-  //     BasicStoredListMgr.getItems().then(function(data) {
-  //       myItems = data;
-  //       // console.log(myItems);
+  //     var myItems = BasicStoredListMgr.getItemsSync(true);
+
+  //     expect(fbSpy.$loaded).toHaveBeenCalled();
+  //     var myData = BasicStoredListMgr.$$getData();
+  //     expect(myData.ref).not.toBeNull();
+  //     expect(myData.fbUrl).toEqual('MainUrl');
+  //     expect(myData.fieldNameOrVariableUrl).toEqual('fieldType');
+  //     expect(myData.fieldValue).toEqual('fieldValue');
+  //   }); // it
+
+  // }); // describe
+
+  // // cannot use following as cannot figure ou how to mock orderByChild
+  // describe('mgr w no params and variable fields', function() {
+  // //e.g. ingredients on recipe
+
+  //   var BasicStoredListMgr;
+  //   beforeEach(inject(function (_BasicStoredListMgr_) {
+  //     BasicStoredListMgr = new _BasicStoredListMgr_('MainUrl');
+  //     var myData = BasicStoredListMgr.$$getData();
+  //     expect(myData.ref).not.toBeNull();
+  //     expect(myData.fbUrl).toEqual('MainUrl');
+  //     expect(myData.fieldNameOrVariableUrl).toEqual(undefined);
+  //     expect(myData.fieldValue).toEqual(undefined);
+  //   }));
+
+  //   it('should have data per spec after getItems', function () {
+  //     fbSpy.$loaded = jasmine.createSpy('$loaded spy');
+
+  //     BasicStoredListMgr.getItems('fieldType', 'fieldValue').then(function(data) {
+  //       var myItems = data;
   //     });
 
-  //     $rootScope.$digest();
-  //     expect($loadedSpy).not.toHaveBeenCalled();
-  //     expect(myItems).toEqual([1,2,3]);
-  // });
+  //     expect(fbSpy.$loaded).toHaveBeenCalled();
+  //     var myData = BasicStoredListMgr.$$getData();
+  //     expect(myData.ref).not.toBeNull();
+  //     expect(myData.fbUrl).toEqual('MainUrl');
+  //     expect(myData.fieldNameOrVariableUrl).toEqual('fieldType');
+  //     expect(myData.fieldValue).toEqual('fieldValue');
+  //   }); // it
 
-  it('should call $add, when adding item', function () {
-      $addSpy = jasmine.createSpy('$add spy');
-      var item = 1;
-      BasicStoredListMgr.getItems();
-      BasicStoredListMgr.addItem(item);
-      expect($addSpy).toHaveBeenCalled();
-  });
+  //   it('should have data per spec after getItemsSync', function () {
+  //     fbSpy.$loaded = jasmine.createSpy('$loaded spy');
 
-  it('should call $remove, when deleting item', function () {
-      $removeSpy = jasmine.createSpy('$remove spy');
-      var item = 1;
-      BasicStoredListMgr.getItems();
-      BasicStoredListMgr.deleteItem(item);
-      expect($removeSpy).toHaveBeenCalled();
-  });
+  //     var myItems = BasicStoredListMgr.getItemsSync(true, 'fieldType', 'fieldValue');
 
-  it('should call $save, when saving item', function () {
-      $saveSpy = jasmine.createSpy('$save spy');
-      var item = 1;
-      BasicStoredListMgr.getItems();
-      BasicStoredListMgr.saveItem(item);
-      expect($saveSpy).toHaveBeenCalled();
-  });
+  //     expect(fbSpy.$loaded).toHaveBeenCalled();
+  //     var myData = BasicStoredListMgr.$$getData();
+  //     expect(myData.ref).not.toBeNull();
+  //     expect(myData.fbUrl).toEqual('MainUrl');
+  //     expect(myData.fieldNameOrVariableUrl).toEqual('fieldType');
+  //     expect(myData.fieldValue).toEqual('fieldValue');
+  //   }); // it
+
+  // }); // describe
+
+
+
+  describe('After service is created', function() {
+
+    // instantiate service
+    var BasicStoredListMgr;
+    beforeEach(inject(function (_BasicStoredListMgr_) {
+      BasicStoredListMgr = new _BasicStoredListMgr_('MainUrl'); //,'fieldtype', 'fieldvalue'
+    }));
+
+    it('should do something', function () {
+      expect(!!BasicStoredListMgr).toBe(true);
+    });
+
+    it('should get items from FB when getting items for 1st time', function () {
+        fbSpy.$loaded = jasmine.createSpy('$loaded spy');
+
+        var myItems = [];
+        BasicStoredListMgr.getItems().then(function(data) {
+          myItems = data;
+          // console.log(myItems);
+        });
+
+        deferred.resolve([1,2,3]);
+        $rootScope.$digest();
+
+        expect(fbSpy.$loaded).toHaveBeenCalled();
+        expect(myItems).toEqual([1,2,3]);
+    });
+
+    // it('should get items from local memory, if items are already fetched from store', function () {
+    //   // DOES NOT WORK IN THIS FORMAT AS COULD NOT FIGURE OUT HOW TO SET this.data.items  
+    //     // spyOn(spyLog, "loki");
+    //     $loadedSpy = jasmine.createSpy('$loaded spy');
+    //     var myItems = [];
+    //     BasicStoredListMgr.getItems().then(function(data) {
+    //       myItems = data;
+    //       // console.log(myItems);
+    //     });
+
+    //     deferred.resolve([1,2,3]);
+    //     $rootScope.$digest();
+
+    //     expect($loadedSpy).toHaveBeenCalled();
+    //     // expect(spyLog.loki).toHaveBeenCalledWith("$loaded");
+    //     expect(myItems).toEqual([1,2,3]);
+
+    //     myItems = [];
+    //     BasicStoredListMgr.getItems().then(function(data) {
+    //       myItems = data;
+    //       // console.log(myItems);
+    //     });
+
+    //     $rootScope.$digest();
+    //     expect($loadedSpy).not.toHaveBeenCalled();
+    //     expect(myItems).toEqual([1,2,3]);
+    // });
+
+    it('should call $add, when adding item', function () {
+        fbSpy.$add = jasmine.createSpy('$add spy');
+        var item = 1;
+        BasicStoredListMgr.getItems();
+        BasicStoredListMgr.addItem(item);
+        expect(fbSpy.$add).toHaveBeenCalled();
+    });
+
+    it('should call $remove, when deleting item', function () {
+        fbSpy.$remove = jasmine.createSpy('$remove spy');
+        var item = 1;
+        BasicStoredListMgr.getItems();
+        BasicStoredListMgr.deleteItem(item);
+        expect(fbSpy.$remove).toHaveBeenCalled();
+    });
+
+    it('should call $save, when saving item', function () {
+        fbSpy.$save = jasmine.createSpy('$save spy');
+        var item = 1;
+        BasicStoredListMgr.getItems();
+        BasicStoredListMgr.saveItem(item);
+        expect(fbSpy.$save).toHaveBeenCalled();
+    });
+
+  }); // describe
 
 });

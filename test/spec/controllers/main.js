@@ -121,7 +121,7 @@ describe('Controller: MainCtrl', function () {
 
   }); // describe
 
-  describe('MainCtrl: After current user is set', function() {
+  describe('After current user is set', function() {
 
     beforeEach(function () {
       mockCurrentUser = 'moi';
