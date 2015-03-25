@@ -1,4 +1,6 @@
 'use strict';
+var LoginAndUtils = require('./loginandutils.js');
+var utils = new LoginAndUtils();
 
 var SideMenu = function () {
     var shoppingListMenuItem = element(by.buttonText('SHOPPING LIST'));
@@ -26,6 +28,31 @@ var SideMenu = function () {
     this.logout = function () {
         logoutMenuItem.click();
     }
+
+    this.gotoAndExpectPage = function(pageId) {
+        switch(pageId) {
+            case 'shoppingList':  
+                this.gotoShoppingList();
+                utils.sleep(2); // 
+                expect(browser.getCurrentUrl()).toBe('http://localhost:9005/#/main');
+                break;
+
+            case 'favorites':
+                this.gotoFavorites();
+                utils.sleep(2); // 
+                expect(browser.getCurrentUrl()).toBe('http://localhost:9005/#/favorites');
+                break;
+
+            case 'recipes':
+                this.gotoRecipes();
+                utils.sleep(2);
+                expect(browser.getCurrentUrl()).toBe('http://localhost:9005/#/recipelist');
+                break;
+
+            default:
+                console.log('gotoAndExpectPage unnown page', pageId);
+        }
+     }
 
 };
 

@@ -6,11 +6,8 @@ var utils = new LoginAndUtils();
 var SideMenu = require('./sidemenupage.js');
 var sideMenuPage = new SideMenu();
 
-var ShoppingListPage = require('./shoppinglistpage.js');
-var shoppingListPage = new ShoppingListPage();
-
-var RecipeListPage = require('./recipelistpage.js');
-var recipeListPage = new RecipeListPage();
+var ListPage = require('./listpage.js');
+var listPage = new ListPage();
 
 describe('angularjs homepage', function() {
 
@@ -18,39 +15,25 @@ describe('angularjs homepage', function() {
 	var originalRecipeCount = 0; 
 	var originalFavoritesCount = 0; 
 
-	var findAndDeleteItem = function (firstRowText) {
-		shoppingListPage.getListItemsWithProduct(firstRowText).then(function(items) {
-			// check content of new item on favorites page
-			if(items.length != 1) {
-				console.log('NOTE:' + firstRowText + ' items.length is: ', items.length);
-			}
-			shoppingListPage.deleteItem(items[0]);
-		});
-	};
-
 	beforeAll(function() {
 		browser.get('http://localhost:9005/#/login');
 		utils.login();
 		utils.sleep(2);
 	    expect(browser.getCurrentUrl()).toBe('http://localhost:9005/#/main');
 
-		shoppingListPage.myList.count().then(function(count) {
+		listPage.myList.count().then(function(count) {
 			originalSLItemCount = count;
 	  	 	console.log('NOTE originalSLItemCount: ', originalSLItemCount);
 	  	 });
 
-		sideMenuPage.gotoFavorites();
-		utils.sleep(2);
-	    expect(browser.getCurrentUrl()).toBe('http://localhost:9005/#/favorites');
-		shoppingListPage.myList.count().then(function(count) {
+		sideMenuPage.gotoAndExpectPage('favorites');
+		listPage.myList.count().then(function(count) {
 			originalFavoritesCount = count;
 	  	 	console.log('NOTE originalFavoritesCount: ', originalFavoritesCount);
 	  	 });
 
-		sideMenuPage.gotoRecipes();
-	    utils.sleep(2);
-	    expect(browser.getCurrentUrl()).toBe('http://localhost:9005/#/recipelist');
-   		recipeListPage.myList.count().then(function(count) {
+		sideMenuPage.gotoAndExpectPage('recipes');
+   		listPage.myList.count().then(function(count) {
 			originalRecipeCount = count;
 	  	 	console.log('NOTE originalRecipeCount: ', originalRecipeCount);
 	  	 });
@@ -62,38 +45,35 @@ describe('angularjs homepage', function() {
 	});
 
 	describe('Add/ Delete Tests', function() {
+
 		it('should add a product on shopping list and delete it on favorites', function() {
 			// goto shopping list page
-			sideMenuPage.gotoShoppingList();
-		    utils.sleep(2); // 
-		    expect(browser.getCurrentUrl()).toBe('http://localhost:9005/#/main');
+			sideMenuPage.gotoAndExpectPage('shoppingList');
 
 	  	 	// add item
-			expect(shoppingListPage.myList.count()).toEqual(originalSLItemCount);
-	  		shoppingListPage.addItem('2', 'prot test carrots', 'prot test veggies');
+			expect(listPage.myList.count()).toEqual(originalSLItemCount);
+	  		listPage.addItem('prot test carrots', 'prot test veggies', '2');
 			utils.sleep(2);
-			expect(shoppingListPage.myList.count()).toEqual(originalSLItemCount + 1);
+			expect(listPage.myList.count()).toEqual(originalSLItemCount + 1);
 
 			// goto favorites page
-			sideMenuPage.gotoFavorites();
-		    utils.sleep(2); // 
-		    expect(browser.getCurrentUrl()).toBe('http://localhost:9005/#/favorites');
+			sideMenuPage.gotoAndExpectPage('favorites');
 
-			shoppingListPage.getListItemsWithAccentedText('prot test veggies' + ';').then(function(items) {
+			listPage.getListItemsWithAccentedText('prot test veggies' + ';').then(function(items) {
 				// check content of new item
 				if(items.length != 1) {
 					console.log('NOTE: items.length is: ', items.length);
 				}
 				var newItem = items[0];
-				expect(shoppingListPage.getField(newItem, 'amount')).toEqual('2 prot test carrots');
-				expect(shoppingListPage.getField(newItem, 'accentedText')).toEqual('prot test veggies' + ';');
-				shoppingListPage.expectCheckBoxToBeChecked(newItem);
-				// expect(shoppingListPage.getCheckBoxClass(newItem)).toContain('md-checked');
+				expect(listPage.getField(newItem, 'amount')).toEqual('2 prot test carrots');
+				expect(listPage.getField(newItem, 'accentedText')).toEqual('prot test veggies' + ';');
+				listPage.expectCheckBoxToBeChecked(newItem);
+				// expect(listPage.getCheckBoxClass(newItem)).toContain('md-checked');
 
 				// delete item
-				expect(shoppingListPage.myList.count()).toEqual(originalFavoritesCount + 1);
-				shoppingListPage.deleteItem(newItem);
-				expect(shoppingListPage.myList.count()).toEqual(originalFavoritesCount);
+				expect(listPage.myList.count()).toEqual(originalFavoritesCount + 1);
+				listPage.deleteItem(newItem);
+				expect(listPage.myList.count()).toEqual(originalFavoritesCount);
 			});
 
 		}); // it
@@ -101,53 +81,45 @@ describe('angularjs homepage', function() {
 
 		it('should add a product on favorites, check that it is on shoppinglist too and delete it on favorites', function() {
 			// goto favorites page
-			sideMenuPage.gotoFavorites();
-		    utils.sleep(2); // 
-		    expect(browser.getCurrentUrl()).toBe('http://localhost:9005/#/favorites');
+			sideMenuPage.gotoAndExpectPage('favorites');
 
 	  	 	// add item
-			expect(shoppingListPage.myList.count()).toEqual(originalFavoritesCount);
-	  		shoppingListPage.addItem('2', 'prot test carrots', 'prot test veggies');
+			expect(listPage.myList.count()).toEqual(originalFavoritesCount);
+	  		listPage.addItem('prot test carrots', 'prot test veggies', '2');
 			utils.sleep(2);
-			expect(shoppingListPage.myList.count()).toEqual(originalFavoritesCount + 1);
+			expect(listPage.myList.count()).toEqual(originalFavoritesCount + 1);
 
-			// goto favorites page
-			sideMenuPage.gotoShoppingList();
-		    utils.sleep(2); // 
-		    expect(browser.getCurrentUrl()).toBe('http://localhost:9005/#/main');
-			expect(shoppingListPage.myList.count()).toEqual(originalSLItemCount + 1);
+			// goto shopping list page
+			sideMenuPage.gotoAndExpectPage('shoppingList');
+			expect(listPage.myList.count()).toEqual(originalSLItemCount + 1);
 
-			shoppingListPage.getListItemsWithAccentedText('prot test veggies' + ';').then(function(items) {
+			listPage.getListItemsWithAccentedText('prot test veggies' + ';').then(function(items) {
 				// check content of new item on shopping list
 				if(items.length != 1) {
 					console.log('NOTE: items.length is: ', items.length);
 				}
 				var newItemOnSL = items[0];
-				expect(shoppingListPage.getField(newItemOnSL, 'amount')).toEqual('2 prot test carrots');
-				expect(shoppingListPage.getField(newItemOnSL, 'accentedText')).toEqual('prot test veggies' + ';');
-				shoppingListPage.expectCheckBoxNotToBeChecked(newItemOnSL);
-				// expect(shoppingListPage.getCheckBoxClass(newItemOnSL)).not.toContain('md-checked');
+				expect(listPage.getField(newItemOnSL, 'amount')).toEqual('2 prot test carrots');
+				expect(listPage.getField(newItemOnSL, 'accentedText')).toEqual('prot test veggies' + ';');
+				listPage.expectCheckBoxNotToBeChecked(newItemOnSL);
 
 				// go back to favorites page
-				sideMenuPage.gotoFavorites();
-			    utils.sleep(2); // 
-			    expect(browser.getCurrentUrl()).toBe('http://localhost:9005/#/favorites');
+				sideMenuPage.gotoAndExpectPage('favorites');
 
-				shoppingListPage.getListItemsWithAccentedText('prot test veggies' + ';').then(function(items) {
+				listPage.getListItemsWithAccentedText('prot test veggies' + ';').then(function(items) {
 					// check content of new item on favorites page
 					if(items.length != 1) {
 						console.log('NOTE: items.length is: ', items.length);
 					}
 					var newItemOnFavorites = items[0];
-					expect(shoppingListPage.getField(newItemOnFavorites, 'amount')).toEqual('2 prot test carrots');
-					expect(shoppingListPage.getField(newItemOnFavorites, 'accentedText')).toEqual('prot test veggies' + ';');
-					shoppingListPage.expectCheckBoxToBeChecked(newItemOnFavorites);
-					// expect(shoppingListPage.getCheckBoxClass(newItemOnFavorites)).toContain('md-checked');
+					expect(listPage.getField(newItemOnFavorites, 'amount')).toEqual('2 prot test carrots');
+					expect(listPage.getField(newItemOnFavorites, 'accentedText')).toEqual('prot test veggies' + ';');
+					listPage.expectCheckBoxToBeChecked(newItemOnFavorites);
 
 					// delete item
-					expect(shoppingListPage.myList.count()).toEqual(originalFavoritesCount + 1);
-					shoppingListPage.deleteItem(newItemOnFavorites);
-					expect(shoppingListPage.myList.count()).toEqual(originalFavoritesCount);
+					expect(listPage.myList.count()).toEqual(originalFavoritesCount + 1);
+					listPage.deleteItem(newItemOnFavorites);
+					expect(listPage.myList.count()).toEqual(originalFavoritesCount);
 				});
 
 			});
@@ -157,29 +129,26 @@ describe('angularjs homepage', function() {
 
 		it('should add and delete a recipe on recipe list', function() {
 			// goto recipes page
-			sideMenuPage.gotoRecipes();
-		    utils.sleep(2);
-		    expect(browser.getCurrentUrl()).toBe('http://localhost:9005/#/recipelist');
+			sideMenuPage.gotoAndExpectPage('recipes');
 
 	  	 	// add item
-	  		recipeListPage.addItem('prot test soup', 'prot test thanksgiving');
-			expect(recipeListPage.myList.count()).toEqual(originalRecipeCount + 1);
+	  		listPage.addItem('prot test soup', 'prot test thanksgiving');
+			expect(listPage.myList.count()).toEqual(originalRecipeCount + 1);
 
-			recipeListPage.getListItemsWithAccentedText('prot test thanksgiving').then(function(items) {
+			listPage.getListItemsWithAccentedText('prot test thanksgiving').then(function(items) {
 				// check content of new item
 				if(items.length != 1) {
 					console.log('NOTE: items.length is: ', items.length);
 				}
 				var newItem = items[0];
-				expect(recipeListPage.getField(newItem, 'recipe')).toEqual('prot test soup');
-				expect(recipeListPage.getField(newItem, 'accentedText')).toEqual('prot test thanksgiving');
-				shoppingListPage.expectCheckBoxNotToBeChecked(newItem);
-				// expect(shoppingListPage.getCheckBoxClass(newItem)).not.toContain('md-checked');
+				expect(listPage.getField(newItem, 'recipe')).toEqual('prot test soup');
+				expect(listPage.getField(newItem, 'accentedText')).toEqual('prot test thanksgiving');
+				listPage.expectCheckBoxNotToBeChecked(newItem);
 
 				// delete item
-				expect(recipeListPage.myList.count()).toEqual(originalRecipeCount + 1);
-				recipeListPage.deleteItem(newItem);
-				expect(recipeListPage.myList.count()).toEqual(originalRecipeCount);
+				expect(listPage.myList.count()).toEqual(originalRecipeCount + 1);
+				listPage.deleteItem(newItem);
+				expect(listPage.myList.count()).toEqual(originalRecipeCount);
 			});
 
 		}); // it
@@ -187,57 +156,36 @@ describe('angularjs homepage', function() {
 	}); // describe 'Add/ Delete Tests'
 
 	describe('Add/ Remove Favorites to Shopping List Tests', function() {
-		var gotoAndExpectShoppingListPage = function() {
-			sideMenuPage.gotoShoppingList();
-		    utils.sleep(2); // 
-		    expect(browser.getCurrentUrl()).toBe('http://localhost:9005/#/main');
-		}
-
-		var gotoAndExpectFavoritesPage = function() {
-			sideMenuPage.gotoFavorites();
-		    utils.sleep(2); // 
-		    expect(browser.getCurrentUrl()).toBe('http://localhost:9005/#/favorites');
-		}
 
 		beforeAll(function() {
-			gotoAndExpectFavoritesPage();
+			sideMenuPage.gotoAndExpectPage('favorites');
 
 		    // add 3 items
-			expect(shoppingListPage.myList.count()).toEqual(originalFavoritesCount);
-	  		shoppingListPage.addItem('2', 'prot test onions', 'prot test veggies');
-	  		shoppingListPage.addItem('1', 'prot test milk', 'prot test dairy');
-	  		shoppingListPage.addItem('500', 'prot test beef', 'prot test produce');
+			expect(listPage.myList.count()).toEqual(originalFavoritesCount);
+	  		listPage.addItem('prot test onions', 'prot test veggies', '2');
+	  		// listPage.addItem('prot test milk', 'prot test dairy', '1');
+	  		// listPage.addItem('prot test beef', 'prot test produce', '500');
+
 			utils.sleep(2);
-			expect(shoppingListPage.myList.count()).toEqual(originalFavoritesCount + 3);
+			expect(listPage.myList.count()).toEqual(originalFavoritesCount + 1);
 		}); // beforeAll
 
 		afterAll(function() {
-			gotoAndExpectFavoritesPage();
+			sideMenuPage.gotoAndExpectPage('favorites');
 
 			// delete the earlier created 3 items
-			findAndDeleteItem('2 ' + 'prot test onions');
-			findAndDeleteItem('1 ' + 'prot test milk');
-			findAndDeleteItem('500 ' + 'prot test beef');
+			listPage.findAndDeleteItem('2 ' + 'prot test onions');
+			// listPage.findAndDeleteItem('1 ' + 'prot test milk');
+			// listPage.findAndDeleteItem('500 ' + 'prot test beef');
 
 			utils.sleep(2);
-			expect(shoppingListPage.myList.count()).toEqual(originalFavoritesCount);
+			expect(listPage.myList.count()).toEqual(originalFavoritesCount);
 		}); // afterAll
 
 		it('should check an item on SL page', function() {
-			gotoAndExpectShoppingListPage();
+			sideMenuPage.gotoAndExpectPage('shoppingList');
 
-			shoppingListPage.getListItemsWithProduct('2 ' + 'prot test onions').then(function(items) {
-				// check content of new item on favorites page
-				if(items.length != 1) {
-					console.log('NOTE:' + '2 ' + 'prot test onions' + ' items.length is: ', items.length);
-				}
-				var selectedItem = items[0];
-
-				shoppingListPage.expectCheckBoxNotToBeChecked(selectedItem);
-				shoppingListPage.clickCheckBox(selectedItem);
-				utils.sleep(2);
-				shoppingListPage.expectCheckBoxToBeChecked(selectedItem);
-			});
+			listPage.checkCheckboxAndExpectToBeChecked('2 ' + 'prot test onions');
 
 		}); // it
 
