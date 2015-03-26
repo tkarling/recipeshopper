@@ -49,37 +49,51 @@ var ListPage = function () {
         return item.element(by.binding(field)).getText();
     };
 
+
+    this.CHECKED = true;
+    this.UNCHECKED = false;
+
     var getCheckBoxClass = function(item) {
         return item.element(by.model('data.cbvalue')).getAttribute('class');
     };
 
-    this.expectCheckBoxToBeChecked = function(item) {
-        expect(getCheckBoxClass(item)).toContain('md-checked');
-    };
-
-    this.expectCheckBoxNotToBeChecked = function(item) {
-        expect(getCheckBoxClass(item)).not.toContain('md-checked');
+    this.expectCheckBoxToBe = function(item, expCheckStatus) {
+        if(expCheckStatus == this.CHECKED) {
+            expect(getCheckBoxClass(item)).toContain('md-checked');
+        } else {
+            expect(getCheckBoxClass(item)).not.toContain('md-checked');
+        }
     };
 
     var clickCheckBox = function(item) {
         return item.element(by.model('data.cbvalue')).click();
     };
 
-    this.checkCheckboxAndExpectToBeChecked = function(firstRowText) {
+    this.findItemAndExpectCheckBoxToBe = function(firstRowText, expCheckStatus) {
         var self = this;
         this.getListItemsWithProduct(firstRowText).then(function(items) {
             if(items.length != 1) {
-                console.log('NOTE:' + firstRowText + ' items.length is: ', items.length);
+                console.log('NOTE: findItemAndExpectCheckBoxNotToBeChecked' + firstRowText + ' items.length is: ', items.length);
+            }
+            var selectedItem = items[0];
+            self.expectCheckBoxToBe(selectedItem), expCheckStatus;
+        });
+    };
+
+    this.findItemClickCheckboxAndExpectCheckBoxToBe = function(firstRowText, expCheckStatus) {
+        var self = this;
+        this.getListItemsWithProduct(firstRowText).then(function(items) {
+            if(items.length != 1) {
+                console.log('NOTE: findItemAndCheckCheckboxAndExpectToBeChecked:' + firstRowText + ' items.length is: ', items.length);
             }
             var selectedItem = items[0];
 
-            self.expectCheckBoxNotToBeChecked(selectedItem);
+            self.expectCheckBoxToBe(selectedItem, ! expCheckStatus);
             clickCheckBox(selectedItem);
             utils.sleep(2);
-            self.expectCheckBoxToBeChecked(selectedItem);
+            self.expectCheckBoxToBe(selectedItem, expCheckStatus);
         });
-
-    }
+    };
 
     this.deleteItem = function(item) {
         console.log('deleteItem called');
@@ -91,7 +105,7 @@ var ListPage = function () {
         this.getListItemsWithProduct(firstRowText).then(function(items) {
             // check content of new item on favorites page
             if(items.length != 1) {
-                console.log('NOTE:' + firstRowText + ' items.length is: ', items.length);
+                console.log('NOTE: findAndDeleteItem' + firstRowText + ' items.length is: ', items.length);
             }
             self.deleteItem(items[0]);
         });
