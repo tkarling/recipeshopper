@@ -1,19 +1,17 @@
 <md-content>
-<md-content>
-<md-toolbar md-theme="green" style="position:fixed"> 
-      <h3 class="md-toolbar-tools">
-        <md-button id="menubutton" ng-click="toggleLeft()" aria-label="Open Nav Bar" hide-gt-md>
-            <rs-icon icon-name="ic_menu" icon-group="navigation"></rs-icon>
-        </md-button>
-        <span class="md-padding">{{getTitle()}}</span>
-        <span flex></span>
-        <md-button ng-click="gotoPage('/settings')" aria-label="Go to settings" ng-disabled="!userLoggedIn()">
-            <rs-icon icon-name="ic_settings"></rs-icon>
-        </md-button>
-      </h3>
-</md-toolbar>
+    <md-content>
+        <md-toolbar md-theme="green" style="position:fixed">
+            <h3 class="md-toolbar-tools">
+                <md-button id="menubutton" ng-click="toggleLeft()" aria-label="Open Nav Bar" hide-gt-md>
+                    <rs-icon icon-name="ic_menu" icon-group="navigation"></rs-icon>
+                </md-button>
+                <span class="md-padding">{{getTitle()}}</span>
+                <span flex></span>
+                <md-button ng-click="gotoPage('/settings')" aria-label="Go to settings" ng-disabled="!userLoggedIn()">
+                    <rs-icon icon-name="ic_settings"></rs-icon>
+                </md-button>
+            </h3>
+        </md-toolbar>
+    </md-content>
+    <md-content style="margin-top:64px" ng-transclude></md-content>
 </md-content>
-<md-content style="margin-top:64px" ng-transclude>
-</md-content>
-</md-content>
-
