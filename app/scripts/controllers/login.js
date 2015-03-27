@@ -23,7 +23,7 @@ angular.module('loginMod')
     }; // setErrorMessage
 
     $scope.login = function () {
-      return Authentication.login($scope.inputUser).then(function (authData) {
+      return Authentication.login($scope.user).then(function (authData) {
           $log.debug('Authenticated successfully with payload:', authData);
           settingsMgr.setCurrentUser(authData.uid).then(function () {
               $location.path('/main');
@@ -44,14 +44,16 @@ angular.module('loginMod')
     }; // logout
 
   	$scope.register = function () {
-      Authentication.register($scope.inputUser).then(function (authData) {
+      Authentication.register($scope.user).then(function (authData) {
           $log.debug('LoginCtrl: Registered successfully with payload:', authData);
           $scope.login().then(function() {
-            settingsMgr.addUser(authData.uid, $scope.inputUser).then(function() {
-            }).catch(function(error) {
-                setErrorMessage(error.message);
-                $log.error('ERROR: adding user to store after registering failed');
-            });
+            settingsMgr.addUser(authData.uid, $scope.user);
+            // this method is no async anymore, error handling needs to be provided as function
+            // .then(function() {
+            // }).catch(function(error) {
+            //     setErrorMessage(error.message);
+            //     $log.error('ERROR: adding user to store after registering failed');
+            // });
           });
       }).catch(function(error) {
           setErrorMessage(error.message);

@@ -34,13 +34,19 @@ angular.module('recipeshopperApp')
       }
     };
   })
-  .directive('rsAppTitleBar', function () {
+  .directive('rsView', function ($location) {
     return {
       templateUrl: 'views/apptitlebar.html',
       restrict: 'E',
       replace: true,
+      transclude: true,
       link: function postLink(scope, element, attrs) {
         // console.log('rsAppTitleBar called');
+        scope.gotoPage = function(pagelink){
+          // $log.debug('AppCtrl: pagelink: ', pagelink);
+          $location.path(pagelink);
+        };
+
       }
     };
   })

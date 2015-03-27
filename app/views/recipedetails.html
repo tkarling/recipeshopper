@@ -1,5 +1,6 @@
-<div id="recipedetails">
-	<md-tabs class="md-accent" md-selected="data.selectedIndex" md-stretch-tabs="never">
+<rs-view>
+<div id="recipedetails"> 
+	<md-tabs class="md-accent" md-selected="data.selectedIndex">
       <md-tab id="ingredients-tab" aria-controls="ingredients-tab-content">
         Ingredients
       </md-tab>
@@ -23,7 +24,7 @@
 			    <md-divider inset></md-divider>
 			</md-item>
 			</md-list>
-	    	<md-content>
+	    	</md-content>
         </div>
         <div role="tabpanel" id="instructions-tab-content" aria-labelledby="instructions-tab" ng-switch-when="1" md-swipe-left="gotoNextTab()" md-swipe-right="gotoPreviousTab()">
 	    	<md-content class="md-padding" style="height: 400px">
@@ -41,3 +42,4 @@
 		    <!-- ng-disabled="!RecipeForm.$valid" -->
     </div> 
 </div>
+</rs-view>

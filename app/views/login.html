@@ -1,4 +1,5 @@
-<md-content class="md-padding"> 
+<rs-view>
+<md-content class="md-padding" ng-controller="LoginCtrl"> 
   <form name="myform" ng-submit="login()" novalidate>
     <h4>Hi there! Please log-in:</h4>
     <p class="md-accent-text" ng-show="message">{{ message }}</p>
@@ -6,7 +7,7 @@
     <section layout="row" layout-sm="column" layout-align="left center">
       <md-input-container>
         <label>Email</label>
-        <input type="email" required name="email" ng-model="inputUser.email">
+        <input type="email" required name="email" ng-model="user.email">
         <div ng-messages="myform.email.$error">
           <div ng-message="required">This is required.</div>
           <div ng-message="email">Must be a valid email.</div>
@@ -15,7 +16,7 @@
 
       <md-input-container>
         <label>Password</label>
-        <input type="password" required name="password" ng-model="inputUser.password">
+        <input type="password" required name="password" ng-model="user.password">
         <div ng-messages="myform.password.$error">
           <div ng-message="required">This is required.</div>
         </div>
@@ -32,3 +33,4 @@
     </section>
   </form>
 </md-content>
+</rs-view>

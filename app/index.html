@@ -24,13 +24,8 @@
     <div ng-controller="AppCtrl" layout="column" layout-fill>
         <section layout="row" flex>
             <rs-side-menu></rs-side-menu>
-            <md-content flex>  
-              <div flex layout="column" layout-fill layout-align="center center">
-                  <rs-app-title-bar></rs-app-title-bar>
-                  <md-content md-theme="green" layout-fill style="margin-top:64px">
-                      <div ng-view=""></div>
-                  </md-content>
-              </div>
+            <md-content md-theme="green" flex>  
+                <div ng-view=""></div>
             </md-content>
         </section>
     </div>

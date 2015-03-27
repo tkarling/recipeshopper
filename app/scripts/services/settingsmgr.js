@@ -39,13 +39,14 @@ angular.module('settingsMod')
     initData();
     getDefaults();
 
-   var addUserAsync = function(userUid, user) {
-      var fbUrl = FIREBASE_URL + '/users/';
+   var addUserFn = function(userUid, user) {
+      var fbUrl = FIREBASE_URL + '/users/' + userUid;
       var ref = new Firebase(fbUrl);
       var userInfo = {
         myUid: userUid,
         firstname: user.firstname,
-        lastname: user.lastname
+        lastname: user.lastname,
+        email: user.email
       };
       for (var prop in defaultSettings) {
         if(defaultSettings.hasOwnProperty(prop)){
@@ -57,7 +58,7 @@ angular.module('settingsMod')
       $log.debug('$log.logs to be unit tested:');
       $log.log(fbUrl);   
       $log.log(userInfo);   
-      return ref.set(userUid, userInfo);
+      ref.set(userInfo);
     }; // addUserAsync
 
    var setCurrentUserAsync = function(userUid) {
@@ -108,7 +109,7 @@ angular.module('settingsMod')
     // Public API here
     return {
       addUser: function (userUid, user) {
-        return addUserAsync(userUid, user);
+        addUserFn(userUid, user);
       },
 
       setCurrentUser: function (userUid) {

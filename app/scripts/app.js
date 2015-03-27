@@ -86,10 +86,10 @@ angular
       // });
     };
 
-    $scope.gotoPage = function(pagelink){
-      // $log.debug('AppCtrl: pagelink: ', pagelink);
-      $location.path(pagelink);
-    };
+    // $scope.gotoPage = function(pagelink){
+    //   // $log.debug('AppCtrl: pagelink: ', pagelink);
+    //   $location.path(pagelink);
+    // };
 
     var stringStartsWith = function(targetStr, str) {
       return targetStr.slice(0, str.length) == str
