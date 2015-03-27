@@ -128,7 +128,7 @@ describe('Service: settingsMgr', function() {
 
         expect($log.log.logs.length).toEqual(2);
         var urlInLog = $log.log.logs[0][0];
-        expect(urlInLog).toEqual('mockUrl/users/');
+        expect(urlInLog).toEqual('mockUrl/users/testUid');
         
         var userInfoInLog = $log.log.logs[1][0];
         expect(userInfoInLog.firstname).toEqual('Tuija');

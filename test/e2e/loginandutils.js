@@ -6,8 +6,8 @@ var LoginAndUtils = function () {
     var defaultSleepTimeout = 1000;
     var sleepTimeout = 1000;
 
-    var loginEmailInput = element(by.model('inputUser.email'));
-    var loginPasswordInput = element(by.model('inputUser.password'));
+    var loginEmailInput = element(by.model('user.email'));
+    var loginPasswordInput = element(by.model('user.password'));
     var loginButton = element(by.id('loginbutton'));
     var navMenuButton = element(by.id('menubutton'));
 

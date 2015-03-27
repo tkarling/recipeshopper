@@ -180,32 +180,33 @@ describe('Controller: LoginCtrl', function () {
       expect(scope.message).toEqual('error is this');
   });
 
-  it('should set error msg & write to error log, when logging in after registering fails', function () {
-      registerSpy = jasmine.createSpy('register spy');
-      loginSpy = jasmine.createSpy('login spy');
-      addUserSpy = jasmine.createSpy('addUser spy');
+  // This test is not valid unless failed adding of user returns error again
+  // it('should set error msg & write to error log, when logging in after registering fails', function () {
+  //     registerSpy = jasmine.createSpy('register spy');
+  //     loginSpy = jasmine.createSpy('login spy');
+  //     addUserSpy = jasmine.createSpy('addUser spy');
 
-      scope.register({
-          email: 'a@a.com',
-          password: 'password'
-        });
-      deferred.resolve({uid:'123'});  // registering succeeds
-      $rootScope.$digest();
-      deferred.reject({message: 'error is this'}); // login fails
-      $rootScope.$digest();
-      deferred.reject({message: 'error is that'}); // adding user fails
-      $rootScope.$digest();
+  //     scope.register({
+  //         email: 'a@a.com',
+  //         password: 'password'
+  //       });
+  //     deferred.resolve({uid:'123'});  // registering succeeds
+  //     $rootScope.$digest();
+  //     deferred.reject({message: 'error is this'}); // login fails
+  //     $rootScope.$digest();
+  //     deferred.reject({message: 'error is that'}); // adding user fails
+  //     $rootScope.$digest();
 
-      expect(registerSpy).toHaveBeenCalled();
-      expect(loginSpy).toHaveBeenCalled();
-      expect(addUserSpy).toHaveBeenCalled();
-      expect(scope.message).toEqual('error is that');
-      expect($log.error.logs.length).toEqual(2);
-      var errorInLog = $log.error.logs[0][0];
-      expect(errorInLog).toEqual('ERROR: logging in after registering failed');
-      errorInLog = $log.error.logs[1][0];
-      expect(errorInLog).toEqual('ERROR: adding user to store after registering failed');
+  //     expect(registerSpy).toHaveBeenCalled();
+  //     expect(loginSpy).toHaveBeenCalled();
+  //     expect(addUserSpy).toHaveBeenCalled();
+  //     expect(scope.message).toEqual('error is that');
+  //     expect($log.error.logs.length).toEqual(2);
+  //     var errorInLog = $log.error.logs[0][0];
+  //     expect(errorInLog).toEqual('ERROR: logging in after registering failed');
+  //     errorInLog = $log.error.logs[1][0];
+  //     expect(errorInLog).toEqual('ERROR: adding user to store after registering failed');
 
-  });
+  // });
 
 });
