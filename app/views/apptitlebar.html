@@ -5,9 +5,9 @@
                 <md-button id="menubutton" ng-click="toggleLeft()" aria-label="Open Nav Bar" hide-gt-md>
                     <rs-icon icon-name="ic_menu" icon-group="navigation"></rs-icon>
                 </md-button>
-                <span class="md-padding">{{getTitle()}}</span>
+                <span class="md-padding">{{title | titleCase}}</span>
                 <span flex></span>
-                <md-button ng-click="gotoPage('/settings')" aria-label="Go to settings" ng-disabled="!userLoggedIn()">
+                <md-button ng-if="settingsButton" ng-click="gotoPage('/settings')" aria-label="Go to settings">
                     <rs-icon icon-name="ic_settings"></rs-icon>
                 </md-button>
             </h3>
