@@ -1,11 +1,11 @@
-<rs-view title="{{recipe.recipename}}">
+<rs-view type="details" title="{{recipe.recipename}}" check-fn="saveRecipe()">
 	<div id="recipedetails">
-		<md-tabs class="md-accent" md-selected="data.selectedIndex">
+		<md-tabs class="md-accent" md-selected="data.selectedTabIndex">
 			<md-tab id="ingredients-tab" aria-controls="ingredients-tab-content">Ingredients</md-tab>
 			<md-tab id="instructions-tab" aria-controls="instructions-tab-content">Instructions</md-tab>
 		</md-tabs>
-		<ng-switch on="data.selectedIndex" class="tabpanel-container">
-			<div role="tabpanel" id="ingredients-tab-content" aria-labelledby="ingredients-tab" ng-switch-when="0" md-swipe-left="gotoNextTab()" md-swipe-right="gotoPreviousTab()">
+		<ng-switch on="data.selectedTabIndex" class="tabpanel-container">
+			<div role="tabpanel" id="ingredients-tab-content" aria-labelledby="ingredients-tab" ng-switch-when="0"> 
 				<md-content class="md-padding">
 					<md-button class="md-primary md-raised" ng-hide="ingredients.length >0" ng-click="readIngredients()">Read Inredients</md-button>
 				</md-content>
@@ -21,21 +21,11 @@
 					</md-list>
 				</md-content>
 			</div>
-			<div role="tabpanel" id="instructions-tab-content" aria-labelledby="instructions-tab" ng-switch-when="1" md-swipe-left="gotoNextTab()" md-swipe-right="gotoPreviousTab()">
+			<div role="tabpanel" id="instructions-tab-content" aria-labelledby="instructions-tab" ng-switch-when="1"> 
 				<md-content class="md-padding" style="height: 400px">
 					<p ng-bind-html="recipe.instructions"></p>
 				</md-content>
 			</div>
 		</ng-switch>
-		<div class="after-tabs-area" layout="row" layout-margin layout-align="center center">
-			<!-- <a href="#/recipedetails/{{prevItem}}" ng-click="saveRecipe()">&lt; prev</a>
-			<a href="#/recipelist" class="btn" ng-click="saveRecipe()">&laquo; Back to list &raquo;</a>
-			<a href="#/recipedetails/{{nextItem}}" ng-click="saveRecipe()">next &gt;</a>
-			-->
-			<a href="#/recipedetails/{{prevItem}}" >&lt; prev</a>
-			<a href="#/recipelist" class="btn" >&laquo; Back to list &raquo;</a>
-			<a href="#/recipedetails/{{nextItem}}" >next &gt;</a>
-			<!-- ng-disabled="!RecipeForm.$valid" -->
-		</div>
 	</div>
 </rs-view>

@@ -55,6 +55,21 @@
   #recipedetails md-tabs-ink-bar {
     background-color: #FFFF8D !important; } 
 
+/** Following makes the tab slighy different color than the toolbar **/
+  #productdetails .md-header {
+    background-color: #1976D2 !important; }
+  #productdetails md-tab {
+    color: #90caf9 !important; }
+  #productdetails md-tab.active, #productdetails md-tab:focus {
+    color: white !important; }
+  #productdetails md-tab[disabled] {
+    opacity: 0.5; }
+  #productdetails .md-header .md-ripple {
+    border-color: #FFFF8D !important; }
+  #productdetails md-tabs-ink-bar {
+    background-color: #FFFF8D !important; } 
+
+
 
 /** remove following after material design version used supports them **/
 .md-accent-text {

@@ -67,6 +67,11 @@ angular
         templateUrl: 'views/picdemo.html', 
         controller: 'PicdemoCtrl' // change this to PicdemoCtrl later
       })
+      // .when('/productdetails/Index/:indexId/Item/:itemId', {
+      .when('/productdetails/:itemId', {
+        templateUrl: 'views/productdetails.html',
+        controller: 'ProductDetailsController'
+      })
       .when('/recipedetails/:itemId', {
         templateUrl: 'views/recipedetails.html',
         controller: 'RecipeDetailsController'

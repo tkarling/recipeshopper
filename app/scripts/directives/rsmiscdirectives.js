@@ -34,11 +34,13 @@ angular.module('recipeshopperApp')
       }
     };
   })
-  .directive('rsView', function ($location, $mdSidenav) {
+  .directive('rsView', function ($location, $window, $mdSidenav) {
     return {
       templateUrl: 'views/apptitlebar.html',
       scope: {
+        type: '@',
         title: '@',
+        checkFn: '&',
         settingsButton: '@'
       }, 
       restrict: 'E',
@@ -48,12 +50,20 @@ angular.module('recipeshopperApp')
         // console.log('rsAppTitleBar called');
         scope.gotoPage = function(pagelink){
           $location.path(pagelink);
-        };
+        }; // gotoPage
 
         scope.toggleLeft = function() {
           $mdSidenav('left').toggle();
-        };
+        }; // toggleLeft
 
+        scope.goBack = function () {
+          $window.history.back();
+        }; //goBack
+
+        scope.saveAndGoBack = function(){
+          scope.checkFn();
+          $window.history.back();
+        }; // gotoPage
       }
     };
   })

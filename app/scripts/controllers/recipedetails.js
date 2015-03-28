@@ -12,47 +12,15 @@ angular.module('recipeshopperApp')
   .controller('RecipeDetailsController', ['$scope', '$routeParams', '$log', '$location', '$http', 'FB_RECIPES_URL', 'FB_SHOPPINGLIST_URL', 'StoredListMgrFactory', 
   	function ($scope, $routeParams, $log, $location, $http, FB_RECIPES_URL, FB_SHOPPINGLIST_URL, StoredListMgrFactory) { 
 
-	var setNextAndPrevItem = function () {
-		if ($scope.whichItem > 0) {
-			$scope.prevItem = Number($scope.whichItem) - 1;
-		} else {
-			$scope.prevItem = Math.max($scope.recipes.length - 1, 0);
-		}
-
-		if ($scope.whichItem < $scope.recipes.length -1) {
-			$scope.nextItem = Number($scope.whichItem) + 1;
-		} else {
-			$scope.nextItem = 0;
-		}
-	  	// $log.debug('$scope.whichItem: ', $scope.whichItem);
-	  	// $log.debug('$scope.prevItem: ', $scope.prevItem);
-	  	// $log.debug('$scope.nextItem: ', $scope.nextItem);
-	};
-
-    $scope.gotoPrevItem = function(){
-    	$log.debug('RecipeDetailsController: $scope.gotoPrevItem()');
-    	$location.path('/recipedetails/' + $scope.prevItem);
-    };
-
-    $scope.gotoNextItem = function(){
-    	$log.debug('RecipeDetailsController: $scope.gotoNextItem()');
-    	$location.path('/recipedetails/' + $scope.nextItem);
-    };
-
+	// Start from first tab
 	$scope.data = {
-      selectedIndex : 0
-    };
-    $scope.gotoNextTab = function() {
-		$log.debug('RecipeDetailsController: gotoNextTab');
-      	$scope.data.selectedTabIndex = Math.min($scope.data.selectedTabIndex + 1, 2) ;
-    };
-    $scope.gotoPreviousTab = function() {
-		$log.debug('RecipeDetailsController: gotoPreviousTab');
-      $scope.data.selectedTabIndex = Math.max($scope.data.selectedTabIndex - 1, 0);
+      selectedTabIndex : 0
     };
 
-  	
   	$scope.whichItem = $routeParams.itemId;
+	$scope.saveRecipe = function () {
+	    $log.debug('RecipeDetailsController: saveRecipe', $scope.recipe);
+	}; // saveRecipe
 
     var ingredientsMgr; 
   	var setIngredientsMgrAndIngredients = function () {
@@ -71,7 +39,6 @@ angular.module('recipeshopperApp')
     	$scope.recipes = data;
 	    $scope.recipe = ($scope.recipes.length > 0) ? $scope.recipes[$scope.whichItem]: null;
 	    setIngredientsMgrAndIngredients();
-    	setNextAndPrevItem();
     	// if($scope.recipe && $scope.recipe.instructions) {
     	// 	$log.debug('$scope.recipe.instructions: ', $scope.recipe.instructions);
     	// }

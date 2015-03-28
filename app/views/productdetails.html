@@ -1,0 +1,16 @@
+<rs-view type="details" title="moi" check-fn="saveItem()">
+	<div id="productdetails">
+		<md-tabs class="md-accent" md-selected="data.selectedTabIndex">
+			<md-tab id="addone-tab" aria-controls="addone-tab-content">Add One</md-tab>
+			<md-tab id="addmany-tab" aria-controls="addmany-tab-content">Add Many</md-tab>
+		</md-tabs>
+		<ng-switch on="data.selectedTabIndex" class="tabpanel-container">
+			<div role="tabpanel" id="addone-tab-content" aria-labelledby="addone-tab" ng-switch-when="0">
+				<p>Add One Content</p>
+			</div>
+			<div role="tabpanel" id="addmany-tab-content" aria-labelledby="addmany-tab" ng-switch-when="1">
+				<p>Add Many Content</p>
+			</div>
+		</ng-switch>
+	</div>
+</rs-view>

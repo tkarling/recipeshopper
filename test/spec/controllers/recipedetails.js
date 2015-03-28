@@ -81,26 +81,6 @@ describe('Controller: RecipeDetailsController', function () {
     scope.$root.$digest();
 
     expect(scope.whichItem).toEqual(0); 
-    expect(scope.nextItem).toEqual(1); 
-    expect(scope.prevItem).toEqual(2); 
-  }); 
-
-  it('can go to next item, when recipes in DB', function () {
-    deferred.resolve(recipesFromStore);
-    scope.$root.$digest();
-    spyOn(location, 'path');
-
-    scope.gotoNextItem();   
-    expect(location.path).toHaveBeenCalledWith('/recipedetails/1'); 
-  }); 
-
-  it('can go to prev item, when recipes in DB', function () {
-    deferred.resolve(recipesFromStore);
-    scope.$root.$digest();
-    spyOn(location, 'path');
-
-    scope.gotoPrevItem();   
-    expect(location.path).toHaveBeenCalledWith('/recipedetails/2'); 
   }); 
 
   it('should initialize OK, when NO recipes in DB', function () {
@@ -110,8 +90,6 @@ describe('Controller: RecipeDetailsController', function () {
     expect(scope.recipes.length).toEqual(0); 
     expect(scope.recipe).toEqual(null); 
     expect(scope.whichItem).toEqual(0); 
-    expect(scope.nextItem).toEqual(0); 
-    expect(scope.prevItem).toEqual(0); 
   }); 
 
 

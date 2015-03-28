@@ -32,6 +32,12 @@ angular.module('recipeshopperApp')
 
     $scope.gotoDetailsPage = function(item) {
     	$log.debug('MainCtrl: gotoDetailsPage');
+    	// var pagelink='/productdetails/'+ $scope.data.myItems.indexOf(item);
+    	// var myIndex = $scope.data.myItems.indexOf(item);
+    	// var pagelink='/productdetails/Index/'+ myIndex + '/Item/' + item.$id;
+    	var pagelink='/productdetails/' + item.$id;
+	    $log.debug('MainCtrl: pagelink: ', pagelink);
+	    $location.path(pagelink);
     };
 
     //A QUICK WAY TO FILL EMPTY DB
