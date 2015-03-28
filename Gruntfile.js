@@ -319,8 +319,15 @@ module.exports = function (grunt) {
       //material design icons
         expand: true,
         cwd: 'bower_components/material-design-icons/action/',
-        src: ['1x_web/*24*.*'],
+        src: ['svg/production/*24*.*'],
         dest: '<%= yeoman.dist %>/bower_components/material-design-icons/action/'
+      },
+      {
+      //material design menu icon
+        expand: true,
+        cwd: 'bower_components/material-design-icons/navigation/',
+        src: ['svg/production/ic_menu_24px.svg'],
+        dest: '<%= yeoman.dist %>/bower_components/material-design-icons/navigation/'
       },
       {
           expand: true,
