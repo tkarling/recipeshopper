@@ -41,13 +41,21 @@ angular.module('recipeshopperApp')
         type: '@',
         title: '@',
         checkFn: '&',
+        checkEnabled: '@',
         settingsButton: '@'
       }, 
       restrict: 'E',
       replace: true,
       transclude: true,
       link: function postLink(scope, element, attrs) {
-        // console.log('rsAppTitleBar called');
+        scope.$watch('checkEnabled', function() {
+          console.log('rsView scope.checkEnabled', scope.checkEnabled);
+          console.log('rsView scope.buttonDisabled()', scope.buttonDisabled());
+        });
+        scope.buttonDisabled = function () {
+          return scope.checkEnabled == 'false';
+        }
+
         scope.gotoPage = function(pagelink){
           $location.path(pagelink);
         }; // gotoPage

@@ -1,5 +1,37 @@
-<rs-view type="details" title="moi" check-fn="saveItem()">
-	<div id="productdetails">
+<form name="productForm" novalidate>
+<rs-view type="details" 
+		title="{{currentItem.product}}" 
+		check-fn="saveObject()" check-enabled="{{productForm.$valid}}">
+	
+	<md-content class="md-padding">
+		<div layout>
+			<md-input-container flex="15">
+				<label>No.</label>
+				<input type="number" ng-model="currentItem.amount" ng-required="true">
+			</md-input-container>
+			<md-input-container flex="25">
+				<label>Unit</label>
+				<input ng-model="currentItem.unit">
+			</md-input-container>
+			<md-input-container flex="60">
+				<label>Product</label>
+				<input ng-model="currentItem.product" ng-required="true">
+			</md-input-container>
+		</div>
+	
+		<div layout>
+			<md-input-container flex="40">
+				<label>Aisle</label>
+				<input ng-model="currentItem.aisle">
+			</md-input-container>
+			<md-input-container flex="60">
+				<label>Recipe</label>
+				<input ng-model="currentItem.recipe" ng-disabled="true">
+			</md-input-container>
+		</div>
+	</md-content>
+
+<!-- 	<div id="productdetails">
 		<md-tabs class="md-accent" md-selected="data.selectedTabIndex">
 			<md-tab id="addone-tab" aria-controls="addone-tab-content">Add One</md-tab>
 			<md-tab id="addmany-tab" aria-controls="addmany-tab-content">Add Many</md-tab>
@@ -12,5 +44,6 @@
 				<p>Add Many Content</p>
 			</div>
 		</ng-switch>
-	</div>
+	</div> -->
 </rs-view>
+</form>

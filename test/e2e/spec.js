@@ -164,7 +164,9 @@ describe('angularjs homepage', function() {
 		    // add 3 items
 			expect(listPage.myList.count()).toEqual(originalFavoritesCount);
 	  		listPage.addItem('prot test onions', 'prot test veggies', '2');
+	  		utils.sleep();
 	  		listPage.addItem('prot test milk', 'prot test dairy', '1');
+	  		utils.sleep();
 	  		listPage.addItem('prot test beef', 'prot test produce', '500');
 	  		noOfAddedItems = noOfAddedItems + 3;
 

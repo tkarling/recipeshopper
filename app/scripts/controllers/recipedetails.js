@@ -16,8 +16,15 @@ angular.module('recipeshopperApp')
 	$scope.data = {
       selectedTabIndex : 0
     };
-
   	$scope.whichItem = $routeParams.itemId;
+
+    $scope.gotoDetailsPage = function(item) {
+    	var pagelink='/productdetails/List/ARecipe/Item/' + item.$id;
+	    $log.debug('RecipeDetailsController: gotoDetailsPage pagelink: ', pagelink);
+	    $location.path(pagelink);
+    };
+
+
 	$scope.saveRecipe = function () {
 	    $log.debug('RecipeDetailsController: saveRecipe', $scope.recipe);
 	}; // saveRecipe

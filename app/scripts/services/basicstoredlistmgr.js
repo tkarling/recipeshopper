@@ -155,6 +155,14 @@ angular.module('storedListMod')
         }
     }; // BasicStoredListMgr.prototype.getItems
 
+    BasicStoredListMgr.prototype.getItem = function (itemId) {
+      for(var i=0; i < this.data.items.length; i++) {
+        if(this.data.items[i].$id == itemId) {
+          return this.data.items[i];
+        }
+      }
+    }; // BasicStoredListMgr.prototype.getItem
+
     var broadcastItemsLoaded = function(self) {
       $log.debug('BasicStoredListMgr: getItemsSync broadcasting handleItemsloaded', self.data);
       $rootScope.$broadcast('handleItemsloaded', {
