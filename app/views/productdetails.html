@@ -20,11 +20,19 @@
 		</div>
 	
 		<div layout>
-			<md-input-container flex="40">
-				<label>Aisle</label>
-				<input ng-model="currentItem.aisle">
-			</md-input-container>
-			<md-input-container flex="60">
+			<div flex>
+				<!-- <label>{{ currentItem.aisle ? 'Aisle:' : 'Please Pick Aisle' }} -->
+				<md-select ng-model="currentItem.aisle">
+					<md-option value="PROTEINS">PROTEINS</md-option>
+					<md-option value="DAIRY">DAIRY</md-option>
+					<md-option value="VEGGIES&FRUIT">VEGGIES&FRUIT</md-option>
+					<md-option value="GRAINS">GRAINS</md-option>
+					<md-option value="NUTS&OILS">NUTS&OILS</md-option>
+					<md-option value="EXTRAS">EXTRAS</md-option>
+				</md-select>
+				<!-- </label> -->
+			</div>
+			<md-input-container flex>
 				<label>Recipe</label>
 				<input ng-model="currentItem.recipe" ng-disabled="true">
 			</md-input-container>
