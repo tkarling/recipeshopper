@@ -30,13 +30,6 @@ angular.module('recipeshopperApp')
   		$log.debug('MainCtrl: updateShowAll:  $scope.data.mySettings.doNotShowBoughtItems', $scope.data.mySettings.doNotShowBoughtItems);
   	};
 
-    $scope.gotoDetailsPage = function(item) {
-    	// var pagelink='/productdetails/'+ $scope.data.myItems.indexOf(item);
-    	var pagelink='/productdetails/List/ShoppingList/Item/' + item.$id;
-	    $log.debug('MainCtrl: pagelink: ', pagelink);
-	    $location.path(pagelink);
-    };
-
     //A QUICK WAY TO FILL EMPTY DB
 	// var addDefaultItemsToList =	function () {
 	// 	$log.debug('MainCtrl: addDefaultItemsToList started');

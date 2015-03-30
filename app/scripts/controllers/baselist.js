@@ -68,5 +68,11 @@ angular.module('recipeshopperApp')
 		$scope.data.storeMgr.deleteItem(item);
 	}; // deleteItem
 
+    $scope.gotoDetailsPage = function(item, fromListId) {
+    	// var pagelink='/productdetails/'+ $scope.data.myItems.indexOf(item);
+    	var pagelink='/productdetails/List/' + fromListId + '/Item/' + item.$id;
+	    $log.debug('BaselistCtrl: pagelink: ', pagelink);
+	    $location.path(pagelink);
+    };
 
   }]);

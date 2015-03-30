@@ -48,10 +48,10 @@ angular.module('recipeshopperApp')
       replace: true,
       transclude: true,
       link: function postLink(scope, element, attrs) {
-        scope.$watch('checkEnabled', function() {
-          console.log('rsView scope.checkEnabled', scope.checkEnabled);
-          console.log('rsView scope.buttonDisabled()', scope.buttonDisabled());
-        });
+        // scope.$watch('checkEnabled', function() {
+        //   console.log('rsView scope.checkEnabled', scope.checkEnabled);
+        //   console.log('rsView scope.buttonDisabled()', scope.buttonDisabled());
+        // });
         scope.buttonDisabled = function () {
           return scope.checkEnabled == 'false';
         }
@@ -77,7 +77,7 @@ angular.module('recipeshopperApp')
   })
   .directive('rsSearchBar', function () {
     return {
-      template: '<md-content layout="row">' +
+      template: '<md-content layout="row" class="md-padding">' +
                     '<md-input-container flex>' +
                         '<label>{{placeholderText}}</label>' +
                         '<input ng-model="query">' +
@@ -86,11 +86,15 @@ angular.module('recipeshopperApp')
                       'ng-model="data.mySettings.doNotShowBoughtItems" ng-change="updateShowAll()"' +
                       'class="md-primary">' +
                     '</md-checkbox>' +
+                    '<md-button id="addbutton" ng-click="gotoAddPage()"' +
+                        'class="md-primary md-fab" aria-label="Go to Add Page">' +
+                        '<rs-icon icon-name="ic_add" icon-group="content"></rs-icon>' +
+                    '</md-button>' +
                 '</md-content>',
       restrict: 'E',
       replace: true,
       link: function postLink(scope, element, attrs) {
-        scope.showCheckbox = attrs['showCheckbox'];
+        scope.showCheckbox = attrs['showCheckbox'] == "true";
         scope.placeholderText = attrs['placeholderText'] || 'Search';
           // console.log('rsSearchBar called');
       }

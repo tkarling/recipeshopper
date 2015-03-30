@@ -18,8 +18,9 @@ angular.module('recipeshopperApp')
     };
   	$scope.whichItem = $routeParams.itemId;
 
-    $scope.gotoDetailsPage = function(item) {
-    	var pagelink='/productdetails/List/ARecipe/Item/' + item.$id;
+  	// needs to be defined here as recipeDetails does not inherit baslist (yet?)
+    $scope.gotoDetailsPage = function(item, fromListId) {
+    	var pagelink='/productdetails/List/'+ fromListId + '/Item/' + item.$id;
 	    $log.debug('RecipeDetailsController: gotoDetailsPage pagelink: ', pagelink);
 	    $location.path(pagelink);
     };

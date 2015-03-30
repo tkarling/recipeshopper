@@ -13,7 +13,8 @@
 					<md-list>
 						<md-item ng-repeat="item in ingredients">
 							<md-item-content ng-swipe-left="showActions = true" ng-swipe-right="showActions = false">
-								<rs-tile-content click-fn="gotoDetailsPage(item)">{{item.amount}} {{item.unit}} {{item.product}}</rs-tile-content>
+								<rs-tile-content accented-text="{{item.aisle}}" 
+									click-fn="gotoDetailsPage(item, 'ARecipe')">{{item.amount}} {{item.unit}} {{item.product}}</rs-tile-content>
 								<rs-tile-right-delete delete-fn="deleteItem(item)"  show-actions="{{showActions}}"></rs-tile-right-delete>
 							</md-item-content>
 							<md-divider inset></md-divider>

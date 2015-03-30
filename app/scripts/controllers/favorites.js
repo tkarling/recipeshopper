@@ -11,12 +11,6 @@ angular.module('recipeshopperApp')
   .controller('FavoritesCtrl', ['$scope', '$log', '$http', '$location', 'FB_SHOPPINGLIST_URL', 'StoredListMgrFactory', 'settingsMgr', 
   	function ($scope, $log, $http, $location, FB_SHOPPINGLIST_URL, StoredListMgrFactory, settingsMgr) {
 
-    $scope.gotoDetailsPage = function(item) {
-    	var pagelink='/productdetails/List/Favorites/Item/' + item.$id;
-	    $log.debug('FavoritesCtrl: pagelink: ', pagelink);
-	    $location.path(pagelink);
-    };
-
 	if(! $scope.data) {
 		$scope.data = {};
 	}

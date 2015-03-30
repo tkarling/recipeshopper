@@ -8,7 +8,7 @@
  * Controller of the recipeshopperApp
  */
 angular.module('recipeshopperApp')
-  .controller('ProductDetailsController', function ($scope, $routeParams, $log, 
+  .controller('ProductDetailsController', function ($scope, $routeParams, $log, $location,
   		$firebaseObject, FB_SHOPPINGLIST_URL, settingsMgr, StoredListMgrFactory) {
 
   	// Start from first tab
@@ -26,16 +26,20 @@ angular.module('recipeshopperApp')
     	} else { // a recipe
     		$scope.storeMgr = StoredListMgrFactory.getStoredListMgr(FB_SHOPPINGLIST_URL);
     	}
-    };
+    }; // setStoreMgr
 
 	var initObject = function() {
-        var currentUser = settingsMgr.getCurrentUser();
+      var currentUser = settingsMgr.getCurrentUser();
 		// $log.debug('ProductDetailsController: initObject currentUser', currentUser);
-    	if(currentUser && $routeParams.itemId) {
-    		setStoreMgr();
-	    	$scope.currentItem = $scope.storeMgr.getItem($routeParams.itemId);
-    	} 
-	}
+    	if(currentUser) {
+        if($routeParams.itemId) {
+          setStoreMgr();
+          $scope.currentItem = $scope.storeMgr.getItem($routeParams.itemId);
+        }
+    	} else {
+        $location.path('/login');
+      }
+	}; // initObject
 
 	$scope.$on('handleCurrentUserSet', function () {
         initObject();

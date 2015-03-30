@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Directive: rsTileRightDelete', function () {
+describe('Misc Directives:', function () {
 
   // load the templates
   beforeEach(module('views/apptitlebar.html'));
@@ -37,19 +37,19 @@ describe('Directive: rsTileRightDelete', function () {
     expect(element.children().length).toBe(1);
   }));
 
-  it('rs-search-bar should have 1 child', inject(function ($compile) {
-    element = angular.element('<rs-search-bar></rs-search-bar>');
+  it('rs-search-bar should have 2 children', inject(function ($compile) {
+    element = angular.element('<rs-search-bar placeholder-text="Search for recipes"></rs-search-bar>');
     element = $compile(element)(scope);
-    expect(element.children().length).toBe(1);
+    expect(element.children().length).toBe(2);
   }));
 
-  it('rs-search-bar should have 1 child', inject(function ($compile) {
-    element = angular.element('<rs-search-bar show-checkbox="true"></rs-search-bar>');
+  it('rs-search-bar should have 2 children when checkbox is shown', inject(function ($compile) {
+    element = angular.element('<rs-search-bar show-checkbox="true" placeholder-text="Search for products"></rs-search-bar>');
     element = $compile(element)(scope);
-    expect(element.children().length).toBe(1);
+    expect(element.children().length).toBe(2);
   }));
 
-  it('rs-search-bar should have 1 children', inject(function ($compile) {
+  it('rs-one-row-add-item-form should have 1 children', inject(function ($compile) {
     element = angular.element('<rs-one-row-add-item-form></rs-one-row-add-item-form>');
     element = $compile(element)(scope);
     expect(element.children().length).toBe(1);
