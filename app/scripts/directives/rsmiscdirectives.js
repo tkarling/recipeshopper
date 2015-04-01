@@ -39,7 +39,7 @@ angular.module('recipeshopperApp')
       templateUrl: 'views/apptitlebar.html',
       scope: {
         type: '@',
-        title: '@',
+        title: '&',
         checkFn: '&',
         checkEnabled: '@',
         settingsButton: '@'
@@ -72,6 +72,8 @@ angular.module('recipeshopperApp')
           scope.checkFn();
           $window.history.back();
         }; // gotoPage
+
+        scope.titleString = scope.title();
       }
     };
   })
@@ -86,7 +88,7 @@ angular.module('recipeshopperApp')
                       'ng-model="data.mySettings.doNotShowBoughtItems" ng-change="updateShowAll()"' +
                       'class="md-primary">' +
                     '</md-checkbox>' +
-                    '<md-button id="addbutton" ng-click="gotoAddPage()"' +
+                    '<md-button id="addbutton" ng-click="gotoAddPage(listId)"' +
                         'class="md-primary md-fab" aria-label="Go to Add Page">' +
                         '<rs-icon icon-name="ic_add" icon-group="content"></rs-icon>' +
                     '</md-button>' +
@@ -96,6 +98,7 @@ angular.module('recipeshopperApp')
       link: function postLink(scope, element, attrs) {
         scope.showCheckbox = attrs['showCheckbox'] == "true";
         scope.placeholderText = attrs['placeholderText'] || 'Search';
+        scope.listId = attrs['listId'] || 'FAVORITES';
           // console.log('rsSearchBar called');
       }
     };
@@ -218,12 +221,16 @@ angular.module('recipeshopperApp')
   })
   .directive('rsTileRightDelete', function () {
     return {
-      template: '<span><rs-tile-right-delete-sub delete-fn="deleteFn()" hide-sm show-gt-sm>' + 
-                '</rs-tile-right-delete-sub>' +
-                '<rs-tile-right-delete-sub delete-fn="deleteFn()" hide-gt-sm ' +
-                    'show-sm ng-show="showActions">' +
-                '</rs-tile-right-delete-sub></span>',
+      template: '<span>' + 
+                  '<rs-icon ng-if="hasNote" icon-name="ic_info" aria-label="Has Note"></rs-icon>' + 
+                  '<rs-tile-right-delete-sub delete-fn="deleteFn()" hide-sm show-gt-sm>' + 
+                  '</rs-tile-right-delete-sub>' +
+                  '<rs-tile-right-delete-sub delete-fn="deleteFn()" hide-gt-sm ' +
+                      'show-sm ng-show="showActionsBool">' +
+                  '</rs-tile-right-delete-sub>' +
+                '</span>',
       scope: {
+        hasNote: '@',
         deleteFn: '&',
         showActions: '@'
       }, 
@@ -231,7 +238,11 @@ angular.module('recipeshopperApp')
       replace: true,
       link: function postLink(scope, element, attrs) {
         // console.log('rsTileRightDelete called');
-        // console.log('rsTileRightDelete scope.showActions', scope.showActions);
+        scope.$watch('showActions', function() {
+          scope.showActionsBool = (scope.showActions == 'true');
+          // console.log('rsTileRightDelete scope.showActionsBool', scope.showActionsBool);
+        });
+        // console.log('rsTileRightDelete scope.hasNote', scope.hasNote);
       }
     };
   });

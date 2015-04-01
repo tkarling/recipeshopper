@@ -1,12 +1,12 @@
 <form name="productForm" novalidate>
 <rs-view type="details" 
-		title="{{currentItem.product}}" 
-		check-fn="saveObject()" check-enabled="{{productForm.$valid}}">
+		title="getTitle()" 
+		check-fn="addOrSaveItem()" check-enabled="{{productForm.$valid}}">
 	
 	<md-content class="md-padding">
 		<div layout>
 			<md-input-container flex="15">
-				<label>No.</label>
+				<label>Amount</label>
 				<input type="number" ng-model="currentItem.amount" ng-required="true">
 			</md-input-container>
 			<md-input-container flex="25">
@@ -20,9 +20,9 @@
 		</div>
 	
 		<div layout>
-			<div flex>
+			<div>
 				<!-- <label>{{ currentItem.aisle ? 'Aisle:' : 'Please Pick Aisle' }} -->
-				<md-select ng-model="currentItem.aisle">
+				<md-select ng-model="currentItem.aisle" ng-required="true">
 					<md-option value="PROTEINS">PROTEINS</md-option>
 					<md-option value="DAIRY">DAIRY</md-option>
 					<md-option value="VEGGIES&FRUIT">VEGGIES&FRUIT</md-option>
@@ -35,6 +35,13 @@
 			<md-input-container flex>
 				<label>Recipe</label>
 				<input ng-model="currentItem.recipe" ng-disabled="true">
+			</md-input-container>
+		</div>
+
+		<div layout>
+			<md-input-container flex>
+				<label>Note</label>
+				<input ng-model="currentItem.note">
 			</md-input-container>
 		</div>
 	</md-content>

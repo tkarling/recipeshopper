@@ -39,10 +39,12 @@ angular.module('recipeshopperApp')
 	    });
    	};
 
+   	var haveAskedForItems = false;
    	var initFromStores = function () { 
         var currentUser = settingsMgr.getCurrentUser();
 		// $log.debug('BaselistCtrl: initFromStores currentUser', currentUser);
-    	if(currentUser) {
+    	if(currentUser && ! haveAskedForItems) {
+    		haveAskedForItems = true;
     		getSettings();
     		if($scope.data.fbUrl) {
 	    		// $log.debug('BaselistCtrl: initFromStores getting items from store', $scope.data.fbUrl);
@@ -71,6 +73,12 @@ angular.module('recipeshopperApp')
     $scope.gotoDetailsPage = function(item, fromListId) {
     	// var pagelink='/productdetails/'+ $scope.data.myItems.indexOf(item);
     	var pagelink='/productdetails/List/' + fromListId + '/Item/' + item.$id;
+	    $log.debug('BaselistCtrl: pagelink: ', pagelink);
+	    $location.path(pagelink);
+    };
+
+    $scope.gotoAddPage = function(fromListId) {
+    	var pagelink='/productdetails/List/' + fromListId + '/Item/Add';
 	    $log.debug('BaselistCtrl: pagelink: ', pagelink);
 	    $location.path(pagelink);
     };

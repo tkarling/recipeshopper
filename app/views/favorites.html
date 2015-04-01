@@ -1,9 +1,6 @@
-<rs-view title="Favorites" settings-button="true">
+<rs-view title="'Favorites'" settings-button="true">
   <md-content class="md-padding" ng-controller="FavoritesCtrl">
-    <rs-search-bar placeholder-text="Search for products"></rs-search-bar>
-    <md-content>
-      <rs-one-row-add-item-form add-item-fn="addProduct"  number-field="true" field1="Product" field2="Aisle"></rs-one-row-add-item-form>
-    </md-content>
+    <rs-search-bar placeholder-text="Search for products" list-id="FAVORITES"></rs-search-bar>
     <md-content>
       <md-list>
         <md-item ng-repeat="item in data.myItems | filter: query | 
@@ -11,8 +8,9 @@
           <md-item-content ng-swipe-left="showActions = true" ng-swipe-right="showActions = false">
             <rs-tile-left-check ng-model="item.isonlist" save-item-fn="toggleItemOnShoppingList(item, item.isonlist)" aria-label="Is on List"></rs-tile-left-check>
             <rs-tile-content accented-text="{{item.aisle}}" additional-text="{{item.recipe}}" 
-                click-fn="gotoDetailsPage(item, 'Favorites')">{{item.amount}} {{item.unit}} {{item.product}}</rs-tile-content>
-            <rs-tile-right-delete delete-fn="deleteItem(item)" show-actions="{{showActions}}"></rs-tile-right-delete>
+                click-fn="gotoDetailsPage(item, 'FAVORITES')">{{item.amount}} {{item.unit}} {{item.product}}</rs-tile-content>
+            <rs-tile-right-delete has-note="{{item.note}}" delete-fn="deleteItem(item)" 
+                show-actions="{{showActions}}"></rs-tile-right-delete>
           </md-item-content>
           <md-divider inset></md-divider>
         </md-item>

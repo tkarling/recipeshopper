@@ -26,8 +26,8 @@ angular.module('recipeshopperApp')
   	$scope.updateShowAll = function () {
   		setShowAll();
   		settingsMgr.saveSettings();
-  		$log.debug('MainCtrl: updateShowAll: $scope.data.showAll', $scope.data.showAll);
-  		$log.debug('MainCtrl: updateShowAll:  $scope.data.mySettings.doNotShowBoughtItems', $scope.data.mySettings.doNotShowBoughtItems);
+  		// $log.debug('MainCtrl: updateShowAll: $scope.data.showAll', $scope.data.showAll);
+  		// $log.debug('MainCtrl: updateShowAll:  $scope.data.mySettings.doNotShowBoughtItems', $scope.data.mySettings.doNotShowBoughtItems);
   	};
 
     //A QUICK WAY TO FILL EMPTY DB

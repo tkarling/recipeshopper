@@ -1,4 +1,4 @@
-<rs-view type="details" title="{{recipe.recipename}}" check-fn="saveRecipe()">
+<rs-view type="details" title="recipe.recipename" check-fn="saveRecipe()">
 	<div id="recipedetails">
 		<md-tabs class="md-accent" md-selected="data.selectedTabIndex">
 			<md-tab id="ingredients-tab" aria-controls="ingredients-tab-content">Ingredients</md-tab>
@@ -14,8 +14,9 @@
 						<md-item ng-repeat="item in ingredients">
 							<md-item-content ng-swipe-left="showActions = true" ng-swipe-right="showActions = false">
 								<rs-tile-content accented-text="{{item.aisle}}" 
-									click-fn="gotoDetailsPage(item, 'ARecipe')">{{item.amount}} {{item.unit}} {{item.product}}</rs-tile-content>
-								<rs-tile-right-delete delete-fn="deleteItem(item)"  show-actions="{{showActions}}"></rs-tile-right-delete>
+									click-fn="gotoDetailsPage(item, item.recipe)">{{item.amount}} {{item.unit}} {{item.product}}</rs-tile-content>
+								<rs-tile-right-delete has-note="{{item.note}}" delete-fn="deleteItem(item)"  
+									show-actions="{{showActions}}"></rs-tile-right-delete>
 							</md-item-content>
 							<md-divider inset></md-divider>
 						</md-item>

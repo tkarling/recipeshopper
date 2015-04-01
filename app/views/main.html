@@ -1,9 +1,7 @@
-<rs-view title="Shopping List" settings-button="true">
+<rs-view title="'Shopping List'" settings-button="true">
   <md-content class="md-padding" ng-controller="MainCtrl">
-    <rs-search-bar show-checkbox="true" placeholder-text="Search for products"></rs-search-bar>
-    <md-content>
-      <rs-one-row-add-item-form add-item-fn="addProduct"  number-field="true" field1="Product" field2="Aisle"></rs-one-row-add-item-form>
-    </md-content>
+    <rs-search-bar show-checkbox="true" placeholder-text="Search for products"
+        list-id="ShoppingList"></rs-search-bar>
     <md-content>
       <md-list>
         <md-item line-through="item.isbought" 
@@ -13,7 +11,8 @@
             <rs-tile-left-check ng-model="item.isbought" save-item-fn="saveItem(item)" aria-label="Is Bought"></rs-tile-left-check>
             <rs-tile-content accented-text="{{item.aisle}}" additional-text="{{item.recipe}}" 
                 click-fn="gotoDetailsPage(item, 'ShoppingList')">{{item.amount}} {{item.unit}} {{item.product}}</rs-tile-content>
-            <rs-tile-right-delete delete-fn="removeItem(item)" show-actions="{{showActions}}"></rs-tile-right-delete>
+            <rs-tile-right-delete has-note="{{item.note}}" delete-fn="removeItem(item)" 
+                show-actions="{{showActions}}" ></rs-tile-right-delete>
           </md-item-content>
           <md-divider inset></md-divider>
         </md-item>

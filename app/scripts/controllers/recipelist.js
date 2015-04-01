@@ -21,6 +21,12 @@ angular.module('recipeshopperApp')
 	    $location.path(pagelink);
     };
 
+    $scope.gotoAddPage = function() {
+    	var pagelink='/recipedetails/Add';
+	    $log.debug('BaselistCtrl: pagelink: ', pagelink);
+	    $location.path(pagelink);
+    };
+
 	if(! $scope.data) {
 		$scope.data = {};
 	}	
