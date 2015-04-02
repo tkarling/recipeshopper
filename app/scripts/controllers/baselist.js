@@ -50,7 +50,7 @@ angular.module('recipeshopperApp')
 	    		// $log.debug('BaselistCtrl: initFromStores getting items from store', $scope.data.fbUrl);
 	    		getItems($scope.data.fbUrl, $scope.data.fieldName, $scope.data.fieldValue);
     		}
-    	} else {
+    	} else if(! currentUser) {
     		$location.path('/login');
     	}
    	};

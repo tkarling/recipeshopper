@@ -75,16 +75,16 @@ angular.module('recipeshopperApp')
       var currentUser = settingsMgr.getCurrentUser();
 		// $log.debug('RecipeDetailsController: initRecipe currentUser', currentUser);
     	if(currentUser) {
-        if($routeParams.itemId) {
-          $scope.recipesMgr = StoredListMgrFactory.getStoredListMgr(FB_RECIPES_URL);
-          if($routeParams.itemId != 'Add') {
-            $scope.recipe = $scope.recipesMgr.getItem($routeParams.itemId);
-          } 
-          setIngredientsMgrAndIngredients();
-        }
+	        if($routeParams.itemId) {
+	          $scope.recipesMgr = StoredListMgrFactory.getStoredListMgr(FB_RECIPES_URL);
+	          if($routeParams.itemId != 'Add') {
+	            $scope.recipe = $scope.recipesMgr.getItem($routeParams.itemId);
+	          } 
+	          setIngredientsMgrAndIngredients();
+	        }
     	} else {
-        $location.path('/login');
-      }
+        	$location.path('/login');
+      	}
 	}; // initRecipe
 
 	$scope.$on('handleCurrentUserSet', function () {
