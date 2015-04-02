@@ -16,7 +16,8 @@ angular.module('recipeshopperApp')
 
     $scope.gotoDetailsPage = function(item) {
     	$log.debug('RecipelistCtrl:gotoDetailsPage moi');
-    	var pagelink='/recipedetails/'+ $scope.data.myItems.indexOf(item);
+    	// var pagelink='/recipedetails/'+ $scope.data.myItems.indexOf(item);
+    	var pagelink='/recipedetails/' + item.$id;
 	    $log.debug('RecipelistCtrl: pagelink: ', pagelink);
 	    $location.path(pagelink);
     };

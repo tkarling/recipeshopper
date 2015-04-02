@@ -2,9 +2,6 @@
   <md-content class="md-padding" ng-controller="RecipelistCtrl">
     <rs-search-bar placeholder-text="Search for recipes"></rs-search-bar>
     <md-content>
-      <rs-one-row-add-item-form add-item-fn="addRecipe" field1="Recipe" field2="Category"></rs-one-row-add-item-form>
-    </md-content>
-    <md-content>
       <md-list>
         <md-item ng-repeat="item in data.myItems | filter: query | 
           orderBy: ['-onlist', data.mySettings.recipeSortOrder, 'recipename']">

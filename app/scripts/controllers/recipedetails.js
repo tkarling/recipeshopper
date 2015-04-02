@@ -9,26 +9,17 @@
  */
 
 angular.module('recipeshopperApp')
-  .controller('RecipeDetailsController', ['$scope', '$routeParams', '$log', '$location', '$http', 'FB_RECIPES_URL', 'FB_SHOPPINGLIST_URL', 'StoredListMgrFactory', 
-  	function ($scope, $routeParams, $log, $location, $http, FB_RECIPES_URL, FB_SHOPPINGLIST_URL, StoredListMgrFactory) { 
+  .controller('RecipeDetailsController', ['$scope', '$routeParams', '$log', '$location', '$http', 
+  	'FB_RECIPES_URL', 'FB_SHOPPINGLIST_URL', 'StoredListMgrFactory', 'settingsMgr', 
+  	function ($scope, $routeParams, $log, $location, $http, 
+  		FB_RECIPES_URL, FB_SHOPPINGLIST_URL, StoredListMgrFactory, settingsMgr) { 
 
 	// Start from first tab
 	$scope.data = {
       selectedTabIndex : 0
     };
-  	$scope.whichItem = $routeParams.itemId;
-
-  	// needs to be defined here as recipeDetails does not inherit baslist (yet?)
-    $scope.gotoDetailsPage = function(item, fromListId) {
-    	var pagelink='/productdetails/List/'+ fromListId + '/Item/' + item.$id;
-	    $log.debug('RecipeDetailsController: gotoDetailsPage pagelink: ', pagelink);
-	    $location.path(pagelink);
-    };
-
-
-	$scope.saveRecipe = function () {
-	    $log.debug('RecipeDetailsController: saveRecipe', $scope.recipe);
-	}; // saveRecipe
+    $scope.recipe = {};
+    $log.debug('RecipeDetailsController: $routeParams.itemId', $routeParams.itemId);
 
     var ingredientsMgr; 
   	var setIngredientsMgrAndIngredients = function () {
@@ -41,20 +32,9 @@ angular.module('recipeshopperApp')
   		}
   	};
 
-    var recipesMgr = StoredListMgrFactory.getStoredListMgr(FB_RECIPES_URL);
-	$scope.recipes = [];
-    recipesMgr.getItems().then(function(data) {
-    	$scope.recipes = data;
-	    $scope.recipe = ($scope.recipes.length > 0) ? $scope.recipes[$scope.whichItem]: null;
-	    setIngredientsMgrAndIngredients();
-    	// if($scope.recipe && $scope.recipe.instructions) {
-    	// 	$log.debug('$scope.recipe.instructions: ', $scope.recipe.instructions);
-    	// }
-    });
-
     $scope.readIngredients = function() {
     	$scope.recipe.onlist = true;
-    	recipesMgr.saveItem($scope.recipe);
+    	$scope.recipesMgr.saveItem($scope.recipe);
 		$http.get('data/beanCarrotGingerSoup.json').success(function(data){ 
 			var items = data;  
 			$log.debug('RecipeDetailsController.readIngredients: items', items);
@@ -91,31 +71,46 @@ angular.module('recipeshopperApp')
     }; // saveIngredient
 
 
-    // var myTab = 2;
-    // $scope.setTab = function(tab){
-    //   myTab = tab;
-    // };
+	var initRecipe = function() {
+      var currentUser = settingsMgr.getCurrentUser();
+		// $log.debug('RecipeDetailsController: initRecipe currentUser', currentUser);
+    	if(currentUser) {
+        if($routeParams.itemId) {
+          $scope.recipesMgr = StoredListMgrFactory.getStoredListMgr(FB_RECIPES_URL);
+          if($routeParams.itemId != 'Add') {
+            $scope.recipe = $scope.recipesMgr.getItem($routeParams.itemId);
+          } 
+          setIngredientsMgrAndIngredients();
+        }
+    	} else {
+        $location.path('/login');
+      }
+	}; // initRecipe
 
-    // $scope.isSet = function(tab){
-    //   return (myTab === tab);
-    // };
+	$scope.$on('handleCurrentUserSet', function () {
+        initRecipe();
+    });
+    initRecipe();
 
-  	// Following not needed, if add happens from list view
-	// var addRecipe = function () {
-	// 	recipesMgr.addItem({
-	// 		category : 'Misc Recipes',
-	//       	recipename : 'Recipe Name',
-	//       	onlist : false
-	// 	}).then(function () {
-	// 		// $scope.recipename = '';
-	// 		// $scope.category = '';
-	// 		$scope.whichItem = $scope.recipes.length - 1;
-	// 	});
-	// }; // addRecipe
+	$scope.addOrSaveRecipe = function () {
+	    $log.debug('RecipeDetailsController: addOrSaveRecipe', $scope.recipe);
+      if($routeParams.itemId == 'Add') {
+        $scope.recipe.onlist = true;
+        $scope.recipesMgr.addItem($scope.recipe);
+      } else {
+        $scope.recipesMgr.saveItem($scope.recipe);
+      }
+	}; // addOrSaveRecipe
 
-	//	if ($scope.whichItem === '0}}') {
-	// 	addRecipe();
-	// }
+   	$scope.gotoDetailsPage = function(item, fromListId) {
+    	var pagelink='/productdetails/List/'+ fromListId + '/Item/' + item.$id;
+	    $log.debug('RecipeDetailsController: gotoDetailsPage pagelink: ', pagelink);
+	    $location.path(pagelink);
+    }; // gotoDetailsPage
 
+	$scope.getTitle = function() {
+	    var recipeName = $scope.recipe ? $scope.recipe.recipename : '';
+	    return ($routeParams.itemId == 'Add') ? 'Add Recipe' : recipeName;
+	}; // getTitle
 
   }]);
