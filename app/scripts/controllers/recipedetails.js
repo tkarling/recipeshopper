@@ -78,13 +78,18 @@ angular.module('recipeshopperApp')
     	if(currentUser) {
 	        if(recipeId) {
 	          	$scope.recipesMgr = StoredListMgrFactory.getStoredListMgr(FB_RECIPES_URL);
+	          	if($scope.recipesMgr.noOfItems() == 0) {
+	          		// refresh page case
+	          		$location.path('/recipelist');
+	          	}
 	          	if(recipeId != 'Add') {
 	          		$scope.recipe = $scope.recipesMgr.getCopyOfItem(recipeId);
 	          		if($scope.recipe) {
 						setIngredientsMgrAndIngredients();
-					} else {
-       		        	$location.path('/recipelist');
-					}
+					} 
+					// else {
+     //   		        	$location.path('/recipelist');
+					// }
 	          	} 
 	        }
     	} else {

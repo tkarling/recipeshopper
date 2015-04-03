@@ -12,33 +12,39 @@ angular.module('recipeshopperApp')
   		$firebaseObject, FB_SHOPPINGLIST_URL, settingsMgr, StoredListMgrFactory) {
 
   	// Start from first tab
-	$scope.data = {
+	  $scope.data = {
       selectedTabIndex : 0
     };
     $scope.currentItem = {};
     // $log.debug('ProductDetailsController: $routeParams.listId, $routeParams.itemId', $routeParams.listId, $routeParams.itemId);
 
-    var setStoreMgr = function() {
-    	if($routeParams.listId == "ShoppingList") {
-    		$scope.storeMgr = StoredListMgrFactory.getStoredListMgr(FB_SHOPPINGLIST_URL, 'isonlist', true);
-    	} else if($routeParams.listId == "FAVORITES") { 
-    		$scope.storeMgr = StoredListMgrFactory.getStoredListMgr(FB_SHOPPINGLIST_URL, 'recipeId', 'FAVORITES');
+    var getStoreMgr = function(listId) {
+      var result = null;
+    	if(listId == "ShoppingList") {
+    		result = StoredListMgrFactory.getStoredListMgr(FB_SHOPPINGLIST_URL, 'isonlist', true);
+    	} else if(listId == "FAVORITES") { 
+    		result = StoredListMgrFactory.getStoredListMgr(FB_SHOPPINGLIST_URL, 'recipeId', 'FAVORITES');
     	} else { // a recipe
-    		$scope.storeMgr = StoredListMgrFactory.getStoredListMgr(FB_SHOPPINGLIST_URL);
+    		result = StoredListMgrFactory.getStoredListMgr(FB_SHOPPINGLIST_URL);
     	}
-    }; // setStoreMgr
+      return result;
+    }; // getStoreMgr
 
-	var initItem = function() {
+	var initItem = function(productId, listId) {
       var currentUser = settingsMgr.getCurrentUser();
 		// $log.debug('ProductDetailsController: initItem currentUser', currentUser);
     	if(currentUser) {
-        if($routeParams.itemId) {
-          setStoreMgr();
-          if($routeParams.itemId != 'Add') {
-            $scope.currentItem = $scope.storeMgr.getItem($routeParams.itemId);
-          } else if ($routeParams.listId) { // no need to set recipe in page refresh case
-            $scope.currentItem.recipeId = ($routeParams.listId == "ShoppingList") ?  'FAVORITES' : $routeParams.listId;
-            $scope.currentItem.recipe = ($routeParams.listId == "ShoppingList") ?  'FAVORITES' : $routeParams.listId;
+        if(productId) {
+          $scope.storeMgr = getStoreMgr(listId);
+          if($scope.storeMgr.noOfItems() == 0) {
+                // refresh page case
+                $location.path('/main');
+              }
+          if(productId != 'Add') {
+            $scope.currentItem = $scope.storeMgr.getCopyOfItem(productId);
+          } else if (listId) { 
+            $scope.currentItem.recipeId = (listId == "ShoppingList") ?  'FAVORITES' : listId;
+            $scope.currentItem.recipe = (listId == "ShoppingList") ?  'FAVORITES' : listId;
           }
         }
     	} else {
@@ -47,9 +53,9 @@ angular.module('recipeshopperApp')
 	}; // initItem
 
 	$scope.$on('handleCurrentUserSet', function () {
-        initItem();
-    });
-    initItem();
+        initItem($routeParams.itemId, $routeParams.listId);
+  });
+  initItem($routeParams.itemId,$routeParams.listId);
 
 	$scope.addOrSaveItem = function () {
 	    $log.debug('ProductDetailsController: saveOrAddItem', $scope.currentItem);
@@ -58,7 +64,7 @@ angular.module('recipeshopperApp')
         $scope.currentItem.isbought = false;
         $scope.storeMgr.addItem($scope.currentItem);
       } else {
-        $scope.storeMgr.saveItem($scope.currentItem);
+        $scope.storeMgr.saveFromCopyOfItem($scope.currentItem);
       }
 	}; // saveOrAddItem
 

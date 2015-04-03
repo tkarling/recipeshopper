@@ -192,6 +192,10 @@ angular.module('storedListMod')
       }
     }; // BasicStoredListMgr.prototype.getItemsSync
 
+    BasicStoredListMgr.prototype.noOfItems = function() {
+      return this.data.items.length;
+    } // BasicStoredListMgr.prototype.noOfItems
+
     BasicStoredListMgr.prototype.getItem = function (itemId) {
       // $log.debug('BasicStoredListMgr.prototype.getItem: this.data', this.data);
       return (this.data.items.length > 0) ? this.data.items.$getRecord(itemId): null;
