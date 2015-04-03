@@ -16,7 +16,7 @@ angular.module('recipeshopperApp')
       selectedTabIndex : 0
     };
     $scope.currentItem = {};
-    $log.debug('ProductDetailsController: $routeParams.listId, $routeParams.itemId', $routeParams.listId, $routeParams.itemId);
+    // $log.debug('ProductDetailsController: $routeParams.listId, $routeParams.itemId', $routeParams.listId, $routeParams.itemId);
 
     var setStoreMgr = function() {
     	if($routeParams.listId == "ShoppingList") {

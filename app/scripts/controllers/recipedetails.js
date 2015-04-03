@@ -19,11 +19,11 @@ angular.module('recipeshopperApp')
       selectedTabIndex : 0
     };
     $scope.recipe = {};
-    $log.debug('RecipeDetailsController: $routeParams.itemId', $routeParams.itemId);
+    // $log.debug('RecipeDetailsController: $routeParams.itemId', $routeParams.itemId);
 
     var ingredientsMgr; 
   	var setIngredientsMgrAndIngredients = function () {
-  		if($scope.recipe) {
+  		if($scope.recipe && $scope.recipe.$id) {
 		    ingredientsMgr = StoredListMgrFactory.getStoredListMgr(FB_SHOPPINGLIST_URL);
 		    ingredientsMgr.getItems('recipeId', $scope.recipe.$id).then(function(data) {
 		    	$scope.ingredients = data;
@@ -34,7 +34,8 @@ angular.module('recipeshopperApp')
 
     $scope.readIngredients = function() {
     	$scope.recipe.onlist = true;
-    	$scope.recipesMgr.saveItem($scope.recipe);
+    	$scope.recipesMgr.saveFromCopyOfItem($scope.recipe);
+    	// copyAndSaveRecipe();
 		$http.get('data/beanCarrotGingerSoup.json').success(function(data){ 
 			var items = data;  
 			$log.debug('RecipeDetailsController.readIngredients: items', items);
@@ -50,7 +51,7 @@ angular.module('recipeshopperApp')
 					item.unit = items[i].unit;
 				}
 				if(items[i].amount) {
-					item.amount = items[i].amount;
+					item.amount = Number(items[i].amount);
 				}
 				// $log.debug(item);
 				ingredientsMgr.addItem(item);
@@ -70,17 +71,21 @@ angular.module('recipeshopperApp')
     	ingredientsMgr.saveItem(item);
     }; // saveIngredient
 
-
-	var initRecipe = function() {
+    var recipePtr;
+	var initRecipe = function(recipeId) {
       var currentUser = settingsMgr.getCurrentUser();
 		// $log.debug('RecipeDetailsController: initRecipe currentUser', currentUser);
     	if(currentUser) {
-	        if($routeParams.itemId) {
-	          $scope.recipesMgr = StoredListMgrFactory.getStoredListMgr(FB_RECIPES_URL);
-	          if($routeParams.itemId != 'Add') {
-	            $scope.recipe = $scope.recipesMgr.getItem($routeParams.itemId);
-	          } 
-	          setIngredientsMgrAndIngredients();
+	        if(recipeId) {
+	          	$scope.recipesMgr = StoredListMgrFactory.getStoredListMgr(FB_RECIPES_URL);
+	          	if(recipeId != 'Add') {
+	          		$scope.recipe = $scope.recipesMgr.getCopyOfItem(recipeId);
+	          		if($scope.recipe) {
+						setIngredientsMgrAndIngredients();
+					} else {
+       		        	$location.path('/recipelist');
+					}
+	          	} 
 	        }
     	} else {
         	$location.path('/login');
@@ -88,18 +93,21 @@ angular.module('recipeshopperApp')
 	}; // initRecipe
 
 	$scope.$on('handleCurrentUserSet', function () {
-        initRecipe();
+        initRecipe($routeParams.itemId);
     });
-    initRecipe();
+    initRecipe($routeParams.itemId);
 
 	$scope.addOrSaveRecipe = function () {
 	    $log.debug('RecipeDetailsController: addOrSaveRecipe', $scope.recipe);
-      if($routeParams.itemId == 'Add') {
-        $scope.recipe.onlist = true;
-        $scope.recipesMgr.addItem($scope.recipe);
-      } else {
-        $scope.recipesMgr.saveItem($scope.recipe);
-      }
+      	if(! $scope.recipe.$id) { 
+      		// recipe has never been saved if it does not have id
+        	$scope.recipe.onlist = true;
+        	$scope.recipesMgr.addItem($scope.recipe).then(function(addedRecipeId) {
+   	        	initRecipe(addedRecipeId);
+        	});
+      	} else {
+      		$scope.recipesMgr.saveFromCopyOfItem($scope.recipe);
+      	}
 	}; // addOrSaveRecipe
 
    	$scope.gotoDetailsPage = function(item, fromListId) {
@@ -112,5 +120,15 @@ angular.module('recipeshopperApp')
 	    var recipeName = $scope.recipe ? $scope.recipe.recipename : '';
 	    return ($routeParams.itemId == 'Add') ? 'Add Recipe' : recipeName;
 	}; // getTitle
+
+	$scope.$watch(function () { return $scope.data.selectedTabIndex; }, 
+		function(newValue, oldValue) {
+			// tab changed
+			$log.debug('RecipeDetailsController: tab changed: newValue, oldValue', newValue, oldValue);
+			if((oldValue == 0) && (newValue != 0)) {
+				$scope.addOrSaveRecipe();
+			}
+		}
+	);
 
   }]);

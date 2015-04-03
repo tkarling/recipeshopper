@@ -72,12 +72,12 @@ angular.module('storedListMod')
       variableUrl = (fieldValue || (variableUrl == undefined))?'':variableUrl;
       // $log.debug('BasicStoredListMgr: fullUrl: variableUrl', variableUrl);
       var fUrl = fbUrl + variableUrl;
-      $log.debug('BasicStoredListMgr: fullUrl: fUrl', fUrl);
+      // $log.debug('BasicStoredListMgr: fullUrl: fUrl', fUrl);
       return fUrl;
     };
 
     var clearRefs = function(data) {
-      $log.debug('BasicStoredListMgr: clearRefs CALLED');
+      // $log.debug('BasicStoredListMgr: clearRefs CALLED');
       data.ref = undefined;
       if(data.items && data.items.length > 0) {
         data.items.$destroy();
@@ -90,7 +90,7 @@ angular.module('storedListMod')
       data.fbUrl = fbUrl;
       data.fieldNameOrVariableUrl = fieldNameOrVariableUrl;
       data.fieldValue = fieldValue;
-      $log.debug('BasicStoredListMgr: setRefs: ', data, fbUrl, fieldNameOrVariableUrl, fieldValue);
+      // $log.debug('BasicStoredListMgr: setRefs: ', data, fbUrl, fieldNameOrVariableUrl, fieldValue);
       if (data.ref) {
         clearRefs(data);
       }
@@ -119,7 +119,7 @@ angular.module('storedListMod')
        var bothAreSame = (fieldNameOrVariableUrl == undefined) ||
         (self.data.fieldNameOrVariableUrl == fieldNameOrVariableUrl) && (self.data.fieldValue == fieldValue);
        if(! bothAreSame) {
-        $log.debug('BasicStoredListMgr: fieldNameAndFieldValueAreSame: setting fieldNameOrVariableUrl, fieldValue', fieldNameOrVariableUrl, fieldValue);
+        // $log.debug('BasicStoredListMgr: fieldNameAndFieldValueAreSame: setting fieldNameOrVariableUrl, fieldValue', fieldNameOrVariableUrl, fieldValue);
         self.data.fieldNameOrVariableUrl = fieldNameOrVariableUrl;
         self.data.fieldValue = fieldValue;
        }
@@ -154,14 +154,6 @@ angular.module('storedListMod')
           // return getItemsFromFBAsync(this); 
         }
     }; // BasicStoredListMgr.prototype.getItems
-
-    BasicStoredListMgr.prototype.getItem = function (itemId) {
-      for(var i=0; i < this.data.items.length; i++) {
-        if(this.data.items[i].$id == itemId) {
-          return this.data.items[i];
-        }
-      }
-    }; // BasicStoredListMgr.prototype.getItem
 
     var broadcastItemsLoaded = function(self) {
       $log.debug('BasicStoredListMgr: getItemsSync broadcasting handleItemsloaded', self.data);
@@ -200,32 +192,80 @@ angular.module('storedListMod')
       }
     }; // BasicStoredListMgr.prototype.getItemsSync
 
+    BasicStoredListMgr.prototype.getItem = function (itemId) {
+      // $log.debug('BasicStoredListMgr.prototype.getItem: this.data', this.data);
+      return (this.data.items.length > 0) ? this.data.items.$getRecord(itemId): null;
+    }; // BasicStoredListMgr.prototype.getItem
+
+    var copyItemFromTo = function (fromItem, toItem) {
+      // used for copying both from fb item to item and vice versa
+      if(! toItem.$id) {
+        toItem.$id = fromItem.$id;
+      }
+      var props= [];
+      for (var prop in fromItem) {
+        if((prop != '$$hashkey') && (prop != '$priority')) {
+          toItem[prop] = fromItem[prop];
+          // props.push({key: prop, value:fromItem[prop]});
+        }
+      }
+      // $log.debug('BasicStoredListMgr: copyRecipeFromTo: props', props);
+    }; // copyItemFromTo
+
+    BasicStoredListMgr.prototype.getCopyOfItem = function (itemId) {
+      var result = {};
+      var itemPtr = this.getItem(itemId);
+      if(itemPtr) {
+        copyItemFromTo(itemPtr, result);
+      } else {
+        result = null;
+      }
+      return result;
+    }; // BasicStoredListMgr.prototype.getItem
+
     BasicStoredListMgr.prototype.addItem = function (item) {
-      var result = this.data.items.$add(item).then(function(data) {
-        // $log.debug('BasicStoredListMgr.prototype.addItem OK: item', item);
+      var deferred = $q.defer();
+      this.data.items.$add(item).then(function(ref) {
+        // $log.debug('BasicStoredListMgr.prototype.addItem OK: ref.key(), ref', ref.key(), ref);
+        deferred.resolve(ref.key());
       }, function(reason) {
         $log.error('BasicStoredListMgr.prototype.addItem ErrorReason, item', reason, item);
+        deferred.reject(reason);
       });
-      return result;
+      return deferred.promise;
     }; // BasicStoredListMgr.prototype.addItem
 
     BasicStoredListMgr.prototype.deleteItem = function (item) {
-      var result = this.data.items.$remove(item).then(function(data) {
-        // $log.debug('BasicStoredListMgr.prototype.deleteItem OK: item', item);
+      var deferred = $q.defer();
+      this.data.items.$remove(item).then(function(ref) {
+        // $log.debug('BasicStoredListMgr.prototype.deleteItem OK: ref.key(), ref', ref.key(), ref);
+        deferred.resolve(ref.key());
       }, function(reason) {
         $log.error('BasicStoredListMgr.prototype.deleteItem ErrorReason, item', reason, item);
+        deferred.reject(reason);
       });
-      return result;
+      return deferred.promise;
     }; // BasicStoredListMgr.prototype.deleteItem
 
     BasicStoredListMgr.prototype.saveItem = function (item) {
-      var result = this.data.items.$save(item).then(function(data) {
-        // $log.debug('BasicStoredListMgr.prototype.saveItem OK: item', item);
+      var deferred = $q.defer();
+      this.data.items.$save(item).then(function(ref) {
+        // $log.debug('BasicStoredListMgr.prototype.saveItem OK: ref.key(), ref', ref.key(), ref);
+        deferred.resolve(ref.key());
       }, function(reason) {
         $log.error('BasicStoredListMgr.prototype.saveItem ErrorReason, item', reason, item);
+        deferred.reject(reason);
       });
-      return result;
+      return deferred.promise;
     }; // BasicStoredListMgr.prototype.saveItem
+
+    BasicStoredListMgr.prototype.saveFromCopyOfItem = function (copyItem) {
+      var itemPtr = this.getItem(copyItem.$id);
+      copyItemFromTo(copyItem, itemPtr);
+      this.saveItem(itemPtr);
+
+    }; // BasicStoredListMgr.prototype.saveFromCopyOfItem
+
 
     BasicStoredListMgr.prototype.prepareForLogout = function() {
       clearRefs(this.data);

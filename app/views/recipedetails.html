@@ -6,13 +6,16 @@
 			<md-tab id="details-tab" aria-controls="details-tab-content">
 				<rs-icon icon-name="ic_info_outline"></rs-icon>
 			</md-tab>
-			<md-tab id="ingredients-tab" aria-controls="ingredients-tab-content">
+			<md-tab id="ingredients-tab" ng-disabled="! recipeForm.$valid"
+				aria-controls="ingredients-tab-content">
 				<rs-icon icon-name="ic_list"></rs-icon>
 			</md-tab>
-			<md-tab id="instructions-tab" aria-controls="instructions-tab-content">
+			<md-tab id="instructions-tab" ng-disabled="! recipeForm.$valid"
+				aria-controls="instructions-tab-content">
 				<rs-icon icon-name="ic_subject"></rs-icon>
 			</md-tab>
-			<md-tab id="photo-tab" aria-controls="photo-tab-content">
+			<md-tab id="photo-tab" ng-disabled="! recipeForm.$valid"
+				aria-controls="photo-tab-content">
 				<rs-icon icon-name="ic_perm_media"></rs-icon>
 			</md-tab>
 		</md-tabs>

@@ -15,16 +15,15 @@ angular.module('recipeshopperApp')
 	// console.log('RecipelistCtrl: init');
 
     $scope.gotoDetailsPage = function(item) {
-    	$log.debug('RecipelistCtrl:gotoDetailsPage moi');
     	// var pagelink='/recipedetails/'+ $scope.data.myItems.indexOf(item);
     	var pagelink='/recipedetails/' + item.$id;
-	    $log.debug('RecipelistCtrl: pagelink: ', pagelink);
+	    $log.debug('RecipelistCtrl: gotoDetailsPage pagelink: ', pagelink);
 	    $location.path(pagelink);
     };
 
     $scope.gotoAddPage = function() {
     	var pagelink='/recipedetails/Add';
-	    $log.debug('BaselistCtrl: pagelink: ', pagelink);
+	    $log.debug('RecipelistCtrl: gotoAddPage pagelink: ', pagelink);
 	    $location.path(pagelink);
     };
 

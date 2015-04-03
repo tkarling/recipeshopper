@@ -108,11 +108,11 @@ angular
     }
 
     userLoggedIn = settingsMgr.getCurrentUser() != '';
-    $log.debug('LeftCtrl: $scope.userLoggedIn: ', $scope.userLoggedIn());
+    // $log.debug('LeftCtrl: $scope.userLoggedIn: ', $scope.userLoggedIn());
 
     $scope.$on('handleCurrentUserSet', function () {
         userLoggedIn = settingsMgr.getCurrentUser() != '';
-        $log.debug('LeftCtrl: handleCurrentUserSet called', $scope.userLoggedIn());
+        // $log.debug('LeftCtrl: handleCurrentUserSet called', $scope.userLoggedIn());
     });
 
   });
