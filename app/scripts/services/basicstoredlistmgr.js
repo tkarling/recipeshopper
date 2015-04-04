@@ -14,7 +14,7 @@ angular
 ]);
 
 angular.module('storedListMod')
-    .factory('StoredListMgrFactory', function ($log, BasicStoredListMgr) {
+    .factory('StoredListMgrFactory', function ($log, BasicStoredListMgr, settingsMgr, FIREBASE_URL) {
         var StoredListMgrs = [];
 
         var getExistingMgrItem = function(fbUrl, fieldNameOrVariableUrl, fieldValue) {
@@ -29,7 +29,8 @@ angular.module('storedListMod')
         }; // getExistingMgr
 
         return {
-            getStoredListMgr : function (fbUrl, fieldNameOrVariableUrl, fieldValue) {
+            getSharedStoredListMgr : function (fbUrlWNoBase, fieldNameOrVariableUrl, fieldValue) {
+                var fbUrl = FIREBASE_URL + fbUrlWNoBase;
                 var mgrItem = getExistingMgrItem(fbUrl, fieldNameOrVariableUrl, fieldValue);
                 if(mgrItem == null) {
                   // create new mgrItem, if one w same fixed url does not exits
@@ -37,28 +38,35 @@ angular.module('storedListMod')
                   newMgrItem.fbUrl = fbUrl;
                   newMgrItem.fieldNameOrVariableUrl = fieldNameOrVariableUrl;
                   newMgrItem.fieldValue = fieldValue;
-                  $log.debug('StoredListMgrFactory: getStoredListMgr: newMgrItem', newMgrItem);
+                  $log.debug('getSharedStoredListMgr: getStoredListMgr: newMgrItem', newMgrItem);
                   newMgrItem.mgr = new BasicStoredListMgr(newMgrItem.fbUrl, newMgrItem.fieldNameOrVariableUrl, newMgrItem.fieldValue);
                   StoredListMgrs.push(newMgrItem);
                   mgrItem = newMgrItem;
                 } 
-                // $log.debug('StoredListMgrFactory: : getStoredListMgr StoredListMgrs.length: ', StoredListMgrs.length );
-                // $log.debug('StoredListMgrFactory: getStoredListMgr: mgrItem', mgrItem);
-                // $log.debug('StoredListMgrFactory: getStoredListMgr: mgrItem.mgr', mgrItem.mgr);
+                // $log.debug('getSharedStoredListMgr: : getStoredListMgr StoredListMgrs.length: ', StoredListMgrs.length );
+                // $log.debug('getSharedStoredListMgr: getStoredListMgr: mgrItem', mgrItem);
+                // $log.debug('getSharedStoredListMgr: getStoredListMgr: mgrItem.mgr', mgrItem.mgr);
                 return mgrItem.mgr;
-            },
+            }, // getSharedStoredListMgr
+
+            getStoredListMgr : function (fbUrlWNoBase, fieldNameOrVariableUrl, fieldValue) {
+              var myUid = settingsMgr.getCurrentUser();
+              var myFbUrlWNoBase = '/' + myUid + fbUrlWNoBase;
+              $log.debug('StoredListMgrFactory: getStoredListMgr: myUid, myFbUrlWNoBase', myUid, myFbUrlWNoBase);
+              return this.getSharedStoredListMgr(myFbUrlWNoBase, fieldNameOrVariableUrl, fieldValue);
+            }, // getStoredListMgr
 
             prepareForLogout: function() {
               for (var i = 0; i < StoredListMgrs.length; i++) {
                 StoredListMgrs[i].mgr.prepareForLogout();
               }
               StoredListMgrs = [];
-            },
+            }, // prepareForLogout
 
             // following for UNIT Testing
             getStoredListMgrs: function() {
               return StoredListMgrs;
-            }
+            } // getStoredListMgrs
 
         };
 

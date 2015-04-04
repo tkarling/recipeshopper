@@ -32,8 +32,8 @@ angular
       .primaryPalette('green');
   })
   .constant('FIREBASE_URL', 'https://recipeshopper.firebaseio.com')
-  .constant('FB_SHOPPINGLIST_URL', 'https://recipeshopper.firebaseio.com/shoppinglist/')
-  .constant('FB_RECIPES_URL', 'https://recipeshopper.firebaseio.com/recipes')
+  .constant('FB_SHOPPINGLIST_URL', '/shoppinglist')
+  .constant('FB_RECIPES_URL', '/recipes')
   .config(['localStorageServiceProvider', function(localStorageServiceProvider){
     localStorageServiceProvider.setPrefix('ls');
   }])

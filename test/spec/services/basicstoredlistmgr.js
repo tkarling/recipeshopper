@@ -2,10 +2,36 @@
 
 describe('Service: StoredListMgrFactory', function () {
 
-  var mockFirebase, mockUrl;
+  var mockSettingsMgr, mockBaseUrl, mockCurrentUser, mockMySettings;
 
   // load the service's module
   beforeEach(module('storedListMod'));
+
+  beforeEach(function () {
+    mockBaseUrl = 'mockBaseUrl';
+    mockCurrentUser = 'mockUserId';
+
+    mockSettingsMgr = {
+      getCurrentUser: function () {
+        // settingsMgrSpy.getCurrentUser();
+        return mockCurrentUser;
+      },
+      getSettings: function () {
+          // settingsMgrSpy.getSettings();
+          return mockMySettings;
+      },
+      saveSettings: function () {
+          deferred = q.defer();
+          // settingsMgrSpy.saveSettings();
+          return deferred.promise;
+      }
+    };
+
+    module(function ($provide) {
+          $provide.value('settingsMgr', mockSettingsMgr);
+          $provide.value('FIREBASE_URL', mockBaseUrl);
+    });
+  }); // beforeEach
 
   // instantiate service
   var StoredListMgrFactory;
@@ -17,15 +43,17 @@ describe('Service: StoredListMgrFactory', function () {
     expect(!!StoredListMgrFactory).toBe(true);
   });
 
+  describe('getStoredListMgrs tests:', function() {
+
   it('should add first StoredListMgr, when mgr does not exist yet', function () {
     var StoredListMgrs = StoredListMgrFactory.getStoredListMgrs();
     expect(StoredListMgrs.length).toBe(0);
 
-    var StoredListMgr = StoredListMgrFactory.getStoredListMgr('demourl');
+    var StoredListMgr = StoredListMgrFactory.getStoredListMgr('/demourl');
 
     StoredListMgrs = StoredListMgrFactory.getStoredListMgrs();
     expect(StoredListMgrs.length).toBe(1);
-    expect(StoredListMgrs[0].fbUrl).toBe('demourl');
+    expect(StoredListMgrs[0].fbUrl).toBe('mockBaseUrl/mockUserId/demourl');
     expect(StoredListMgrs[0].fieldNameOrVariableUrl).toBe(undefined);  
     expect(StoredListMgrs[0].fieldValue).toBe(undefined);  
   });
@@ -34,12 +62,12 @@ describe('Service: StoredListMgrFactory', function () {
     var StoredListMgrs = StoredListMgrFactory.getStoredListMgrs();
     expect(StoredListMgrs.length).toBe(0);
 
-    var StoredListMgr = StoredListMgrFactory.getStoredListMgr('demourl');
-    var StoredListMgr2 = StoredListMgrFactory.getStoredListMgr('demourl');
+    var StoredListMgr = StoredListMgrFactory.getStoredListMgr('/demourl');
+    var StoredListMgr2 = StoredListMgrFactory.getStoredListMgr('/demourl');
 
     StoredListMgrs = StoredListMgrFactory.getStoredListMgrs();
     expect(StoredListMgrs.length).toBe(1);
-    expect(StoredListMgrs[0].fbUrl).toBe('demourl');
+    expect(StoredListMgrs[0].fbUrl).toBe('mockBaseUrl/mockUserId/demourl');
     expect(StoredListMgrs[0].fieldNameOrVariableUrl).toBe(undefined);  
     expect(StoredListMgrs[0].fieldValue).toBe(undefined);  
   });
@@ -48,15 +76,15 @@ describe('Service: StoredListMgrFactory', function () {
     var StoredListMgrs = StoredListMgrFactory.getStoredListMgrs();
     expect(StoredListMgrs.length).toBe(0);
 
-    var StoredListMgr = StoredListMgrFactory.getStoredListMgr('demourl');
-    var StoredListMgr2 = StoredListMgrFactory.getStoredListMgr('demo2url');
+    var StoredListMgr = StoredListMgrFactory.getStoredListMgr('/demourl');
+    var StoredListMgr2 = StoredListMgrFactory.getStoredListMgr('/demo2url');
 
     StoredListMgrs = StoredListMgrFactory.getStoredListMgrs();
     expect(StoredListMgrs.length).toBe(2);
-    expect(StoredListMgrs[0].fbUrl).toBe('demourl');
+    expect(StoredListMgrs[0].fbUrl).toBe('mockBaseUrl/mockUserId/demourl');
     expect(StoredListMgrs[0].fieldNameOrVariableUrl).toBe(undefined);  
     expect(StoredListMgrs[0].fieldValue).toBe(undefined);  
-    expect(StoredListMgrs[1].fbUrl).toBe('demo2url');
+    expect(StoredListMgrs[1].fbUrl).toBe('mockBaseUrl/mockUserId/demo2url');
     expect(StoredListMgrs[1].fieldNameOrVariableUrl).toBe(undefined);  
     expect(StoredListMgrs[1].fieldValue).toBe(undefined);  
   });
@@ -65,15 +93,15 @@ describe('Service: StoredListMgrFactory', function () {
     var StoredListMgrs = StoredListMgrFactory.getStoredListMgrs();
     expect(StoredListMgrs.length).toBe(0);
 
-    var StoredListMgr = StoredListMgrFactory.getStoredListMgr('demourl', 'var1');
-    var StoredListMgr2 = StoredListMgrFactory.getStoredListMgr('demourl', 'var2');
+    var StoredListMgr = StoredListMgrFactory.getStoredListMgr('/demourl', 'var1');
+    var StoredListMgr2 = StoredListMgrFactory.getStoredListMgr('/demourl', 'var2');
 
     StoredListMgrs = StoredListMgrFactory.getStoredListMgrs();
     expect(StoredListMgrs.length).toBe(2);
-    expect(StoredListMgrs[0].fbUrl).toBe('demourl');
+    expect(StoredListMgrs[0].fbUrl).toBe('mockBaseUrl/mockUserId/demourl');
     expect(StoredListMgrs[0].fieldNameOrVariableUrl).toBe('var1');  
     expect(StoredListMgrs[0].fieldValue).toBe(undefined);  
-    expect(StoredListMgrs[1].fbUrl).toBe('demourl');
+    expect(StoredListMgrs[1].fbUrl).toBe('mockBaseUrl/mockUserId/demourl');
     expect(StoredListMgrs[1].fieldNameOrVariableUrl).toBe('var2');  
     expect(StoredListMgrs[1].fieldValue).toBe(undefined);  
   });
@@ -82,12 +110,12 @@ describe('Service: StoredListMgrFactory', function () {
     var StoredListMgrs = StoredListMgrFactory.getStoredListMgrs();
     expect(StoredListMgrs.length).toBe(0);
 
-    var StoredListMgr = StoredListMgrFactory.getStoredListMgr('demourl', 'var1');
-    var StoredListMgr2 = StoredListMgrFactory.getStoredListMgr('demourl', 'var1');
+    var StoredListMgr = StoredListMgrFactory.getStoredListMgr('/demourl', 'var1');
+    var StoredListMgr2 = StoredListMgrFactory.getStoredListMgr('/demourl', 'var1');
 
     StoredListMgrs = StoredListMgrFactory.getStoredListMgrs();
     expect(StoredListMgrs.length).toBe(1);
-    expect(StoredListMgrs[0].fbUrl).toBe('demourl');
+    expect(StoredListMgrs[0].fbUrl).toBe('mockBaseUrl/mockUserId/demourl');
     expect(StoredListMgrs[0].fieldNameOrVariableUrl).toBe('var1');  
     expect(StoredListMgrs[0].fieldValue).toBe(undefined);  
   });
@@ -96,15 +124,15 @@ describe('Service: StoredListMgrFactory', function () {
     var StoredListMgrs = StoredListMgrFactory.getStoredListMgrs();
     expect(StoredListMgrs.length).toBe(0);
 
-    var StoredListMgr = StoredListMgrFactory.getStoredListMgr('demourl', 'fname', 'fvalue');
-    var StoredListMgr2 = StoredListMgrFactory.getStoredListMgr('demourl', 'fname1', 'fvalue1');
+    var StoredListMgr = StoredListMgrFactory.getStoredListMgr('/demourl', 'fname', 'fvalue');
+    var StoredListMgr2 = StoredListMgrFactory.getStoredListMgr('/demourl', 'fname1', 'fvalue1');
 
     StoredListMgrs = StoredListMgrFactory.getStoredListMgrs();
     expect(StoredListMgrs.length).toBe(2);
-    expect(StoredListMgrs[0].fbUrl).toBe('demourl');
+    expect(StoredListMgrs[0].fbUrl).toBe('mockBaseUrl/mockUserId/demourl');
     expect(StoredListMgrs[0].fieldNameOrVariableUrl).toBe('fname');  
     expect(StoredListMgrs[0].fieldValue).toBe('fvalue');  
-    expect(StoredListMgrs[1].fbUrl).toBe('demourl');
+    expect(StoredListMgrs[1].fbUrl).toBe('mockBaseUrl/mockUserId/demourl');
     expect(StoredListMgrs[1].fieldNameOrVariableUrl).toBe('fname1');  
     expect(StoredListMgrs[1].fieldValue).toBe('fvalue1');  
   });
@@ -113,15 +141,34 @@ describe('Service: StoredListMgrFactory', function () {
     var StoredListMgrs = StoredListMgrFactory.getStoredListMgrs();
     expect(StoredListMgrs.length).toBe(0);
 
-    var StoredListMgr = StoredListMgrFactory.getStoredListMgr('demourl', 'fname', 'fvalue');
-    var StoredListMgr2 = StoredListMgrFactory.getStoredListMgr('demourl', 'fname', 'fvalue');
+    var StoredListMgr = StoredListMgrFactory.getStoredListMgr('/demourl', 'fname', 'fvalue');
+    var StoredListMgr2 = StoredListMgrFactory.getStoredListMgr('/demourl', 'fname', 'fvalue');
 
     StoredListMgrs = StoredListMgrFactory.getStoredListMgrs();
     expect(StoredListMgrs.length).toBe(1);
-    expect(StoredListMgrs[0].fbUrl).toBe('demourl');
+    expect(StoredListMgrs[0].fbUrl).toBe('mockBaseUrl/mockUserId/demourl');
     expect(StoredListMgrs[0].fieldNameOrVariableUrl).toBe('fname');  
     expect(StoredListMgrs[0].fieldValue).toBe('fvalue');  
   });
+
+  }); // describe
+
+  describe('getSharedStoredListMgr tests:', function() {
+
+    it('should add first StoredListMgr, when mgr does not exist yet', function () {
+      var StoredListMgrs = StoredListMgrFactory.getStoredListMgrs();
+      expect(StoredListMgrs.length).toBe(0);
+
+      var StoredListMgr = StoredListMgrFactory.getSharedStoredListMgr('/demourl');
+
+      StoredListMgrs = StoredListMgrFactory.getStoredListMgrs();
+      expect(StoredListMgrs.length).toBe(1);
+      expect(StoredListMgrs[0].fbUrl).toBe('mockBaseUrl/demourl');
+      expect(StoredListMgrs[0].fieldNameOrVariableUrl).toBe(undefined);  
+      expect(StoredListMgrs[0].fieldValue).toBe(undefined);  
+    });
+
+  }); // describe
 
 });
 
