@@ -65,12 +65,27 @@ angular.module('recipeshopperApp')
         }; // toggleLeft
 
         scope.goBack = function () {
-          $window.history.back();
+          var myUrl = $location.url();
+          // console.log('rsView: myUrl', myUrl);
+          if(myUrl.indexOf("ListId") > -1) {
+            var strs = myUrl.split("/");;
+            // console.log('rsView: gotoAddPage strs: ', strs);
+            var pagelink='/recipedetails/' + strs[3] + '/Tab/1';
+            // console.log('rsView: gotorecipedetails pagelink: ', pagelink);
+            $location.path(pagelink);
+          } else if (myUrl.indexOf("recipedetails") > -1) {
+            var pagelink='/recipelist';
+            // console.log('rsView: gotorecipelist pagelink: ', pagelink);
+            $location.path(pagelink);
+          } else {
+            $window.history.back();
+          }
+
         }; //goBack
 
         scope.saveAndGoBack = function(){
           scope.checkFn();
-          $window.history.back();
+          scope.goBack();
         }; // gotoPage
 
         scope.titleString = scope.title();
@@ -79,8 +94,12 @@ angular.module('recipeshopperApp')
   })
   .directive('rsSearchBar', function () {
     return {
-      template: '<md-content layout="row" class="md-padding">' +
-                    '<md-input-container flex>' +
+      template: '<md-content layout="row">' +
+                    '<md-button id="addbutton" ng-click="gotoAddPage(listId, listName)"' +
+                        'class="md-primary md-fab" aria-label="Go to Add Page">' +
+                        '<rs-icon icon-name="ic_add" icon-group="content"></rs-icon>' +
+                    '</md-button>' +
+                    '<md-input-container ng-if="placeholderText" flex>' +
                         '<label>{{placeholderText}}</label>' +
                         '<input ng-model="query">' +
                     '</md-input-container>' +
@@ -88,18 +107,22 @@ angular.module('recipeshopperApp')
                       'ng-model="data.mySettings.doNotShowBoughtItems" ng-change="updateShowAll()"' +
                       'class="md-primary">' +
                     '</md-checkbox>' +
-                    '<md-button id="addbutton" ng-click="gotoAddPage(listId)"' +
-                        'class="md-primary md-fab" aria-label="Go to Add Page">' +
-                        '<rs-icon icon-name="ic_add" icon-group="content"></rs-icon>' +
-                    '</md-button>' +
                 '</md-content>',
       restrict: 'E',
       replace: true,
       link: function postLink(scope, element, attrs) {
         scope.showCheckbox = attrs['showCheckbox'] == "true";
-        scope.placeholderText = attrs['placeholderText'] || 'Search';
-        scope.listId = attrs['listId'] || 'FAVORITES';
-          // console.log('rsSearchBar called');
+        scope.placeholderText = attrs['placeholderText'] || '';
+        scope.listId = attrs['listId'];
+        scope.listName = attrs['listName'];
+        // console.log('rsSearchBar called scope', scope);
+
+        scope.$watch(function () { return attrs['listId']; }, 
+          function(newValue, oldValue) {
+            // console.log('rsSearchBar: newValue', newValue);
+            scope.listId = attrs['listId'];
+          }
+        );
       }
     };
   })

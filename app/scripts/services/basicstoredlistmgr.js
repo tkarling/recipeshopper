@@ -82,7 +82,7 @@ angular.module('storedListMod')
       if(data.items && data.items.length > 0) {
         data.items.$destroy();
       }
-      data.items = [];
+      data.items = undefined;
     };
 
     var setRefs = function (data, fbUrl, fieldNameOrVariableUrl, fieldValue) {
@@ -102,7 +102,7 @@ angular.module('storedListMod')
     var BasicStoredListMgr = function(fbUrl, fieldNameOrVariableUrl, fieldValue) {
       $log.debug('BasicStoredListMgr: constructor: fbUrl, fieldNameOrVariableUrl, fieldValue', fbUrl, fieldNameOrVariableUrl, fieldValue);
       this.data = {};
-      this.data.items = [];
+      this.data.items = undefined;
       setRefs(this.data, fbUrl, fieldNameOrVariableUrl, fieldValue);
     };
 
@@ -193,12 +193,12 @@ angular.module('storedListMod')
     }; // BasicStoredListMgr.prototype.getItemsSync
 
     BasicStoredListMgr.prototype.noOfItems = function() {
-      return this.data.items.length;
+      return this.data.items ? this.data.items.length: undefined;
     } // BasicStoredListMgr.prototype.noOfItems
 
     BasicStoredListMgr.prototype.getItem = function (itemId) {
       // $log.debug('BasicStoredListMgr.prototype.getItem: this.data', this.data);
-      return (this.data.items.length > 0) ? this.data.items.$getRecord(itemId): null;
+      return ((this.data.items) && (this.data.items.length > 0)) ? this.data.items.$getRecord(itemId): null;
     }; // BasicStoredListMgr.prototype.getItem
 
     var copyItemFromTo = function (fromItem, toItem) {

@@ -41,15 +41,17 @@
 				</md-content>
 			</div>
 			<div role="tabpanel" id="ingredients-tab-content" aria-labelledby="ingredients-tab" ng-switch-when="1"> 
-				<md-content class="md-padding">
+				<!-- <md-content class="md-padding">
 					<md-button class="md-primary md-raised" ng-hide="ingredients.length >0" ng-click="readIngredients()">Read Inredients</md-button>
-				</md-content>
+				</md-content> -->
+			    <rs-search-bar list-id="{{recipe.$id}}" list-name="{{recipe.recipename}}">
+			    </rs-search-bar>
 				<md-content ng-hide="ingredients.length == 0" class="md-padding" style="height: 400px;">
 					<md-list>
 						<md-item ng-repeat="item in ingredients">
 							<md-item-content ng-swipe-left="showActions = true" ng-swipe-right="showActions = false">
 								<rs-tile-content accented-text="{{item.aisle}}" 
-									click-fn="gotoDetailsPage(item, item.recipe)">{{item.amount}} {{item.unit}} {{item.product}}</rs-tile-content>
+									click-fn="gotoDetailsPage(item, recipe.$id, recipe.recipename)">{{item.amount}} {{item.unit}} {{item.product}}</rs-tile-content>
 								<rs-tile-right-delete has-note="{{item.note}}" delete-fn="deleteItem(item)"  
 									show-actions="{{showActions}}"></rs-tile-right-delete>
 							</md-item-content>

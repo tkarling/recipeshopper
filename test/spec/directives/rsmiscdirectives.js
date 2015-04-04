@@ -31,32 +31,32 @@ describe('Misc Directives:', function () {
   //   expect(element.children().length).toBe(1);
   // })); 
 
-  it('rs-icon should have 1 children', inject(function ($compile) {
+  it('rs-icon directive can be created', inject(function ($compile) {
     element = angular.element('<rs-icon icon-name="ic_delete"></rs-icon>');
     element = $compile(element)(scope);
     expect(element.children().length).toBe(1);
   }));
 
-  it('rs-search-bar should have 2 children', inject(function ($compile) {
+  it('rs-search-bar directive can be created', inject(function ($compile) {
     element = angular.element('<rs-search-bar placeholder-text="Search for recipes"></rs-search-bar>');
     element = $compile(element)(scope);
-    expect(element.children().length).toBe(2);
+    expect(element.children().length).toBe(1);
   }));
 
-  it('rs-search-bar should have 2 children when checkbox is shown', inject(function ($compile) {
+  it('rs-search-bar directive can be created when checkbox is shown', inject(function ($compile) {
     element = angular.element('<rs-search-bar show-checkbox="true" placeholder-text="Search for products"></rs-search-bar>');
     element = $compile(element)(scope);
-    expect(element.children().length).toBe(2);
+    expect(element.children().length).toBe(1);
   }));
 
-  it('rs-one-row-add-item-form should have 1 children', inject(function ($compile) {
+  it('rs-one-row-add-item-form directive can be created', inject(function ($compile) {
     element = angular.element('<rs-one-row-add-item-form></rs-one-row-add-item-form>');
     element = $compile(element)(scope);
     expect(element.children().length).toBe(1);
   }));
 
 
-  it('rs-tile-left-check should have 1 child', inject(function ($compile) {
+  it('rs-tile-left-check directive can be created', inject(function ($compile) {
     var data = {};
     data.value = true;
     var saveItem = function () {};
@@ -65,7 +65,7 @@ describe('Misc Directives:', function () {
     expect(element.children().length).toBe(1);
   }));
 
-  it('rs-tile-content should have 1 child', inject(function ($compile) {
+  it('rs-tile-content directive can be created', inject(function ($compile) {
     var gotoDetailsPage = function (item) {};
     element = angular.element('<rs-tile-content accented-text="acc Content" additional-text="add Content"' + 
                 'click-fn="gotoDetailsPage(\'link\')">1st row Content</rs-tile-content>');
@@ -73,14 +73,14 @@ describe('Misc Directives:', function () {
     expect(element.children().length).toBe(2);
   }));
 
-  it('rs-tile-right-delete-sub should have 1 child', inject(function ($compile) {
+  it('rs-tile-right-delete-sub directive can be created', inject(function ($compile) {
     var deleteItem = function () {};
     element = angular.element('<rs-tile-right-delete-sub delete-fn="deleteItem()"></rs-tile-right-delete-sub>');
     element = $compile(element)(scope);
     expect(element.children().length).toBe(1);
   }));
 
-  it('rs-tile-right-delete should have 2 children', inject(function ($compile) {
+  it('rs-tile-right-delete directive can be created', inject(function ($compile) {
     var deleteItem = function () {};
     element = angular.element('<rs-tile-right-delete delete-fn="deleteItem()" show-actions="true"></rs-tile-right-delete>');
     element = $compile(element)(scope);

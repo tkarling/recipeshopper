@@ -65,13 +65,21 @@ angular
       })
       .when('/picdemo', {
         templateUrl: 'views/picdemo.html', 
-        controller: 'PicdemoCtrl' // change this to PicdemoCtrl later
+        controller: 'PicdemoCtrl' 
       })
       .when('/productdetails/List/:listId/Item/:itemId', {
         templateUrl: 'views/productdetails.html',
         controller: 'ProductDetailsController'
       })
+      .when('/productdetails/ListId/:listId/ListName/:listName/Item/:itemId', {
+        templateUrl: 'views/productdetails.html',
+        controller: 'ProductDetailsController'
+      })
       .when('/recipedetails/:itemId', {
+        templateUrl: 'views/recipedetails.html',
+        controller: 'RecipeDetailsController'
+      })
+      .when('/recipedetails/:itemId/Tab/:tabId', {
         templateUrl: 'views/recipedetails.html',
         controller: 'RecipeDetailsController'
       })

@@ -30,13 +30,13 @@ angular.module('recipeshopperApp')
       return result;
     }; // getStoreMgr
 
-	var initItem = function(productId, listId) {
+	var initItem = function(productId, listId, listName) {
       var currentUser = settingsMgr.getCurrentUser();
 		// $log.debug('ProductDetailsController: initItem currentUser', currentUser);
     	if(currentUser) {
         if(productId) {
           $scope.storeMgr = getStoreMgr(listId);
-          if($scope.storeMgr.noOfItems() == 0) {
+          if($scope.storeMgr.noOfItems() == undefined) {
                 // refresh page case
                 $location.path('/main');
               }
@@ -44,7 +44,7 @@ angular.module('recipeshopperApp')
             $scope.currentItem = $scope.storeMgr.getCopyOfItem(productId);
           } else if (listId) { 
             $scope.currentItem.recipeId = (listId == "ShoppingList") ?  'FAVORITES' : listId;
-            $scope.currentItem.recipe = (listId == "ShoppingList") ?  'FAVORITES' : listId;
+            $scope.currentItem.recipe = ((listId == "ShoppingList") || (listId == "FAVORITES")) ?  'FAVORITES' : listName;
           }
         }
     	} else {
@@ -53,13 +53,14 @@ angular.module('recipeshopperApp')
 	}; // initItem
 
 	$scope.$on('handleCurrentUserSet', function () {
-        initItem($routeParams.itemId, $routeParams.listId);
+        initItem($routeParams.itemId, $routeParams.listId, $routeParams.listName);
   });
-  initItem($routeParams.itemId,$routeParams.listId);
+  initItem($routeParams.itemId, $routeParams.listId, $routeParams.listName);
 
 	$scope.addOrSaveItem = function () {
 	    $log.debug('ProductDetailsController: saveOrAddItem', $scope.currentItem);
-      if($routeParams.itemId == 'Add') {
+      if(! $scope.currentItem.$id) { 
+        // product has not been saved before
         $scope.currentItem.isonlist = true;
         $scope.currentItem.isbought = false;
         $scope.storeMgr.addItem($scope.currentItem);
