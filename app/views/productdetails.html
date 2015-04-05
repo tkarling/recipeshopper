@@ -1,50 +1,9 @@
 <form name="productForm" novalidate>
-<rs-view type="details" 
-		title="getTitle()" 
+<rs-view type="details"
+		title="getTitle()"
 		check-fn="addOrSaveItem()" check-enabled="{{productForm.$valid}}">
-	
-	<md-content class="md-padding">
-		<div layout>
-			<md-input-container flex="15">
-				<label>Amount</label>
-				<input type="number" ng-model="currentItem.amount" ng-required="true">
-			</md-input-container>
-			<md-input-container flex="25">
-				<label>Unit</label>
-				<input ng-model="currentItem.unit">
-			</md-input-container>
-			<md-input-container flex="60">
-				<label>Product</label>
-				<input ng-model="currentItem.product" ng-required="true">
-			</md-input-container>
-		</div>
-	
-		<div layout>
-			<div>
-				<!-- <label>{{ currentItem.aisle ? 'Aisle:' : 'Please Pick Aisle' }} -->
-				<md-select ng-model="currentItem.aisle" ng-required="true">
-					<md-option value="PROTEINS">PROTEINS</md-option>
-					<md-option value="DAIRY">DAIRY</md-option>
-					<md-option value="VEGGIES&FRUIT">VEGGIES&FRUIT</md-option>
-					<md-option value="GRAINS">GRAINS</md-option>
-					<md-option value="NUTS&SEEDS">NUTS&SEEDS</md-option>
-					<md-option value="EXTRAS">EXTRAS</md-option>
-				</md-select>
-				<!-- </label> -->
-			</div>
-			<md-input-container flex>
-				<label>Recipe</label>
-				<input ng-model="currentItem.recipe" ng-disabled="true">
-			</md-input-container>
-		</div>
 
-		<div layout>
-			<md-input-container flex>
-				<label>Note</label>
-				<input ng-model="currentItem.note">
-			</md-input-container>
-		</div>
-	</md-content>
+  <rs-product-content></rs-product-content>
 
 <!-- 	<div id="productdetails">
 		<md-tabs class="md-accent" md-selected="data.selectedTabIndex">

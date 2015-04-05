@@ -1,0 +1,31 @@
+<md-content class="md-padding">
+  <div layout>
+    <md-input-container flex="15">
+      <label>Amount</label>
+      <input type="number" ng-model="currentItem.amount" ng-required="true">
+    </md-input-container>
+    <md-input-container flex="25">
+      <label>Unit</label>
+      <input ng-model="currentItem.unit">
+    </md-input-container>
+    <md-input-container flex="60">
+      <label>Product</label>
+      <input ng-model="currentItem.product" ng-required="true">
+    </md-input-container>
+  </div>
+
+  <div layout>
+    <rs-aisles-menu rs-model="currentItem.aisle"></rs-aisles-menu>
+    <md-input-container flex>
+      <label>Recipe</label>
+      <input ng-model="currentItem.recipe" ng-disabled="true">
+    </md-input-container>
+  </div>
+
+  <div layout>
+    <md-input-container flex>
+      <label>Note</label>
+      <input ng-model="currentItem.note">
+    </md-input-container>
+  </div>
+</md-content>

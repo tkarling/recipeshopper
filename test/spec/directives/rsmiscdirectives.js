@@ -16,20 +16,21 @@ describe('Misc Directives:', function () {
     scope = $rootScope.$new();
   }));
 
-  // //could not figure out how to test directive which uses templateUrl. 
-  // it('rs-side-menu should have 1 children', inject(function ($compile) {
-  //   element = angular.element('<rs-side-menu></rs-side-menu>');
-  //   element = $compile(element)(scope);
-  //   expect(element.children().length).toBe(1);
-  // }));
+   ////could not figure out how to test directive which uses templateUrl.
+   //it('rs-side-menu directive can be created', inject(function ($compile) {
+   //  element = angular.element('<rs-side-menu></rs-side-menu>');
+   //  element = $compile(element)(scope);
+   //  expect(element.children().length).toBe(1);
+   //}));
 
-  // // could not figure out how to test directive which uses templateUrl. 
-  // it('rs-app-title-bar should have 1 child', inject(function ($compile) {
-  //   element = angular.element('<rs-app-title-bar></rs-app-title-bar>');
-  //   element = $compile(element)(scope);
-  //   console.log('element', element);
-  //   expect(element.children().length).toBe(1);
-  // })); 
+   //// could not figure out how to test directive which uses templateUrl.
+   //it('rs-app-title-bar directive can be created', inject(function ($compile) {
+   //  element = angular.element('<rs-app-title-bar></rs-app-title-bar>');
+   //  element = $compile(element)(scope);
+   //  console.log('element', element);
+   //  console.log('element.children()', element.children());
+   //  expect(element.children().children().length).toBe(1);
+   //}));
 
   it('rs-icon directive can be created', inject(function ($compile) {
     element = angular.element('<rs-icon icon-name="ic_delete"></rs-icon>');
@@ -67,7 +68,7 @@ describe('Misc Directives:', function () {
 
   it('rs-tile-content directive can be created', inject(function ($compile) {
     var gotoDetailsPage = function (item) {};
-    element = angular.element('<rs-tile-content accented-text="acc Content" additional-text="add Content"' + 
+    element = angular.element('<rs-tile-content accented-text="acc Content" additional-text="add Content"' +
                 'click-fn="gotoDetailsPage(\'link\')">1st row Content</rs-tile-content>');
     element = $compile(element)(scope);
     expect(element.children().length).toBe(2);
