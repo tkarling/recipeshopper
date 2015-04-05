@@ -13,13 +13,13 @@ angular.module('recipeshopperApp')
       scope: {
         iconName: '@',
         iconGroup: '@'
-      },   
+      },
       restrict: 'E',
       // replace: true,
       link: function postLink(scope, element, attrs) {
         // console.log('rsIcon called');
         scope.iconGroup = scope.iconGroup || 'action';
-        scope.iconPath = '../bower_components/material-design-icons/' + scope.iconGroup + 
+        scope.iconPath = '../bower_components/material-design-icons/' + scope.iconGroup +
           '/svg/production/' + scope.iconName + '_24px.svg';
       }
     };
@@ -43,7 +43,7 @@ angular.module('recipeshopperApp')
         checkFn: '&',
         checkEnabled: '@',
         settingsButton: '@'
-      }, 
+      },
       restrict: 'E',
       replace: true,
       transclude: true,
@@ -101,7 +101,7 @@ angular.module('recipeshopperApp')
                     '</md-button>' +
                     '<md-input-container ng-if="placeholderText" flex>' +
                         '<label>{{placeholderText}}</label>' +
-                        '<input ng-model="query">' +
+                        '<input ng-model="data.query">' +
                     '</md-input-container>' +
                     '<md-checkbox ng-if="showCheckbox" md-no-ink aria-label="Do Not Show Bought"' +
                       'ng-model="data.mySettings.doNotShowBoughtItems" ng-change="updateShowAll()"' +
@@ -117,7 +117,7 @@ angular.module('recipeshopperApp')
         scope.listName = attrs['listName'];
         // console.log('rsSearchBar called scope', scope);
 
-        scope.$watch(function () { return attrs['listId']; }, 
+        scope.$watch(function () { return attrs['listId']; },
           function(newValue, oldValue) {
             // console.log('rsSearchBar: newValue', newValue);
             scope.listId = attrs['listId'];
@@ -153,7 +153,7 @@ angular.module('recipeshopperApp')
         numberField: '@',
         field1: '@',
         field2: '@'
-      },            
+      },
       restrict: 'E',
       replace: true,
       link: function postLink(scope, element, attrs) {
@@ -162,12 +162,12 @@ angular.module('recipeshopperApp')
           scope.data = {};
           scope.addItem = function(model1, model2, modelNo) {
             scope.addItemFn()(model1, model2, modelNo).then(function () {
-              scope.data.model1 = ''; 
+              scope.data.model1 = '';
               scope.data.model2 = '';
               scope.data.modelNo = '';
               // var myFormController = element.find('form').eq(0).controller('form');
               // console.log('rsOneRowAddForm myFormController', myFormController);
-              // myFormController.$setPristine(); 
+              // myFormController.$setPristine();
             });
           } // scope.addItem
       }
@@ -175,7 +175,7 @@ angular.module('recipeshopperApp')
   })
   .directive('rsTileLeftCheck', function () {
     return {
-      template: '<div class="md-tile-left">' + 
+      template: '<div class="md-tile-left">' +
                   '<md-checkbox md-no-ink aria-label="{{ariaLabel}}" ng-model="data.cbvalue" ng-change="saveCBValue()"' +
                     'class="md-primary">' +
                   '</md-checkbox>' +
@@ -213,7 +213,7 @@ angular.module('recipeshopperApp')
         clickFn: '&',
         accentedText: '@',
         additionalText: '@'
-      },          
+      },
       restrict: 'E',
       replace: true,
       transclude: true,
@@ -225,7 +225,7 @@ angular.module('recipeshopperApp')
   })
   .directive('rsTileRightDeleteSub', function () {
     return {
-      template: '<div class="md-tile-right md-padding">' + 
+      template: '<div class="md-tile-right md-padding">' +
                   '<md-button id="deleteitembutton" class="md-warn md-raised md-hue-2"' +
                     'ng-click="deleteFn()" aria-label="Delete">' +
                     '<rs-icon icon-name="ic_delete"></rs-icon>' +
@@ -234,7 +234,7 @@ angular.module('recipeshopperApp')
                 '</div>',
       scope: {
         deleteFn: '&'
-      }, 
+      },
       restrict: 'E',
       replace: true,
       link: function postLink(scope, element, attrs) {
@@ -244,9 +244,9 @@ angular.module('recipeshopperApp')
   })
   .directive('rsTileRightDelete', function () {
     return {
-      template: '<span>' + 
-                  '<rs-icon ng-if="hasNote" icon-name="ic_info" aria-label="Has Note"></rs-icon>' + 
-                  '<rs-tile-right-delete-sub delete-fn="deleteFn()" hide-sm show-gt-sm>' + 
+      template: '<span>' +
+                  '<rs-icon ng-if="hasNote" icon-name="ic_info" aria-label="Has Note"></rs-icon>' +
+                  '<rs-tile-right-delete-sub delete-fn="deleteFn()" hide-sm show-gt-sm>' +
                   '</rs-tile-right-delete-sub>' +
                   '<rs-tile-right-delete-sub delete-fn="deleteFn()" hide-gt-sm ' +
                       'show-sm ng-show="showActionsBool">' +
@@ -256,7 +256,7 @@ angular.module('recipeshopperApp')
         hasNote: '@',
         deleteFn: '&',
         showActions: '@'
-      }, 
+      },
       restrict: 'E',
       replace: true,
       link: function postLink(scope, element, attrs) {

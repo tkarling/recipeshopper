@@ -72,7 +72,7 @@ module.exports = function (grunt) {
       },
       livereload: {
         options: {
-          open: true,
+          open: false,
           middleware: function (connect) {
             return [
               connect.static('.tmp'),
@@ -106,6 +106,12 @@ module.exports = function (grunt) {
           open: true,
           base: '<%= yeoman.dist %>'
         }
+      }
+    },
+
+    open: {
+      all:{
+        path:'http://localhost:<%= connect.options.port%>'
       }
     },
 
@@ -314,7 +320,7 @@ module.exports = function (grunt) {
           cwd: '.tmp/images',
           dest: '<%= yeoman.dist %>/images',
           src: ['generated/*']
-        },       
+        },
         {
       //material design icons
         expand: true,
@@ -380,6 +386,7 @@ module.exports = function (grunt) {
       'concurrent:server',
       'autoprefixer',
       'connect:livereload',
+      'open',
       'watch'
     ]);
   });

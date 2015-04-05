@@ -4,14 +4,14 @@
         list-id="ShoppingList"></rs-search-bar>
     <md-content>
       <md-list>
-        <md-item line-through="item.isbought" 
-            ng-repeat="item in data.myItems | filter: data.showAll | filter: query | 
+        <md-item line-through="item.isbought"
+            ng-repeat="item in data.myItems | filter: data.showAll | filter: data.query |
                 orderBy: [data.mySettings.shoppingListSortOrder, 'product']">
           <md-item-content ng-swipe-left="showActions = true" ng-swipe-right="showActions = false">
             <rs-tile-left-check ng-model="item.isbought" save-item-fn="saveItem(item)" aria-label="Is Bought"></rs-tile-left-check>
-            <rs-tile-content accented-text="{{item.aisle}}" additional-text="{{item.recipe}}" 
+            <rs-tile-content accented-text="{{item.aisle}}" additional-text="{{item.recipe}}"
                 click-fn="gotoDetailsPage(item, 'ShoppingList')">{{item.amount}} {{item.unit}} {{item.product}}</rs-tile-content>
-            <rs-tile-right-delete has-note="{{item.note}}" delete-fn="removeItem(item)" 
+            <rs-tile-right-delete has-note="{{item.note}}" delete-fn="removeItem(item)"
                 show-actions="{{showActions}}" ></rs-tile-right-delete>
           </md-item-content>
           <md-divider inset></md-divider>
