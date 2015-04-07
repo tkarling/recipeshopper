@@ -20,9 +20,10 @@ angular
     'ngMaterial',
     'ngAria',
     'ngMessages',
-    'storedListMod', 
-    'settingsMod', 
+    'storedListMod',
+    'settingsMod',
     'fileReaderMod',
+    'productsFromStringMod',
     'loginMod',
     'mkDirectivesMod'
   ])
@@ -64,8 +65,8 @@ angular
         controller: 'BaselistCtrl'
       })
       .when('/picdemo', {
-        templateUrl: 'views/picdemo.html', 
-        controller: 'PicdemoCtrl' 
+        templateUrl: 'views/picdemo.html',
+        controller: 'PicdemoCtrl'
       })
       .when('/productdetails/List/:listId/Item/:itemId', {
         templateUrl: 'views/productdetails.html',

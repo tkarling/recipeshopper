@@ -9,11 +9,13 @@
  */
 angular.module('recipeshopperApp')
   .controller('ProductDetailsController', function ($scope, $routeParams, $log, $location,
-  		$firebaseObject, FB_SHOPPINGLIST_URL, settingsMgr, StoredListMgrFactory) {
+  		$firebaseObject, FB_SHOPPINGLIST_URL, settingsMgr, StoredListMgrFactory, productsFromString) {
 
   	// Start from first tab
 	  $scope.data = {
-      selectedTabIndex : 0
+      selectedTabIndex: 0,
+      addPage: $routeParams.itemId == 'Add',
+      aisles: productsFromString.getAisles()
     };
     $scope.currentItem = {};
     // $log.debug('ProductDetailsController: $routeParams.listId, $routeParams.itemId', $routeParams.listId, $routeParams.itemId);
@@ -22,7 +24,7 @@ angular.module('recipeshopperApp')
       var result = null;
     	if(listId == "ShoppingList") {
     		result = StoredListMgrFactory.getStoredListMgr(FB_SHOPPINGLIST_URL, 'isonlist', true);
-    	} else if(listId == "FAVORITES") { 
+    	} else if(listId == "FAVORITES") {
     		result = StoredListMgrFactory.getStoredListMgr(FB_SHOPPINGLIST_URL, 'recipeId', 'FAVORITES');
     	} else { // a recipe
     		result = StoredListMgrFactory.getStoredListMgr(FB_SHOPPINGLIST_URL);
@@ -40,9 +42,9 @@ angular.module('recipeshopperApp')
                 // refresh page case
                 $location.path('/main');
               }
-          if(productId != 'Add') {
+          if(! $scope.data.addPage) {
             $scope.currentItem = $scope.storeMgr.getCopyOfItem(productId);
-          } else if (listId) { 
+          } else if (listId) {
             $scope.currentItem.recipeId = (listId == "ShoppingList") ?  'FAVORITES' : listId;
             $scope.currentItem.recipe = ((listId == "ShoppingList") || (listId == "FAVORITES")) ?  'FAVORITES' : listName;
           }
@@ -57,21 +59,36 @@ angular.module('recipeshopperApp')
   });
   initItem($routeParams.itemId, $routeParams.listId, $routeParams.listName);
 
-	$scope.addOrSaveItem = function () {
-	    $log.debug('ProductDetailsController: saveOrAddItem', $scope.currentItem);
-      if(! $scope.currentItem.$id) { 
+    var addManyItems = function () {
+      var products = productsFromString.getProductsFromString($scope.data.addedItemsString,
+        $scope.currentItem.recipeId, $scope.currentItem.recipe);
+      $log.debug('ProductDetailsController addOrSaveItem products', products);
+      for (var i = 0; i < products.length; i++) {
+        $scope.storeMgr.addItem(products[i]);
+      }
+    }; // addManyItems
+
+    var addItem = function() {
+      $scope.currentItem.isonlist = true;
+      $scope.currentItem.isbought = false;
+      $scope.storeMgr.addItem($scope.currentItem);
+    }
+
+    $scope.addOrSaveItem = function () {
+      $log.debug('ProductDetailsController: addOrSaveItem', $scope.currentItem);
+      if ($scope.data.addedItemsString) {
+        addManyItems();
+      } else if (!$scope.currentItem.$id) {
         // product has not been saved before
-        $scope.currentItem.isonlist = true;
-        $scope.currentItem.isbought = false;
-        $scope.storeMgr.addItem($scope.currentItem);
+        addItem();
       } else {
         $scope.storeMgr.saveFromCopyOfItem($scope.currentItem);
       }
-	}; // saveOrAddItem
+    }; // saveOrAddItem
 
   $scope.getTitle = function() {
     var productName = $scope.currentItem ? $scope.currentItem.product : '';
-    return ($routeParams.itemId == 'Add') ? 'Add Product' : productName;
+    return ($scope.data.addPage) ? 'Add Product' : productName;
   }
 
   });
