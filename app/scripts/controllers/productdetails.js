@@ -27,6 +27,7 @@ angular.module('recipeshopperApp')
     	} else if(listId == "FAVORITES") {
     		result = StoredListMgrFactory.getStoredListMgr(FB_SHOPPINGLIST_URL, 'recipeId', 'FAVORITES');
     	} else { // a recipe
+        //$log.debug('ProductDetailsController: getStoreMgr listId', listId);
     		result = StoredListMgrFactory.getStoredListMgr(FB_SHOPPINGLIST_URL);
     	}
       return result;
@@ -44,12 +45,13 @@ angular.module('recipeshopperApp')
               }
           if(! $scope.data.addPage) {
             $scope.currentItem = $scope.storeMgr.getCopyOfItem(productId);
-          } else if (listId) {
+          } else if (listId) { // add case
+            $scope.currentItem.aisle = 'UNKNOWN';
             $scope.currentItem.recipeId = (listId == "ShoppingList") ?  'FAVORITES' : listId;
             $scope.currentItem.recipe = ((listId == "ShoppingList") || (listId == "FAVORITES")) ?  'FAVORITES' : listName;
           }
         }
-    	} else {
+    	} else { // user not logged in
         $location.path('/login');
       }
 	}; // initItem
@@ -74,15 +76,17 @@ angular.module('recipeshopperApp')
       $scope.storeMgr.addItem($scope.currentItem);
     }
 
-    $scope.addOrSaveItem = function () {
+    $scope.addOrSaveItem = function (formValid) {
       $log.debug('ProductDetailsController: addOrSaveItem', $scope.currentItem);
       if ($scope.data.addedItemsString) {
         addManyItems();
-      } else if (!$scope.currentItem.$id) {
-        // product has not been saved before
-        addItem();
-      } else {
-        $scope.storeMgr.saveFromCopyOfItem($scope.currentItem);
+      } else if(formValid) {
+        if (!$scope.currentItem.$id) {
+          // product has not been saved before
+          addItem();
+        } else {
+          $scope.storeMgr.saveFromCopyOfItem($scope.currentItem);
+        }
       }
     }; // saveOrAddItem
 

@@ -21,7 +21,30 @@ var ListPage = function () {
         this.addItemButton.click();
     };
 
+    var gotoAddItemPageButton = element(by.id('addbutton'));
+    this.gotoAddItemPage = function () {
+      gotoAddItemPageButton.click();
+    }
+
+    this.gotoAndExpectPage = function(pageId) {
+      switch(pageId) {
+        case 'addProductFromSL':
+          this.gotoAddItemPage();
+          //utils.expectUrl('http://localhost:9005/#/main');
+          break;
+
+        default:
+          console.log('ListPage: gotoAndExpectPage unnown page', pageId);
+      }
+      utils.expectUrl(pageId);
+    }
+
+
     this.myList = element.all(by.repeater('item in data.myItems'));
+
+    this.expectItemCount = function(expectedCount) {
+      expect(this.myList.count()).toEqual(expectedCount);
+    }
 
     this.getListItemsWithAccentedText = function(content) {
         // console.log('getListItemsWithAccentedText called');

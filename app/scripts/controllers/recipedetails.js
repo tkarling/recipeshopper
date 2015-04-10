@@ -9,10 +9,10 @@
  */
 
 angular.module('recipeshopperApp')
-  .controller('RecipeDetailsController', ['$scope', '$routeParams', '$log', '$location', '$http', 
-  	'FB_RECIPES_URL', 'FB_SHOPPINGLIST_URL', 'StoredListMgrFactory', 'settingsMgr', 
-  	function ($scope, $routeParams, $log, $location, $http, 
-  		FB_RECIPES_URL, FB_SHOPPINGLIST_URL, StoredListMgrFactory, settingsMgr) { 
+  .controller('RecipeDetailsController', ['$scope', '$routeParams', '$log', '$location', '$http',
+  	'FB_RECIPES_URL', 'FB_SHOPPINGLIST_URL', 'StoredListMgrFactory', 'settingsMgr',
+  	function ($scope, $routeParams, $log, $location, $http,
+  		FB_RECIPES_URL, FB_SHOPPINGLIST_URL, StoredListMgrFactory, settingsMgr) {
 
 	// Start from first tab
 	$scope.data = {};
@@ -21,7 +21,7 @@ angular.module('recipeshopperApp')
     $scope.recipe = {};
     // $log.debug('RecipeDetailsController: $routeParams.itemId', $routeParams.itemId);
 
-    var ingredientsMgr; 
+    var ingredientsMgr;
   	var setIngredientsMgrAndIngredients = function () {
   		if($scope.recipe && $scope.recipe.$id) {
 		    ingredientsMgr = StoredListMgrFactory.getStoredListMgr(FB_SHOPPINGLIST_URL);
@@ -37,8 +37,8 @@ angular.module('recipeshopperApp')
   //   	$scope.recipe.onlist = true;
   //   	$scope.recipesMgr.saveFromCopyOfItem($scope.recipe);
   //   	// copyAndSaveRecipe();
-		// $http.get('data/beanCarrotGingerSoup.json').success(function(data){ 
-		// 	var items = data;  
+		// $http.get('data/beanCarrotGingerSoup.json').success(function(data){
+		// 	var items = data;
 		// 	$log.debug('RecipeDetailsController.readIngredients: items', items);
 		// 	var item = {recipeId: $scope.recipe.$id, recipe: $scope.recipe.recipename, isonlist: true, isbought: false};
 		// 	for(var i = 0; i < items.length; i++) {
@@ -87,8 +87,8 @@ angular.module('recipeshopperApp')
 	          		$scope.recipe = $scope.recipesMgr.getCopyOfItem(recipeId);
 	          		if($scope.recipe) {
 						setIngredientsMgrAndIngredients();
-					} 
-	          	} 
+					}
+	          	}
 	        }
     	} else {
         	$location.path('/login');
@@ -100,20 +100,24 @@ angular.module('recipeshopperApp')
     });
     initRecipe($routeParams.itemId);
 
-	$scope.addOrSaveRecipe = function () {
-	    $log.debug('RecipeDetailsController: addOrSaveRecipe', $scope.recipe);
-      	if(! $scope.recipe.$id) { 
-      		// recipe has never been saved if it does not have id
-        	$scope.recipe.onlist = true;
-        	$scope.recipesMgr.addItem($scope.recipe).then(function(addedRecipeId) {
-   	        	// update link, so that you can return to it from product details page
-   	        	var pagelink='/recipedetails/' + addedRecipeId + '/Tab/1';
-   	        	$location.path(pagelink);
-        	});
-      	} else {
-      		$scope.recipesMgr.saveFromCopyOfItem($scope.recipe);
-      	}
-	}; // addOrSaveRecipe
+    $scope.addOrSaveRecipe = function (updateUrl) {
+      $log.debug('RecipeDetailsController: addOrSaveRecipe $scope.recipe', $scope.recipe);
+      if ($scope.recipe.recipename) { // form/recipe is valid
+        if (!$scope.recipe.$id) {
+          // recipe has never been saved if it does not have id
+          $scope.recipe.onlist = true;
+          $scope.recipesMgr.addItem($scope.recipe).then(function (addedRecipeId) {
+            // update url, so that you can return to it from product details page, if needed
+            if(updateUrl){
+              var pagelink = '/recipedetails/' + addedRecipeId + '/Tab/1';
+              $location.path(pagelink);
+            }
+          });
+        } else {
+          $scope.recipesMgr.saveFromCopyOfItem($scope.recipe);
+        }
+      }
+    }; // addOrSaveRecipe
 
 	$scope.getTitle = function() {
 	    var recipeName = $scope.recipe ? $scope.recipe.recipename : '';
@@ -132,12 +136,12 @@ angular.module('recipeshopperApp')
 	    $location.path(pagelink);
     };
 
-	$scope.$watch(function () { return $scope.data.selectedTabIndex; }, 
+	$scope.$watch(function () { return $scope.data.selectedTabIndex; },
 		function(newValue, oldValue) {
 			// tab changed
 			// $log.debug('RecipeDetailsController: tab changed: newValue, oldValue', newValue, oldValue);
 			if((oldValue == 0) && (newValue != 0)) {
-				$scope.addOrSaveRecipe();
+				$scope.addOrSaveRecipe(true); // true for updating url, so that you can return to this page, if needed
 			}
 		}
 	);

@@ -322,18 +322,25 @@ module.exports = function (grunt) {
           src: ['generated/*']
         },
         {
-      //material design icons
+      //material design action icons
         expand: true,
         cwd: 'bower_components/material-design-icons/action/',
         src: ['svg/production/*24*.*'],
         dest: '<%= yeoman.dist %>/bower_components/material-design-icons/action/'
       },
       {
-      //material design menu icon
+      //material design navigation icons
         expand: true,
         cwd: 'bower_components/material-design-icons/navigation/',
-        src: ['svg/production/ic_menu_24px.svg'],
+        src: ['svg/production/*24*.*'],
         dest: '<%= yeoman.dist %>/bower_components/material-design-icons/navigation/'
+      },
+      {
+        //material design content icons
+        expand: true,
+        cwd: 'bower_components/material-design-icons/content/',
+        src: ['svg/production/*24*.*'],
+        dest: '<%= yeoman.dist %>/bower_components/material-design-icons/content/'
       },
       {
           expand: true,

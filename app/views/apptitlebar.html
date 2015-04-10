@@ -4,7 +4,7 @@
             <h3 class="md-toolbar-tools">
             <span layout="row" layout-align="space-between center" layout-fill>
                 <div>
-                    <md-button ng-if="type=='details'" id="backbutton" ng-click="goBack()" aria-label="Go Back" hide-gt-md>
+                    <md-button ng-if="type=='details'" id="backbutton" ng-click="saveAndGoBack()" aria-label="Go Back" hide-gt-md>
                         <rs-icon icon-name="ic_arrow_back" icon-group="navigation"></rs-icon>
                     </md-button>
                     <md-button ng-if="type!='details'" id="menubutton" ng-click="toggleLeft()" aria-label="Open Nav Bar" hide-gt-md>
@@ -19,8 +19,8 @@
                     <md-button ng-if="settingsButton" ng-click="gotoPage('/settings')" aria-label="Go to settings">
                         <rs-icon icon-name="ic_settings"></rs-icon>
                     </md-button>
-                    <md-button ng-if="type=='details'" ng-disabled="buttonDisabled()" 
-                        ng-click="saveAndGoBack()" aria-label="Save Item">
+                    <md-button ng-if="type=='details'" type="submit" ng-disabled="buttonDisabled()"
+                               ng-click="saveAndGoBack()" aria-label="Save Item">
                         <rs-icon icon-name="ic_check" icon-group="navigation"></rs-icon>
                     </md-button>
                 </div>

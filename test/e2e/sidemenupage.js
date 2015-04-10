@@ -31,27 +31,25 @@ var SideMenu = function () {
 
     this.gotoAndExpectPage = function(pageId) {
         switch(pageId) {
-            case 'shoppingList':  
+            case 'shoppingList':
                 this.gotoShoppingList();
-                utils.sleep(2); // 
-                expect(browser.getCurrentUrl()).toBe('http://localhost:9005/#/main');
+                //utils.expectUrl('http://localhost:9005/#/main');
                 break;
 
             case 'favorites':
                 this.gotoFavorites();
-                utils.sleep(2); // 
-                expect(browser.getCurrentUrl()).toBe('http://localhost:9005/#/favorites');
+                //utils.expectUrl('http://localhost:9005/#/favorites');
                 break;
 
             case 'recipes':
                 this.gotoRecipes();
-                utils.sleep(2);
-                expect(browser.getCurrentUrl()).toBe('http://localhost:9005/#/recipelist');
+                //utils.expectUrl('http://localhost:9005/#/recipelist');
                 break;
 
             default:
                 console.log('gotoAndExpectPage unnown page', pageId);
         }
+        utils.expectUrl(pageId);
      }
 
 };

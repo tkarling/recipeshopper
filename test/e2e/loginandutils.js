@@ -35,6 +35,30 @@ var LoginAndUtils = function () {
         navMenuButton.click();
     }
 
+    this.expectUrl = function(pageId) {
+      var myUrl;
+      switch(pageId) {
+        case 'shoppingList':
+          myUrl = 'http://localhost:9005/#/main';
+          break;
+        case 'favorites':
+          myUrl = 'http://localhost:9005/#/favorites';
+          break;
+        case 'recipes':
+          myUrl = 'http://localhost:9005/#/recipelist';
+          break;
+        case 'addProductFromSL':
+          myUrl = 'http://localhost:9005/#/productdetails/List/ShoppingList/Item/Add';
+          break;
+        default:
+          console.log('gotoAndExpectPage unnown page', pageId);
+      }
+
+      this.sleep(2); //
+      expect(browser.getCurrentUrl()).toBe(myUrl);
+
+    }; // expectUrl
+
     // this.swipedown = function() {
     //     browser.actions().mouseMove({x: 20, y: 20}).mouseDown().mouseMove({x: 20, y: 300}).mouseUp().perform();
     // }

@@ -1,26 +1,26 @@
 <form name="recipeForm" novalidate>
-<rs-view type="details" title="getTitle()" 
+<rs-view type="details" title="getTitle()"
 	check-fn="addOrSaveRecipe()" check-enabled="{{recipeForm.$valid}}">
 	<div id="recipedetails">
 		<md-tabs class="md-accent" md-selected="data.selectedTabIndex">
 			<md-tab id="details-tab" aria-controls="details-tab-content">
 				<rs-icon icon-name="ic_info_outline"></rs-icon>
 			</md-tab>
-			<md-tab id="ingredients-tab" ng-disabled="! recipeForm.$valid"
+			<md-tab id="ingredients-tab" ng-disabled="recipeForm.$invalid"
 				aria-controls="ingredients-tab-content">
 				<rs-icon icon-name="ic_list"></rs-icon>
 			</md-tab>
-			<md-tab id="instructions-tab" ng-disabled="! recipeForm.$valid"
+			<md-tab id="instructions-tab" ng-disabled="recipeForm.$invalid"
 				aria-controls="instructions-tab-content">
 				<rs-icon icon-name="ic_subject"></rs-icon>
 			</md-tab>
-			<md-tab id="photo-tab" ng-disabled="! recipeForm.$valid"
+			<md-tab id="photo-tab" ng-disabled="recipeForm.$invalid"
 				aria-controls="photo-tab-content">
 				<rs-icon icon-name="ic_perm_media"></rs-icon>
 			</md-tab>
 		</md-tabs>
 		<ng-switch on="data.selectedTabIndex" class="tabpanel-container">
-			<div role="tabpanel" id="details-tab-content" aria-labelledby="details-tab" ng-switch-when="0"> 
+			<div role="tabpanel" id="details-tab-content" aria-labelledby="details-tab" ng-switch-when="0">
 				<md-content class="md-padding">
 					<div layout>
 						<md-input-container flex>
@@ -40,7 +40,7 @@
 					</div>
 				</md-content>
 			</div>
-			<div role="tabpanel" id="ingredients-tab-content" aria-labelledby="ingredients-tab" ng-switch-when="1"> 
+			<div role="tabpanel" id="ingredients-tab-content" aria-labelledby="ingredients-tab" ng-switch-when="1">
 				<!-- <md-content class="md-padding">
 					<md-button class="md-primary md-raised" ng-hide="ingredients.length >0" ng-click="readIngredients()">Read Inredients</md-button>
 				</md-content> -->
@@ -50,9 +50,9 @@
 					<md-list>
 						<md-item ng-repeat="item in ingredients">
 							<md-item-content ng-swipe-left="showActions = true" ng-swipe-right="showActions = false">
-								<rs-tile-content accented-text="{{item.aisle}}" 
+								<rs-tile-content accented-text="{{item.aisle}}"
 									click-fn="gotoDetailsPage(item, recipe.$id, recipe.recipename)">{{item.amount}} {{item.unit}} {{item.product}}</rs-tile-content>
-								<rs-tile-right-delete has-note="{{item.note}}" delete-fn="deleteItem(item)"  
+								<rs-tile-right-delete has-note="{{item.note}}" delete-fn="deleteItem(item)"
 									show-actions="{{showActions}}"></rs-tile-right-delete>
 							</md-item-content>
 							<md-divider inset></md-divider>
@@ -60,12 +60,12 @@
 					</md-list>
 				</md-content>
 			</div>
-			<div role="tabpanel" id="instructions-tab-content" aria-labelledby="instructions-tab" ng-switch-when="2"> 
+			<div role="tabpanel" id="instructions-tab-content" aria-labelledby="instructions-tab" ng-switch-when="2">
 				<md-content class="md-padding" style="height: 400px">
 					<p ng-bind-html="recipe.instructions"></p>
 				</md-content>
 			</div>
-			<div role="tabpanel" id="photo-tab-content" aria-labelledby="photo-tab" ng-switch-when="3"> 
+			<div role="tabpanel" id="photo-tab-content" aria-labelledby="photo-tab" ng-switch-when="3">
 				<md-content class="md-padding">
 					<p>Photo</p>
 				</md-content>

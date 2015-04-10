@@ -34,7 +34,7 @@ angular.module('productsFromStringMod')
       return unit;
     }; // checkIfHasUnit
 
-    var aisles = ['PROTEINS', 'DAIRY', 'VEGGIES&FRUIT', 'GRAINS', 'NUTS&SEEDS', 'EXTRAS'];
+    var aisles = ['PROTEINS', 'DAIRY', 'VEGGIES&FRUIT', 'GRAINS', 'NUTS&SEEDS', 'EXTRAS', 'UNKNOWN'];
     var isAisle = function (aString) {
       return isInArray(aisles, aString);
     }; // isAisle
@@ -82,6 +82,8 @@ angular.module('productsFromStringMod')
       if (aisle) {
         product.aisle = aisle;
         productString = productString.slice(aisle.length + 1, productString.length).trim();
+      } else {
+        product.aisle = 'UNKNOWN';
       }
       var amount = checkIfHasAmount(productString);
       if (amount) {

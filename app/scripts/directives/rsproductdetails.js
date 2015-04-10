@@ -11,13 +11,14 @@ angular.module('recipeshopperApp')
     return {
       template: '<div>\
           <!-- <label>{{ currentItem.aisle ? \'Aisle:\' : \'Please Pick Aisle\' }} -->\
-          <md-select ng-model="rsModel" ng-required="true">\
+          <md-select ng-model="rsModel">\
             <md-option value="PROTEINS">PROTEINS</md-option>\
             <md-option value="DAIRY">DAIRY</md-option>\
             <md-option value="VEGGIES&FRUIT">VEGGIES&FRUIT</md-option>\
             <md-option value="GRAINS">GRAINS</md-option>\
             <md-option value="NUTS&SEEDS">NUTS&SEEDS</md-option>\
             <md-option value="EXTRAS">EXTRAS</md-option>\
+            <md-option value="UNKNOWN">UNKNOWN</md-option>\
           </md-select>\
           <!-- </label> -->\
         </div>',

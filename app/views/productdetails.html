@@ -1,7 +1,6 @@
 <form name="productForm" novalidate>
-<rs-view type="details"
-		title="getTitle()"
-		check-fn="addOrSaveItem()" check-enabled="{{productForm.$valid}}">
+<rs-view type="details" title="getTitle()"
+         check-fn="addOrSaveItem(productForm.$valid)" check-enabled="{{productForm.$valid}}">
 
   <rs-product-content ng-if="! data.addPage"></rs-product-content>
 
