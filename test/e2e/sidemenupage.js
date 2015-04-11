@@ -11,46 +11,40 @@ var SideMenu = function () {
 
     this.gotoShoppingList = function () {
         shoppingListMenuItem.click();
-    }
+    };
 
     this.gotoRecipes = function () {
         recipesMenuItem.click();
-    }
+    };
 
     this.gotoFavorites = function () {
         favoritesMenuItem.click();
-    }
+    };
 
     this.gotoSettings = function () {
         settingsMenuItem.click();
-    }
+    };
 
     this.logout = function () {
         logoutMenuItem.click();
-    }
+    };
 
     this.gotoAndExpectPage = function(pageId) {
         switch(pageId) {
             case 'shoppingList':
                 this.gotoShoppingList();
-                //utils.expectUrl('http://localhost:9005/#/main');
                 break;
-
             case 'favorites':
                 this.gotoFavorites();
-                //utils.expectUrl('http://localhost:9005/#/favorites');
                 break;
-
             case 'recipes':
                 this.gotoRecipes();
-                //utils.expectUrl('http://localhost:9005/#/recipelist');
                 break;
-
             default:
-                console.log('gotoAndExpectPage unnown page', pageId);
+                console.log('SideMenu: gotoAndExpectPage unnown page', pageId);
         }
-        utils.expectUrl(pageId);
-     }
+        utils.expectPage(pageId);
+     }; // gotoAndExpectPage
 
 };
 

@@ -35,7 +35,7 @@ var LoginAndUtils = function () {
         navMenuButton.click();
     }
 
-    this.expectUrl = function(pageId) {
+    this.expectPage = function(pageId) {
       var myUrl;
       switch(pageId) {
         case 'shoppingList':
@@ -50,6 +50,13 @@ var LoginAndUtils = function () {
         case 'addProductFromSL':
           myUrl = 'http://localhost:9005/#/productdetails/List/ShoppingList/Item/Add';
           break;
+        case 'addProductFromFavorites':
+          myUrl = 'http://localhost:9005/#/productdetails/List/FAVORITES/Item/Add';
+          break;
+        case 'addRecipe':
+          myUrl = 'http://localhost:9005/#/recipedetails/Add';
+          break;
+
         default:
           console.log('gotoAndExpectPage unnown page', pageId);
       }
@@ -57,7 +64,7 @@ var LoginAndUtils = function () {
       this.sleep(2); //
       expect(browser.getCurrentUrl()).toBe(myUrl);
 
-    }; // expectUrl
+    }; // expectPage
 
     // this.swipedown = function() {
     //     browser.actions().mouseMove({x: 20, y: 20}).mouseDown().mouseMove({x: 20, y: 300}).mouseUp().perform();

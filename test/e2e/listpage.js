@@ -7,78 +7,54 @@ var ListPage = function () {
       browser.get('http://localhost:9005/#/main');
     };
 
-    this.addInput1 = element(by.model('data.model1'));
-    this.addInput2 = element(by.model('data.model2'));
-    this.addInput3 = element(by.model('data.modelNo'));
-    this.addItemButton = element(by.id('additembutton'));
-
-    this.addItem = function(a, b, c) {
-        this.addInput1.sendKeys(a);
-        this.addInput2.sendKeys(b);
-        if(c) {
-            this.addInput3.sendKeys(c);
-        }
-        this.addItemButton.click();
-    };
-
     var gotoAddItemPageButton = element(by.id('addbutton'));
     this.gotoAddItemPage = function () {
       gotoAddItemPageButton.click();
-    }
+    }; // gotoAddItemPageButton
 
     this.gotoAndExpectPage = function(pageId) {
       switch(pageId) {
         case 'addProductFromSL':
+        case 'addProductFromFavorites':
+        case 'addRecipe':
           this.gotoAddItemPage();
-          //utils.expectUrl('http://localhost:9005/#/main');
           break;
 
         default:
           console.log('ListPage: gotoAndExpectPage unnown page', pageId);
       }
-      utils.expectUrl(pageId);
-    }
+      utils.expectPage(pageId);
+    }; // gotoAndExpectPage
 
 
-    this.myList = element.all(by.repeater('item in data.myItems'));
+    var myList = element.all(by.repeater('item in data.myItems'));
+
+    this.itemCount = function () {
+      return myList.count();
+    }; // itemCount
 
     this.expectItemCount = function(expectedCount) {
-      expect(this.myList.count()).toEqual(expectedCount);
-    }
+      expect(myList.count()).toEqual(expectedCount);
+    }; // expectItemCount
 
-    this.getListItemsWithAccentedText = function(content) {
-        // console.log('getListItemsWithAccentedText called');
-        return this.myList.filter(function(elem, index) {
-            // console.log('in filter');
-          return elem.element(by.binding('accentedText')).getText().then(function(text) {
-            // console.log('text: ', text);
-            return text == content;
-          });
+    var getListItemsWithField = function (fieldName, content) {
+      fieldName = fieldName || 'item.product';
+      // console.log('getListItemsWithField called');
+      return myList.filter(function (elem, index) {
+        // console.log('in filter');
+        return elem.element(by.binding(fieldName)).getText().then(function (text) {
+          // console.log('text: ', text);
+          return text == content;
         });
-    };
-
-    this.getListItemsWithProduct = function(content) {
-        // console.log('getListItemsWithProduct called');
-        return this.myList.filter(function(elem, index) {
-            // console.log('in filter');
-          return elem.element(by.binding('item.product')).getText().then(function(text) {
-            // console.log('text: ', text);
-            return text == content;
-          });
-        });
-    };
-
-    this.getField = function(item, field) {
-        return item.element(by.binding(field)).getText();
-    };
-
+      });
+    }; // getListItemsWithField
 
     this.CHECKED = true;
     this.UNCHECKED = false;
 
     var getCheckBoxClass = function(item) {
         return item.element(by.model('data.cbvalue')).getAttribute('class');
-    };
+    }; // getCheckBoxClass
 
     this.expectCheckBoxToBe = function(item, expCheckStatus) {
         if(expCheckStatus == this.CHECKED) {
@@ -86,26 +62,26 @@ var ListPage = function () {
         } else {
             expect(getCheckBoxClass(item)).not.toContain('md-checked');
         }
-    };
+    }; // expectCheckBoxToBe
 
-    var clickCheckBox = function(item) {
-        return item.element(by.model('data.cbvalue')).click();
-    };
+    var clickCheckBox = function (item) {
+      return item.element(by.model('data.cbvalue')).click();
+    }; // clickCheckBox
 
-    this.findItemAndExpectCheckBoxToBe = function(firstRowText, expCheckStatus) {
+    this.findItemAndExpectCheckBoxToBe = function(firstRowText, expCheckStatus, fieldName) {
         var self = this;
-        this.getListItemsWithProduct(firstRowText).then(function(items) {
+        getListItemsWithField(fieldName, firstRowText).then(function(items) {
             if(items.length != 1) {
                 console.log('NOTE: findItemAndExpectCheckBoxNotToBeChecked' + firstRowText + ' items.length is: ', items.length);
             }
             var selectedItem = items[0];
             self.expectCheckBoxToBe(selectedItem), expCheckStatus;
         });
-    };
+    }; // findItemAndExpectCheckBoxToBe
 
-    this.findItemClickCheckboxAndExpectCheckBoxToBe = function(firstRowText, expCheckStatus) {
+    this.findItemClickCheckboxAndExpectCheckBoxToBe = function(firstRowText, expCheckStatus, fieldName) {
         var self = this;
-        this.getListItemsWithProduct(firstRowText).then(function(items) {
+        getListItemsWithField(fieldName, firstRowText).then(function(items) {
             if(items.length != 1) {
                 console.log('NOTE: findItemAndCheckCheckboxAndExpectToBeChecked:' + firstRowText + ' items.length is: ', items.length);
             }
@@ -116,24 +92,52 @@ var ListPage = function () {
             utils.sleep(2);
             self.expectCheckBoxToBe(selectedItem, expCheckStatus);
         });
-    };
+    }; // findItemClickCheckboxAndExpectCheckBoxToBe
 
-    this.deleteItem = function(item) {
+    var deleteItem = function(item) {
         console.log('deleteItem called');
         item.element(by.id('deleteitembutton')).click();
-    };
+    }; // deleteItem
 
-    this.findAndDeleteItem = function (firstRowText) {
-        var self = this;
-        this.getListItemsWithProduct(firstRowText).then(function(items) {
+    this.findAndDeleteProduct = function (firstRowText, fieldName) {
+        getListItemsWithField(fieldName, firstRowText).then(function(items) {
             // check content of new item on favorites page
             if(items.length != 1) {
-                console.log('NOTE: findAndDeleteItem' + firstRowText + ' items.length is: ', items.length);
+                console.log('NOTE: findAndDeleteProduct' + firstRowText + ' items.length is: ', items.length);
             }
-            self.deleteItem(items[0]);
+            deleteItem(items[0]);
         });
+    }; // findAndDeleteProduct
+
+    this.findAndDeleteRecipe = function(firstRowText) {
+      this.findAndDeleteProduct(firstRowText, 'item.recipename');
+    }; // findAndDeleteRecipe
+
+    var getField = function(item, field) {
+      return item.element(by.binding(field)).getText();
     };
 
+    this.findProductAndExpectContent = function(checkboxStatus, firstRowText, accentedText, additionalText, fieldName) {
+      var self = this;
+      getListItemsWithField(fieldName, firstRowText).then(function(items) {
+        // check content of new item on favorites page
+        if(items.length != 1) {
+          console.log('NOTE: findProductAndExpectContent' + firstRowText + ' items.length is: ', items.length);
+        }
+        var newItem = items[0];
+        // first row checked as it was found
+        self.expectCheckBoxToBe(newItem, checkboxStatus);
+       	expect(getField(newItem, 'accentedText')).toEqual(accentedText);
+        if(additionalText) {
+          expect(getField(newItem, 'additionalText')).toEqual(additionalText);
+        }
+      });
+    }; // findProductAndExpectContent
+
+    this.findRecipeAndExpectContent = function(checkboxStatus, firstRowText, accentedText) {
+      this.findProductAndExpectContent(checkboxStatus, firstRowText, accentedText, undefined, 'item.recipename');
+      // undefined for non-existing additional text
+    }; // findRecipeAndExpectContent
 
 };
 

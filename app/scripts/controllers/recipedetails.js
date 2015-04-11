@@ -16,7 +16,7 @@ angular.module('recipeshopperApp')
 
 	// Start from first tab
 	$scope.data = {};
-    $scope.data.selectedTabIndex =  Number($routeParams.tabId) || 0;
+    $scope.data.selectedTabIndex =  Number($routeParams.tabId) || (($routeParams.itemId == 'Add') ? 0: 1);
 
     $scope.recipe = {};
     // $log.debug('RecipeDetailsController: $routeParams.itemId', $routeParams.itemId);

@@ -8,16 +8,13 @@ var ProductDetailsPage = function () {
   var inputProduct = element(by.model('currentItem.product'));
   var inputNote = element(by.model('currentItem.note'));
 
-  this.addProductContent = function(amount, unit, product, aisle, note) {
+  this.addProductContentAndSave = function(amount, unit, product, aisle, note) {
+    // aisle is ignored for now as select is not implemented
     inputAmount.sendKeys(amount);
     inputUnit.sendKeys(unit);
     inputProduct.sendKeys(product);
-    inputNote.sendKeys(note);
+    inputNote.sendKeys(note + '\n');
   }; // addProductContent
-
-  this.saveProductAndExpectPage = function(pageId) {
-
-  }; // saveProduct
 
 };
 
