@@ -8,12 +8,14 @@ var ProductDetailsPage = function () {
   var inputProduct = element(by.model('currentItem.product'));
   var inputNote = element(by.model('currentItem.note'));
 
+  // returns first row content
   this.addProductContentAndSave = function(amount, unit, product, aisle, note) {
     // aisle is ignored for now as select is not implemented
     inputAmount.sendKeys(amount);
     inputUnit.sendKeys(unit);
     inputProduct.sendKeys(product);
     inputNote.sendKeys(note + '\n');
+    return amount + ' ' + unit + ' ' + product;
   }; // addProductContent
 
 };
