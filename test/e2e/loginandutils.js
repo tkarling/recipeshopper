@@ -61,7 +61,7 @@ var LoginAndUtils = function () {
           console.log('gotoAndExpectPage unnown page', pageId);
       }
 
-      this.sleep(2); //
+      this.sleep(); //
       expect(browser.getCurrentUrl()).toBe(myUrl);
 
     }; // expectPage

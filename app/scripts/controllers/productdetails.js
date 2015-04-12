@@ -90,9 +90,9 @@ angular.module('recipeshopperApp')
       }
     }; // saveOrAddItem
 
-  $scope.getTitle = function() {
-    var productName = $scope.currentItem ? $scope.currentItem.product : '';
-    return ($scope.data.addPage) ? 'Add Product' : productName;
-  }
+    $scope.getTitle = function () {
+      var productName = $scope.currentItem ? $scope.currentItem.product : '';
+      return ($scope.data.addPage) ? 'Add Product' : productName;
+    }
 
   });

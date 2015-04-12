@@ -46,7 +46,7 @@
 				</md-content> -->
 			    <rs-search-bar list-id="{{recipe.$id}}" list-name="{{recipe.recipename}}">
 			    </rs-search-bar>
-				<md-content ng-hide="ingredients.length == 0" class="md-padding" style="height: 400px;">
+				<md-content ng-hide="ingredients.length == 0" class="md-padding">
 					<md-list>
 						<md-item ng-repeat="item in ingredients">
 							<md-item-content ng-swipe-left="showActions = true" ng-swipe-right="showActions = false">

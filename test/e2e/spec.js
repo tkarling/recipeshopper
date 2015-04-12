@@ -50,7 +50,12 @@ describe('angularjs homepage', function() {
 		sideMenuPage.logout();
 	});
 
-	describe('Add/ Delete Tests', function() {
+  it('should do something', function () {
+    sideMenuPage.gotoAndExpectPage('favorites');
+    listPage.expectItemCount(originalFavoritesCount);
+  }); // it
+
+	describe('Add/ Delete One Tests', function() {
 
     it('should add a product starting from SL, check it is on SL and favorites and delete it on favorites', function () {
       // goto shopping list page
@@ -132,9 +137,52 @@ describe('angularjs homepage', function() {
 
 		}); // it
 
-	}); // describe 'Add/ Delete Tests'
+	}); // describe 'Add/ Delete One Tests'
 
-	describe('Checkbox Tests', function() {
+  describe('Add/ Delete Many Products Tests', function() {
+    it('should add many products from favorites, check that they are on shoppinglist too and delete them from favorites', function () {
+      // goto favorites page
+      sideMenuPage.gotoAndExpectPage('favorites');
+      listPage.expectItemCount(originalFavoritesCount);
+
+      // add item
+      listPage.gotoAndExpectPage('addProductFromFavorites');
+      var products = [{amount:'3', unit:'heads', product:'prot test broccoli', aisle:'VEGGIES&FRUIT'},
+        {amount:'1', unit:'cup', product:'prot test sour cream', aisle:'DAIRY'},
+        {amount:'1', unit:'lb', product:'prot test cod', aisle:'PROTEINS'}];
+      var firstRowContentArr = productDetailsPage.addProductsAndSave(products);
+
+      // check added on favorites page
+      utils.expectPage('favorites');
+      utils.sleep();
+      listPage.expectItemCount(originalFavoritesCount + 3);
+      listPage.findProductAndExpectContent(listPage.CHECKED, firstRowContentArr[0], 'VEGGIES&FRUIT' + ';', 'favorites');
+      listPage.findProductAndExpectContent(listPage.CHECKED, firstRowContentArr[1], 'DAIRY' + ';', 'favorites');
+      listPage.findProductAndExpectContent(listPage.CHECKED, firstRowContentArr[2], 'PROTEINS' + ';', 'favorites');
+      // check added on shopping list page
+      sideMenuPage.gotoAndExpectPage('shoppingList');
+      utils.sleep();
+      listPage.expectItemCount(originalSLItemCount + 3);
+      listPage.findProductAndExpectContent(listPage.UNCHECKED, firstRowContentArr[0], 'VEGGIES&FRUIT' + ';', 'favorites');
+      listPage.findProductAndExpectContent(listPage.UNCHECKED, firstRowContentArr[1], 'DAIRY' + ';', 'favorites');
+      listPage.findProductAndExpectContent(listPage.UNCHECKED, firstRowContentArr[2], 'PROTEINS' + ';', 'favorites');
+
+      // delete items
+      sideMenuPage.gotoAndExpectPage('favorites');
+      listPage.findAndDeleteProduct(firstRowContentArr[0]);
+      listPage.findAndDeleteProduct(firstRowContentArr[1]);
+      listPage.findAndDeleteProduct(firstRowContentArr[2]);
+      // check deleted from favorites
+      listPage.expectItemCount(originalFavoritesCount);
+      // check deleted from shopping list
+      sideMenuPage.gotoAndExpectPage('shoppingList');
+      listPage.expectItemCount(originalSLItemCount);
+    }); // it
+
+  }); // describe 'Add/ Delete Many Tests'
+
+
+  describe('Checkbox Tests', function() {
     var productOneFirstRow;
     var productTwoFirstRow;
     var productThreeFirstRow;

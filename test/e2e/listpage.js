@@ -56,8 +56,8 @@ var ListPage = function () {
         return item.element(by.model('data.cbvalue')).getAttribute('class');
     }; // getCheckBoxClass
 
-    this.expectCheckBoxToBe = function(item, expCheckStatus) {
-        if(expCheckStatus == this.CHECKED) {
+    var expectCheckBoxToBe = function(self, item, expCheckStatus) {
+        if(expCheckStatus == self.CHECKED) {
             expect(getCheckBoxClass(item)).toContain('md-checked');
         } else {
             expect(getCheckBoxClass(item)).not.toContain('md-checked');
@@ -68,31 +68,30 @@ var ListPage = function () {
       return item.element(by.model('data.cbvalue')).click();
     }; // clickCheckBox
 
-    this.findItemAndExpectCheckBoxToBe = function(firstRowText, expCheckStatus, fieldName) {
+    this.findProductAndExpectCheckBoxToBe = function(firstRowText, expCheckStatus, fieldName) {
         var self = this;
         getListItemsWithField(fieldName, firstRowText).then(function(items) {
             if(items.length != 1) {
                 console.log('NOTE: findItemAndExpectCheckBoxNotToBeChecked' + firstRowText + ' items.length is: ', items.length);
             }
             var selectedItem = items[0];
-            self.expectCheckBoxToBe(selectedItem), expCheckStatus;
+            expectCheckBoxToBe(self, selectedItem, expCheckStatus);
         });
-    }; // findItemAndExpectCheckBoxToBe
+    }; // findProductAndExpectCheckBoxToBe
 
-    this.findItemClickCheckboxAndExpectCheckBoxToBe = function(firstRowText, expCheckStatus, fieldName) {
+    this.findProductClickCheckboxAndExpectCheckBoxToBe = function(firstRowText, expCheckStatus, fieldName) {
         var self = this;
         getListItemsWithField(fieldName, firstRowText).then(function(items) {
             if(items.length != 1) {
                 console.log('NOTE: findItemAndCheckCheckboxAndExpectToBeChecked:' + firstRowText + ' items.length is: ', items.length);
             }
             var selectedItem = items[0];
-
-            self.expectCheckBoxToBe(selectedItem, ! expCheckStatus);
+            expectCheckBoxToBe(self, selectedItem, ! expCheckStatus);
             clickCheckBox(selectedItem);
             utils.sleep(2);
-            self.expectCheckBoxToBe(selectedItem, expCheckStatus);
+            expectCheckBoxToBe(self, selectedItem, expCheckStatus);
         });
-    }; // findItemClickCheckboxAndExpectCheckBoxToBe
+    }; // findProductClickCheckboxAndExpectCheckBoxToBe
 
     var deleteItem = function(item) {
         console.log('deleteItem called');
@@ -126,7 +125,7 @@ var ListPage = function () {
         }
         var newItem = items[0];
         // first row checked as it was found
-        self.expectCheckBoxToBe(newItem, checkboxStatus);
+        expectCheckBoxToBe(self, newItem, checkboxStatus);
        	expect(getField(newItem, 'accentedText')).toEqual(accentedText);
         if(additionalText) {
           expect(getField(newItem, 'additionalText')).toEqual(additionalText);

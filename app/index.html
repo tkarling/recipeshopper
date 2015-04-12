@@ -16,19 +16,15 @@
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
   </head>
-  <body ng-app="recipeshopperApp">
+  <body ng-app="recipeshopperApp" layout="row">
     <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
-    <div layout="column" layout-fill>
-        <section layout="row" flex>
-            <rs-side-menu></rs-side-menu>
-            <md-content md-theme="green" flex>
-                <div ng-view=""></div>
-            </md-content>
-        </section>
-    </div>
+    <rs-side-menu></rs-side-menu>
+    <md-content md-theme="green" flex>
+      <div ng-view=""></div>
+    </md-content>
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
      <script>
