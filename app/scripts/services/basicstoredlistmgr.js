@@ -20,7 +20,7 @@ angular.module('storedListMod')
         var getExistingMgrItem = function(fbUrl, fieldNameOrVariableUrl, fieldValue) {
           for(var i=0; i < StoredListMgrs.length; i++) {
             if((StoredListMgrs[i].fbUrl == fbUrl) &&
-               (StoredListMgrs[i].fieldNameOrVariableUrl == fieldNameOrVariableUrl) && 
+               (StoredListMgrs[i].fieldNameOrVariableUrl == fieldNameOrVariableUrl) &&
                (StoredListMgrs[i].fieldValue == fieldValue)) {
               return StoredListMgrs[i];
             }
@@ -42,7 +42,7 @@ angular.module('storedListMod')
                   newMgrItem.mgr = new BasicStoredListMgr(newMgrItem.fbUrl, newMgrItem.fieldNameOrVariableUrl, newMgrItem.fieldValue);
                   StoredListMgrs.push(newMgrItem);
                   mgrItem = newMgrItem;
-                } 
+                }
                 // $log.debug('getSharedStoredListMgr: : getStoredListMgr StoredListMgrs.length: ', StoredListMgrs.length );
                 // $log.debug('getSharedStoredListMgr: getStoredListMgr: mgrItem', mgrItem);
                 // $log.debug('getSharedStoredListMgr: getStoredListMgr: mgrItem.mgr', mgrItem.mgr);
@@ -52,7 +52,7 @@ angular.module('storedListMod')
             getStoredListMgr : function (fbUrlWNoBase, fieldNameOrVariableUrl, fieldValue) {
               var myUid = settingsMgr.getCurrentUser();
               var myFbUrlWNoBase = '/' + myUid + fbUrlWNoBase;
-              $log.debug('StoredListMgrFactory: getStoredListMgr: myUid, myFbUrlWNoBase', myUid, myFbUrlWNoBase);
+              //$log.debug('StoredListMgrFactory: getStoredListMgr: myUid, myFbUrlWNoBase', myUid, myFbUrlWNoBase);
               return this.getSharedStoredListMgr(myFbUrlWNoBase, fieldNameOrVariableUrl, fieldValue);
             }, // getStoredListMgr
 
@@ -72,7 +72,7 @@ angular.module('storedListMod')
 
     })
 
-  .factory('BasicStoredListMgr', ['$rootScope', '$log', '$q', '$firebaseArray', 
+  .factory('BasicStoredListMgr', ['$rootScope', '$log', '$q', '$firebaseArray',
     function ($rootScope, $log, $q, $firebaseArray) {
 
     var fullUrl = function(fbUrl, variableUrl, fieldValue) {
@@ -149,7 +149,7 @@ angular.module('storedListMod')
           // $log.debug('BasicStoredListMgr. getItems (from FB) this.data.ref', this.data.ref);
           if(this.data.fieldNameOrVariableUrl && this.data.fieldValue) {
             // get selected items
-            // $log.debug('BasicStoredListMgr. getItems (from FB) w this.data.fbUrl, this.data.fieldNameOrVariableUrl, this.data.fieldValue', 
+            // $log.debug('BasicStoredListMgr. getItems (from FB) w this.data.fbUrl, this.data.fieldNameOrVariableUrl, this.data.fieldValue',
             //     this.data.fbUrl, this.data.fieldNameOrVariableUrl, this.data.fieldValue);
             this.data.items = $firebaseArray(this.data.ref.orderByChild(this.data.fieldNameOrVariableUrl).equalTo(this.data.fieldValue));
           } else {
@@ -159,7 +159,7 @@ angular.module('storedListMod')
           }
           $log.debug('BasicStoredListMgr. getItems (from FB)');
           return this.data.items.$loaded();
-          // return getItemsFromFBAsync(this); 
+          // return getItemsFromFBAsync(this);
         }
     }; // BasicStoredListMgr.prototype.getItems
 

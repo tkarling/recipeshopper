@@ -26,4 +26,14 @@ angular.module('recipeshopperApp')
         //console.log('rsRecipeIngredients called');
       }
     };
+  })
+  .directive('rsRecipeInstructions', function () {
+    return {
+      templateUrl: 'views/recipeinstructions.html',
+      restrict: 'E',
+      replace: true,
+      link: function postLink(scope, element, attrs) {
+        //console.log('rsRecipeInstructions called');
+      }
+    };
   });

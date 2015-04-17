@@ -10,12 +10,14 @@
 
 angular.module('recipeshopperApp')
   .controller('RecipeDetailsController', ['$scope', '$routeParams', '$log', '$location', '$http',
-  	'FB_RECIPES_URL', 'FB_SHOPPINGLIST_URL', 'StoredListMgrFactory', 'settingsMgr',
+  	'FB_RECIPES_URL', 'FB_SHOPPINGLIST_URL',
+    'StoredListMgrFactory', 'settingsMgr', 'recipeMgr',
   	function ($scope, $routeParams, $log, $location, $http,
-  		FB_RECIPES_URL, FB_SHOPPINGLIST_URL, StoredListMgrFactory, settingsMgr) {
+  		        FB_RECIPES_URL, FB_SHOPPINGLIST_URL,
+              StoredListMgrFactory, settingsMgr, recipeMgr) {
 
 	// Start from first tab
-	$scope.data = {};
+	  $scope.data = {};
     $scope.data.selectedTabIndex =  Number($routeParams.tabId) || (($routeParams.itemId == 'Add') ? 0: 1);
 
     $scope.recipe = {};
@@ -32,35 +34,7 @@ angular.module('recipeshopperApp')
   		}
   	};
 
-  // 	// not in use now
-  //   $scope.readIngredients = function() {
-  //   	$scope.recipe.onlist = true;
-  //   	$scope.recipesMgr.saveFromCopyOfItem($scope.recipe);
-  //   	// copyAndSaveRecipe();
-		// $http.get('data/beanCarrotGingerSoup.json').success(function(data){
-		// 	var items = data;
-		// 	$log.debug('RecipeDetailsController.readIngredients: items', items);
-		// 	var item = {recipeId: $scope.recipe.$id, recipe: $scope.recipe.recipename, isonlist: true, isbought: false};
-		// 	for(var i = 0; i < items.length; i++) {
-		// 		if(items[i].product) {
-		// 			item.product = items[i].product;
-		// 		}
-		// 		if(items[i].aisle) {
-		// 			item.aisle = items[i].aisle;
-		// 		}
-		// 		if(items[i].unit) {
-		// 			item.unit = items[i].unit;
-		// 		}
-		// 		if(items[i].amount) {
-		// 			item.amount = Number(items[i].amount);
-		// 		}
-		// 		// $log.debug(item);
-		// 		ingredientsMgr.addItem(item);
-		// 	}
-		// });
-  //   };
-
-    $scope.deleteItem = function(item) {
+    $scope.deleteIngredient = function(item) {
     	ingredientsMgr.deleteItem(item);
     }; // deleteIngredient
 
@@ -73,29 +47,31 @@ angular.module('recipeshopperApp')
     }; // saveIngredient
 
     var recipePtr;
-	var initRecipe = function(recipeId) {
+    var initRecipe = function (recipeId) {
       var currentUser = settingsMgr.getCurrentUser();
-		// $log.debug('RecipeDetailsController: initRecipe currentUser', currentUser);
-    	if(currentUser) {
-	        if(recipeId) {
-	          	$scope.recipesMgr = StoredListMgrFactory.getStoredListMgr(FB_RECIPES_URL);
-	          	if($scope.recipesMgr.noOfItems() == undefined) {
-	          		// refresh page case
-	          		$location.path('/recipelist');
-	          	}
-	          	if(recipeId != 'Add') {
-	          		$scope.recipe = $scope.recipesMgr.getCopyOfItem(recipeId);
-	          		if($scope.recipe) {
-						setIngredientsMgrAndIngredients();
-					}
-	          	}
-	        }
-    	} else {
-        	$location.path('/login');
-      	}
-	}; // initRecipe
+      // $log.debug('RecipeDetailsController: initRecipe currentUser', currentUser);
+      if (currentUser) {
+        if (recipeId) {
+          $scope.recipesMgr = StoredListMgrFactory.getStoredListMgr(FB_RECIPES_URL);
+          if ($scope.recipesMgr.noOfItems() == undefined) {
+            // refresh page case
+            $location.path('/recipelist');
+          }
+          if (recipeId != 'Add') {
+            $scope.recipe = $scope.recipesMgr.getCopyOfItem(recipeId);
+            if ($scope.recipe) {
+              //$scope.recipe.instructions = $scope.recipe.instructions || 'Please click to add Instructions';
+              setIngredientsMgrAndIngredients();
+              $scope.recipextras = recipeMgr.getXtras(recipeId);
+            }
+          }
+        }
+      } else {
+        $location.path('/login');
+      }
+    }; // initRecipe
 
-	$scope.$on('handleCurrentUserSet', function () {
+	  $scope.$on('handleCurrentUserSet', function () {
         initRecipe($routeParams.itemId);
     });
     initRecipe($routeParams.itemId);
@@ -109,20 +85,21 @@ angular.module('recipeshopperApp')
           $scope.recipesMgr.addItem($scope.recipe).then(function (addedRecipeId) {
             // update url, so that you can return to it from product details page, if needed
             if(updateUrl){
-              var pagelink = '/recipedetails/' + addedRecipeId + '/Tab/1';
+              var pagelink = '/recipedetails/' + addedRecipeId + '/Tab/' + $scope.data.selectedTabIndex;
               $location.path(pagelink);
             }
           });
         } else {
           $scope.recipesMgr.saveFromCopyOfItem($scope.recipe);
+          recipeMgr.saveXtras();
         }
       }
     }; // addOrSaveRecipe
 
-	$scope.getTitle = function() {
-	    var recipeName = $scope.recipe ? $scope.recipe.recipename : '';
-	    return ($routeParams.itemId == 'Add') ? 'Add Recipe' : recipeName;
-	}; // getTitle
+    $scope.getTitle = function() {
+        var recipeName = $scope.recipe ? $scope.recipe.recipename : '';
+        return ($routeParams.itemId == 'Add') ? 'Add Recipe' : recipeName;
+    }; // getTitle
 
    	$scope.gotoDetailsPage = function(item, fromListId, fromListName) {
     	var pagelink='/productdetails/ListId/' + fromListId + '/ListName/' + fromListName + '/Item/' + item.$id;
@@ -136,14 +113,14 @@ angular.module('recipeshopperApp')
 	    $location.path(pagelink);
     };
 
-	$scope.$watch(function () { return $scope.data.selectedTabIndex; },
-		function(newValue, oldValue) {
-			// tab changed
-			// $log.debug('RecipeDetailsController: tab changed: newValue, oldValue', newValue, oldValue);
-			if((oldValue == 0) && (newValue != 0)) {
-				$scope.addOrSaveRecipe(true); // true for updating url, so that you can return to this page, if needed
-			}
-		}
-	);
+    $scope.$watch(function () { return $scope.data.selectedTabIndex; },
+      function(newValue, oldValue) {
+        // tab changed
+        // $log.debug('RecipeDetailsController: tab changed: newValue, oldValue', newValue, oldValue);
+        if((oldValue == 0) && (newValue != 0)) {
+          $scope.addOrSaveRecipe(true); // true for updating url, so that you can return to this page, if needed
+        }
+      }
+    );
 
   }]);

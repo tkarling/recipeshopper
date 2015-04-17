@@ -9,7 +9,7 @@
  */
 angular.module('recipeshopperApp')
   .controller('ProductDetailsController', function ($scope, $routeParams, $log, $location,
-  		$firebaseObject, FB_SHOPPINGLIST_URL, settingsMgr, StoredListMgrFactory, productsFromString) {
+  		FB_SHOPPINGLIST_URL, settingsMgr, StoredListMgrFactory, productsFromString) {
 
   	// Start from first tab
 	  $scope.data = {

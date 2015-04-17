@@ -23,7 +23,8 @@ var ProductDetailsPage = function () {
     inputAmount.sendKeys(amount);
     inputUnit.sendKeys(unit);
     inputProduct.sendKeys(product);
-    inputNote.sendKeys(note + '\n');
+    inputNote.sendKeys(note);
+    saveButton.click();
     return amount + ' ' + unit + ' ' + product;
   }; // addProductContent
 

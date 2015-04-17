@@ -9,7 +9,7 @@
                            click-fn="gotoDetailsPage(item, recipe.$id, recipe.recipename)">{{item.amount}} {{item.unit}}
             {{item.product}}
           </rs-tile-content>
-          <rs-tile-right-delete has-note="{{item.note}}" delete-fn="deleteItem(item)"
+          <rs-tile-right-delete has-note="{{item.note}}" delete-fn="deleteIngredient(item)"
                                 show-actions="{{showActions}}"></rs-tile-right-delete>
         </md-item-content>
         <md-divider inset></md-divider>

@@ -35,6 +35,7 @@ angular
   .constant('FIREBASE_URL', 'https://recipeshopper.firebaseio.com')
   .constant('FB_SHOPPINGLIST_URL', '/shoppinglist')
   .constant('FB_RECIPES_URL', '/recipes')
+  .constant('FB_RECIPE_XTRAS_URL', '/recipextradetails')
   .config(['localStorageServiceProvider', function(localStorageServiceProvider){
     localStorageServiceProvider.setPrefix('ls');
   }])
