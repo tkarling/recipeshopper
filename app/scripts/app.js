@@ -8,8 +8,7 @@
  *
  * Main module of the application.
  */
-angular
-  .module('recipeshopperApp', [
+angular.module('recipeshopperApp', [
     'ngAnimate',
     'ngCookies',
     'ngResource',
@@ -27,7 +26,7 @@ angular
     'loginMod',
     'mkDirectivesMod'
   ])
-  .config(function($mdThemingProvider) {
+  .config(function ($mdThemingProvider) {
     //will use the colors from default theme for any color not defined.
     $mdThemingProvider.theme('green')
       .primaryPalette('green');
@@ -36,7 +35,7 @@ angular
   .constant('FB_SHOPPINGLIST_URL', '/shoppinglist')
   .constant('FB_RECIPES_URL', '/recipes')
   .constant('FB_RECIPE_XTRAS_URL', '/recipextradetails')
-  .config(['localStorageServiceProvider', function(localStorageServiceProvider){
+  .config(['localStorageServiceProvider', function (localStorageServiceProvider) {
     localStorageServiceProvider.setPrefix('ls');
   }])
   .config(function ($routeProvider) {
@@ -90,24 +89,24 @@ angular
         redirectTo: '/login'
       });
   })
-  .controller('LeftCtrl', function($scope, $rootScope, $timeout, $mdSidenav, $log, $location, settingsMgr, Authentication) {
+  .controller('LeftCtrl', function ($scope, $rootScope, $timeout, $mdSidenav, $log, $location, settingsMgr, Authentication) {
     // Authentication must be a dependency for this controller, so that it will be initiated independent on which age user refreshes app
     // $log.debug('LeftCtrl: init controller');
 
-    $scope.close = function() {
+    $scope.close = function () {
       $mdSidenav('left').close();
       // .then(function(){
       //   $log.debug("close LEFT is done");
       // });
     }; // $scope.close
 
-    $scope.gotoPage = function(pagelink){
+    $scope.gotoPage = function (pagelink) {
       // $log.debug('LeftCtrl: pagelink: ', pagelink);
       $location.path(pagelink);
       $mdSidenav('left').close();
     }; // $scope.gotoPage
 
-    $scope.logout = function() {
+    $scope.logout = function () {
       Authentication.logout();
       $scope.gotoPage('/login');
     }; // $scope.logout
@@ -121,8 +120,8 @@ angular
     // $log.debug('LeftCtrl: $scope.userLoggedIn: ', $scope.userLoggedIn());
 
     $scope.$on('handleCurrentUserSet', function () {
-        userLoggedIn = settingsMgr.getCurrentUser() != '';
-        // $log.debug('LeftCtrl: handleCurrentUserSet called', $scope.userLoggedIn());
+      userLoggedIn = settingsMgr.getCurrentUser() != '';
+      // $log.debug('LeftCtrl: handleCurrentUserSet called', $scope.userLoggedIn());
     });
 
   });

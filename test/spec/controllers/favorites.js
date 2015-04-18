@@ -13,7 +13,7 @@ describe('Controller: FavoritesCtrl', function () {
   var mockUrl, mockCurrentUser, mockMySettings, mockItemsFromStore;
   var q, deferred;
   var settingsMgrSpy = {getCurrentUser: EFUNC, getSettings: EFUNC, saveSettings: EFUNC};
-  var basicStoredListMgrSpy = {getItemsSync: EFUNC, getItems: EFUNC, addItem: EFUNC, 
+  var basicStoredListMgrSpy = {getItemsSync: EFUNC, getItems: EFUNC, addItem: EFUNC,
         deleteItem: EFUNC, saveItem: EFUNC};
 
   beforeEach(function () {
@@ -47,9 +47,9 @@ describe('Controller: FavoritesCtrl', function () {
       }; // mockBasicStoredListMgr
 
       mockStoredListMgrFactory = {
-        getStoredListMgr: function (fbUrl) {
+        getUsersStoredListMgr: function (fbUrl) {
               return mockBasicStoredListMgr;
-        } //getStoredListMgr
+        } //getUsersStoredListMgr
 
       };
 
@@ -67,7 +67,7 @@ describe('Controller: FavoritesCtrl', function () {
               settingsMgrSpy.saveSettings();
               return deferred.promise;
           }
-      }; 
+      };
   }); // beforeEach
 
   // Initialize the controller and a mock scope
@@ -83,7 +83,7 @@ describe('Controller: FavoritesCtrl', function () {
 
     FavoritesCtrl = $controller('FavoritesCtrl', {
       $scope: scope,
-      FB_SHOPPINGLIST_URL: mockUrl, 
+      FB_SHOPPINGLIST_URL: mockUrl,
       StoredListMgrFactory: mockStoredListMgrFactory,
       settingsMgr: mockSettingsMgr
     });
@@ -131,8 +131,8 @@ describe('Controller: FavoritesCtrl', function () {
       mockCurrentUser = 'moi';
       mockMySettings = {};
       mockItemsFromStore = [
-        {product:'carrots', isonlist: true, isbought: false}, 
-        {product:'milk', isonlist: true, isbought: false}, 
+        {product:'carrots', isonlist: true, isbought: false},
+        {product:'milk', isonlist: true, isbought: false},
         {product:'bread', isonlist: true, isbought: false}];
       $rootScope.$broadcast('handleCurrentUserSet');
       deferred.resolve(mockItemsFromStore);
@@ -140,11 +140,11 @@ describe('Controller: FavoritesCtrl', function () {
     }); // beforeEach
 
     it('should initialize groceries array, when groceries in DB', function () {
-      expect(scope.data.myItems.length).toEqual(3); 
-      expect(scope.data.myItems[0].product).toEqual(mockItemsFromStore[0].product); 
-      expect(scope.data.myItems[1].product).toEqual(mockItemsFromStore[1].product); 
-      expect(scope.data.myItems[2].product).toEqual(mockItemsFromStore[2].product); 
-     }); 
+      expect(scope.data.myItems.length).toEqual(3);
+      expect(scope.data.myItems[0].product).toEqual(mockItemsFromStore[0].product);
+      expect(scope.data.myItems[1].product).toEqual(mockItemsFromStore[1].product);
+      expect(scope.data.myItems[2].product).toEqual(mockItemsFromStore[2].product);
+     });
 
     it('should add item', function() {
         // set

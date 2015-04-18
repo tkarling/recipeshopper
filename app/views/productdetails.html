@@ -1,32 +1,33 @@
 <form name="productForm" novalidate>
-<rs-view type="details" title="getTitle()"
-         check-fn="addOrSaveItem(productForm.$valid)" check-enabled="{{productForm.$valid}}">
+  <rs-view type="details" title="getTitle()"
+           check-fn="addOrSaveItem(productForm.$valid)" check-enabled="{{productForm.$valid}}">
 
-  <rs-product-content ng-if="! data.addPage"></rs-product-content>
+    <rs-product-content ng-if="! data.addPage"></rs-product-content>
 
-  <div ng-if="data.addPage" id="productdetails">
-		<md-tabs class="md-accent" md-selected="data.selectedTabIndex">
-			<md-tab id="addone-tab" aria-controls="addone-tab-content">Add One</md-tab>
-			<md-tab id="addmany-tab" aria-controls="addmany-tab-content">Add Many</md-tab>
-		</md-tabs>
-		<ng-switch on="data.selectedTabIndex" class="tabpanel-container">
-			<div role="tabpanel" id="addone-tab-content" aria-labelledby="addone-tab" ng-switch-when="0">
-        <rs-product-content></rs-product-content>
-      </div>
-			<div role="tabpanel" id="addmany-tab-content" aria-labelledby="addmany-tab" ng-switch-when="1">
-        <md-content class="md-padding">
-          <div>
-            <strong>Aisles: </strong>
-            <span ng-repeat="aisle in data.aisles">{{aisle}}, </span>
-          </div>
-          <md-input-container flex>
-            <label>Add Items as rows of<br>&ltaisle&gt &ltamount&gt &ltunit&gt &ltproduct&gt<br>DAIRY 1 qt milk<br>VEGGIES&FRUIT 2 carrots</label>
-            <textarea ng-model="data.addedItemsString" columns="1"></textarea>
-          </md-input-container>
-        </md-content>
-			</div>
-		</ng-switch>
-	</div>
+    <div ng-if="data.addPage" id="productdetails">
+      <md-tabs class="md-accent" md-selected="data.selectedTabIndex">
+        <md-tab id="addone-tab" aria-controls="addone-tab-content">Add One</md-tab>
+        <md-tab id="addmany-tab" aria-controls="addmany-tab-content">Add Many</md-tab>
+      </md-tabs>
+      <ng-switch on="data.selectedTabIndex" class="tabpanel-container">
+        <div role="tabpanel" id="addone-tab-content" aria-labelledby="addone-tab" ng-switch-when="0">
+          <rs-product-content></rs-product-content>
+        </div>
+        <div role="tabpanel" id="addmany-tab-content" aria-labelledby="addmany-tab" ng-switch-when="1">
+          <md-content class="md-padding">
+            <div>
+              <strong>Aisles: </strong>
+              <span ng-repeat="aisle in data.aisles">{{aisle}}, </span>
+            </div>
+            <md-input-container flex>
+              <label>Add Items as rows of<br>&ltaisle&gt &ltamount&gt &ltunit&gt &ltproduct&gt<br>DAIRY 1 qt milk<br>VEGGIES&FRUIT
+                2 carrots</label>
+              <textarea ng-model="data.addedItemsString" columns="1"></textarea>
+            </md-input-container>
+          </md-content>
+        </div>
+      </ng-switch>
+    </div>
 
-</rs-view>
+  </rs-view>
 </form>

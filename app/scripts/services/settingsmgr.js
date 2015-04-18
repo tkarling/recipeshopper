@@ -8,24 +8,22 @@
  * Factory in the recipeshopperApp.
  */
 
-angular
-.module('settingsMod', [
-  'firebase',
-]);
-
+angular.module('settingsMod', [
+    'firebase',
+  ]);
 angular.module('settingsMod')
   .factory('settingsMgr', function ($rootScope, $log, $q, $http, $firebaseObject, FIREBASE_URL) {
     $log.debug('settingsMgr: init factory');
 
     var defaultSettings = {};
-    var getDefaults = function() {
-      $http.get('data/defaultsettings.json').success(function(result){ 
-        defaultSettings = result;  
+    var getDefaults = function () {
+      $http.get('data/defaultsettings.json').success(function (result) {
+        defaultSettings = result;
         // console.log('settingsMgr: getDefaults: data.settings BEFORE', data.settings);
-        if(Object.keys(data.settings).length == 0) {
+        if (Object.keys(data.settings).length == 0) {
           data.settings = defaultSettings;
           // console.log('settingsMgr: getDefaults: data.settings', data.settings);
-        }        
+        }
         $log.debug('settingsMgr: getDefaults: defaultSettings', defaultSettings);
       });
     };
@@ -39,7 +37,7 @@ angular.module('settingsMod')
     initData();
     getDefaults();
 
-   var addUserFn = function(userUid, user) {
+    var addUserFn = function (userUid, user) {
       var fbUrl = FIREBASE_URL + '/users/' + userUid;
       var ref = new Firebase(fbUrl);
       var userInfo = {
@@ -49,24 +47,24 @@ angular.module('settingsMod')
         email: user.email
       };
       for (var prop in defaultSettings) {
-        if(defaultSettings.hasOwnProperty(prop)){
-            $log.debug('settingsMgr: addUserAsync:', prop + ' = ' + defaultSettings[prop]);
-            userInfo[prop] = defaultSettings[prop];
+        if (defaultSettings.hasOwnProperty(prop)) {
+          $log.debug('settingsMgr: addUserAsync:', prop + ' = ' + defaultSettings[prop]);
+          userInfo[prop] = defaultSettings[prop];
         }
       }
 
       $log.debug('$log.logs to be unit tested:');
-      $log.log(fbUrl);   
-      $log.log(userInfo);   
+      $log.log(fbUrl);
+      $log.log(userInfo);
       ref.set(userInfo);
     }; // addUserAsync
 
-   var setCurrentUserAsync = function(userUid) {
+    var setCurrentUserAsync = function (userUid) {
       var fbUrl = FIREBASE_URL + '/users/' + userUid;
       data.ref = new Firebase(fbUrl);
 
       $log.debug('$log.logs to be unit tested:');
-      $log.log(fbUrl);   
+      $log.log(fbUrl);
       data.settings = $firebaseObject(data.ref);
       return data.settings.$loaded();
     }; // setCurrentUserAsync
@@ -74,7 +72,7 @@ angular.module('settingsMod')
     var clearCurrentUserAsync = function () {
       var deferred = $q.defer();
       $log.debug('settingsMgr. clearCurrentUserAsync');
-      if(data && data.ref && data.settings) {
+      if (data && data.ref && data.settings) {
         data.settings.$destroy();
       }
       initData();
@@ -94,16 +92,16 @@ angular.module('settingsMod')
       return deferred.promise;
     };
 
-   var saveSettingsAsync = function() {
-          if(data.currentUserUid) {
-            return data.settings.$save();
-          } // else
-          return noCurrentUserErrorAsync();
+    var saveSettingsAsync = function () {
+      if (data.currentUserUid) {
+        return data.settings.$save();
+      } // else
+      return noCurrentUserErrorAsync();
     }; // setSettingAsync
 
-   var setSettingAsync = function(settingName, value) {
-          data.settings[settingName] = value;
-          saveSettingsAsync();
+    var setSettingAsync = function (settingName, value) {
+      data.settings[settingName] = value;
+      saveSettingsAsync();
     }; // setSettingAsync
 
     // Public API here
@@ -114,16 +112,16 @@ angular.module('settingsMod')
 
       setCurrentUser: function (userUid) {
         $log.debug('settingsMgr: setCurrentUser: data.currentUserUid, userUid BEFORE', data.currentUserUid, userUid);
-        if(data.currentUserUid == userUid) {
+        if (data.currentUserUid == userUid) {
           return currentUserHasNotChanged();
         }
         data.currentUserUid = userUid;
         // $log.debug('settingsMgr: setCurrentUser: data.currentUserUid, userUid', data.currentUserUid, userUid);
         var resultPromise = userUid ? setCurrentUserAsync(userUid) : clearCurrentUserAsync();
-        resultPromise.then( function (result) {
-            // $log.debug('settingsMgr: setCurrentUser: result', result);
-            $log.debug('settingsMgr: setCurrentUser: data.settings', data.settings);
-            $rootScope.$broadcast('handleCurrentUserSet');
+        resultPromise.then(function (result) {
+          // $log.debug('settingsMgr: setCurrentUser: result', result);
+          $log.debug('settingsMgr: setCurrentUser: data.settings', data.settings);
+          $rootScope.$broadcast('handleCurrentUserSet');
         });
         return resultPromise;
       },

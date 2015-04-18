@@ -35,9 +35,9 @@ describe('Controller: RecipeDetailsController', function () {
       }; // mockBasicStoredListMgr
 
       mockStoredListMgrFactory = {
-        getStoredListMgr: function (fbUrl) {
+        getUsersStoredListMgr: function (fbUrl) {
               return mockBasicStoredListMgr;
-        } //getStoredListMgr
+        } //getUsersStoredListMgr
 
       };
   });
@@ -51,10 +51,10 @@ describe('Controller: RecipeDetailsController', function () {
     routeParams.itemId = 0;
     RecipeDetailsController = $controller('RecipeDetailsController', {
       $scope: scope,
-      $routeParams: routeParams, 
-      $log: _$log_, 
-      $location: location, 
-      FB_RECIPES_URL: mockUrl, 
+      $routeParams: routeParams,
+      $log: _$log_,
+      $location: location,
+      FB_RECIPES_URL: mockUrl,
       StoredListMgrFactory: mockStoredListMgrFactory
     });
   }));
@@ -67,34 +67,34 @@ describe('Controller: RecipeDetailsController', function () {
   //   deferred.resolve(recipesFromStore);
   //   scope.$root.$digest();
 
-  //   expect(scope.recipes.length).toEqual(3); 
-  //   expect(scope.recipes[0].recipeName).toEqual(recipesFromStore[0].recipeName); 
-  //   expect(scope.recipes[1].recipeName).toEqual(recipesFromStore[1].recipeName); 
-  //   expect(scope.recipes[2].recipeName).toEqual(recipesFromStore[2].recipeName); 
-  //  }); 
+  //   expect(scope.recipes.length).toEqual(3);
+  //   expect(scope.recipes[0].recipeName).toEqual(recipesFromStore[0].recipeName);
+  //   expect(scope.recipes[1].recipeName).toEqual(recipesFromStore[1].recipeName);
+  //   expect(scope.recipes[2].recipeName).toEqual(recipesFromStore[2].recipeName);
+  //  });
 
   // it('should initialize (scope) recipe, when recipes in DB', function () {
   //   deferred.resolve(recipesFromStore);
   //   scope.$root.$digest();
 
-  //   expect(scope.recipe.recipeName).toEqual(recipesFromStore[0].recipeName); 
-  //  }); 
+  //   expect(scope.recipe.recipeName).toEqual(recipesFromStore[0].recipeName);
+  //  });
 
   // it('should initialize next & prev item, when recipes in DB', function () {
   //   deferred.resolve(recipesFromStore);
   //   scope.$root.$digest();
 
-  //   expect(scope.whichItem).toEqual(0); 
-  // }); 
+  //   expect(scope.whichItem).toEqual(0);
+  // });
 
   // it('should initialize OK, when NO recipes in DB', function () {
   //   deferred.resolve([]);
   //   scope.$root.$digest();
 
-  //   expect(scope.recipes.length).toEqual(0); 
-  //   expect(scope.recipe).toEqual(null); 
-  //   expect(scope.whichItem).toEqual(0); 
-  // }); 
+  //   expect(scope.recipes.length).toEqual(0);
+  //   expect(scope.recipe).toEqual(null);
+  //   expect(scope.whichItem).toEqual(0);
+  // });
 
 
 });

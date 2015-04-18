@@ -15,7 +15,7 @@ angular.module('recipeshopperApp')
     var recipe = {};
     // Public API here
 
-    var getXtrasFromDB = function(recipeId) {
+    var getXtrasFromDB = function (recipeId) {
       var myUid = settingsMgr.getCurrentUser();
       recipe.recipeId = recipeId;
       var fbUrl = FIREBASE_URL + '/' + myUid + FB_RECIPE_XTRAS_URL + '/' + recipeId;
@@ -27,13 +27,13 @@ angular.module('recipeshopperApp')
 
     return {
       getXtras: function (recipeId) {
-        if(recipeId == recipe.recipeId) {
+        if (recipeId == recipe.recipeId) {
           return recipe.xtras;
         } // else
         return getXtrasFromDB(recipeId);
       },
-      saveXtras: function() {
-        if(recipe.xtras) {
+      saveXtras: function () {
+        if (recipe.xtras) {
           //$log.debug('recipeMgr: saveXtras recipe.xtras: ', recipe.xtras);
           recipe.xtras.$save();
         }

@@ -1,23 +1,23 @@
 <rs-view title="'Settings'">
-	<md-content class="md-padding">
-		<section>
-			<label>
-				Shopping List is ordered by:
-				<md-select ng-model="mySettings.shoppingListSortOrder" ng-change="saveSettings()">
-					<md-option value="aisle">Aisle</md-option>
-					<md-option value="recipe">Recipe</md-option>
-				</md-select>
-			</label>
-		</section>
-		<br>
-		<section>
-			<label>
-				Recipe List is ordered by:
-				<md-select ng-model="mySettings.recipeSortOrder" ng-change="saveSettings()">
-					<md-option value="category">Category</md-option>
-					<md-option value="recipename">Recipe Name</md-option>
-				</md-select>
-			</label>
-		</section>
-	</md-content>
+  <md-content class="md-padding">
+    <section>
+      <label>
+        Shopping List is ordered by:
+        <md-select ng-model="mySettings.shoppingListSortOrder" ng-change="saveSettings()">
+          <md-option value="aisle">Aisle</md-option>
+          <md-option value="recipe">Recipe</md-option>
+        </md-select>
+      </label>
+    </section>
+    <br>
+    <section>
+      <label>
+        Recipe List is ordered by:
+        <md-select ng-model="mySettings.recipeSortOrder" ng-change="saveSettings()">
+          <md-option value="category">Category</md-option>
+          <md-option value="recipename">Recipe Name</md-option>
+        </md-select>
+      </label>
+    </section>
+  </md-content>
 </rs-view>

@@ -1,29 +1,35 @@
-<div><div><div>
-  <mk-side-menu menu-title="Recipe Shopper">
+<div>
+  <div>
+    <div>
+      <mk-side-menu menu-title="Recipe Shopper">
 
-    <md-list ng-controller="LeftCtrl">
-      <mk-side-menu-item user-logged-in-fn="userLoggedIn()"
-        click-action-fn="gotoPage('/main')" menu-item-text="Shopping List" icon-name="ic_shopping_cart">
-      </mk-side-menu-item>
-      <mk-side-menu-item user-logged-in-fn="userLoggedIn()"
-        click-action-fn="gotoPage('/recipelist')" menu-item-text="Recipes" icon-name="ic_book">
-      </mk-side-menu-item>
-      <mk-side-menu-item user-logged-in-fn="userLoggedIn()"
-        click-action-fn="gotoPage('/favorites')" menu-item-text="Favorites" icon-name="ic_star_rate">
-      </mk-side-menu-item>
-      <md-divider inset></md-divider>
-      <mk-side-menu-item user-logged-in-fn="userLoggedIn()"
-        click-action-fn="gotoPage('/settings')" menu-item-text="Settings" icon-name="ic_settings">
-      </mk-side-menu-item>
-      <mk-side-menu-item user-logged-in-fn="userLoggedIn()"
-        click-action-fn="logout()" menu-item-text="Logout" icon-name="ic_account_box">
-      </mk-side-menu-item>
-      <md-item-content>
-          <md-button ng-click="gotoPage('/picdemo')">
-            <span>Pic Demo</span>
-          </md-button>
-      </md-item-content>
-    </md-list>
-  </mk-side-menu>
-</div></div></div>
+        <md-list ng-controller="LeftCtrl">
+          <mk-side-menu-item user-logged-in-fn="userLoggedIn()"
+                             click-action-fn="gotoPage('/main')" menu-item-text="Shopping List"
+                             icon-name="ic_shopping_cart">
+          </mk-side-menu-item>
+          <mk-side-menu-item user-logged-in-fn="userLoggedIn()"
+                             click-action-fn="gotoPage('/recipelist')" menu-item-text="Recipes" icon-name="ic_book">
+          </mk-side-menu-item>
+          <mk-side-menu-item user-logged-in-fn="userLoggedIn()"
+                             click-action-fn="gotoPage('/favorites')" menu-item-text="Favorites"
+                             icon-name="ic_star_rate">
+          </mk-side-menu-item>
+          <md-divider inset></md-divider>
+          <mk-side-menu-item user-logged-in-fn="userLoggedIn()"
+                             click-action-fn="gotoPage('/settings')" menu-item-text="Settings" icon-name="ic_settings">
+          </mk-side-menu-item>
+          <mk-side-menu-item user-logged-in-fn="userLoggedIn()"
+                             click-action-fn="logout()" menu-item-text="Logout" icon-name="ic_account_box">
+          </mk-side-menu-item>
+          <md-item-content>
+            <md-button ng-click="gotoPage('/picdemo')">
+              <span>Pic Demo</span>
+            </md-button>
+          </md-item-content>
+        </md-list>
+      </mk-side-menu>
+    </div>
+  </div>
+</div>
 

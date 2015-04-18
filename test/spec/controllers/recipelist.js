@@ -12,7 +12,7 @@ describe('Controller: RecipelistCtrl', function () {
   var mockUrl, mockCurrentUser, mockMySettings, mockItemsFromStore;
   var q, deferred;
   var settingsMgrSpy = {getCurrentUser: EFUNC, getSettings: EFUNC, saveSettings: EFUNC};
-  var basicStoredListMgrSpy = {getItemsSync: EFUNC, getItems: EFUNC, addItem: EFUNC, 
+  var basicStoredListMgrSpy = {getItemsSync: EFUNC, getItems: EFUNC, addItem: EFUNC,
         deleteItem: EFUNC, saveItem: EFUNC};
 
   beforeEach(function () {
@@ -46,9 +46,9 @@ describe('Controller: RecipelistCtrl', function () {
       }; // mockBasicStoredListMgr
 
       mockStoredListMgrFactory = {
-        getStoredListMgr: function (fbUrl) {
+        getUsersStoredListMgr: function (fbUrl) {
               return mockBasicStoredListMgr;
-        } //getStoredListMgr
+        } //getUsersStoredListMgr
 
       };
 
@@ -66,7 +66,7 @@ describe('Controller: RecipelistCtrl', function () {
               settingsMgrSpy.saveSettings();
               return deferred.promise;
           }
-      }; 
+      };
   }); // beforeEach
 
   // Initialize the controller and a mock scope
@@ -82,7 +82,7 @@ describe('Controller: RecipelistCtrl', function () {
 
     RecipelistCtrl = $controller('RecipelistCtrl', {
       $scope: scope,
-      FB_RECIPES_URL: mockUrl, 
+      FB_RECIPES_URL: mockUrl,
       StoredListMgrFactory: mockStoredListMgrFactory,
       settingsMgr: mockSettingsMgr
     });
@@ -132,11 +132,11 @@ describe('Before current user is set', function() {
 
     it('should initialize items array, when items in DB', function () {
       // console.log('scope.data', scope.data);
-      expect(scope.data.myItems.length).toEqual(3); 
-      expect(scope.data.myItems[0].recipename).toEqual(mockItemsFromStore[0].recipename); 
-      expect(scope.data.myItems[1].recipename).toEqual(mockItemsFromStore[1].recipename); 
-      expect(scope.data.myItems[2].recipename).toEqual(mockItemsFromStore[2].recipename); 
-     }); 
+      expect(scope.data.myItems.length).toEqual(3);
+      expect(scope.data.myItems[0].recipename).toEqual(mockItemsFromStore[0].recipename);
+      expect(scope.data.myItems[1].recipename).toEqual(mockItemsFromStore[1].recipename);
+      expect(scope.data.myItems[2].recipename).toEqual(mockItemsFromStore[2].recipename);
+     });
 
     it('should add recipe', function() {
         // set

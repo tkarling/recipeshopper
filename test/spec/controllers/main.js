@@ -12,7 +12,7 @@ describe('Controller: MainCtrl', function () {
   var mockUrl, mockCurrentUser, mockMySettings, mockItemsFromStore;
   var q, deferred;
   var settingsMgrSpy = {getCurrentUser: EFUNC, getSettings: EFUNC, saveSettings: EFUNC};
-  var basicStoredListMgrSpy = {getItemsSync: EFUNC, getItems: EFUNC, addItem: EFUNC, 
+  var basicStoredListMgrSpy = {getItemsSync: EFUNC, getItems: EFUNC, addItem: EFUNC,
         deleteItem: EFUNC, saveItem: EFUNC};
 
   beforeEach(function () {
@@ -46,9 +46,9 @@ describe('Controller: MainCtrl', function () {
       }; // mockBasicStoredListMgr
 
       mockStoredListMgrFactory = {
-        getStoredListMgr: function (fbUrl) {
+        getUsersStoredListMgr: function (fbUrl) {
               return mockBasicStoredListMgr;
-        } //getStoredListMgr
+        } //getUsersStoredListMgr
 
       };
 
@@ -66,7 +66,7 @@ describe('Controller: MainCtrl', function () {
               settingsMgrSpy.saveSettings();
               return deferred.promise;
           }
-      }; 
+      };
   }); // beforeEach
 
   // Initialize the controller and a mock scope
@@ -82,7 +82,7 @@ describe('Controller: MainCtrl', function () {
 
     MainCtrl = $controller('MainCtrl', {
       $scope: scope,
-      FB_SHOPPINGLIST_URL: mockUrl, 
+      FB_SHOPPINGLIST_URL: mockUrl,
       StoredListMgrFactory: mockStoredListMgrFactory,
       settingsMgr: mockSettingsMgr
     });
@@ -134,11 +134,11 @@ describe('Controller: MainCtrl', function () {
 
     it('should initialize items array, when items in DB', function () {
       // console.log('scope.data', scope.data);
-      expect(scope.data.myItems.length).toEqual(3); 
-      expect(scope.data.myItems[0].product).toEqual(mockItemsFromStore[0].product); 
-      expect(scope.data.myItems[1].product).toEqual(mockItemsFromStore[1].product); 
-      expect(scope.data.myItems[2].product).toEqual(mockItemsFromStore[2].product); 
-     }); 
+      expect(scope.data.myItems.length).toEqual(3);
+      expect(scope.data.myItems[0].product).toEqual(mockItemsFromStore[0].product);
+      expect(scope.data.myItems[1].product).toEqual(mockItemsFromStore[1].product);
+      expect(scope.data.myItems[2].product).toEqual(mockItemsFromStore[2].product);
+     });
 
     it('should add item', function() {
         // set
@@ -174,7 +174,7 @@ describe('Controller: MainCtrl', function () {
     });
 
     it('should toggle showAll between false/undefined, when mySettings.doNotShowBoughtItems (check) toggles between true/ false', function () {
-      expect(scope.data.mySettings.doNotShowBoughtItems).toBe(undefined); 
+      expect(scope.data.mySettings.doNotShowBoughtItems).toBe(undefined);
       expect(scope.data.showAll).toBe(undefined);
 
       scope.data.mySettings.doNotShowBoughtItems = true;

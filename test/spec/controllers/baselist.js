@@ -12,7 +12,7 @@ describe('Controller: BaselistCtrl', function () {
   var mockUrl, mockCurrentUser, mockMySettings, mockItemsFromStore;
   var q, deferred;
   var settingsMgrSpy = {getCurrentUser: EFUNC, getSettings: EFUNC, saveSettings: EFUNC};
-  var basicStoredListMgrSpy = {getItemsSync: EFUNC, getItems: EFUNC, addItem: EFUNC, 
+  var basicStoredListMgrSpy = {getItemsSync: EFUNC, getItems: EFUNC, addItem: EFUNC,
         deleteItem: EFUNC, saveItem: EFUNC};
 
 
@@ -47,9 +47,9 @@ beforeEach(function () {
       }; // mockBasicStoredListMgr
 
       mockStoredListMgrFactory = {
-        getStoredListMgr: function (fbUrl) {
+        getUsersStoredListMgr: function (fbUrl) {
               return mockBasicStoredListMgr;
-        } //getStoredListMgr
+        } //getUsersStoredListMgr
 
       };
 
@@ -67,7 +67,7 @@ beforeEach(function () {
               settingsMgrSpy.saveSettings();
               return deferred.promise;
           }
-      }; 
+      };
   });
 
   // Initialize the controller and a mock scope
@@ -145,11 +145,11 @@ beforeEach(function () {
 
     it('should initialize items array, when items in DB', function () {
       // console.log('scope.data', scope.data);
-      expect(scope.data.myItems.length).toEqual(3); 
-      expect(scope.data.myItems[0].product).toEqual(mockItemsFromStore[0].product); 
-      expect(scope.data.myItems[1].product).toEqual(mockItemsFromStore[1].product); 
-      expect(scope.data.myItems[2].product).toEqual(mockItemsFromStore[2].product); 
-     }); 
+      expect(scope.data.myItems.length).toEqual(3);
+      expect(scope.data.myItems[0].product).toEqual(mockItemsFromStore[0].product);
+      expect(scope.data.myItems[1].product).toEqual(mockItemsFromStore[1].product);
+      expect(scope.data.myItems[2].product).toEqual(mockItemsFromStore[2].product);
+     });
 
     // it('should delete item', function() {
     //     // set

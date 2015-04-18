@@ -8,10 +8,9 @@
  * Factory in the ingredientListMod.
  */
 
-angular
-.module('ingredientListMod', [
-  'storedListMod',
-]);
+angular.module('ingredientListMod', [
+    'storedListMod',
+  ]);
 
 angular.module('ingredientListMod')
   .factory('ingredientListMgr', function () {

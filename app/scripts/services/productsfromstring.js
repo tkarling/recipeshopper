@@ -72,7 +72,7 @@ angular.module('productsFromStringMod')
       return amount;
     }; // specialToNumber
 
-    var getProduct = function(productString, recipeId, recipe) {
+    var getProduct = function (productString, recipeId, recipe) {
       var product = {
         isonlist: true, isbought: false,
         recipeId: recipeId,

@@ -1,18 +1,23 @@
 <rs-view title="'Shopping List'" settings-button="true">
   <md-content class="md-padding" ng-controller="MainCtrl">
     <rs-search-bar show-checkbox="true" placeholder-text="Search for products"
-        list-id="ShoppingList"></rs-search-bar>
+                   list-id="ShoppingList"></rs-search-bar>
     <md-content>
       <md-list>
         <md-item line-through="item.isbought"
-            ng-repeat="item in data.myItems | filter: data.showAll | filter: data.query |
-                orderBy: [data.mySettings.shoppingListSortOrder, 'product']">
+                 ng-repeat="item in data.myItems | filter: data.showAll | filter: data.query |
+                 orderBy: [data.mySettings.shoppingListSortOrder, 'product']">
           <md-item-content ng-swipe-left="showActions = true" ng-swipe-right="showActions = false">
-            <rs-tile-left-check ng-model="item.isbought" save-item-fn="saveItem(item)" aria-label="Is Bought"></rs-tile-left-check>
+            <rs-tile-left-check ng-model="item.isbought" save-item-fn="saveItem(item)"
+                                aria-label="Is Bought">
+            </rs-tile-left-check>
             <rs-tile-content accented-text="{{item.aisle}}" additional-text="{{item.recipe}}"
-                click-fn="gotoDetailsPage(item, 'ShoppingList')">{{item.amount}} {{item.unit}} {{item.product}}</rs-tile-content>
+                             click-fn="gotoDetailsPage(item, 'ShoppingList')">{{item.amount}} {{item.unit}}
+              {{item.product}}
+            </rs-tile-content>
             <rs-tile-right-delete has-note="{{item.note}}" delete-fn="removeItem(item)"
-                show-actions="{{showActions}}" ></rs-tile-right-delete>
+                                  show-actions="{{showActions}}">
+            </rs-tile-right-delete>
           </md-item-content>
           <md-divider inset></md-divider>
         </md-item>
