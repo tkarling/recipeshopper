@@ -42,12 +42,13 @@ angular.module('recipeshopperApp')
       var haveAskedForItems = false;
       var initFromStores = function () {
         var currentUser = settingsMgr.getCurrentUser();
-        // $log.debug('BaselistCtrl: initFromStores currentUser', currentUser);
+        // console.log('BaselistCtrl: initFromStores currentUser, $scope.data.fbUrl, haveAskedForItems',
+        //  currentUser, $scope.data.fbUrl, haveAskedForItems);
         if (currentUser && !haveAskedForItems) {
           haveAskedForItems = true;
           getSettings();
           if ($scope.data.fbUrl) {
-            // $log.debug('BaselistCtrl: initFromStores getting items from store', $scope.data.fbUrl);
+            //console.log('BaselistCtrl: initFromStores getting items from store', $scope.data.fbUrl);
             getItems($scope.data.fbUrl, $scope.data.fieldName, $scope.data.fieldValue);
           }
         } else if (!currentUser) {

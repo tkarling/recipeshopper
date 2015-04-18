@@ -2,10 +2,15 @@
 
 describe('Service: Authentication', function () {
 
-  beforeEach(module('authenticationMod'));
+  // load the controller's module
+  beforeEach(function() {
+    module('recipeshopperApp');
+    module('settingsMod.mock');
+  });
 
   var q, deferred, $rootScope, $log;
   var $authWithPasswordSpy, $createUserSpy, $unauthSpy, prepareForLogoutSpy;
+  var mockSettingsMgr;
 
   beforeEach(function () {
 
@@ -44,9 +49,9 @@ describe('Service: Authentication', function () {
         }
       };
 
-    var mockSettingsMgr = {
-
-    }; 
+    //var mockSettingsMgr = {
+    //
+    //};
 
     module(function ($provide) {
         $provide.value('$firebaseAuth', mockFirebaseAuth);
@@ -59,11 +64,12 @@ describe('Service: Authentication', function () {
 
   // instantiate service
   var Authentication;
-  beforeEach(inject(function(_$rootScope_, _Authentication_, _$q_, _$log_) {
+  beforeEach(inject(function(_$rootScope_, _Authentication_, _$q_, _$log_, _settingsMgrMock_) {
     Authentication = _Authentication_;
     q = _$q_;
     $log = _$log_;
     $rootScope = _$rootScope_;
+    mockSettingsMgr = _settingsMgrMock_;
   }));
 
   it('should do something', function() {

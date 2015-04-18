@@ -2,78 +2,27 @@
 
 describe('Controller: RecipelistCtrl', function () {
 
-  // load the controller's module
-  beforeEach(module('recipeshopperApp'));
-  var EFUNC = function () {};
+  // load the controller's modules
+  beforeEach(function () {
+    module('recipeshopperApp');
+    module('settingsMod.mock');
+    module('storedListMod.mock');
+  });
 
   var BaselistCtrl, RecipelistCtrl;
   var scope, $rootScope;
-  var mockStoredListMgrFactory, mockBasicStoredListMgr, mockSettingsMgr;
-  var mockUrl, mockCurrentUser, mockMySettings, mockItemsFromStore;
-  var q, deferred;
-  var settingsMgrSpy = {getCurrentUser: EFUNC, getSettings: EFUNC, saveSettings: EFUNC};
-  var basicStoredListMgrSpy = {getItemsSync: EFUNC, getItems: EFUNC, addItem: EFUNC,
-        deleteItem: EFUNC, saveItem: EFUNC};
-
-  beforeEach(function () {
-      mockUrl = 'mockUrl';
-
-      mockBasicStoredListMgr = {
-          getItemsSync: function(tellWhenLoaded, fieldName, fieldValue) {
-            basicStoredListMgrSpy.getItemsSync();
-            return mockItemsFromStore;
-          },
-          getItems: function (fieldName, fieldValue) {
-              deferred = q.defer();
-              basicStoredListMgrSpy.getItems();
-              return deferred.promise;
-          },
-          addItem: function (item) {
-              deferred = q.defer();
-              basicStoredListMgrSpy.addItem(item);
-              return deferred.promise;
-          },
-          deleteItem: function (item) {
-              deferred = q.defer();
-              basicStoredListMgrSpy.deleteItem(item);
-              return deferred.promise;
-          },
-          saveItem: function (item) {
-              deferred = q.defer();
-              basicStoredListMgrSpy.saveItem(item);
-              return deferred.promise;
-          }
-      }; // mockBasicStoredListMgr
-
-      mockStoredListMgrFactory = {
-        getUsersStoredListMgr: function (fbUrl) {
-              return mockBasicStoredListMgr;
-        } //getUsersStoredListMgr
-
-      };
-
-      mockSettingsMgr = {
-          getCurrentUser: function () {
-            settingsMgrSpy.getCurrentUser();
-            return mockCurrentUser;
-          },
-          getSettings: function () {
-              settingsMgrSpy.getSettings();
-              return mockMySettings;
-          },
-          saveSettings: function () {
-              deferred = q.defer();
-              settingsMgrSpy.saveSettings();
-              return deferred.promise;
-          }
-      };
-  }); // beforeEach
+  var mockUrl, mockStoredListMgrFactory, mockBasicStoredListMgr, mockSettingsMgr;
 
   // Initialize the controller and a mock scope
-  beforeEach(inject(function ($controller, $compile, _$rootScope_, _$q_) {
-    q= _$q_;
+  beforeEach(inject(function ($controller, _$rootScope_,
+                              _settingsMgrMock_, _StoredListMgrFactoryMock_) {
     $rootScope = _$rootScope_;
     scope = $rootScope.$new();
+    mockUrl = 'mockUrl';
+    mockSettingsMgr = _settingsMgrMock_;
+    mockStoredListMgrFactory = _StoredListMgrFactoryMock_;
+    mockBasicStoredListMgr = mockStoredListMgrFactory.getUsersStoredListMgr();
+
     BaselistCtrl = $controller('BaselistCtrl', {
       $scope: scope,
       StoredListMgrFactory: mockStoredListMgrFactory,
@@ -89,12 +38,12 @@ describe('Controller: RecipelistCtrl', function () {
   })); // beforeEach
 
   it('a test should pass', function () {
-      expect(true).toEqual(true);
+    expect(true).toEqual(true);
   }); // it
 
-describe('Before current user is set', function() {
+  describe('Before current user is set', function () {
 
-    it('should init RecipelistCtrl specific items to empty, if current user is not set', function() {
+    it('should init RecipelistCtrl specific items to empty, if current user is not set', function () {
       // check impact
 
       expect(scope.data.fbUrl).toEqual(mockUrl);
@@ -102,13 +51,9 @@ describe('Before current user is set', function() {
       expect(scope.data.fieldValue).toEqual(undefined);
     }); // it
 
-    it('should handle handleCurrentUserSet w userId', function() {
-      mockCurrentUser = 'moi';
-      mockMySettings = {};
-      mockItemsFromStore = [{recipename:'soup'}, {recipename:'sauce'}, {recipename:'bread'}];
+    it('should handle handleCurrentUserSet w userId', function () {
+      mockSettingsMgr.$$setMockedUser('mockUser');
       $rootScope.$broadcast('handleCurrentUserSet');
-
-      deferred.resolve(mockItemsFromStore);
       scope.$root.$digest();
 
       // check impact
@@ -119,56 +64,56 @@ describe('Before current user is set', function() {
 
   }); // describe
 
-  describe('After current user is set', function() {
+  describe('After current user is set', function () {
+    var testItems = [{recipename: 'soup'}, {recipename: 'sauce'}, {recipename: 'bread'}];
 
     beforeEach(function () {
-      mockCurrentUser = 'moi';
-      mockMySettings = {};
-      mockItemsFromStore = [{recipename:'soup'}, {recipename:'sauce'}, {recipename:'bread'}];
+      mockBasicStoredListMgr.$$setMockedItems(testItems);
+      scope.setStoreId('mockUrl', 'isonlist', true);
+      mockSettingsMgr.$$setMockedUser('mockUser');
       $rootScope.$broadcast('handleCurrentUserSet');
-      deferred.resolve(mockItemsFromStore);
       scope.$root.$digest();
     }); // beforeEach
 
     it('should initialize items array, when items in DB', function () {
       // console.log('scope.data', scope.data);
       expect(scope.data.myItems.length).toEqual(3);
-      expect(scope.data.myItems[0].recipename).toEqual(mockItemsFromStore[0].recipename);
-      expect(scope.data.myItems[1].recipename).toEqual(mockItemsFromStore[1].recipename);
-      expect(scope.data.myItems[2].recipename).toEqual(mockItemsFromStore[2].recipename);
-     });
-
-    it('should add recipe', function() {
-        // set
-        basicStoredListMgrSpy.addItem = jasmine.createSpy('basicStoredListMgrSpy.addItem Spy');
-
-        // act
-        scope.addRecipe('soup', 'thanksgiving');
-
-        // check
-        expect(basicStoredListMgrSpy.addItem).toHaveBeenCalled();
+      expect(scope.data.myItems[0].recipename).toEqual(testItems[0].recipename);
+      expect(scope.data.myItems[1].recipename).toEqual(testItems[1].recipename);
+      expect(scope.data.myItems[2].recipename).toEqual(testItems[2].recipename);
     });
 
-    it('should delete recipe', function() {
-        // set
-        basicStoredListMgrSpy.deleteItem = jasmine.createSpy('basicStoredListMgrSpy.deleteItem Spy');
+    it('should add recipe', function () {
+      // set
+      spyOn(mockBasicStoredListMgr, 'addItem').and.callThrough();
 
-        // act
-        scope.deleteRecipe(scope.data.myItems[1]);
+      // act
+      scope.addRecipe('soup', 'thanksgiving');
 
-        // check
-        expect(basicStoredListMgrSpy.deleteItem).toHaveBeenCalled();
+      // check
+      expect(mockBasicStoredListMgr.addItem).toHaveBeenCalled();
     });
 
-    it('should save recipe', function() {
-        // set
-        basicStoredListMgrSpy.saveItem = jasmine.createSpy('basicStoredListMgrSpy.saveItem Spy');
+    it('should delete recipe', function () {
+      // set
+      spyOn(mockBasicStoredListMgr, 'deleteItem').and.callThrough();
 
-        // act
-        scope.saveRecipe(scope.data.myItems[1]);
+      // act
+      scope.deleteRecipe(scope.data.myItems[1]);
 
-        // check
-        expect(basicStoredListMgrSpy.saveItem).toHaveBeenCalled();
+      // check
+      expect(mockBasicStoredListMgr.deleteItem).toHaveBeenCalled();
+    });
+
+    it('should save recipe', function () {
+      // set
+      spyOn(mockBasicStoredListMgr, 'saveItem').and.callThrough();
+
+      // act
+      scope.saveRecipe(scope.data.myItems[1]);
+
+      // check
+      expect(mockBasicStoredListMgr.saveItem).toHaveBeenCalled();
     });
 
   }); // describe
