@@ -59,6 +59,8 @@ describe('Controller: BaselistCtrl', function () {
       mockBasicStoredListMgr.$$setMockedItems([{product: 'carrots'}, {product: 'milk'}, {product: 'bread'}]);
       scope.setStoreId('mockUrl', 'isonlist', true);
       mockSettingsMgr.$$setMockedUser('mockUser');
+      mockSettingsMgr.$$setMockedSettings({email: 'testuser@test.com',
+        firstname:'TestFirstName',lastname:'TestLastName'});
       $rootScope.$broadcast('handleCurrentUserSet');
       scope.$root.$digest();
 

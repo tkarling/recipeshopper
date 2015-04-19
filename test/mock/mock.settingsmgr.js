@@ -9,29 +9,45 @@
       function ($q) {
         var factory = {};
 
-        factory.mockedUser = '';
+        var mockedUser;
         factory.$$setMockedUser = function (user) {
-          factory.mockedUser = user;
+          mockedUser = user;
         };
 
-        factory.mockedSettings = {
-          email: 'testuser@test.com',
-          myUid: factory.mockedUser
+        var mockedSettings;
+        factory.$$setMockedSettings = function (settings) {
+          mockedSettings = settings;
+          mockedSettings.myUid = mockedUser;
+        };
+
+        factory.addUser = function (userUid, user) {
+        };
+
+        var currentUserError;
+        factory.$$setCurrentUserError = function(error) {
+          currentUserError = error;
+        };
+        factory.setCurrentUser = function (userUid) {
+          mockedUser = userUid;
+          var defer = $q.defer();
+          if(currentUserError) {
+            defer.reject({message: currentUserError});
+            currentUserError = undefined;
+          } else {
+            defer.resolve(factory.mockedSettings);
+          }
+          return defer.promise;
         };
 
         factory.getCurrentUser = function () {
-          return factory.mockedUser;
+          return mockedUser;
         };
 
         factory.getSettings = function () {
-          return factory.mockedSettings;
+          return mockedSettings;
         };
 
         factory.saveSettings = function () {
-          var defer = $q.defer();
-          defer.resolve(this.mockedSettings);
-          //defer.promise.then(callback);
-          return defer.promise;
         };
 
         return factory;

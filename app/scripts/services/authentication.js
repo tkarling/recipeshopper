@@ -13,9 +13,9 @@ angular.module('authenticationMod', [
   ]);
 
 angular.module('authenticationMod')
-  .config(function ($logProvider) {
-    $logProvider.debugEnabled(true);
-  })
+  //.config(function ($logProvider) {
+  //  $logProvider.debugEnabled(true);
+  //})
   .factory('Authentication', ['$log', '$firebaseAuth', 'FIREBASE_URL', 'settingsMgr', 'StoredListMgrFactory',
     function ($log, $firebaseAuth, FIREBASE_URL, settingsMgr, StoredListMgrFactory) {
       $log.debug('Authentication: init factory');
@@ -51,7 +51,7 @@ angular.module('authenticationMod')
 
         logout: function () {
           StoredListMgrFactory.prepareForLogout();
-          return data.authObj.$unauth();
+          data.authObj.$unauth();
         } // logout
 
       };

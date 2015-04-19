@@ -72,6 +72,8 @@ describe('Controller: MainCtrl', function () {
       mockBasicStoredListMgr.$$setMockedItems(testItems);
       scope.setStoreId('mockUrl', 'isonlist', true);
       mockSettingsMgr.$$setMockedUser('mockUser');
+      mockSettingsMgr.$$setMockedSettings({email: 'testuser@test.com',
+        firstname:'TestFirstName',lastname:'TestLastName'});
       $rootScope.$broadcast('handleCurrentUserSet');
       scope.$root.$digest();
     }); // beforeEach

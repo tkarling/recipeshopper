@@ -26,40 +26,37 @@
       function ($q) {
         var factory = {};
 
-        factory.mockedItems = [];
+        var mockedItems;
         factory.$$setMockedItems = function (items) {
-          factory.mockedItems = items;
+          mockedItems = items;
         };
 
         factory.getItemsSync = function (tellWhenLoaded, fieldName, fieldValue) {
-          this.mockedItems;
+          return mockedItems;
         };
 
         factory.getItems = function (fieldName, fieldValue) {
           var defer = $q.defer();
-          defer.resolve(this.mockedItems);
-          //defer.promise.then(callback);
+          defer.resolve(mockedItems);
           return defer.promise;
         };
 
+        var mockRef;
         factory.addItem = function (item) {
           var defer = $q.defer();
-          defer.resolve(this.mockedItems);
-          //defer.promise.then(callback);
+          defer.resolve(mockRef);
           return defer.promise;
         };
 
         factory.deleteItem = function (item) {
           var defer = $q.defer();
-          defer.resolve(this.mockedItems);
-          //defer.promise.then(callback);
+          defer.resolve(mockRef);
           return defer.promise;
         };
 
         factory.saveItem = function (item) {
           var defer = $q.defer();
-          defer.resolve(this.mockedItems);
-          //defer.promise.then(callback);
+          defer.resolve(mockRef);
           return defer.promise;
         };
 

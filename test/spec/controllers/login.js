@@ -3,210 +3,136 @@
 describe('Controller: LoginCtrl', function () {
 
   // load the controller's module
-  beforeEach(module('loginMod'));
-
-  var LoginCtrl, scope;
-  var q, deferred, $rootScope, $log;
-  var loginSpy, registerSpy, logoutSpy;
-  var setCurrentUserSpy, addUserSpy;
-  var mockAuthentication, mockSettingsMgr;
-
   beforeEach(function () {
-      mockAuthentication = {
-        login: function (user, authHandler) {
-              deferred = q.defer();
-              loginSpy();
-              return deferred.promise;
-        }, //login
-
-        register: function (user, authHandler) {
-              deferred = q.defer();
-              registerSpy();
-              return deferred.promise;
-        }, //register
-
-        logout: function() {
-            logoutSpy();
-        } // logout
-
-        // userLoggedIn: function () {
-        //   return true;
-        // } // userLoggedIn
-      };
-
-      mockSettingsMgr = {
-        getCurrentUser: function () {
-          return '123';
-        }, // getCurrentUser
-
-        getSetting: function (setting) {
-          return 'result';
-        }, // getSetting
-
-        setCurrentUser: function (myUid) {
-              deferred = q.defer();
-              setCurrentUserSpy();
-              return deferred.promise;
-        }, // setCurrentUser
-
-        addUser: function (myUid, user) {
-              deferred = q.defer();
-              addUserSpy();
-              return deferred.promise;
-        }, // addUser
-
-      };
+    module('loginMod');
+    module('settingsMod.mock');
+    module('authenticationMod.mock');
   });
 
+  var LoginCtrl, scope;
+  var $rootScope, $log;
+  var mockAuthentication, mockSettingsMgr;
+
   // Initialize the controller and a mock scope
-  beforeEach(inject(function ($controller, _$rootScope_, _$log_, _$location_, _$q_) {
-      q= _$q_;
-      $log = _$log_;
-      $rootScope = _$rootScope_;
-      scope = $rootScope.$new();
-      LoginCtrl = $controller('LoginCtrl', {
-        $scope: scope,
-        Authentication: mockAuthentication,
-        settingsMgr: mockSettingsMgr
-      });
+  beforeEach(inject(function ($controller, _$rootScope_, _$log_, _$location_,
+                              _settingsMgrMock_, _AuthenticationMock_) {
+    $log = _$log_;
+    $rootScope = _$rootScope_;
+    scope = $rootScope.$new();
+    mockSettingsMgr = _settingsMgrMock_;
+    mockAuthentication = _AuthenticationMock_;
+
+    LoginCtrl = $controller('LoginCtrl', {
+      $scope: scope,
+      Authentication: mockAuthentication,
+      settingsMgr: mockSettingsMgr
+    });
   }));
 
   it('a test should pass', function () {
-      expect(true).toEqual(true);
+    expect(true).toEqual(true);
   });
 
-  it('should call A.login & S.set user, when logging in w success', function () {
-      loginSpy = jasmine.createSpy('login spy');
-      setCurrentUserSpy = jasmine.createSpy('setCurrentUser spy');
+  it('should login w success', function () {
+    spyOn(mockAuthentication, 'login').and.callThrough();
+    spyOn(mockSettingsMgr, 'setCurrentUser').and.callThrough();
 
-      scope.login({
-          email: 'a@a.com',
-          password: 'password'
-        });
-      deferred.resolve({uid:'123'});
-      $rootScope.$digest();
+    mockAuthentication.$$setMockedAuthData({uid: '123'});
+    scope.login({
+      email: 'a@a.com',
+      password: 'password'
+    });
+    $rootScope.$digest();
 
-      expect(loginSpy).toHaveBeenCalled();
-      expect(setCurrentUserSpy).toHaveBeenCalled();
-      expect(scope.message).toEqual(undefined);
+    expect(mockAuthentication.login).toHaveBeenCalled();
+    expect(mockSettingsMgr.setCurrentUser).toHaveBeenCalled();
+    expect(scope.message).toEqual(undefined);
   });
 
-  it('should set error msg, when logging in fails', function () {
-      loginSpy = jasmine.createSpy('login spy');
-      logoutSpy = jasmine.createSpy('logout spy');
-      setCurrentUserSpy = jasmine.createSpy('setCurrentUser spy');
+  it('should set error msg, when login fails', function () {
+    spyOn(mockAuthentication, 'login').and.callThrough();
+    spyOn(mockAuthentication, 'logout').and.callThrough();
+    spyOn(mockSettingsMgr, 'setCurrentUser').and.callThrough();
 
-      scope.login({
-          email: 'a@a.com',
-          password: 'password'
-        });
-      deferred.reject({message: 'error is this'});
-      $rootScope.$digest();
+    mockAuthentication.$$setLoginError('error is this');
+    scope.login({
+      email: 'a@a.com',
+      password: 'password'
+    });
+    $rootScope.$digest();
 
-      expect(loginSpy).toHaveBeenCalled();
-      expect(logoutSpy).toHaveBeenCalled();
-      expect(setCurrentUserSpy).not.toHaveBeenCalled();
-      expect(scope.message).toEqual('error is this');
+    expect(mockAuthentication.login).toHaveBeenCalled();
+    expect(mockAuthentication.logout).toHaveBeenCalled();
+    expect(mockSettingsMgr.setCurrentUser).not.toHaveBeenCalled();
+    expect(scope.message).toEqual('error is this');
   });
 
-  it('should set error msg & write to error log, when getting usr data from db after logging in fails', function () {
-      loginSpy = jasmine.createSpy('login spy');
-      logoutSpy = jasmine.createSpy('logout spy');
-      setCurrentUserSpy = jasmine.createSpy('setCurrentUser spy');
+  it('should set error msg, when getting usr data from db after login fails', function () {
+    spyOn(mockAuthentication, 'login').and.callThrough();
+    spyOn(mockAuthentication, 'logout').and.callThrough();
+    spyOn(mockSettingsMgr, 'setCurrentUser').and.callThrough();
 
-      scope.login({
-          email: 'a@a.com',
-          password: 'password'
-        });
-      deferred.resolve({uid:'123'});
-      $rootScope.$digest();
-      deferred.reject({message: 'error is this'});
-      $rootScope.$digest();
+    mockAuthentication.$$setMockedAuthData({uid: '123'});
+    scope.login({
+      email: 'a@a.com',
+      password: 'password'
+    });
+    mockSettingsMgr.$$setCurrentUserError('error is this');
+    $rootScope.$digest();
 
-      expect(loginSpy).toHaveBeenCalled();
-      expect(logoutSpy).not.toHaveBeenCalled();
-      expect(setCurrentUserSpy).toHaveBeenCalled();
-      expect(scope.message).toEqual('error is this');
-      expect($log.error.logs.length).toEqual(1);
-      var errorInLog = $log.error.logs[0][0];
-      expect(errorInLog).toEqual('ERROR: getting user info from store after logging in failed');
+    expect(mockAuthentication.login).toHaveBeenCalled();
+    expect(mockAuthentication.logout).not.toHaveBeenCalled();
+    expect(mockSettingsMgr.setCurrentUser).toHaveBeenCalled();
+    expect(scope.message).toEqual('error is this');
+    expect($log.error.logs.length).toEqual(1);
+    var errorInLog = $log.error.logs[0][0];
+    expect(errorInLog).toEqual('ERROR: getting user info from store after logging in failed');
 
   });
 
-  it('should call A.logout, when logging out', function () {
-      logoutSpy = jasmine.createSpy('logout spy');
+  it('should log out', function () {
+    spyOn(mockAuthentication, 'logout').and.callThrough();
 
-      scope.logout();
-      $rootScope.$digest();
+    scope.logout();
+    $rootScope.$digest();
 
-      expect(logoutSpy).toHaveBeenCalled();
+    expect(mockAuthentication.logout).toHaveBeenCalled();
   });
 
-  it('should call A.register, A.login and S.add user, when registering in w success', function () {
-      registerSpy = jasmine.createSpy('register spy');
-      addUserSpy = jasmine.createSpy('addUser spy');
-      loginSpy = jasmine.createSpy('login spy');
+  it('should register w success', function () {
+    spyOn(mockAuthentication, 'register').and.callThrough();
+    spyOn(mockSettingsMgr, 'addUser').and.callThrough();
+    spyOn(mockAuthentication, 'login').and.callThrough();
 
-      scope.register({
-          email: 'a@a.com',
-          password: 'password'
-        });
-      deferred.resolve({uid:'123'});
-      $rootScope.$digest();
-      deferred.resolve({firstname:'Tuija', lastname:'Karling'});
-      $rootScope.$digest();
+    mockAuthentication.$$setMockedAuthData({uid: '123'});
+    scope.register({
+      email: 'a@a.com',
+      password: 'password'
+    });
+    $rootScope.$digest();
 
-      expect(registerSpy).toHaveBeenCalled();
-      expect(addUserSpy).toHaveBeenCalled();
-      expect(loginSpy).toHaveBeenCalled();
-      expect(scope.message).toEqual(undefined);
+    expect(mockAuthentication.register).toHaveBeenCalled();
+    expect(mockSettingsMgr.addUser).toHaveBeenCalled();
+    expect(mockAuthentication.login).toHaveBeenCalled();
+    expect(scope.message).toEqual(undefined);
   });
 
   it('should set error msg, when registering fails', function () {
-      registerSpy = jasmine.createSpy('register spy');
-      addUserSpy = jasmine.createSpy('addUser spy');
-      loginSpy = jasmine.createSpy('login spy');
+    spyOn(mockAuthentication, 'register').and.callThrough();
+    spyOn(mockSettingsMgr, 'addUser').and.callThrough();
+    spyOn(mockAuthentication, 'login').and.callThrough();
 
-      scope.register({
-          email: 'a@a.com',
-          password: 'password'
-        });
-      deferred.reject({message: 'error is this'});
-      $rootScope.$digest();
+    mockAuthentication.$$setRegisteringError('error is this');
+    scope.register({
+      email: 'a@a.com',
+      password: 'password'
+    });
+    $rootScope.$digest();
 
-      expect(registerSpy).toHaveBeenCalled();
-      expect(addUserSpy).not.toHaveBeenCalled();
-      expect(loginSpy).not.toHaveBeenCalled();
-      expect(scope.message).toEqual('error is this');
+    expect(mockAuthentication.register).toHaveBeenCalled();
+    expect(mockSettingsMgr.addUser).not.toHaveBeenCalled();
+    expect(mockAuthentication.login).not.toHaveBeenCalled();
+    expect(scope.message).toEqual('error is this');
   });
-
-  // This test is not valid unless failed adding of user returns error again
-  // it('should set error msg & write to error log, when logging in after registering fails', function () {
-  //     registerSpy = jasmine.createSpy('register spy');
-  //     loginSpy = jasmine.createSpy('login spy');
-  //     addUserSpy = jasmine.createSpy('addUser spy');
-
-  //     scope.register({
-  //         email: 'a@a.com',
-  //         password: 'password'
-  //       });
-  //     deferred.resolve({uid:'123'});  // registering succeeds
-  //     $rootScope.$digest();
-  //     deferred.reject({message: 'error is this'}); // login fails
-  //     $rootScope.$digest();
-  //     deferred.reject({message: 'error is that'}); // adding user fails
-  //     $rootScope.$digest();
-
-  //     expect(registerSpy).toHaveBeenCalled();
-  //     expect(loginSpy).toHaveBeenCalled();
-  //     expect(addUserSpy).toHaveBeenCalled();
-  //     expect(scope.message).toEqual('error is that');
-  //     expect($log.error.logs.length).toEqual(2);
-  //     var errorInLog = $log.error.logs[0][0];
-  //     expect(errorInLog).toEqual('ERROR: logging in after registering failed');
-  //     errorInLog = $log.error.logs[1][0];
-  //     expect(errorInLog).toEqual('ERROR: adding user to store after registering failed');
-
-  // });
 
 });
