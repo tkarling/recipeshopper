@@ -15,12 +15,12 @@ describe('Controller: LoginCtrl', function () {
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($controller, _$rootScope_, _$log_, _$location_,
-                              _settingsMgrMock_, _AuthenticationMock_) {
+                              _settingsMgr_, _Authentication_) {
     $log = _$log_;
     $rootScope = _$rootScope_;
     scope = $rootScope.$new();
-    mockSettingsMgr = _settingsMgrMock_;
-    mockAuthentication = _AuthenticationMock_;
+    mockSettingsMgr = _settingsMgr_;
+    mockAuthentication = _Authentication_;
 
     LoginCtrl = $controller('LoginCtrl', {
       $scope: scope,

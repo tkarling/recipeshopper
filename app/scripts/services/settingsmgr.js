@@ -19,12 +19,10 @@ angular.module('settingsMod')
     var getDefaults = function () {
       $http.get('data/defaultsettings.json').success(function (result) {
         defaultSettings = result;
-        // console.log('settingsMgr: getDefaults: data.settings BEFORE', data.settings);
         if (Object.keys(data.settings).length == 0) {
           data.settings = defaultSettings;
-          // console.log('settingsMgr: getDefaults: data.settings', data.settings);
         }
-        $log.debug('settingsMgr: getDefaults: defaultSettings', defaultSettings);
+        //$log.debug('settingsMgr: getDefaults: defaultSettings', defaultSettings);
       });
     };
 
@@ -40,15 +38,11 @@ angular.module('settingsMod')
     var addUserFn = function (userUid, user) {
       var fbUrl = FIREBASE_URL + '/users/' + userUid;
       var ref = new Firebase(fbUrl);
-      var userInfo = {
-        myUid: userUid,
-        firstname: user.firstname,
-        lastname: user.lastname,
-        email: user.email
-      };
+      var userInfo = user;
+      userInfo.myUid = userUid;
       for (var prop in defaultSettings) {
         if (defaultSettings.hasOwnProperty(prop)) {
-          $log.debug('settingsMgr: addUserAsync:', prop + ' = ' + defaultSettings[prop]);
+          //$log.debug('settingsMgr: addUserAsync:', prop + ' = ' + defaultSettings[prop]);
           userInfo[prop] = defaultSettings[prop];
         }
       }
@@ -111,7 +105,7 @@ angular.module('settingsMod')
       },
 
       setCurrentUser: function (userUid) {
-        $log.debug('settingsMgr: setCurrentUser: data.currentUserUid, userUid BEFORE', data.currentUserUid, userUid);
+        //$log.debug('settingsMgr: setCurrentUser: data.currentUserUid, userUid BEFORE', data.currentUserUid, userUid);
         if (data.currentUserUid == userUid) {
           return currentUserHasNotChanged();
         }
@@ -127,6 +121,7 @@ angular.module('settingsMod')
       },
 
       getCurrentUser: function () {
+        //console.log('factory.getCurrentUser real');
         return data.currentUserUid;
       },
 
@@ -136,16 +131,7 @@ angular.module('settingsMod')
 
       saveSettings: function () {
         return saveSettingsAsync();
-      }, // saveSettings
-
-      getSetting: function (settingName) {
-        // return getExistingSettingAsync(settingName);
-        return data.settings[settingName];
-      }, // getSetting
-
-      setSetting: function (settingName, value) {
-        return setSettingAsync(settingName, value);
-      } // setSetting
+      } // saveSettings
 
     };
 

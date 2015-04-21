@@ -4,24 +4,30 @@
 
   angular.module('storedListMod.mock', ['storedListMod']);
 
-  angular.module('storedListMod.mock').factory('StoredListMgrFactoryMock',
-    ['$q', 'BasicStoredListMgrMock',
-      function ($q, BasicStoredListMgrMock) {
+  angular.module('storedListMod.mock').factory('StoredListMgrFactory',
+    ['$q', 'BasicStoredListMgr',
+      function ($q, BasicStoredListMgr) {
         var factory = {};
 
         factory.getSharedStoredListMgr = function (fbUrlWNoBase, fieldNameOrVariableUrl, fieldValue) {
-          return BasicStoredListMgrMock;
+          //console.log('factory.getSharedStoredListMgr mock');
+          return BasicStoredListMgr;
         };
 
         factory.getUsersStoredListMgr = function (fbUrlWNoBase, fieldNameOrVariableUrl, fieldValue) {
-          return BasicStoredListMgrMock;
+          //console.log('factory.getUsersStoredListMgr mock');
+          return BasicStoredListMgr;
+        };
+
+        factory.prepareForLogout = function () {
+          //console.log('factory.prepareForLogout mock');
         };
 
         return factory;
       }
     ]);
 
-  angular.module('storedListMod.mock').factory('BasicStoredListMgrMock',
+  angular.module('storedListMod.mock').factory('BasicStoredListMgr',
     ['$q',
       function ($q) {
         var factory = {};

@@ -25,7 +25,7 @@ angular.module('authenticationMod')
       data.authObj = $firebaseAuth(data.ref);
 
       var authDataCallback = function (authData) {
-        $log.debug('Authentication: authDataCallback called', authData);
+        //$log.debug('Authentication: authDataCallback called', authData);
         settingsMgr.setCurrentUser(authData ? authData.uid : '');
       }; //authDataCallback
 
@@ -34,7 +34,7 @@ angular.module('authenticationMod')
       // Public API here
       return {
         login: function (user) {
-          $log.debug('Authentication: login', user.email);
+          //$log.debug('Authentication: login', user.email);
           return data.authObj.$authWithPassword({
             email: user.email,
             password: user.password
@@ -42,7 +42,7 @@ angular.module('authenticationMod')
         }, //login
 
         register: function (user) {
-          $log.debug('Authentication: register', user.email);
+          //$log.debug('Authentication: register', user.email);
           return data.authObj.$createUser({
             email: user.email,
             password: user.password
@@ -52,7 +52,11 @@ angular.module('authenticationMod')
         logout: function () {
           StoredListMgrFactory.prepareForLogout();
           data.authObj.$unauth();
-        } // logout
+        }, // logout
+
+        $$fbAuthRefForSpying: function () {
+          return data.authObj;
+        }
 
       };
 

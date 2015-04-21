@@ -3,7 +3,11 @@
 describe('Controller: ProductDetailsController', function () {
 
   // load the controller's module
-  beforeEach(module('recipeshopperApp'));
+  beforeEach(function () {
+    module('recipeshopperApp');
+    module('settingsMod.mock');
+    module('storedListMod.mock');
+  });
 
   var ProductDetailsController;
   var scope, routeParams, location;

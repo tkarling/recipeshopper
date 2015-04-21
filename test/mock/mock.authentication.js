@@ -4,7 +4,7 @@
 
   angular.module('authenticationMod.mock', ['authenticationMod']);
 
-  angular.module('authenticationMod.mock').factory('AuthenticationMock',
+  angular.module('authenticationMod.mock').factory('Authentication',
     ['$q',
       function ($q) {
         var factory = {};

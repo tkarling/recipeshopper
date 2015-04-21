@@ -15,12 +15,12 @@ describe('Controller: MainCtrl', function () {
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($controller, _$rootScope_,
-                              _settingsMgrMock_, _StoredListMgrFactoryMock_) {
+                              _settingsMgr_, _StoredListMgrFactory_) {
     $rootScope = _$rootScope_;
     scope = $rootScope.$new();
     mockUrl = 'mockUrl';
-    mockSettingsMgr = _settingsMgrMock_;
-    mockStoredListMgrFactory = _StoredListMgrFactoryMock_;
+    mockSettingsMgr = _settingsMgr_;
+    mockStoredListMgrFactory = _StoredListMgrFactory_;
     mockBasicStoredListMgr = mockStoredListMgrFactory.getUsersStoredListMgr();
 
     BaselistCtrl = $controller('BaselistCtrl', {

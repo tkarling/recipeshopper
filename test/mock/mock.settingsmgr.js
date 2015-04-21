@@ -4,7 +4,7 @@
 
   angular.module('settingsMod.mock', ['settingsMod']);
 
-  angular.module('settingsMod.mock').factory('settingsMgrMock',
+  angular.module('settingsMod.mock').factory('settingsMgr',
     ['$q',
       function ($q) {
         var factory = {};
@@ -28,6 +28,7 @@
           currentUserError = error;
         };
         factory.setCurrentUser = function (userUid) {
+          //console.log('factory.setCurrentUser mock');
           mockedUser = userUid;
           var defer = $q.defer();
           if(currentUserError) {
@@ -40,6 +41,7 @@
         };
 
         factory.getCurrentUser = function () {
+          //console.log('factory.getCurrentUser mock');
           return mockedUser;
         };
 

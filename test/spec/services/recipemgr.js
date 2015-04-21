@@ -3,7 +3,10 @@
 describe('Service: recipeMgr', function () {
 
   // load the service's module
-  beforeEach(module('recipeshopperApp'));
+  beforeEach(function () {
+    module('recipeshopperApp');
+    module('settingsMod.mock');
+  });
 
   var mockUrl;
   // instantiate service
