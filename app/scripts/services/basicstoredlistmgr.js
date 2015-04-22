@@ -63,9 +63,9 @@ angular.module('storedListMod')
       }, // prepareForLogout
 
       // following for UNIT Testing
-      getStoredListMgrs: function () {
+      $$getStoredListMgrs: function () {
         return StoredListMgrs;
-      } // getStoredListMgrs
+      } // $$getStoredListMgrs
 
     };
 
