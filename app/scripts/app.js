@@ -15,7 +15,6 @@ angular.module('recipeshopperApp', [
     'ngRoute',
     'ngSanitize',
     'ngTouch',
-    'ui.bootstrap',
     'ngMaterial',
     'ngAria',
     'ngMessages',
