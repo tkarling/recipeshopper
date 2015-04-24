@@ -2,7 +2,7 @@
 
   'use strict';
 
-  angular.module('authenticationMod.mock', ['authenticationMod']);
+  angular.module('authenticationMod.mock', []);
 
   angular.module('authenticationMod.mock').factory('Authentication',
     ['$q',

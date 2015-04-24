@@ -2,7 +2,7 @@
 
   'use strict';
 
-  angular.module('storedListMod.mock', ['storedListMod']);
+  angular.module('storedListMod.mock', []);
 
   angular.module('storedListMod.mock').factory('StoredListMgrFactory',
     ['$q', 'BasicStoredListMgr',

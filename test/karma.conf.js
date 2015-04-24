@@ -32,10 +32,7 @@ module.exports = function(config) {
       'bower_components/angular-local-storage/dist/angular-local-storage.js',
       'bower_components/firebase/firebase.js',
       'bower_components/angularfire/dist/angularfire.js',
-      'bower_components/mockfirebase/browser/mockfirebase.js',
-      'bower_components/angular-ui-bootstrap-bower/ui-bootstrap-tpls.js',
       'bower_components/angular-aria/angular-aria.js',
-      'bower_components/hammerjs/hammer.js',
       'bower_components/angular-material/angular-material.js',
       'bower_components/angular-messages/angular-messages.js',
       'app/scripts/**/*.js',
@@ -69,12 +66,12 @@ module.exports = function(config) {
       'karma-ng-html2js-preprocessor'
     ],
 
-    preprocessors: { 
-      'app/views/*.html': ['ng-html2js'] 
-    }, 
+    preprocessors: {
+      'app/views/*.html': ['ng-html2js']
+    },
 
-    ngHtml2JsPreprocessor: { 
-      stripPrefix: 'app/', 
+    ngHtml2JsPreprocessor: {
+      stripPrefix: 'app/',
     },
 
     // Continuous Integration mode
@@ -93,5 +90,6 @@ module.exports = function(config) {
     // },
     // URL root prevent conflicts with the site root
     // urlRoot: '_karma_'
+    browserNoActivityTimeout: 100000,
   });
 };

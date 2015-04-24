@@ -5,6 +5,7 @@ describe('Controller: ProductDetailsController', function () {
   // load the controller's module
   beforeEach(function () {
     module('recipeshopperApp');
+    module('firebase.mock');
     module('settingsMod.mock');
     module('storedListMod.mock');
   });

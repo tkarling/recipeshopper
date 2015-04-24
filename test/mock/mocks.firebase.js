@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  angular.module('firebase.mock', ['firebase']);
+  angular.module('firebase.mock', []);
 
   angular.module('firebase.mock').factory('$firebaseAuth',
     function ($q, $firebaseUtils, $log) {

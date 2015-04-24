@@ -5,51 +5,27 @@ describe('Controller: RecipeDetailsController', function () {
   // load the controller's module
   beforeEach(function () {
     module('recipeshopperApp');
+    module('firebase.mock');
     module('settingsMod.mock');
     module('storedListMod.mock');
   });
 
   var RecipeDetailsController;
-  var scope, routeParams, location;
+  var scope, $rootScope, routeParams, location;
   var mockStoredListMgrFactory, mockBasicStoredListMgr, mockUrl;
   var recipesFromStore;
-  var q, deferred;
 
   beforeEach(function () {
-      recipesFromStore = [{recipeName:'porkkanalaatikko'}, {recipeName:'lanttulaatikko'}, {recipeName:'rosolli'}];
       mockUrl = 'mockUrl';
-
-      mockBasicStoredListMgr = {
-          getItems: function (fieldName, fieldValue) {
-              deferred = q.defer();
-              return deferred.promise;
-          },
-          addItem: function (item) {
-              deferred = q.defer();
-              return deferred.promise;
-          },
-          deleteItem: function (item) {
-              deferred = q.defer();
-              return deferred.promise;
-          },
-          saveItem: function (item) {
-              deferred = q.defer();
-              return deferred.promise;
-          }
-      }; // mockBasicStoredListMgr
-
-      mockStoredListMgrFactory = {
-        getUsersStoredListMgr: function (fbUrl) {
-              return mockBasicStoredListMgr;
-        } //getUsersStoredListMgr
-
-      };
   });
 
   // Initialize the controller and a mock scope
-  beforeEach(inject(function ($controller, $rootScope, _$routeParams_, _$log_, _$location_, _$q_) {
-    q= _$q_;
+  beforeEach(inject(function ($controller, _$rootScope_, _$routeParams_, _$log_, _$location_,
+                              _StoredListMgrFactory_) {
+    $rootScope = _$rootScope_;
     scope = $rootScope.$new();
+    mockStoredListMgrFactory = _StoredListMgrFactory_;
+    mockBasicStoredListMgr = mockStoredListMgrFactory.getUsersStoredListMgr();
     location = _$location_;
     routeParams = _$routeParams_;
     routeParams.itemId = 0;

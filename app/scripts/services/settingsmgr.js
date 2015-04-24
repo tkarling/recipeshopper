@@ -121,7 +121,6 @@ angular.module('settingsMod')
       },
 
       getCurrentUser: function () {
-        //console.log('factory.getCurrentUser real');
         return data.currentUserUid;
       },
 

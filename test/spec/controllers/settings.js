@@ -3,7 +3,12 @@
 describe('Controller: SettingsCtrl', function () {
 
   // load the controller's module
-  beforeEach(module('recipeshopperApp'));
+  beforeEach(function () {
+    module('recipeshopperApp');
+    module('firebase.mock');
+    module('settingsMod.mock');
+    module('storedListMod.mock');
+  });
 
   var SettingsCtrl,
     scope;
@@ -19,7 +24,7 @@ describe('Controller: SettingsCtrl', function () {
   it('a test should pass', function () {
       expect(true).toEqual(true);
   });
-  
+
   // it('should attach a list of awesomeThings to the scope', function () {
   //   expect(scope.awesomeThings.length).toBe(3);
   // });

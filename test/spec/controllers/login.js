@@ -5,6 +5,7 @@ describe('Controller: LoginCtrl', function () {
   // load the controller's module
   beforeEach(function () {
     module('loginMod');
+    module('firebase.mock');
     module('settingsMod.mock');
     module('authenticationMod.mock');
   });

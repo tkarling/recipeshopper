@@ -2,7 +2,7 @@
 
   'use strict';
 
-  angular.module('settingsMod.mock', ['settingsMod']);
+  angular.module('settingsMod.mock', []);
 
   angular.module('settingsMod.mock').factory('settingsMgr',
     ['$q',
