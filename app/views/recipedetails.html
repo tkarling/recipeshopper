@@ -1,40 +1,36 @@
 <form name="recipeForm" novalidate>
   <rs-view type="details" title="getTitle()"
            check-fn="addOrSaveRecipe()" check-enabled="{{recipeForm.$valid}}">
-    <div id="recipedetails">
-      <md-tabs class="md-accent" md-selected="data.selectedTabIndex">
-        <md-tab id="details-tab" aria-controls="details-tab-content">
+       <md-tabs md-dynamic-height class="md-primary md-hue-2" md-selected="data.selectedTabIndex">
+        <md-tab id="details-tab">
           <rs-icon icon-name="ic_info_outline"></rs-icon>
+          <md-tab-body>
+            <rs-recipe-info></rs-recipe-info>
+          </md-tab-body>
         </md-tab>
         <md-tab id="ingredients-tab" ng-disabled="recipeForm.$invalid"
                 aria-controls="ingredients-tab-content">
           <rs-icon icon-name="ic_list"></rs-icon>
+          <md-tab-body>
+            <rs-recipe-ingredients></rs-recipe-ingredients>
+          </md-tab-body>
         </md-tab>
         <md-tab id="instructions-tab" ng-disabled="recipeForm.$invalid"
                 aria-controls="instructions-tab-content">
           <rs-icon icon-name="ic_subject"></rs-icon>
+          <md-tab-body>
+            <rs-recipe-instructions></rs-recipe-instructions>
+          </md-tab-body>
         </md-tab>
         <md-tab id="photo-tab" ng-disabled="recipeForm.$invalid"
                 aria-controls="photo-tab-content">
           <rs-icon icon-name="ic_perm_media"></rs-icon>
+          <md-tab-body>
+            <md-content class="md-padding">
+              <p>Photo</p>
+            </md-content>
+          </md-tab-body>
         </md-tab>
       </md-tabs>
-      <ng-switch on="data.selectedTabIndex" class="tabpanel-container">
-        <div role="tabpanel" id="details-tab-content" aria-labelledby="details-tab" ng-switch-when="0">
-          <rs-recipe-info></rs-recipe-info>
-        </div>
-        <div role="tabpanel" id="ingredients-tab-content" aria-labelledby="ingredients-tab" ng-switch-when="1">
-          <rs-recipe-ingredients></rs-recipe-ingredients>
-        </div>
-        <div role="tabpanel" id="instructions-tab-content" aria-labelledby="instructions-tab" ng-switch-when="2">
-          <rs-recipe-instructions></rs-recipe-instructions>
-        </div>
-        <div role="tabpanel" id="photo-tab-content" aria-labelledby="photo-tab" ng-switch-when="3">
-          <md-content class="md-padding">
-            <p>Photo</p>
-          </md-content>
-        </div>
-      </ng-switch>
-    </div>
   </rs-view>
 </form>

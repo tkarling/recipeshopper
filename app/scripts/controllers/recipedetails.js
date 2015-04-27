@@ -38,7 +38,6 @@ angular.module('recipeshopperApp')
         ingredientsMgr.deleteItem(item);
       }; // deleteIngredient
 
-      // is not used at the moment
       $scope.saveIngredient = function (item, itemWasPutOnList) {
         if (itemWasPutOnList) {
           item.isbought = false;

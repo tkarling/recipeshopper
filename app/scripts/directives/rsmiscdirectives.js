@@ -9,16 +9,21 @@
 angular.module('recipeshopperApp')
   .directive('rsIcon', function () {
     return {
-      template: '<md-icon md-svg-src="{{iconPath}}"></md-icon>',
+      template: '<md-icon ng-class="classColor" style="color:{{iconColor}}" md-svg-src="{{iconPath}}"></md-icon>',
       scope: {
         iconName: '@',
-        iconGroup: '@'
+        iconGroup: '@',
+        iconColor: '@',
+        classColor: '@'
       },
       restrict: 'E',
       // replace: true,
       link: function postLink(scope, element, attrs) {
         // console.log('rsIcon called');
         scope.iconGroup = scope.iconGroup || 'action';
+        if(!scope.classColor) {
+          scope.iconColor = scope.iconColor || 'white';
+        }
         scope.iconPath = '../bower_components/material-design-icons/' + scope.iconGroup +
           '/svg/production/' + scope.iconName + '_24px.svg';
       }
@@ -94,7 +99,7 @@ angular.module('recipeshopperApp')
   })
   .directive('rsSearchBar', function () {
     return {
-      template: '<md-content layout="row">' +
+      template: '<div layout="row">' +
                     '<md-button id="addbutton" ng-click="gotoAddPage(listId, listName)"' +
                         'class="md-primary md-fab" aria-label="Go to Add Page">' +
                         '<rs-icon icon-name="ic_add" icon-group="content"></rs-icon>' +
@@ -105,9 +110,9 @@ angular.module('recipeshopperApp')
                     '</md-input-container>' +
                     '<md-checkbox ng-if="showCheckbox" md-no-ink aria-label="Do Not Show Bought"' +
                       'ng-model="data.mySettings.doNotShowBoughtItems" ng-change="updateShowAll()"' +
-                      'class="md-primary">' +
+                      'class="md-primary md-padding">' +
                     '</md-checkbox>' +
-                '</md-content>',
+                '</div>',
       restrict: 'E',
       replace: true,
       link: function postLink(scope, element, attrs) {
@@ -126,6 +131,7 @@ angular.module('recipeshopperApp')
       }
     };
   })
+  // following not in use left here for model in case needed
   .directive('rsOneRowAddItemForm', function () {
     return {
       template: '<form name="myform" ng-submit="addItem(data.model1, data.model2, data.modelNo)" novalidate>' +
@@ -173,41 +179,31 @@ angular.module('recipeshopperApp')
       }
     };
   })
-  .directive('rsTileLeftCheck', function () {
+  .directive('rsListItem', function () {
     return {
-      template: '<div class="md-tile-left">' +
-                  '<md-checkbox md-no-ink aria-label="{{ariaLabel}}" ng-model="data.cbvalue" ng-change="saveCBValue()"' +
-                    'class="md-primary">' +
-                  '</md-checkbox>' +
-                '</div>',
+      templateUrl: 'views/baselistitem.html',
       scope: {
-        saveItemFn: '&',
-        ariaLabel: '@'
+        listItem: '=',
+        checkboxField: '@',
+        checkboxFn: '&',
+        accentedText: '@',
+        additionalText: '@',
+        clickFn: '&',
+        hasNote: '@',
+        deleteFn: '&'
       },
       restrict: 'E',
       replace: true,
-      require:'ngModel',
-      link: function(scope, element, attrs, ngModel) {
-          // console.log('rsTileLeftCheck called');
-          scope.data = {};
-
-          ngModel.$render = function() {
-            // console.log('ngModel.$modelValue', ngModel.$modelValue);
-            scope.data.cbvalue = ngModel.$modelValue;
-          }
-
-          scope.saveCBValue = function() {
-            ngModel.$setViewValue(scope.data.cbvalue);
-            scope.saveItemFn();
-          }
+      transclude: true,
+      link: function postLink(scope, element, attrs) {
       }
     };
   })
   .directive('rsTileContent', function () {
     return {
-      template: '<div class="md-tile-content" ng-click="clickFn()">' +
-                  '<h3><span><strong ng-transclude></strong></span></h3>' +
-                  '<h4><span class="md-accent-text">{{accentedText}}{{divider}}</span><span>{{additionalText | lowercase}}</span></h4>' +
+      template: '<div class="md-list-item-text" ng-click="clickFn()">' +
+                  '<h3><span><div ng-transclude></div></span></h3>' +
+                  '<p><span style="color:darkcyan;">{{accentedText}}{{divider}}</span><span>{{additionalText | lowercase}}</span></p>' +
                 '</div>',
       scope: {
         clickFn: '&',
@@ -222,50 +218,5 @@ angular.module('recipeshopperApp')
         // console.log('rsTileContent called');
       }
     };
-  })
-  .directive('rsTileRightDeleteSub', function () {
-    return {
-      template: '<div class="md-tile-right md-padding">' +
-                  '<md-button id="deleteitembutton" class="md-warn md-raised md-hue-2"' +
-                    'ng-click="deleteFn()" aria-label="Delete">' +
-                    '<rs-icon icon-name="ic_delete"></rs-icon>' +
-                    '</md-icon>' +
-                  '</md-button>' +
-                '</div>',
-      scope: {
-        deleteFn: '&'
-      },
-      restrict: 'E',
-      replace: true,
-      link: function postLink(scope, element, attrs) {
-        // console.log('rsTileRightDelete called');
-      }
-    };
-  })
-  .directive('rsTileRightDelete', function () {
-    return {
-      template: '<span>' +
-                  '<rs-icon ng-if="hasNote" icon-name="ic_info" aria-label="Has Note"></rs-icon>' +
-                  '<rs-tile-right-delete-sub delete-fn="deleteFn()" hide-sm show-gt-sm>' +
-                  '</rs-tile-right-delete-sub>' +
-                  '<rs-tile-right-delete-sub delete-fn="deleteFn()" hide-gt-sm ' +
-                      'show-sm ng-show="showActionsBool">' +
-                  '</rs-tile-right-delete-sub>' +
-                '</span>',
-      scope: {
-        hasNote: '@',
-        deleteFn: '&',
-        showActions: '@'
-      },
-      restrict: 'E',
-      replace: true,
-      link: function postLink(scope, element, attrs) {
-        // console.log('rsTileRightDelete called');
-        scope.$watch('showActions', function() {
-          scope.showActionsBool = (scope.showActions == 'true');
-          // console.log('rsTileRightDelete scope.showActionsBool', scope.showActionsBool);
-        });
-        // console.log('rsTileRightDelete scope.hasNote', scope.hasNote);
-      }
-    };
   });
+

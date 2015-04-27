@@ -52,9 +52,17 @@ var ListPage = function () {
     this.CHECKED = true;
     this.UNCHECKED = false;
 
+    var getCheckBox = function(item) {
+      return item.element(by.tagName('md-checkbox'));
+    }; // getCheckBox
+
     var getCheckBoxClass = function(item) {
-        return item.element(by.model('data.cbvalue')).getAttribute('class');
+        return getCheckBox(item).getAttribute('class');
     }; // getCheckBoxClass
+
+    var clickCheckBox = function (item) {
+      return getCheckBox(item).click();
+    }; // clickCheckBox
 
     var expectCheckBoxToBe = function(self, item, expCheckStatus) {
         if(expCheckStatus == self.CHECKED) {
@@ -63,10 +71,6 @@ var ListPage = function () {
             expect(getCheckBoxClass(item)).not.toContain('md-checked');
         }
     }; // expectCheckBoxToBe
-
-    var clickCheckBox = function (item) {
-      return item.element(by.model('data.cbvalue')).click();
-    }; // clickCheckBox
 
     this.findProductAndExpectCheckBoxToBe = function(firstRowText, expCheckStatus, fieldName) {
         var self = this;

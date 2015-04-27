@@ -28,12 +28,12 @@ angular.module('mkDirectivesMod')
   })
   .directive('mkSideMenuItem', function () {
     return {
-      template: '<md-item-content>' +
+      template: '<md-list-item>' +
                       '<md-button ng-disabled="! userLoggedInFn()" ng-click="clickActionFn()">' +
                         '<md-icon md-svg-src="{{iconPath}}"></md-icon>' +
                         '<span>{{menuItemText}}</span>' +
                       '</md-button>' +
-                  '</md-item-content>',
+                  '</md-list-item>',
       scope: {
         userLoggedInFn: '&',
         clickActionFn: '&',
@@ -52,7 +52,7 @@ angular.module('mkDirectivesMod')
     return {
       template: '<div><md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left"' +
                     'md-is-locked-open="$mdMedia(\'gt-md\')">' +
-                    '<md-toolbar md-theme="green">' +
+                    '<md-toolbar>' +
                       '<h1 class="md-toolbar-tools">{{menuTitle}}</h1>' +
                     '</md-toolbar>' +
                     '<md-content class="md-padding" ng-transclude>' +

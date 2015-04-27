@@ -1,6 +1,4 @@
 <div>
-  <div>
-    <div>
       <mk-side-menu menu-title="Recipe Shopper">
 
         <md-list ng-controller="LeftCtrl">
@@ -22,14 +20,12 @@
           <mk-side-menu-item user-logged-in-fn="userLoggedIn()"
                              click-action-fn="logout()" menu-item-text="Logout" icon-name="ic_account_box">
           </mk-side-menu-item>
-          <md-item-content>
+          <md-list-item>
             <md-button ng-click="gotoPage('/picdemo')">
               <span>Pic Demo</span>
             </md-button>
-          </md-item-content>
+          </md-list-item>
         </md-list>
       </mk-side-menu>
-    </div>
-  </div>
 </div>
 

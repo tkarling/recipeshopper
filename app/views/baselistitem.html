@@ -1,0 +1,20 @@
+<md-list-item class="md-2-line" ng-swipe-left="showActions = true" ng-swipe-right="showActions = false">
+  <md-checkbox md-no-ink class="md-primary"
+               aria-label="Is on Shopping List" ng-model="listItem[checkboxField]" ng-change="checkboxFn()">
+  </md-checkbox>
+  <rs-tile-content accented-text="{{accentedText}}" additional-text="{{additionalText}}"
+                   click-fn="clickFn()"><span ng-transclude></span>
+  </rs-tile-content>
+  <div layout="row" layout-align="center center">
+    <rs-icon ng-if="hasNote && !showActions" icon-name="ic_info" class-color="md-primary"
+             aria-label="Has Note"></rs-icon>
+    <md-button hide-sm id="deleteitembutton" class="md-secondary md-fab md-mini md-warn"
+               ng-click="deleteFn()" aria-label="Delete">
+      <rs-icon icon-name="ic_delete"></rs-icon>
+    </md-button>
+    <md-button ng-show="showActions" hide-gt-sm class="md-secondary md-fab md-mini md-warn"
+               ng-click="deleteFn()" aria-label="Delete">
+      <rs-icon icon-name="ic_delete"></rs-icon>
+    </md-button>
+  </div>
+</md-list-item>

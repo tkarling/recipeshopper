@@ -27,8 +27,8 @@ angular.module('recipeshopperApp', [
   ])
   .config(function ($mdThemingProvider) {
     //will use the colors from default theme for any color not defined.
-    $mdThemingProvider.theme('green')
-      .primaryPalette('green');
+    $mdThemingProvider.theme('cyan')
+      .primaryPalette('cyan');
   })
   .constant('FIREBASE_URL', 'https://recipeshopper.firebaseio.com')
   .constant('FB_SHOPPINGLIST_URL', '/shoppinglist')

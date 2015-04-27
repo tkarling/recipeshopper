@@ -5,6 +5,7 @@ describe('Misc Directives:', function () {
   // load the templates
   beforeEach(module('views/apptitlebar.html'));
   beforeEach(module('views/sidemenu.html'));
+  beforeEach(module('views/baselistitem.html'));
 
   // load the directive's module
   beforeEach(module('recipeshopperApp'));
@@ -32,6 +33,8 @@ describe('Misc Directives:', function () {
    //  expect(element.children().children().length).toBe(1);
    //}));
 
+  describe('Most Directives:', function () {
+
   it('rs-icon directive can be created', inject(function ($compile) {
     element = angular.element('<rs-icon icon-name="ic_delete"></rs-icon>');
     element = $compile(element)(scope);
@@ -56,16 +59,6 @@ describe('Misc Directives:', function () {
     expect(element.children().length).toBe(1);
   }));
 
-
-  it('rs-tile-left-check directive can be created', inject(function ($compile) {
-    var data = {};
-    data.value = true;
-    var saveItem = function () {};
-    element = angular.element('<rs-tile-left-check ng-model="data.value" save-item-fn="saveItem()" aria-label="Is Bought"></rs-tile-left-check>');
-    element = $compile(element)(scope);
-    expect(element.children().length).toBe(1);
-  }));
-
   it('rs-tile-content directive can be created', inject(function ($compile) {
     var gotoDetailsPage = function (item) {};
     element = angular.element('<rs-tile-content accented-text="acc Content" additional-text="add Content"' +
@@ -74,18 +67,7 @@ describe('Misc Directives:', function () {
     expect(element.children().length).toBe(2);
   }));
 
-  it('rs-tile-right-delete-sub directive can be created', inject(function ($compile) {
-    var deleteItem = function () {};
-    element = angular.element('<rs-tile-right-delete-sub delete-fn="deleteItem()"></rs-tile-right-delete-sub>');
-    element = $compile(element)(scope);
-    expect(element.children().length).toBe(1);
-  }));
+  }); // describe
 
-  it('rs-tile-right-delete directive can be created', inject(function ($compile) {
-    var deleteItem = function () {};
-    element = angular.element('<rs-tile-right-delete delete-fn="deleteItem()" show-actions="true"></rs-tile-right-delete>');
-    element = $compile(element)(scope);
-    expect(element.children().length).toBe(2);
-  }));
 
 });

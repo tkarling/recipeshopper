@@ -41,7 +41,7 @@ angular.module('recipeshopperApp')
       }; // addRecipe
 
       $scope.deleteRecipe = function (recipe) {
-        $log.debug('RecipelistCtrl: deleteRecipe: ', recipe);
+        //$log.debug('RecipelistCtrl: deleteRecipe: ', recipe);
         $scope.deleteItem(recipe);
 
         // delete ingredients of the recipe

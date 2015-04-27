@@ -5,16 +5,10 @@
       <md-list>
         <md-item ng-repeat="item in data.myItems | filter: data.query |
           orderBy: ['-onlist', data.mySettings.recipeSortOrder, 'recipename']">
-          <md-item-content ng-swipe-left="showActions = true" ng-swipe-right="showActions = false">
-            <rs-tile-left-check ng-model="item.onlist" save-item-fn="saveRecipe(item)"
-                                aria-label="Is on Shopping List">
-            </rs-tile-left-check>
-            <rs-tile-content accented-text="{{item.category}}"
-                             click-fn="gotoDetailsPage(item)">{{item.recipename}}
-            </rs-tile-content>
-            <rs-tile-right-delete delete-fn="deleteRecipe(item)" show-actions="{{showActions}}">
-            </rs-tile-right-delete>
-          </md-item-content>
+          <rs-list-item list-item="item" checkbox-field="onlist" checkbox-fn="saveRecipe(item)"
+                        accented-text="{{item.category}}" click-fn="gotoDetailsPage(item)"
+                        delete-fn="deleteRecipe(item)">{{item.recipename}}
+          </rs-list-item>
           <md-divider inset></md-divider>
         </md-item>
       </md-list>

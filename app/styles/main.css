@@ -1,83 +1,11 @@
-/* Following added by Tuija */
-.rs-checkbox {
-  padding: 8px;
-}
-
-.rs-text-input {
-  margin: 2px;
-}
-
-.rs-well {
-  padding:2px;
-  margin: 2px;
-}
-.rs-h4 {
-  margin: 2px;
-}
-
 .rs-line-through {
   text-decoration:line-through;
 }
 
-.rs-high-lighted-text {
-  color: blue;
-}
-
-.col-xs-2, .col-xs-5, .col-xs-6, .col-xs-10, .col-xs-12 {
-  margin:0;
-  padding:2px;
-}
-
-.panel-footer-sm {
-  padding-top:1px;  
-  padding-bottom:1px;  
-}
 
 
 
 
-/** Following needed even after material design **/
-.rs-max-width {
-  max-width: 80%;
-}
-
-/** Following makes the tab slighy different color than the toolbar **/
-  #recipedetails .md-header {
-    background-color: #1976D2 !important; }
-  #recipedetails md-tab {
-    color: #90caf9 !important; }
-  #recipedetails md-tab.active, #recipedetails md-tab:focus {
-    color: white !important; }
-  #recipedetails md-tab[disabled] {
-    opacity: 0.5; }
-  #recipedetails .md-header .md-ripple {
-    border-color: #FFFF8D !important; }
-  #recipedetails md-tabs-ink-bar {
-    background-color: #FFFF8D !important; } 
-
-/** Following makes the tab slighy different color than the toolbar **/
-  #productdetails .md-header {
-    background-color: #1976D2 !important; }
-  #productdetails md-tab {
-    color: #90caf9 !important; }
-  #productdetails md-tab.active, #productdetails md-tab:focus {
-    color: white !important; }
-  #productdetails md-tab[disabled] {
-    opacity: 0.5; }
-  #productdetails .md-header .md-ripple {
-    border-color: #FFFF8D !important; }
-  #productdetails md-tabs-ink-bar {
-    background-color: #FFFF8D !important; } 
 
 
-
-/** remove following after material design version used supports them **/
-.md-accent-text {
-  color: #1976D2; /* shade of blue */
-}
-
-.md-accent {
-  color: white;
-  background-color: #1976D2; /* shade of blue */
-}
 
