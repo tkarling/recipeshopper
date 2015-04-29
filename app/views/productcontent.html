@@ -1,14 +1,16 @@
 <md-content class="md-padding">
-  <div layout>
-    <md-input-container flex="15">
-      <label>Amount</label>
-      <input type="number" ng-model="currentItem.amount">
-    </md-input-container>
-    <md-input-container flex="25">
-      <label>Unit</label>
-      <input ng-model="currentItem.unit">
-    </md-input-container>
-    <md-input-container flex="60">
+  <div layout="row" layout-sm="column">
+    <div layout="row" flex-gt-sm="30">
+      <md-input-container>
+        <label>Amount</label>
+        <input type="number" ng-model="currentItem.amount">
+      </md-input-container>
+      <md-input-container>
+        <label>Unit</label>
+        <input ng-model="currentItem.unit">
+      </md-input-container>
+    </div>
+    <md-input-container flex>
       <label>Product</label>
       <input ng-model="currentItem.product" ng-required="true">
     </md-input-container>

@@ -1,7 +1,6 @@
-<md-content class="md-padding">
+<md-content>
   <rs-search-bar list-id="{{recipe.$id}}" list-name="{{recipe.recipename}}">
   </rs-search-bar>
-  <md-content ng-hide="ingredients.length == 0" class="md-padding">
     <md-list>
       <md-item ng-repeat="item in ingredients">
         <rs-list-item list-item="item" checkbox-field="isonlist" checkbox-fn="saveIngredient(item, item.isonlist)"
@@ -12,5 +11,4 @@
         <md-divider inset></md-divider>
       </md-item>
     </md-list>
-  </md-content>
 </md-content>

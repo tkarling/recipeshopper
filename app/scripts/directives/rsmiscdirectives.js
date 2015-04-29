@@ -98,8 +98,14 @@ angular.module('recipeshopperApp')
           scope.addButtonVisible = scope.isSmallWindow &&
           ((scope.type=='list') || (scope.tabIndex == 1));
           //$log.debug('rsView: onListTab, addButtonVisible', scope.tabIndex, scope.addButtonVisible );
-        });
+        }); // $watch
 
+        scope.windowHeightStyle = 'height: 1px';
+        scope.$watch(function () { return $mdMedia(scope.windowHeightStyle); }, function() {
+          scope.windowHeightStyle = 'height: ' + $window.innerHeight + 'px';
+          scope.contentHeightStyle = 'max-height: ' + ($window.innerHeight - 70) + 'px';
+          //$log.debug('rsView: contentHeightStyle', scope.contentHeightStyle);
+        }); // $watch
       }
     };
   })
@@ -108,7 +114,7 @@ angular.module('recipeshopperApp')
       template: '<div layout="row">' +
                     '<md-checkbox ng-if="showCheckbox" md-no-ink aria-label="Do Not Show Bought"' +
                     'ng-model="data.mySettings.doNotShowBoughtItems" ng-change="updateShowAll()"' +
-                    'class="md-primary md-padding">' +
+                    'class="md-primary" style="margin:0px 21px">' +
                     '</md-checkbox>' +
                     '<md-input-container ng-if="placeholderText" flex>' +
                         '<label>{{placeholderText}}</label>' +
