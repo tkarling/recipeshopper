@@ -39,7 +39,7 @@ angular.module('recipeshopperApp')
       }
     };
   })
-  .directive('rsView', function ($location, $window, $mdSidenav) {
+  .directive('rsView', function ($log, $location, $window, $mdSidenav, $mdMedia) {
     return {
       templateUrl: 'views/apptitlebar.html',
       scope: {
@@ -47,19 +47,17 @@ angular.module('recipeshopperApp')
         title: '&',
         checkFn: '&',
         checkEnabled: '@',
-        settingsButton: '@'
+        settingsButton: '@',
+        tabIndex: '@',
+        gotoAddPageFn: '&'
       },
       restrict: 'E',
       replace: true,
       transclude: true,
       link: function postLink(scope, element, attrs) {
-        // scope.$watch('checkEnabled', function() {
-        //   console.log('rsView scope.checkEnabled', scope.checkEnabled);
-        //   console.log('rsView scope.buttonDisabled()', scope.buttonDisabled());
-        // });
         scope.buttonDisabled = function () {
           return scope.checkEnabled == 'false';
-        }
+        }; // buttonDisabled
 
         scope.gotoPage = function(pagelink){
           $location.path(pagelink);
@@ -94,24 +92,33 @@ angular.module('recipeshopperApp')
         }; // gotoPage
 
         scope.titleString = scope.title();
+
+        scope.$watch(function() { return $mdMedia('sm') && (scope.tabIndex); }, function(small) {
+          scope.isSmallWindow = $mdMedia('sm');
+          scope.addButtonVisible = scope.isSmallWindow &&
+          ((scope.type=='list') || (scope.tabIndex == 1));
+          //$log.debug('rsView: onListTab, addButtonVisible', scope.tabIndex, scope.addButtonVisible );
+        });
+
       }
     };
   })
   .directive('rsSearchBar', function () {
     return {
       template: '<div layout="row">' +
-                    '<md-button id="addbutton" ng-click="gotoAddPage(listId, listName)"' +
-                        'class="md-primary md-fab" aria-label="Go to Add Page">' +
-                        '<rs-icon icon-name="ic_add" icon-group="content"></rs-icon>' +
-                    '</md-button>' +
+                    '<md-checkbox ng-if="showCheckbox" md-no-ink aria-label="Do Not Show Bought"' +
+                    'ng-model="data.mySettings.doNotShowBoughtItems" ng-change="updateShowAll()"' +
+                    'class="md-primary md-padding">' +
+                    '</md-checkbox>' +
                     '<md-input-container ng-if="placeholderText" flex>' +
                         '<label>{{placeholderText}}</label>' +
                         '<input ng-model="data.query">' +
                     '</md-input-container>' +
-                    '<md-checkbox ng-if="showCheckbox" md-no-ink aria-label="Do Not Show Bought"' +
-                      'ng-model="data.mySettings.doNotShowBoughtItems" ng-change="updateShowAll()"' +
-                      'class="md-primary md-padding">' +
-                    '</md-checkbox>' +
+                    '<div ng-if="! placeholderText" flex></div>' +
+                    '<md-button hide-sm id="addbutton" ng-click="gotoAddPage(listId, listName)"' +
+                        'class="md-primary md-fab" aria-label="Go to Add Page">' +
+                        '<rs-icon icon-name="ic_add" icon-group="content"></rs-icon>' +
+                    '</md-button>' +
                 '</div>',
       restrict: 'E',
       replace: true,
@@ -120,14 +127,6 @@ angular.module('recipeshopperApp')
         scope.placeholderText = attrs['placeholderText'] || '';
         scope.listId = attrs['listId'];
         scope.listName = attrs['listName'];
-        // console.log('rsSearchBar called scope', scope);
-
-        scope.$watch(function () { return attrs['listId']; },
-          function(newValue, oldValue) {
-            // console.log('rsSearchBar: newValue', newValue);
-            scope.listId = attrs['listId'];
-          }
-        );
       }
     };
   })
@@ -179,10 +178,12 @@ angular.module('recipeshopperApp')
       }
     };
   })
-  .directive('rsListItem', function () {
+  .directive('rsListItem', function ($log, $mdMedia) {
     return {
       templateUrl: 'views/baselistitem.html',
       scope: {
+        windowHeight: '&',
+        windowWidth: '&',
         listItem: '=',
         checkboxField: '@',
         checkboxFn: '&',
@@ -196,6 +197,9 @@ angular.module('recipeshopperApp')
       replace: true,
       transclude: true,
       link: function postLink(scope, element, attrs) {
+        scope.$watch(function() { return $mdMedia('sm'); }, function(small) {
+          scope.isSmallWindow = $mdMedia('sm');
+        });
       }
     };
   })

@@ -1,8 +1,8 @@
-<rs-view title="'Shopping List'" settings-button="true">
-  <md-content class="md-padding" ng-controller="MainCtrl">
+<div ng-controller="MainCtrl">
+<rs-view title="'Shopping List'" type="list" goto-add-page-fn="gotoAddPage('ShoppingList')" settings-button="true">
+  <md-content>
     <rs-search-bar show-checkbox="true" placeholder-text="Search for products"
                    list-id="ShoppingList"></rs-search-bar>
-    <md-content>
       <md-list>
         <md-item line-through="item.isbought"
                  ng-repeat="item in data.myItems | filter: data.showAll | filter: data.query |
@@ -16,5 +16,5 @@
         </md-item>
       </md-list>
     </md-content>
-  </md-content>
 </rs-view>
+</div>

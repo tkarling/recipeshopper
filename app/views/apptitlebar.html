@@ -23,4 +23,8 @@
     </div>
   </md-toolbar>
   <md-content style="max-height:500px" ng-transclude></md-content>
+  <md-button ng-if="addButtonVisible" id="addbutton" ng-click="gotoAddPageFn()"
+             class="md-primary md-fab md-fab-bottom-right" aria-label="Go to Add Page">
+    <rs-icon icon-name="ic_add" icon-group="content"></rs-icon>
+  </md-button>
 </div>

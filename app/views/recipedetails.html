@@ -1,5 +1,6 @@
 <form name="recipeForm" novalidate>
-  <rs-view type="details" title="getTitle()"
+  <rs-view type="details" title="getTitle()" tab-index="{{data.selectedTabIndex}}"
+           goto-add-page-fn="gotoAddPage(recipe.$id, recipe.recipename)"
            check-fn="addOrSaveRecipe()" check-enabled="{{recipeForm.$valid}}">
        <md-tabs md-dynamic-height class="md-primary md-hue-2" md-selected="data.selectedTabIndex">
         <md-tab id="details-tab">

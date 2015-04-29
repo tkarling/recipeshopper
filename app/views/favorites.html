@@ -1,7 +1,8 @@
-<rs-view title="'Favorites'" settings-button="true">
+<div ng-controller="FavoritesCtrl">
+<rs-view title="'Favorites'" type="list" goto-add-page-fn="gotoAddPage('FAVORITES')" settings-button="true">
   <md-content class="md-padding" ng-controller="FavoritesCtrl">
-    <rs-search-bar placeholder-text="Search for products" list-id="FAVORITES"></rs-search-bar>
-    <md-content>
+    <rs-search-bar placeholder-text="Search for products"
+                   list-id="FAVORITES"></rs-search-bar>
       <md-list>
         <md-item ng-repeat="item in data.myItems | filter: data.query |
                 orderBy: [data.mySettings.shoppingListSortOrder, 'product']">
@@ -13,6 +14,6 @@
           <md-divider inset></md-divider>
         </md-item>
       </md-list>
-    </md-content>
   </md-content>
 </rs-view>
+</div>

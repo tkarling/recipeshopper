@@ -10,7 +10,7 @@
 angular.module('recipeshopperApp')
   .controller('BaselistCtrl', ['$scope', '$log', '$location', 'StoredListMgrFactory', 'settingsMgr',
     function ($scope, $log, $location, StoredListMgrFactory, settingsMgr) {
-      $log.debug('BaselistCtrl: init');
+      //$log.debug('BaselistCtrl: init');
       // console.log('BaselistCtrl: init');
 
       // init

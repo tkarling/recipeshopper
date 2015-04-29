@@ -1,7 +1,7 @@
-<rs-view title="'Recipes'" settings-button="true">
-  <md-content class="md-padding" ng-controller="RecipelistCtrl">
+<div ng-controller="RecipelistCtrl">
+<rs-view title="'Recipes'" type="list" goto-add-page-fn="gotoAddPage()" settings-button="true">
+  <md-content class="md-padding">
     <rs-search-bar placeholder-text="Search for recipes"></rs-search-bar>
-    <md-content>
       <md-list>
         <md-item ng-repeat="item in data.myItems | filter: data.query |
           orderBy: ['-onlist', data.mySettings.recipeSortOrder, 'recipename']">
@@ -12,6 +12,6 @@
           <md-divider inset></md-divider>
         </md-item>
       </md-list>
-    </md-content>
   </md-content>
 </rs-view>
+</div>
