@@ -2,10 +2,10 @@
 
 /**
  * @ngdoc service
- * @name recipeshopperApp.Authentication
+ * @name authenticationMod.Authentication
  * @description
  * # Authentication
- * Factory in the recipeshopperApp.
+ * Factory in the authenticationMod.
  */
 
 angular.module('authenticationMod', [

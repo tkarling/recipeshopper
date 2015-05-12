@@ -96,7 +96,8 @@ angular.module('recipeshopperApp')
       }; // addOrSaveRecipe
 
       $scope.getTitle = function () {
-        return ($routeParams.itemId == 'Add') ? 'Add Recipe' : $scope.recipe.recipename;
+        return ($routeParams.itemId == 'Add') ? 'Add Recipe' :
+          ($scope.recipe ? $scope.recipe.recipename : '');
       }; // getTitle
 
       $scope.gotoDetailsPage = function (item, fromListId, fromListName) {

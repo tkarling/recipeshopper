@@ -2,10 +2,10 @@
 
 /**
  * @ngdoc service
- * @name recipeshopperApp.settingsMgr
+ * @name settingsMod.settingsMgr
  * @description
  * # settingsMgr
- * Factory in the recipeshopperApp.
+ * Factory in the settingsMod.
  */
 
 angular.module('settingsMod', [
